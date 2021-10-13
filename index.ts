@@ -1,2 +1,2 @@
-export * from "./src/models";
-export * from "./src/skillz";
+export * from './src/models';
+export * from './src/skillz';

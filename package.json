@@ -4,6 +4,8 @@
   "description": "JavaScript sdk for SkillZ API",
   "main": "index.ts",
   "scripts": {
+    "lint": "eslint index.ts src/**/*.ts",
+    "lint:fix": "eslint index.ts src/**/*.ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,6 +29,11 @@
     "axios": "^0.23.0"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0"
+    "@types/axios": "^0.14.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2"
   }
 }

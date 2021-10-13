@@ -1,5 +1,5 @@
-import { api } from "../api";
-import { Validator, ValidatorData } from "../models";
+import { api } from '../api';
+import { Validator, ValidatorData } from '../models';
 
 export class ValidatorsService {
   constructor() {}
@@ -12,9 +12,9 @@ export class ValidatorsService {
    */
   async deployValidator(
     keystoreB64: string,
-    password: string
+    password: string,
   ): Promise<Validator> {
-    const { data } = await api.post<Validator>("/v0alpha/validators", {
+    const { data } = await api.post<Validator>('/v0alpha/validators', {
       keystore: keystoreB64,
       password,
     });
@@ -28,7 +28,7 @@ export class ValidatorsService {
    */
   async getValidatorData(publicKey: string): Promise<ValidatorData> {
     const { data } = await api.get<ValidatorData>(
-      `/v0alpha/validators/${publicKey}`
+      `/v0alpha/validators/${publicKey}`,
     );
     return data;
   }
@@ -38,7 +38,7 @@ export class ValidatorsService {
    * @returns validators data
    */
   async getValidatorsData(): Promise<ValidatorData[]> {
-    const { data } = await api.get<ValidatorData[]>("/v0alpha/validators");
+    const { data } = await api.get<ValidatorData[]>('/v0alpha/validators');
     return data;
   }
 }

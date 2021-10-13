@@ -1,17 +1,17 @@
 export type Validator = {
   publicKey: string;
   state:
-    | "UPLOADED"
-    | "DEPLOYMENT_REVIEW"
-    | "WAITING_FOR_DEPOSIT"
-    | "PENDING"
-    | "ACTIVE"
-    | "INACTIVE"
-    | "SLASHED"
-    | "TO_BE_DELETED"
-    | "DELETION_REVIEW"
-    | "DELETING"
-    | "DELETED";
+    | 'UPLOADED'
+    | 'DEPLOYMENT_REVIEW'
+    | 'WAITING_FOR_DEPOSIT'
+    | 'PENDING'
+    | 'ACTIVE'
+    | 'INACTIVE'
+    | 'SLASHED'
+    | 'TO_BE_DELETED'
+    | 'DELETION_REVIEW'
+    | 'DELETING'
+    | 'DELETED';
 };
 
 export type ValidatorData = Validator & {
