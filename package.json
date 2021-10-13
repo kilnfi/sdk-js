@@ -1,0 +1,32 @@
+{
+  "name": "sdk-js",
+  "version": "1.0.0",
+  "description": "JavaScript sdk for SkillZ API",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skillz-blockchain/sdk-js.git"
+  },
+  "keywords": [
+    "sdk",
+    "js",
+    "ethereum",
+    "validators",
+    "staking"
+  ],
+  "author": "SkillZ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/skillz-blockchain/sdk-js/issues"
+  },
+  "homepage": "https://github.com/skillz-blockchain/sdk-js#readme",
+  "dependencies": {
+    "axios": "^0.23.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0"
+  }
+}
