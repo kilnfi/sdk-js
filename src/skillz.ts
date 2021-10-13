@@ -1,4 +1,4 @@
-import { api } from "./api";
+import api from "./api";
 import { ValidatorsService } from "./services/validators";
 
 type Network = "prater" | "mainnet";
