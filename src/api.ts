@@ -1,3 +1,11 @@
 import axios from "axios";
 
-export const api = axios.create();
+const api = axios.create();
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    throw new Error(err.response.data.message);
+  }
+);
+
+export default api;
