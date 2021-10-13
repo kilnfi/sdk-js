@@ -1,10 +1,10 @@
 import { SkillZ } from "..";
 
-const API_TOKEN = "skillz_XXXXXXX";
+const apiToken = "skillz_XXXXXXX";
 const keystore = "b64=";
 const password = "password";
 
-const s = new SkillZ("prater", API_TOKEN);
+const s = new SkillZ("prater", apiToken);
 
 (async () => {
   const validator = await s.validators.deployValidator(keystore, password);
