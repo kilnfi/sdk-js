@@ -6,7 +6,7 @@ export class UtilsService {
    * @param obj deposit object to validate
    * @returns true if object is a correct deposit
    */
-  static isDepositValid(obj: { [k: string]: any }): boolean {
+  isDepositValid(obj: { [k: string]: any }): boolean {
     const reference: { [k: string]: 'string' | 'number' } = {
       pubkey: 'string',
       withdrawal_credentials: 'string',
@@ -30,7 +30,7 @@ export class UtilsService {
    * @param obj keystore object to validate
    * @returns true if object is a correct keystore
    */
-  static isKeystoreValid(obj: { [k: string]: any }): boolean {
+  isKeystoreValid(obj: { [k: string]: any }): boolean {
     const reference: { [k: string]: 'string' | 'number' | 'object' } = {
       version: 'number',
       uuid: 'string',
