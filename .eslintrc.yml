@@ -3,18 +3,23 @@ env:
   es2021: true
 extends:
   - airbnb-base
-parser: "@typescript-eslint/parser"
+parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: 13
   sourceType: module
 plugins:
-  - "@typescript-eslint"
+  - '@typescript-eslint'
 rules:
   {
-    "import/extensions": 0,
-    "class-methods-use-this": 0,
-    "import/prefer-default-export": 0,
-    "no-useless-constructor": 0,
-    "no-empty-function": 0,
+    'import/extensions': 0,
+    'class-methods-use-this': 0,
+    'import/prefer-default-export': 0,
+    'no-useless-constructor': 0,
+    'no-empty-function': 0,
+    'lines-between-class-members': 0,
+    'comma-dangle': 0,
+    'operator-linebreak': 0,
+    'no-restricted-syntax': 0,
+    'valid-typeof': 0,
   }
-settings: { "import/resolver": { "node": { "extensions": [".ts"] } } }
+settings: { 'import/resolver': { 'node': { 'extensions': ['.ts'] } } }
