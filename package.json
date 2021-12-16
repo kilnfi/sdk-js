@@ -1,6 +1,6 @@
 {
   "name": "@skillz-blockchain/sdk",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "autor": "SkillZ <support@skillz.io> (https://skillz.io)",
   "license": "MIT",
   "description": "JavaScript sdk for SkillZ API",

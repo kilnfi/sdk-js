@@ -18,6 +18,7 @@ export type ValidatorData = Validator & {
   attestationEfficiency: number | null;
   attestationEffectiveness: number | null;
   balance: number | null;
+  stateUpdatedAt: number | null;
   effectiveBalance: number | null;
   performance1d: number | null;
   performance7d: number | null;
