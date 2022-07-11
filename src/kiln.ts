@@ -19,7 +19,7 @@ export class Kiln {
         ? 'https://testnet.api.kiln.fi/'
         : 'https://api.kiln.fi/';
 
-    this.eth = new EthService();
+    this.eth = new EthService({ testnet });
     this.sol = new SolService();
   }
 }
