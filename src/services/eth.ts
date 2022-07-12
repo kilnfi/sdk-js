@@ -32,7 +32,7 @@ export class EthService {
     walletAddress: string,
     amount: number
   ): Promise<EthereumStakeTx> {
-    if (amount % 32 !== 0) {
+    if (amount % 32 !== 0 || amount <= 0) {
       throw new InvalidStakeAmount(
         'Ethereum stake must be a multiple of 32 ETH'
       );
