@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/kilnfi/sdk-js#readme",
   "dependencies": {
+    "@solana/web3.js": "^1.47.3",
     "axios": "^0.23.0",
     "web3": "^1.7.4"
   },
