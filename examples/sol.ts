@@ -1,4 +1,4 @@
-const { Kiln } = require('../src/kiln');
+import Kiln from "../src/kiln";
 
 const f = async () => {
   const k = new Kiln({
@@ -7,7 +7,7 @@ const f = async () => {
   });
 
   const tx = await k.sol.craftStakeTx(
-    'yoyo',
+    'gjhg',
     'Fhe9DYMVa2ikhBZSXYzCnvBritms6e6qcsHnTMEym3yv',
     2
   );

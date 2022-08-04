@@ -7,7 +7,7 @@ type Config = {
   apiToken: string;
 };
 
-export class Kiln {
+class Kiln {
   eth: EthService;
   sol: SolService;
 
@@ -16,10 +16,12 @@ export class Kiln {
     api.defaults.headers.common['Content-Type'] = 'application/json';
     api.defaults.baseURL =
       testnet === true
-        ? 'https://testnet.api.kiln.fi/'
+        ? 'https://api.testnet.kiln.fi/'
         : 'https://api.kiln.fi/';
 
     this.eth = new EthService({ testnet });
     this.sol = new SolService({ testnet });
   }
 }
+
+export default Kiln;

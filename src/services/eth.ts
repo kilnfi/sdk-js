@@ -31,7 +31,7 @@ export class EthService {
     accountId: string,
     walletAddress: string,
     amount: number
-  ): Promise<EthereumStakeTx> {
+  ): Promise<EthereumStakeTx | undefined> {
     if (amount % 32 !== 0 || amount <= 0) {
       throw new InvalidStakeAmount(
         'Ethereum stake must be a multiple of 32 ETH'
@@ -42,8 +42,12 @@ export class EthService {
     const { data } = await api.post<InternalBatchDeposit>(
       '/v1/eth/keys?format=batch_deposit',
       {
-        withdrawal_address: walletAddress,
-        account_id: accountId,
+        withdrawalAddress: walletAddress,
+      },
+      {
+        headers: {
+          "X-Kiln-Account": accountId,
+        }
       }
     );
 

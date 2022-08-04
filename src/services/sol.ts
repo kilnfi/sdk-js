@@ -6,18 +6,15 @@ import {
   Transaction,
   TransactionInstruction,
 } from '@solana/web3.js';
-import Web3 from 'web3';
 import api from '../api';
 import { InvalidStakeAmount } from '../errors/sol';
 import { SOL_VOTE_ACCOUNT_ADDRESS } from '../globals';
 import { InternalSolanaConfig, SolanaStakeTx, SolStake } from '../models/sol';
 
 export class SolService {
-  private web3: Web3;
   private testnet: boolean;
 
   constructor({ testnet }: InternalSolanaConfig) {
-    this.web3 = new Web3();
     this.testnet = testnet === true;
   }
 
@@ -50,9 +47,7 @@ export class SolService {
             isWritable: true,
           },
         ],
-        programId: new PublicKey(
-          this.testnet ? 'TODO' : 'Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'
-        ),
+        programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
         data: Buffer.from(accountId),
       }),
       // create system account and transfer tokens
