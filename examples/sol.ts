@@ -6,12 +6,16 @@ const f = async () => {
     apiToken: '',
   });
 
-  const tx = await k.sol.craftStakeTx(
-    'gjhg',
-    'Fhe9DYMVa2ikhBZSXYzCnvBritms6e6qcsHnTMEym3yv',
-    2
-  );
-  console.log(tx);
+  try {
+    const tx = await k.sol.craftStakeTx(
+      'gjhg',
+      'Fhe9DYMVa2ikhBZSXYzCnvBritms6e6qcsHnTMEym3yv',
+      2
+    );
+    console.log(tx);
+  } catch (err){
+    console.log(err);
+  }
 };
 
 f();
