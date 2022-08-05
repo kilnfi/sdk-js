@@ -71,13 +71,13 @@ export class EthService {
       to: BATCH_DEPOSIT_CONTRACT_ADDRESS,
       data: batchDeposit.methods
         .batchDeposit(
-          pubkeys,
-          withdrawal_credentials,
-          signatures,
-          deposit_data_roots
+          pubkeys.map((v) => '0x' + v),
+          withdrawal_credentials.map((v) => '0x' + v),
+          signatures.map((v) => '0x' + v),
+          deposit_data_roots.map((v) => '0x' + v)
         )
         .encodeABI(),
-      value: `0x${(amount * 10 ** 18).toString(16)}`,
+      value: amount.toString(),
       chainId: this.testnet ? '0x5' : '0x1',
     };
   }
