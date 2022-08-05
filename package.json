@@ -3,9 +3,9 @@
   "version": "1.0.7",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "MIT",
-  "description": "JavaScript sdk for kilnfi API",
-  "main": "lib/skillz.js",
-  "types": "lib/skillz.d.ts",
+  "description": "JavaScript sdk for Kiln API",
+  "main": "lib/kiln.js",
+  "types": "lib/kiln.d.ts",
   "scripts": {
     "lint": "eslint index.ts src/**/*.ts",
     "lint:fix": "eslint index.ts src/**/*.ts --fix",
