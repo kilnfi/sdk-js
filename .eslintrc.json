@@ -1,0 +1,8 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "object-curly-spacing": ["error", "always"],
+    "indent": ["warn", 2],
+    "semi": ["warn", "always"]
+  }
+}
