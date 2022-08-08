@@ -1,8 +1,17 @@
 export type InternalEthereumConfig = { testnet?: boolean };
 
+export type EthStakes = {
+  data: EthStake[]
+}
+
 export type EthStake = {
-  balance: number;
-  rewards: number;
+  pubkey: string;
+  state: string;
+  state_updated_at: number | null;
+  balance: string | null;
+  effective_balance: string | null;
+  apy: number | null;
+  deposit_tx_sender: string | null;
 };
 
 export type EthereumStakeTx = {
@@ -16,10 +25,15 @@ export type EthereumStakeTx = {
 export type InternalBatchDeposit = {
   data: {
     pubkeys: string[];
-    // eslint-disable-next-line camelcase
     withdrawal_credentials: string[];
     signatures: string[];
-    // eslint-disable-next-line camelcase
     deposit_data_roots: string[];
+  };
+};
+
+export type NetworkStats = {
+  data: {
+    apy: number;
+    supply_staked_percent: number;
   };
 };

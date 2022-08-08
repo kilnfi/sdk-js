@@ -7,9 +7,9 @@ import {
 } from '../globals';
 import {
   EthereumStakeTx,
-  EthStake,
+  EthStakes,
   InternalBatchDeposit,
-  InternalEthereumConfig,
+  InternalEthereumConfig, NetworkStats,
 } from '../models/eth';
 
 export class EthService {
@@ -89,35 +89,31 @@ export class EthService {
   /**
    * Retrieve stakes of a Kiln account
    * @param accountId id of the kiln account used to make the stake
-   * @param start for paging - beginning index of the page
-   * @param end for paging - end index of the page
-   * @returns {EthStake} Ethereum Stake
+   * @returns {EthStakes} Ethereum Stakes
    */
   async getAccountStakes(
     accountId: string,
-    start: number,
-    end: number,
-  ): Promise<EthStake> {
-    const { data } = await api.get<EthStake>(
-      `/v1/eth/stakes?account=${accountId}&start=${start}?end=${end}`,
-    );
+  ): Promise<EthStakes> {
+    const { data } = await api.get<EthStakes>(
+      `/v1/eth/stakes`,
+      {
+        headers: {
+          'x-kiln-account': accountId,
+        },
+      });
     return data;
   }
 
   /**
    * Retrieve stakes made with a wallet
    * @param walletAddress address of the wallet used to make the stake
-   * @param start for paging - beginning index of the page
-   * @param end for paging - end index of the page
-   * @returns {EthStake[]} Ethereum Stakes
+   * @returns {EthStakes} Ethereum Stakes
    */
   async getWalletStakes(
     walletAddress: string,
-    start: number,
-    end: number,
-  ): Promise<EthStake> {
-    const { data } = await api.get<EthStake>(
-      `/v1/eth/stakes?wallets=${walletAddress}&start=${start}&end=${end}`,
+  ): Promise<EthStakes> {
+    const { data } = await api.get<EthStakes>(
+      `/v1/eth/stakes?wallets=${walletAddress}`,
     );
     return data;
   }
@@ -125,11 +121,18 @@ export class EthService {
   /**
    * Retrieve stake on a validator
    * @param validatorAddress address of the validator
-   * @returns {EthStake} Ethereum Stake
+   * @returns {EthStakes} Ethereum Stakes
    */
-  async getStake(validatorAddress: string): Promise<EthStake> {
-    const { data } = await api.get<EthStake>(
-      `/v1/eth/stakes/${validatorAddress}`,
+  async getStake(validatorAddress: string): Promise<EthStakes> {
+    const { data } = await api.get<EthStakes>(
+      `/v1/eth/stakes?validators=${validatorAddress}`,
+    );
+    return data;
+  }
+
+  async getNetworkStats(): Promise<NetworkStats>{
+    const { data } = await api.get<NetworkStats>(
+      `/v1/eth/network-stats`,
     );
     return data;
   }
