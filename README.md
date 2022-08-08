@@ -19,14 +19,33 @@ const k = new Kiln({
 
 try {
   const tx = await k.eth.craftStakeTx(
-    'account-id',
+    'kiln-account-id',
     'withdrawl-address',
     32
   );
-  console.log(tx);
 } catch (err) {
   console.log(err);
 }
+```
+
+## Fetch ETH stakes and network stats
+```typescript
+try {
+    // Get stakes by account
+    const stakes = await k.eth.getAccountStakes('kiln-account-id');
+    
+    // Get stakes by wallet
+    const stakesByWallet = await k.eth.getWalletStakes('wallet-address');
+
+    // Get stakes by validator
+    const stakesByValidator = await k.eth.getValidatorStakes('validator-address');
+
+    // Get network stats
+    const stats = await k.eth.getNetworkStats();
+    
+  } catch (err) {
+    console.log(err);
+  }
 ```
 
 ## Craft SOL staking transaction
@@ -38,8 +57,21 @@ try {
     'wallet-address',
     2
   );
-  console.log(tx);
 } catch (err){
   console.log(err);
 }
+```
+
+## Fetch SOL stakes and network stats
+```typescript
+try {
+    // Get stakes by stake account
+    const stakes = await k.sol.getStakeAccountStakes('stake-account-address');
+
+    // Get network stats
+    const stats = await k.sol.getNetworkStats();
+    
+  } catch (err) {
+    console.log(err);
+  }
 ```

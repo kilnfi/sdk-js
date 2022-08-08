@@ -120,7 +120,7 @@ export class EthService {
    * @param validatorAddress address of the validator
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getStake(validatorAddress: string): Promise<EthStakes> {
+  async getValidatorStakes(validatorAddress: string): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
       `/v1/eth/stakes?validators=${validatorAddress}`,
     );
