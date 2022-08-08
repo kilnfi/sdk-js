@@ -31,7 +31,7 @@ export type InternalBatchDeposit = {
   };
 };
 
-export type NetworkStats = {
+export type EthNetworkStats = {
   data: {
     apy: number;
     supply_staked_percent: number;

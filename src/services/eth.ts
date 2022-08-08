@@ -1,15 +1,12 @@
 import Web3 from 'web3';
 import api from '../api';
 import { InvalidStakeAmount } from '../errors/eth';
-import {
-  BATCH_DEPOSIT_CONTRACT_ABI,
-  BATCH_DEPOSIT_CONTRACT_ADDRESS,
-} from '../globals';
+import { ADDRESSES } from '../globals';
 import {
   EthereumStakeTx,
   EthStakes,
   InternalBatchDeposit,
-  InternalEthereumConfig, NetworkStats,
+  InternalEthereumConfig, EthNetworkStats,
 } from '../models/eth';
 
 export class EthService {
@@ -54,8 +51,8 @@ export class EthService {
 
       // setup tx variables
       const batchDeposit = new this.web3.eth.Contract(
-        JSON.parse(BATCH_DEPOSIT_CONTRACT_ABI),
-        BATCH_DEPOSIT_CONTRACT_ADDRESS,
+        JSON.parse(ADDRESSES.eth.abi),
+        this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract
       );
       const {
         pubkeys,
@@ -69,7 +66,7 @@ export class EthService {
       // craft staking transaction, using the batch deposit contracts
       return {
         from: walletAddress,
-        to: BATCH_DEPOSIT_CONTRACT_ADDRESS,
+        to: this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
         data: batchDeposit.methods
           .batchDeposit(
             pubkeys.map((v) => '0x' + v),
@@ -130,8 +127,11 @@ export class EthService {
     return data;
   }
 
-  async getNetworkStats(): Promise<NetworkStats>{
-    const { data } = await api.get<NetworkStats>(
+  /**
+   * Retrieve ETH network stats
+   */
+  async getNetworkStats(): Promise<EthNetworkStats>{
+    const { data } = await api.get<EthNetworkStats>(
       `/v1/eth/network-stats`,
     );
     return data;
