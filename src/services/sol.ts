@@ -8,8 +8,13 @@ import {
 } from '@solana/web3.js';
 import api from '../api';
 import { InvalidStakeAmount } from '../errors/sol';
-import { SOL_VOTE_ACCOUNT_ADDRESS } from '../globals';
-import { InternalSolanaConfig, SolanaStakeTx, SolStake } from '../models/sol';
+import { ADDRESSES } from '../globals';
+import {
+  InternalSolanaConfig,
+  SolanaStakeTx,
+  SolNetworkStats,
+  SolStakes,
+} from '../models/sol';
 
 export class SolService {
   private testnet: boolean;
@@ -27,7 +32,7 @@ export class SolService {
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amount: number
+    amount: number,
   ): Promise<SolanaStakeTx> {
     if (amount < 0.01) {
       throw new InvalidStakeAmount('Solana stake must be at least 0.01 SOL');
@@ -75,7 +80,10 @@ export class SolService {
       StakeProgram.delegate({
         stakePubkey: stakeKey.publicKey,
         authorizedPubkey: staker,
-        votePubkey: new PublicKey(SOL_VOTE_ACCOUNT_ADDRESS), // TODO: testnet support
+        votePubkey: new PublicKey(this.testnet ?
+          ADDRESSES.sol.testnet.voteAccountAddress :
+          ADDRESSES.sol.mainnet.voteAccountAddress
+        ),
       }),
     ];
     tx.add(...instructions);
@@ -83,55 +91,25 @@ export class SolService {
   }
 
   /**
-   * Retrieve stakes of a Kiln account
-   * @param accountId id of the kiln account used to make the stake
-   * @param start for paging - beginning index of the page
-   * @param end for paging - end index of the page
-   * @returns {SolStake} Solana Stake
-   */
-  async getAccountStakes(
-    accountId: string,
-    start: number,
-    end: number
-  ): Promise<SolStake> {
-    const { data } = await api.get<SolStake>(
-      `/v1/sol/stakes?account=${accountId}&start=${start}?end=${end}`
-    );
-    return data;
-  }
-
-  /**
-   * Retrieve stakes made with a wallet
-   * @param walletAddress address of the wallet used to make the stake
-   * @param start for paging - beginning index of the page
-   * @param end for paging - end index of the page
-   * @returns {SolStake[]} solana Stakes
-   */
-  async getWalletStakes(
-    walletAddress: string,
-    start: number,
-    end: number
-  ): Promise<SolStake> {
-    const { data } = await api.get<SolStake>(
-      `/v1/sol/stakes?wallets=${walletAddress}&start=${start}&end=${end}`
-    );
-    return data;
-  }
-
-  /**
    * Retrieve stakes on a stakeaccount
-   * @param stakeaccountAddress address of the stakeaccount used to make the stake
-   * @param start for paging - beginning index of the page
-   * @param end for paging - end index of the page
-   * @returns {SolStake[]} solana Stakes
+   * @param stakeAccountAddress address of the stakeaccount used to make the stake
+   * @returns {SolStakes} solana Stakes
    */
   async getStakeAccountStakes(
-    stakeaccountAddress: string,
-    start: number,
-    end: number
-  ): Promise<SolStake> {
-    const { data } = await api.get<SolStake>(
-      `/v1/sol/stakes?stakeaccounts=${stakeaccountAddress}&start=${start}&end=${end}`
+    stakeAccountAddress: string,
+  ): Promise<SolStakes> {
+    const { data } = await api.get<SolStakes>(
+      `/v1/sol/stakes?stakeaccounts=${stakeAccountAddress}`,
+    );
+    return data;
+  }
+
+  /**
+   * Retrieve SOL network stats
+   */
+  async getNetworkStats(): Promise<SolNetworkStats> {
+    const { data } = await api.get<SolNetworkStats>(
+      `/v1/sol/network-stats`,
     );
     return data;
   }
