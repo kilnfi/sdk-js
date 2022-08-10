@@ -7,15 +7,20 @@ import {
   EthStakes,
   InternalBatchDeposit,
   InternalEthereumConfig, EthNetworkStats,
-} from '../models/eth';
+} from '../types/eth';
+import { Integrations } from "../types/integrations";
 
 export class EthService {
   private web3: Web3;
   private testnet: boolean;
+  private rpc: string | undefined;
+  private integrations: Integrations | undefined;
 
-  constructor({ testnet }: InternalEthereumConfig) {
-    this.web3 = new Web3();
+  constructor({ testnet, integrations, rpc }: InternalEthereumConfig) {
+    this.web3 = new Web3(rpc ? new Web3.providers.HttpProvider(rpc) : Web3.givenProvider);
     this.testnet = testnet === true;
+    this.integrations = integrations;
+    this.rpc = rpc;
   }
 
   /**
