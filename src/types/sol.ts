@@ -1,10 +1,13 @@
 import { Transaction } from '@solana/web3.js';
+import { Integrations } from "./integrations";
 
 export type InternalSolanaConfig = {
   testnet?: boolean;
+  integrations: Integrations | undefined;
+  rpc: string | undefined;
 };
 
-export type SolanaStakeTx = Transaction;
+export type SolanaTx = Transaction;
 
 export type SolStake = {
   stake_account: string;

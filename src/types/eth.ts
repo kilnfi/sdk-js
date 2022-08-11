@@ -1,4 +1,10 @@
-export type InternalEthereumConfig = { testnet?: boolean };
+import { Integrations } from "./integrations";
+
+export type InternalEthereumConfig = {
+  testnet?: boolean;
+  integrations: Integrations | undefined;
+  rpc: string | undefined;
+};
 
 export type EthStakes = {
   data: EthStake[]
