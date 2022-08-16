@@ -27,15 +27,15 @@ const f = async () => {
     // const hash = await k.sol.broadcast(signedTx);
     // console.log(hash);
 
-    // const tx = await k.sol.craftDeactivateStakeTx(
-    //   'ErRirwPkBMLGGEqZiGvUg9dMeiRAeNgEk2FHfFeguWXX',
-    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9'
-    // );
     const tx = await k.sol.craftWithdrawStakedBalanceTx(
-      'ErRirwPkBMLGGEqZiGvUg9dMeiRAeNgEk2FHfFeguWXX',
-      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-      '0.05'
+      'Hi6ALt6ArSo7wRfuuvA6Ma4bok98G7s7WheCmHqpANCG',
+      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9'
     );
+    // const tx = await k.sol.craftUnstakeTx(
+    //   'Hi6ALt6ArSo7wRfuuvA6Ma4bok98G7s7WheCmHqpANCG',
+    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+    //   '0.05'
+    // );
     const signedTx = await k.sol.sign('fireblocks', tx);
     const hash = await k.sol.broadcast(signedTx);
     console.log(hash);

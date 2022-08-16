@@ -21,6 +21,11 @@ import {
 import { Integrations, SupportedIntegrations } from "../types/integrations";
 import { FbSigner } from "../integrations/fb_signer";
 import { FireblocksSDK } from "fireblocks-sdk";
+import {
+  BroadcastError,
+  InvalidIntegration,
+  InvalidSignature,
+} from "../errors/integrations";
 
 const LAMPORTS_TO_SOL = 1000000000;
 
@@ -116,7 +121,7 @@ export class SolService {
   /**
    * Craft Solana desactivate stake account transaction
    * @param stakeAccountAddress stake account address to deactivate
-   * @param walletAddress used to create the stake account
+   * @param walletAddress wallet that has authority over the stake account
    */
   async craftDeactivateStakeTx(
     stakeAccountAddress: string,
@@ -131,7 +136,7 @@ export class SolService {
       StakeProgram.deactivate({
         stakePubkey: stakeAccountPubKey,
         authorizedPubkey: walletPubKey,
-      })
+      }),
     ];
     tx.add(...instructions);
 
@@ -146,13 +151,13 @@ export class SolService {
   /**
    * Craft Solana withdraw staked balance transaction
    * @param stakeAccountAddress stake account address to deactivate
-   * @param walletAddress used to create the stake account
+   * @param walletAddress wallet that has authority over the stake account
    * @param amountToWithdraw: amount to withdraw, if not specified the whole balance will be withdrawn
    */
   async craftWithdrawStakedBalanceTx(
     stakeAccountAddress: string,
     walletAddress: string,
-    amountToWithdraw?: string
+    amountToWithdraw?: string,
   ): Promise<SolanaTx> {
     const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
     const walletPubKey = new PublicKey(walletAddress);
@@ -175,7 +180,7 @@ export class SolService {
         authorizedPubkey: walletPubKey,
         toPubkey: walletPubKey,
         lamports: entireBalance ? amount : amount * LAMPORTS_TO_SOL,
-      })
+      }),
     ];
     tx.add(...instructions);
 
@@ -193,9 +198,14 @@ export class SolService {
    * @param note
    */
   async sign(integration: SupportedIntegrations, transaction: SolanaTx, note?: string): Promise<SolanaTx> {
-    if (integration !== 'fireblocks' || !this.fbSigner) {
-      throw(`Could not retrieve integration signer.`);
+    if (integration !== 'fireblocks') {
+      throw new InvalidIntegration(`Invalid integration.`);
     }
+
+    if (!this.fbSigner) {
+      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+    }
+
     let transactionBuffer = transaction.serializeMessage();
     const message = transactionBuffer.toString('hex');
     const payload = [
@@ -214,8 +224,9 @@ export class SolService {
     if (transaction.verifySignatures()) {
       return transaction;
     } else {
-      throw(`The transaction signatures could not be verified.`);
+      throw new InvalidSignature(`The transaction signatures could not be verified.`);
     }
+
   }
 
 
@@ -227,13 +238,13 @@ export class SolService {
     try {
       const connection = await this.getConnection();
       return await sendAndConfirmRawTransaction(connection, transaction.serialize());
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      throw new BroadcastError(e);
     }
   }
 
   /**
-   * Retrieve stakes on a stakeaccount
+   * Retrieve stakes on a stake account
    * @param stakeAccountAddress address of the stakeaccount used to make the stake
    * @returns {SolStakes} solana Stakes
    */
