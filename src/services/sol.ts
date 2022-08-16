@@ -162,14 +162,12 @@ export class SolService {
     const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
     const walletPubKey = new PublicKey(walletAddress);
     let amount;
-    let entireBalance: boolean = false;
     const connection = await this.getConnection();
 
     if (!amountToWithdraw) {
-      entireBalance = true;
       amount = await connection.getBalance(stakeAccountPubKey);
     } else {
-      amount = parseFloat(amountToWithdraw);
+      amount = parseFloat(amountToWithdraw) * LAMPORTS_TO_SOL;
     }
 
     const tx = new Transaction();
@@ -179,7 +177,7 @@ export class SolService {
         stakePubkey: stakeAccountPubKey,
         authorizedPubkey: walletPubKey,
         toPubkey: walletPubKey,
-        lamports: entireBalance ? amount : amount * LAMPORTS_TO_SOL,
+        lamports: amount,
       }),
     ];
     tx.add(...instructions);
