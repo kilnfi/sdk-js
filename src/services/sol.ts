@@ -190,6 +190,39 @@ export class SolService {
   }
 
   /**
+   * Craft merge stake accounts transaction
+   * @param stakeAccountSourceAddress source stake account to merge into the destination stake account
+   * @param stakeAccountDestinationAddress stake account to merge the source stake account into
+   * @param walletAddress that has authority over the 2 stake accounts to merge
+   */
+  async craftMergeStakeAccountsTx(
+    stakeAccountSourceAddress: string,
+    stakeAccountDestinationAddress: string,
+    walletAddress: string,
+  ): Promise<SolanaTx> {
+    const tx = new Transaction();
+    const stakerPubKey = new PublicKey(walletAddress);
+    const sourcePubKey = new PublicKey(stakeAccountSourceAddress);
+    const destinationPubKey = new PublicKey(stakeAccountDestinationAddress);
+
+    const instructions = [
+      StakeProgram.merge({
+        stakePubkey: destinationPubKey,
+        sourceStakePubKey: sourcePubKey,
+        authorizedPubkey: stakerPubKey,
+      }),
+    ];
+    tx.add(...instructions);
+    
+    const connection = await this.getConnection();
+    let blockhash = await connection.getLatestBlockhash('finalized');
+    tx.recentBlockhash = blockhash.blockhash;
+    tx.feePayer = stakerPubKey;
+
+    return tx;
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration
    * @param transaction
