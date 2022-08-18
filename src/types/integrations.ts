@@ -1,7 +1,8 @@
-export type SupportedIntegrations = 'fireblocks';
+export type SupportedProviders = 'fireblocks';
 
 export type FireblocksIntegration = {
-  name: SupportedIntegrations;
+  name: string;
+  provider: SupportedProviders;
   fireblocksApiKey: string;
   fireblocksSecretKeyPath: string;
   vaultAccountId: string;
