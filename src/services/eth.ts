@@ -2,9 +2,10 @@ import Web3 from 'web3';
 import Common, { Chain } from '@ethereumjs/common';
 import { Transaction } from "@ethereumjs/tx";
 import api from '../api';
-import { InvalidStakeAmount } from '../errors/eth';
+import { InvalidStakeAmount, NotEnoughKeysProvided } from '../errors/eth';
 import { ADDRESSES } from '../globals';
 import {
+  EthereumStakeOptions,
   EthereumTx,
   EthNetworkStats,
   EthStakes,
@@ -48,11 +49,13 @@ export class EthService {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param amount how many tokens to stake in ETH (must be a multiple of 32)
+   * @param options it is possible to specify deposit keys
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     amount: number,
+    options?: EthereumStakeOptions,
   ): Promise<EthereumTx> {
     if (amount % 32 !== 0 || amount <= 0) {
       throw new InvalidStakeAmount(
@@ -61,37 +64,52 @@ export class EthService {
     }
 
     try {
-      // create validation keys via api
-      const { data: keys } = await api.post<InternalBatchDeposit>(
-        '/v1/eth/keys?format=batch_deposit',
-        {
-          withdrawalAddress: walletAddress,
-        },
-        {
-          headers: {
-            "X-Kiln-Account": accountId,
-          },
-        },
-      );
+      // Construct batch deposit parameters
+      let pubkeys: string[] = [];
+      let withdrawalsCredentials: string[] = [];
+      let signatures: string[] = [];
+      let depositDataRoots: string[] = [];
 
-      // setup tx variables
-      const batchDeposit = new this.web3.eth.Contract(
+      // Get keys from options
+      if(options?.deposit_data && options?.deposit_data.length > 0){
+        const nbKeysNeeded = Math.floor(amount / 32);
+        if(nbKeysNeeded > options.deposit_data.length){
+          throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amount} ETH. Number of keys provided: ${options.deposit_data.length}`);
+        }
+        pubkeys = options.deposit_data.map((v) => '0x' + v.pubkey);
+        withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawalCredentials);
+        signatures = options.deposit_data.map((v) => '0x' + v.signature);
+        depositDataRoots = options.deposit_data.map((v) => '0x' + v.depositDataRoot);
+      } else { // Generate keys from API
+        const { data: keys } = await api.post<InternalBatchDeposit>(
+          '/v1/eth/keys?format=batch_deposit',
+          {
+            withdrawalAddress: walletAddress,
+          },
+          {
+            headers: {
+              "X-Kiln-Account": accountId,
+            },
+          },
+        );
+
+        pubkeys = keys.data.pubkeys.map((v) => '0x' + v);
+        withdrawalsCredentials = keys.data.withdrawal_credentials.map((v) => '0x' + v);
+        signatures = keys.data.signatures.map((v) => '0x' + v);
+        depositDataRoots = keys.data.deposit_data_roots.map((v) => '0x' + v);
+      }
+
+      const batchDepositContract = new this.web3.eth.Contract(
         JSON.parse(ADDRESSES.eth.abi),
         this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
       );
-      const {
-        pubkeys,
-        withdrawal_credentials,
-        signatures,
-        deposit_data_roots,
-      } = keys.data;
 
-      const batchDepositFunction = batchDeposit.methods
+      const batchDepositFunction = batchDepositContract.methods
         .batchDeposit(
-          pubkeys.map((v) => '0x' + v),
-          withdrawal_credentials.map((v) => '0x' + v),
-          signatures.map((v) => '0x' + v),
-          deposit_data_roots.map((v) => '0x' + v),
+          pubkeys,
+          withdrawalsCredentials,
+          signatures,
+          depositDataRoots,
         );
 
       const data = batchDepositFunction.encodeABI();

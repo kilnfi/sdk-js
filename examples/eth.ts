@@ -22,11 +22,12 @@ const f = async () => {
     const tx = await k.eth.craftStakeTx(
       '376acfff-e35d-4b7c-90da-c6acb8ea7197',
       '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
-      32
+      32,
     );
-    const txSigned = await k.eth.sign('fireblocks', tx);
-    const receipt = await k.eth.broadcast(txSigned);
-    console.log(receipt);
+    console.log(tx);
+    // const txSigned = await k.eth.sign('fireblocks', tx);
+    // const receipt = await k.eth.broadcast(txSigned);
+    // console.log(receipt);
   } catch (err) {
     console.log(err);
   }

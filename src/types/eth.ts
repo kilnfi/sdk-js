@@ -38,3 +38,12 @@ export type EthNetworkStats = {
     supply_staked_percent: number;
   };
 };
+
+export type EthereumStakeOptions = {
+  deposit_data: {
+    pubkey: string;
+    withdrawalCredentials: string;
+    signature: string;
+    depositDataRoot: string;
+  }[];
+}
