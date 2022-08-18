@@ -96,7 +96,10 @@ export class EthService {
         );
 
       const data = batchDepositFunction.encodeABI();
-      const gasPrice = await batchDepositFunction.estimateGas();
+      const gasPrice = await batchDepositFunction.estimateGas({
+        from: walletAddress,
+        value: this.web3.utils.toWei(amount.toString())
+      });
       const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
       return Transaction.fromTxData({
         data: data,
