@@ -1,6 +1,5 @@
 import Web3 from 'web3';
-import keccak256 from 'keccak256';
-import Common, { Chain, Hardfork } from '@ethereumjs/common';
+import Common, { Chain } from '@ethereumjs/common';
 import { Transaction } from "@ethereumjs/tx";
 import api from '../api';
 import { InvalidStakeAmount } from '../errors/eth';
@@ -98,13 +97,17 @@ export class EthService {
       const data = batchDepositFunction.encodeABI();
       const gasPrice = await batchDepositFunction.estimateGas({
         from: walletAddress,
-        value: this.web3.utils.toWei(amount.toString())
+        value: this.web3.utils.toWei(amount.toString(), 'ether'),
       });
       const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
+      const nonce = await this.web3.eth.getTransactionCount(walletAddress);
       return Transaction.fromTxData({
+        nonce: nonce,
         data: data,
         to: this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
-        value: this.web3.utils.toHex(amount),
+        value: this.web3.utils.numberToHex(this.web3.utils.toWei(amount.toString(), 'ether')),
+        gasPrice: this.web3.utils.numberToHex(gasPrice),
+        gasLimit: this.web3.utils.numberToHex(100000),
       }, { common });
     } catch (err: any) {
       throw new Error(err);
@@ -126,19 +129,18 @@ export class EthService {
       throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
     }
 
-
-    const hexEncodedData = keccak256(transaction.data).toString('hex');
+    const message = transaction.getMessageToSign(true).toString('hex');
     const payload = [
       {
-        "content": hexEncodedData,
+        "content": message,
       },
     ];
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
     const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
-    const chaindId = this.testnet ? 5 : 1;
+    const chainId = this.testnet ? 5 : 1;
     const sigV: number = signatures.signedMessages?.[0].signature.v ?? 0;
-    const v: number = chaindId * 2 + (35 + sigV);
+    const v: number = chainId * 2 + (35 + sigV);
     const signedTx = Transaction.fromTxData({
       ...transaction.toJSON(),
       r: `0x${signatures.signedMessages?.[0].signature.r}`,
@@ -158,10 +160,11 @@ export class EthService {
    * Broadcast transaction to the network
    * @param transaction
    */
-  async broadcast(transaction: EthereumTx): Promise<TransactionReceipt | undefined> {
+  async broadcast(transaction: EthereumTx): Promise<string | undefined> {
     try {
       const serializedTx = transaction.serialize();
-      return await this.web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
+      const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
+      return receipt.transactionHash;
     } catch (e: any) {
       throw new BroadcastError(e);
     }
