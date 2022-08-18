@@ -12,36 +12,20 @@ import {
   InternalBatchDeposit,
   InternalEthereumConfig,
 } from '../types/eth';
-import { Integrations, SupportedIntegrations } from "../types/integrations";
 import {
   BroadcastError,
   InvalidIntegration,
   InvalidSignature,
 } from "../errors/integrations";
-import { FbSigner } from "../integrations/fb_signer";
-import { FireblocksSDK } from "fireblocks-sdk";
-import { TransactionReceipt } from "web3-core";
+import { Service } from "./service";
 
-export class EthService {
+export class EthService extends Service {
   private web3: Web3;
-  private testnet: boolean;
-  private rpc: string | undefined;
-  private integrations: Integrations | undefined;
-  private fbSigner: FbSigner | undefined;
 
   constructor({ testnet, integrations, rpc }: InternalEthereumConfig) {
+    super({ testnet, integrations });
     const kilnRpc = testnet === true ? 'https://goerli.infura.io/v3/7c4e6c4152334af0b465e04fba62c5ec' : 'https://mainnet.infura.io/v3/7c4e6c4152334af0b465e04fba62c5ec';
     this.web3 = new Web3(new Web3.providers.HttpProvider(rpc ? rpc : kilnRpc));
-    this.testnet = testnet === true;
-    this.integrations = integrations;
-    this.rpc = rpc;
-
-    // Fireblocks integration
-    const fireblocksIntegration = integrations?.find(integration => integration.name === 'fireblocks');
-    if (fireblocksIntegration) {
-      const fireblocks = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKeyPath, fireblocksIntegration.fireblocksApiKey);
-      this.fbSigner = new FbSigner(fireblocks, fireblocksIntegration.vaultAccountId);
-    }
   }
 
   /**
@@ -71,9 +55,9 @@ export class EthService {
       let depositDataRoots: string[] = [];
 
       // Get keys from options
-      if(options?.deposit_data && options?.deposit_data.length > 0){
+      if (options?.deposit_data && options?.deposit_data.length > 0) {
         const nbKeysNeeded = Math.floor(amount / 32);
-        if(nbKeysNeeded > options.deposit_data.length){
+        if (nbKeysNeeded > options.deposit_data.length) {
           throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amount} ETH. Number of keys provided: ${options.deposit_data.length}`);
         }
         pubkeys = options.deposit_data.map((v) => '0x' + v.pubkey);
@@ -138,9 +122,9 @@ export class EthService {
    * @param transaction
    * @param note
    */
-  async sign(integration: SupportedIntegrations, transaction: EthereumTx, note?: string): Promise<EthereumTx> {
-    if (integration !== 'fireblocks') {
-      throw new InvalidIntegration(`Invalid integration.`);
+  async sign(integration: string, transaction: EthereumTx, note?: string): Promise<EthereumTx> {
+    if (!this.integrations?.find(int => int.name === integration)) {
+      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     if (!this.fbSigner) {

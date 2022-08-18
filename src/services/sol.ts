@@ -18,34 +18,21 @@ import {
   SolNetworkStats,
   SolStakes,
 } from '../types/sol';
-import { Integrations, SupportedIntegrations } from "../types/integrations";
-import { FbSigner } from "../integrations/fb_signer";
-import { FireblocksSDK } from "fireblocks-sdk";
 import {
   BroadcastError,
   InvalidIntegration,
   InvalidSignature,
 } from "../errors/integrations";
+import { Service } from "./service";
 
 const LAMPORTS_TO_SOL = 1000000000;
 
-export class SolService {
-  private testnet: boolean;
-  private integrations: Integrations | undefined;
+export class SolService extends Service {
   private rpc: string | undefined;
-  private fbSigner: FbSigner | undefined;
 
   constructor({ testnet, integrations, rpc }: InternalSolanaConfig) {
-    this.testnet = testnet === true;
-    this.integrations = integrations;
+    super({ testnet, integrations });
     this.rpc = rpc;
-
-    // Fireblocks integration
-    const fireblocksIntegration = integrations?.find(integration => integration.name === 'fireblocks');
-    if (fireblocksIntegration) {
-      const fireblocks = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKeyPath, fireblocksIntegration.fireblocksApiKey);
-      this.fbSigner = new FbSigner(fireblocks, fireblocksIntegration.vaultAccountId);
-    }
   }
 
   private async getConnection() {
@@ -213,7 +200,7 @@ export class SolService {
       }),
     ];
     tx.add(...instructions);
-    
+
     const connection = await this.getConnection();
     let blockhash = await connection.getLatestBlockhash('finalized');
     tx.recentBlockhash = blockhash.blockhash;
@@ -228,9 +215,9 @@ export class SolService {
    * @param transaction
    * @param note
    */
-  async sign(integration: SupportedIntegrations, transaction: SolanaTx, note?: string): Promise<SolanaTx> {
-    if (integration !== 'fireblocks') {
-      throw new InvalidIntegration(`Invalid integration.`);
+  async sign(integration: string, transaction: SolanaTx, note?: string): Promise<SolanaTx> {
+    if (!this.integrations?.find(int => int.name === integration)) {
+      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     if (!this.fbSigner) {
