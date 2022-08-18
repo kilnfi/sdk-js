@@ -157,7 +157,7 @@ export class SolService {
   async craftWithdrawStakedBalanceTx(
     stakeAccountAddress: string,
     walletAddress: string,
-    amountToWithdraw?: string,
+    amountToWithdraw?: number,
   ): Promise<SolanaTx> {
     const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
     const walletPubKey = new PublicKey(walletAddress);
@@ -167,7 +167,7 @@ export class SolService {
     if (!amountToWithdraw) {
       amount = await connection.getBalance(stakeAccountPubKey);
     } else {
-      amount = parseFloat(amountToWithdraw) * LAMPORTS_TO_SOL;
+      amount = amountToWithdraw * LAMPORTS_TO_SOL;
     }
 
     const tx = new Transaction();
