@@ -1,26 +1,47 @@
 import Web3 from 'web3';
+import keccak256 from 'keccak256';
+import Common, { Chain, Hardfork } from '@ethereumjs/common';
+import { Transaction } from "@ethereumjs/tx";
 import api from '../api';
 import { InvalidStakeAmount } from '../errors/eth';
 import { ADDRESSES } from '../globals';
 import {
-  EthereumStakeTx,
+  EthereumTx,
+  EthNetworkStats,
   EthStakes,
   InternalBatchDeposit,
-  InternalEthereumConfig, EthNetworkStats,
+  InternalEthereumConfig,
 } from '../types/eth';
-import { Integrations } from "../types/integrations";
+import { Integrations, SupportedIntegrations } from "../types/integrations";
+import {
+  BroadcastError,
+  InvalidIntegration,
+  InvalidSignature,
+} from "../errors/integrations";
+import { FbSigner } from "../integrations/fb_signer";
+import { FireblocksSDK } from "fireblocks-sdk";
+import { TransactionReceipt } from "web3-core";
 
 export class EthService {
   private web3: Web3;
   private testnet: boolean;
   private rpc: string | undefined;
   private integrations: Integrations | undefined;
+  private fbSigner: FbSigner | undefined;
 
   constructor({ testnet, integrations, rpc }: InternalEthereumConfig) {
-    this.web3 = new Web3(rpc ? new Web3.providers.HttpProvider(rpc) : Web3.givenProvider);
+    const kilnRpc = testnet === true ? 'https://goerli.infura.io/v3/7c4e6c4152334af0b465e04fba62c5ec' : 'https://mainnet.infura.io/v3/7c4e6c4152334af0b465e04fba62c5ec';
+    this.web3 = new Web3(new Web3.providers.HttpProvider(rpc ? rpc : kilnRpc));
     this.testnet = testnet === true;
     this.integrations = integrations;
     this.rpc = rpc;
+
+    // Fireblocks integration
+    const fireblocksIntegration = integrations?.find(integration => integration.name === 'fireblocks');
+    if (fireblocksIntegration) {
+      const fireblocks = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKeyPath, fireblocksIntegration.fireblocksApiKey);
+      this.fbSigner = new FbSigner(fireblocks, fireblocksIntegration.vaultAccountId);
+    }
   }
 
   /**
@@ -33,7 +54,7 @@ export class EthService {
     accountId: string,
     walletAddress: string,
     amount: number,
-  ): Promise<EthereumStakeTx> {
+  ): Promise<EthereumTx> {
     if (amount % 32 !== 0 || amount <= 0) {
       throw new InvalidStakeAmount(
         'Ethereum stake must be a multiple of 32 ETH',
@@ -42,7 +63,7 @@ export class EthService {
 
     try {
       // create validation keys via api
-      const { data } = await api.post<InternalBatchDeposit>(
+      const { data: keys } = await api.post<InternalBatchDeposit>(
         '/v1/eth/keys?format=batch_deposit',
         {
           withdrawalAddress: walletAddress,
@@ -57,34 +78,89 @@ export class EthService {
       // setup tx variables
       const batchDeposit = new this.web3.eth.Contract(
         JSON.parse(ADDRESSES.eth.abi),
-        this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract
+        this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
       );
       const {
         pubkeys,
-        // eslint-disable-next-line camelcase
         withdrawal_credentials,
         signatures,
-        // eslint-disable-next-line camelcase
         deposit_data_roots,
-      } = data.data;
+      } = keys.data;
 
-      // craft staking transaction, using the batch deposit contracts
-      return {
-        from: walletAddress,
+      const batchDepositFunction = batchDeposit.methods
+        .batchDeposit(
+          pubkeys.map((v) => '0x' + v),
+          withdrawal_credentials.map((v) => '0x' + v),
+          signatures.map((v) => '0x' + v),
+          deposit_data_roots.map((v) => '0x' + v),
+        );
+
+      const data = batchDepositFunction.encodeABI();
+      const gasPrice = await batchDepositFunction.estimateGas();
+      const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
+      return Transaction.fromTxData({
+        data: data,
         to: this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
-        data: batchDeposit.methods
-          .batchDeposit(
-            pubkeys.map((v) => '0x' + v),
-            withdrawal_credentials.map((v) => '0x' + v),
-            signatures.map((v) => '0x' + v),
-            deposit_data_roots.map((v) => '0x' + v),
-          )
-          .encodeABI(),
-        value: amount.toString(),
-        chainId: this.testnet ? '0x5' : '0x1',
-      };
+        value: this.web3.utils.toHex(amount),
+      }, { common });
     } catch (err: any) {
       throw new Error(err);
+    }
+  }
+
+  /**
+   * Sign transaction with given integration
+   * @param integration
+   * @param transaction
+   * @param note
+   */
+  async sign(integration: SupportedIntegrations, transaction: EthereumTx, note?: string): Promise<EthereumTx> {
+    if (integration !== 'fireblocks') {
+      throw new InvalidIntegration(`Invalid integration.`);
+    }
+
+    if (!this.fbSigner) {
+      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+    }
+
+
+    const hexEncodedData = keccak256(transaction.data).toString('hex');
+    const payload = [
+      {
+        "content": hexEncodedData,
+      },
+    ];
+
+    const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
+    const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
+    const chaindId = this.testnet ? 5 : 1;
+    const sigV: number = signatures.signedMessages?.[0].signature.v ?? 0;
+    const v: number = chaindId * 2 + (35 + sigV);
+    const signedTx = Transaction.fromTxData({
+      ...transaction.toJSON(),
+      r: `0x${signatures.signedMessages?.[0].signature.r}`,
+      s: `0x${signatures.signedMessages?.[0].signature.s}`,
+      v: v,
+    }, { common });
+
+    if (signedTx.verifySignature()) {
+      return signedTx;
+    } else {
+      throw new InvalidSignature(`The transaction signatures could not be verified.`);
+    }
+  }
+
+
+  /**
+   * Broadcast transaction to the network
+   * @param transaction
+   */
+  async broadcast(transaction: EthereumTx): Promise<TransactionReceipt | undefined> {
+    try {
+      const serializedTx = transaction.serialize();
+      return await this.web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
+    } catch (e: any) {
+      throw new BroadcastError(e);
     }
   }
 
@@ -135,7 +211,7 @@ export class EthService {
   /**
    * Retrieve ETH network stats
    */
-  async getNetworkStats(): Promise<EthNetworkStats>{
+  async getNetworkStats(): Promise<EthNetworkStats> {
     const { data } = await api.get<EthNetworkStats>(
       `/v1/eth/network-stats`,
     );

@@ -11,7 +11,7 @@ type Config = {
   rpcs?: Rpcs;
 };
 
-class Kiln {
+export class Kiln {
   eth: EthService;
   sol: SolService;
 
@@ -27,5 +27,3 @@ class Kiln {
     this.sol = new SolService({ testnet, integrations, rpc: rpcs?.solana, });
   }
 }
-
-export default Kiln;

@@ -1,4 +1,5 @@
 import { Integrations } from "./integrations";
+import { Transaction } from "@ethereumjs/tx";
 
 export type InternalEthereumConfig = {
   testnet?: boolean;
@@ -20,13 +21,7 @@ export type EthStake = {
   deposit_tx_sender: string | null;
 };
 
-export type EthereumStakeTx = {
-  from: string;
-  to: string;
-  data: string;
-  value: string;
-  chainId: string;
-};
+export type EthereumTx = Transaction;
 
 export type InternalBatchDeposit = {
   data: {
