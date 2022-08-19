@@ -19,14 +19,15 @@ const f = async () => {
   });
 
   try {
-    const tx = await k.sol.craftStakeTx(
+    const tx = await k.atom.craftStakeTx(
       '376acfff-e35d-4b7c-90da-c6acb8ea7197',
-      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+      'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
       0.1
     );
-    const signedTx = await k.sol.sign('vault1', tx);
-    // const hash = await k.sol.broadcast(signedTx);
-    // console.log(hash);
+
+    const signedTx = await k.atom.sign('vault1', tx);
+    const hash = await k.atom.broadcast(signedTx);
+    console.log(hash);
   } catch (err){
     console.log(err);
   }

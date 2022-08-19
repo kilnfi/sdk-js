@@ -35,8 +35,8 @@ export class SolService extends Service {
     this.rpc = rpc;
   }
 
-  private async getConnection() {
-    let connection = null;
+  private async getConnection(): Promise<Connection> {
+    let connection;
 
     if (this.testnet) {
       connection = new Connection(this.rpc ?? clusterApiUrl('devnet'));
@@ -234,6 +234,7 @@ export class SolService extends Service {
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
     signatures.signedMessages?.forEach((signedMessage: any) => {
+      console.log(signedMessage);
       if (signedMessage.derivationPath[3] == 0 && transaction.feePayer) {
         transaction.addSignature(transaction.feePayer, Buffer.from(signedMessage.signature.fullSig, "hex"));
       }
