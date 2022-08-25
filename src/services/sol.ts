@@ -101,7 +101,7 @@ export class SolService extends Service {
     ];
     tx.add(...instructions);
 
-    if(options?.memo){
+    if (options?.memo) {
       tx.add(
         // custom memo
         new TransactionInstruction({
