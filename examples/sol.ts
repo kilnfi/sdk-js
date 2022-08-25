@@ -22,7 +22,11 @@ const f = async () => {
     const tx = await k.sol.craftStakeTx(
       '376acfff-e35d-4b7c-90da-c6acb8ea7197',
       '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-      0.1
+      0.1,
+      {
+        voteAccountAddress: 'Hixe6UUEzhtA5pujhwJy3u5YuNsCD6nHHBVFHnXbkMU3',
+        memo: 'custom memo'
+      }
     );
     const signedTx = await k.sol.sign('vault1', tx);
     const hash = await k.sol.broadcast(signedTx);

@@ -14,6 +14,7 @@ import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
   InternalSolanaConfig,
+  SolanaStakeOptions,
   SolanaTx,
   SolNetworkStats,
   SolStakes,
@@ -51,11 +52,13 @@ export class SolService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
    * @param amount how many tokens to stake in SOL (must be at least 0.01 SOL)
+   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     amount: number,
+    options?: SolanaStakeOptions,
   ): Promise<SolanaTx> {
     if (amount < 0.01) {
       throw new InvalidStakeAmount('Solana stake must be at least 0.01 SOL');
@@ -64,6 +67,12 @@ export class SolService extends Service {
     const tx = new Transaction();
     const staker = new PublicKey(walletAddress);
     const stakeKey = new Keypair();
+    const votePubKey = new PublicKey(
+      options?.voteAccountAddress ? options.voteAccountAddress :
+        this.testnet ?
+          ADDRESSES.sol.devnet.voteAccountAddress :
+          ADDRESSES.sol.mainnet.voteAccountAddress,
+    );
 
     const instructions = [
       // memo the transaction with account id
@@ -76,7 +85,7 @@ export class SolService extends Service {
           },
         ],
         programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
-        data: Buffer.from(accountId),
+        data: Buffer.from(Buffer.from(accountId).toString('base64')),
       }),
       StakeProgram.createAccount({
         fromPubkey: staker,
@@ -87,14 +96,27 @@ export class SolService extends Service {
       StakeProgram.delegate({
         stakePubkey: stakeKey.publicKey,
         authorizedPubkey: staker,
-        votePubkey: new PublicKey(this.testnet ?
-          ADDRESSES.sol.devnet.voteAccountAddress :
-          ADDRESSES.sol.mainnet.voteAccountAddress,
-        ),
+        votePubkey: votePubKey,
       }),
     ];
     tx.add(...instructions);
 
+    if (options?.memo) {
+      tx.add(
+        // custom memo
+        new TransactionInstruction({
+          keys: [
+            {
+              pubkey: staker,
+              isSigner: true,
+              isWritable: true,
+            },
+          ],
+          programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
+          data: Buffer.from(options.memo),
+        }),
+      );
+    }
 
     const connection = await this.getConnection();
     let blockhash = await connection.getLatestBlockhash('finalized');

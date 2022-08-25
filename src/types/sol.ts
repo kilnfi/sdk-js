@@ -29,3 +29,8 @@ export type SolNetworkStats = {
     supply_staked_percent: number;
   };
 };
+
+export type SolanaStakeOptions = {
+  voteAccountAddress?: string;
+  memo?: string;
+}
