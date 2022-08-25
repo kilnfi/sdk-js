@@ -22,7 +22,7 @@ export class Kiln {
     api.defaults.headers.common['Content-Type'] = 'application/json';
     api.defaults.baseURL =
       testnet === true
-        ? 'https://api.devnet.kiln.fi/'
+        ? 'https://api.testnet.kiln.fi/'
         : 'https://api.kiln.fi/';
 
     this.eth = new EthService({ testnet, integrations, rpc: rpcs?.ethereum,  });

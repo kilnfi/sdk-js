@@ -9,8 +9,8 @@ import {
   EthereumTx,
   EthNetworkStats,
   EthStakes,
-  InternalBatchDeposit,
   InternalEthereumConfig,
+  ValidationKeyDepositData,
 } from '../types/eth';
 import {
   BroadcastError,
@@ -53,27 +53,25 @@ export class EthService extends Service {
       let withdrawalsCredentials: string[] = [];
       let signatures: string[] = [];
       let depositDataRoots: string[] = [];
+      const nbKeysNeeded = Math.floor(amount / 32);
 
       // Get keys from options
       if (options?.deposit_data && options?.deposit_data.length > 0) {
-        const nbKeysNeeded = Math.floor(amount / 32);
         if (nbKeysNeeded > options.deposit_data.length) {
           throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amount} ETH. Number of keys provided: ${options.deposit_data.length}`);
         }
         pubkeys = options.deposit_data.map((v) => '0x' + v.pubkey);
-        withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawalCredentials);
+        withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawal_credentials);
         signatures = options.deposit_data.map((v) => '0x' + v.signature);
-        depositDataRoots = options.deposit_data.map((v) => '0x' + v.depositDataRoot);
+        depositDataRoots = options.deposit_data.map((v) => '0x' + v.deposit_data_root);
       } else { // Generate keys from API
-        const { data: keys } = await api.post<InternalBatchDeposit>(
-          '/v1/eth/keys?format=batch_deposit',
+        const { data: keys } = await api.post<ValidationKeyDepositData>(
+          '/v1/eth/keys',
           {
-            withdrawalAddress: walletAddress,
-          },
-          {
-            headers: {
-              "X-Kiln-Account": accountId,
-            },
+            withdrawal_address: walletAddress,
+            number: nbKeysNeeded,
+            format: 'batch_deposit',
+            account_id: accountId,
           },
         );
 
