@@ -61,9 +61,9 @@ export class EthService extends Service {
           throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amount} ETH. Number of keys provided: ${options.deposit_data.length}`);
         }
         pubkeys = options.deposit_data.map((v) => '0x' + v.pubkey);
-        withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawal_credentials);
+        withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawalCredentials);
         signatures = options.deposit_data.map((v) => '0x' + v.signature);
-        depositDataRoots = options.deposit_data.map((v) => '0x' + v.deposit_data_root);
+        depositDataRoots = options.deposit_data.map((v) => '0x' + v.depositDataRoot);
       } else { // Generate keys from API
         const { data: keys } = await api.post<ValidationKeyDepositData>(
           '/v1/eth/keys',

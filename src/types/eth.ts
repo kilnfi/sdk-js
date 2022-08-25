@@ -42,8 +42,8 @@ export type EthNetworkStats = {
 export type EthereumStakeOptions = {
   deposit_data: {
     pubkey: string;
-    withdrawal_credentials: string;
+    withdrawalCredentials: string;
     signature: string;
-    deposit_data_root: string;
+    depositDataRoot: string;
   }[];
 }
