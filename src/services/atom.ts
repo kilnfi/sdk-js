@@ -8,22 +8,31 @@ import { Service } from "./service";
 import {
   coin,
   MsgDelegateEncodeObject,
+  SigningStargateClient,
   StargateClient,
 } from "@cosmjs/stargate";
 import { AtomTx } from "../types/atom";
 import { NoAccountFound } from "../errors/atom";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { SignDoc, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {
+  AccountData,
+  DirectSecp256k1HdWallet,
   encodePubkey,
   makeAuthInfoBytes,
+  makeSignBytes,
+  makeSignDoc,
   Registry,
   TxBodyEncodeObject,
 } from "@cosmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { fromBase64, fromHex, toHex } from "@cosmjs/encoding";
-import keccak256 from "keccak256";
-import secp256k1 from "secp256k1";
+import { fromBase64, fromHex } from "@cosmjs/encoding";
 import { sha256 } from "ethereumjs-util";
+import { createHash } from "crypto";
+import secp256k1 from "secp256k1";
+import crypto_1 from "@cosmjs/crypto";
+import { encodeSecp256k1Signature } from "@cosmjs/amino";
+
+const UATOM_TO_ATOM = 1000000;
 
 export class AtomService extends Service {
   private rpc: string;
@@ -48,7 +57,7 @@ export class AtomService extends Service {
     accountId: string,
     walletAddress: string,
     amount: number,
-  ): Promise<AtomTx> {
+  ): Promise<SignDoc> {
     try {
       const client = await this.getClient();
       const account = await client.getAccount(walletAddress);
@@ -58,9 +67,9 @@ export class AtomService extends Service {
       }
 
       const msg = MsgDelegate.fromPartial({
-        delegatorAddress: 'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
+        delegatorAddress: account.address,
         validatorAddress: 'cosmosvaloper178h4s6at5v9cd8m9n7ew3hg7k9eh0s6wptxpcn',
-        amount: coin('5000', "uatom"),
+        amount: coin((amount * UATOM_TO_ATOM).toString(), "uatom"),
       });
 
       const delegateMsg: MsgDelegateEncodeObject = {
@@ -76,10 +85,10 @@ export class AtomService extends Service {
         },
       };
 
-      const feeAmount = coin(5193, "uatom");
+      const feeAmount = coin(5000, "uatom");
       const fee = {
         amount: [feeAmount],
-        gas: 300000,
+        gas: '300000',
       };
 
       const pubkey = encodePubkey({
@@ -92,15 +101,28 @@ export class AtomService extends Service {
       const authInfoBytes = makeAuthInfoBytes(
         [{ pubkey, sequence: account.sequence }],
         fee.amount,
-        fee.gas,
-        127,
+        Number(fee.gas),
       );
 
-      return TxRaw.fromPartial({
-        bodyBytes: txBodyBytes,
-        authInfoBytes,
-        signatures: [],
-      });
+      const chainId = this.testnet ? 'theta-testnet-001' : 'cosmoshub-4';
+
+      return makeSignDoc(txBodyBytes, authInfoBytes, chainId, account.accountNumber);
+      
+      // const p = publicKeyConvert(pubkey.value, true);
+      // const body = Uint8Array.from(TxRaw.encode(txBodyBytes).finish())
+      // const valid = secp256k1.ecdsaVerify(
+      //   signatures[0],
+      //   sha256(Buffer.from(txBodyBytes)),
+      //   p,
+      // );
+
+      // console.log('valid: ', valid);
+
+      // return TxRaw.fromPartial({
+      //   bodyBytes: txBodyBytes,
+      //   authInfoBytes,
+      //   signatures: [],
+      // });
 
     } catch (err: any) {
       throw new Error(err);
@@ -110,10 +132,10 @@ export class AtomService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration
-   * @param transaction
+   * @param doc
    * @param note
    */
-  async sign(integration: string, transaction: AtomTx, note?: string): Promise<AtomTx> {
+  async sign(integration: string, doc: SignDoc, note?: string): Promise<AtomTx> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -122,31 +144,45 @@ export class AtomService extends Service {
       throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
     }
 
-    const signedBytes = Uint8Array.from(TxRaw.encode(transaction).finish());
-    const txHash = toHex(signedBytes);
-    const message = sha256(Buffer.from(signedBytes)).toString('hex');
+    // const hashedMessage = (0, crypto_1.sha256)(signBytes);
+    // const signature = await crypto_1.Secp256k1.createSignature(hashedMessage, this.privkey);
+    // const signatureBytes = new Uint8Array([...signature.r(32), ...signature.s(32)]);
+    // const stdSignature = (0, amino_1.encodeSecp256k1Signature)(this.pubkey, signatureBytes);
+
+    const signedBytes = makeSignBytes(doc);
+    // const message = sha256(Buffer.from(signedBytes)).toString('utf8');
+    // const hash = createHash('sha256').update(message, 'utf8').digest();
+    const content = createHash('sha256').update(signedBytes).digest("hex");
     const payload = [
       {
-        "content": message,
+        "content": content,
       },
     ];
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', note);
-    console.log(signatures.signedMessages?.[0]);
-    if (!signatures.signedMessages?.[0].signature.fullSig) {
+    if (!signatures.signedMessages?.[0].signature.fullSig || !signatures.signedMessages?.[0].signature.r || !signatures.signedMessages?.[0].signature.s) {
       throw new InvalidSignature(`The transaction signatures could not be verified.`);
     }
-    transaction.signatures = [fromHex(signatures.signedMessages?.[0].signature.fullSig)];
 
-    const valid = secp256k1.ecdsaVerify(
-      transaction.signatures[0],
-      transaction.bodyBytes,
-      fromHex(signatures.signedMessages?.[0].publicKey),
-    );
+    const fullSigBytes = fromBase64(signatures.signedMessages?.[0].signature.fullSig).slice(0,64);
+    const sigBytes = new Uint8Array([...fromBase64(signatures.signedMessages?.[0].signature.r).slice(0,32), ...fromBase64(signatures.signedMessages?.[0].signature.s).slice(0,32)]);
+    const pubkey = fromHex(signatures.signedMessages?.[0].publicKey);
+    const stdSignature = encodeSecp256k1Signature(pubkey, fullSigBytes);
+    return TxRaw.fromPartial({
+      authInfoBytes: doc.authInfoBytes,
+      bodyBytes: doc.bodyBytes,
+      signatures: [fromBase64(stdSignature.signature)],
+    });
 
-    console.log('valid: ', valid);
+    // const valid = secp256k1.ecdsaVerify(
+    //   transaction.signatures[0],
+    //   transaction.bodyBytes,
+    //   fromHex(signatures.signedMessages?.[0].publicKey),
+    // );
+    //
+    // console.log('valid: ', valid);
 
-    return transaction;
+    // return transaction;
     //
     // if (signedTx.verifySignature()) {
     //   return signedTx;
