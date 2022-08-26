@@ -13,6 +13,7 @@ import api from '../api';
 import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
+  ApiCreatedStakes,
   InternalSolanaConfig,
   SolanaStakeOptions,
   SolanaTx,
@@ -123,6 +124,14 @@ export class SolService extends Service {
     tx.recentBlockhash = blockhash.blockhash;
     tx.feePayer = staker;
     tx.partialSign(stakeKey);
+
+    // Tag stake
+    await api.post<ApiCreatedStakes>(
+      '/v1/sol/stakes',
+      {
+        accountId,
+        stakeaccounts: [stakeKey.publicKey.toString()],
+      });
 
     return tx;
   }
