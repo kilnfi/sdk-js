@@ -33,4 +33,16 @@ export type SolNetworkStats = {
 export type SolanaStakeOptions = {
   voteAccountAddress?: string;
   memo?: string;
-}
+};
+
+export type ApiCreatedStake = {
+  id: string;
+  tags: Map<string, string[]>;
+  protocol: string;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export type ApiCreatedStakes = {
+  data: ApiCreatedStake[];
+};
