@@ -74,6 +74,7 @@ export class SolService extends Service {
           ADDRESSES.sol.devnet.voteAccountAddress :
           ADDRESSES.sol.mainnet.voteAccountAddress,
     );
+    const memoProgram = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
 
     const instructions = [
       // memo the transaction with account id
@@ -85,7 +86,7 @@ export class SolService extends Service {
             isWritable: true,
           },
         ],
-        programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
+        programId: new PublicKey(memoProgram),
         data: Buffer.from(Buffer.from(accountId).toString('base64')),
       }),
       StakeProgram.createAccount({
@@ -113,7 +114,7 @@ export class SolService extends Service {
               isWritable: true,
             },
           ],
-          programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
+          programId: new PublicKey(memoProgram),
           data: Buffer.from(options.memo),
         }),
       );
