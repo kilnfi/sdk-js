@@ -19,16 +19,16 @@ const f = async () => {
   });
 
   try {
-    // const tx = await k.atom.craftStakeTx(
-    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
-    //   'cosmos17ns6jlgwu6mcl2nsktyazuqlxhlzfv2tzy2ag4',
-    //   0.1
-    // );
-    //
-    // const signedTx = await k.atom.sign('vault1', tx);
-    // console.log(signedTx);
-    // const hash = await k.atom.broadcast(signedTx);
-    // console.log(hash);
+    const tx = await k.atom.craftStakeTx(
+      '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+      'cosmos17ns6jlgwu6mcl2nsktyazuqlxhlzfv2tzy2ag4',
+      0.1
+    );
+
+    const signedTx = await k.atom.sign('vault1', tx);
+    console.log(signedTx);
+    const hash = await k.atom.broadcast(signedTx);
+    console.log(hash);
   } catch (err){
     console.log(err);
   }

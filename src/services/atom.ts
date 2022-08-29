@@ -8,15 +8,12 @@ import { Service } from "./service";
 import {
   coin,
   MsgDelegateEncodeObject,
-  SigningStargateClient,
   StargateClient,
 } from "@cosmjs/stargate";
 import { AtomTx } from "../types/atom";
 import { NoAccountFound } from "../errors/atom";
 import { SignDoc, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import {
-  AccountData,
-  DirectSecp256k1HdWallet,
   encodePubkey,
   makeAuthInfoBytes,
   makeSignBytes,
@@ -25,12 +22,7 @@ import {
   TxBodyEncodeObject,
 } from "@cosmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { fromBase64, fromHex } from "@cosmjs/encoding";
-import { sha256 } from "ethereumjs-util";
 import { createHash } from "crypto";
-import secp256k1 from "secp256k1";
-import crypto_1 from "@cosmjs/crypto";
-import { encodeSecp256k1Signature } from "@cosmjs/amino";
 
 const UATOM_TO_ATOM = 1000000;
 
@@ -107,22 +99,6 @@ export class AtomService extends Service {
       const chainId = this.testnet ? 'theta-testnet-001' : 'cosmoshub-4';
 
       return makeSignDoc(txBodyBytes, authInfoBytes, chainId, account.accountNumber);
-      
-      // const p = publicKeyConvert(pubkey.value, true);
-      // const body = Uint8Array.from(TxRaw.encode(txBodyBytes).finish())
-      // const valid = secp256k1.ecdsaVerify(
-      //   signatures[0],
-      //   sha256(Buffer.from(txBodyBytes)),
-      //   p,
-      // );
-
-      // console.log('valid: ', valid);
-
-      // return TxRaw.fromPartial({
-      //   bodyBytes: txBodyBytes,
-      //   authInfoBytes,
-      //   signatures: [],
-      // });
 
     } catch (err: any) {
       throw new Error(err);
@@ -150,8 +126,6 @@ export class AtomService extends Service {
     // const stdSignature = (0, amino_1.encodeSecp256k1Signature)(this.pubkey, signatureBytes);
 
     const signedBytes = makeSignBytes(doc);
-    // const message = sha256(Buffer.from(signedBytes)).toString('utf8');
-    // const hash = createHash('sha256').update(message, 'utf8').digest();
     const content = createHash('sha256').update(signedBytes).digest("hex");
     const payload = [
       {
@@ -164,31 +138,15 @@ export class AtomService extends Service {
       throw new InvalidSignature(`The transaction signatures could not be verified.`);
     }
 
-    const fullSigBytes = fromBase64(signatures.signedMessages?.[0].signature.fullSig).slice(0,64);
-    const sigBytes = new Uint8Array([...fromBase64(signatures.signedMessages?.[0].signature.r).slice(0,32), ...fromBase64(signatures.signedMessages?.[0].signature.s).slice(0,32)]);
-    const pubkey = fromHex(signatures.signedMessages?.[0].publicKey);
-    const stdSignature = encodeSecp256k1Signature(pubkey, fullSigBytes);
+    const fullSigBytes = Uint8Array.from(Buffer.from(signatures.signedMessages?.[0].signature.fullSig, 'hex'));
+    // const sigBytes = new Uint8Array([...fromBase64(signatures.signedMessages?.[0].signature.r).slice(0,32), ...fromBase64(signatures.signedMessages?.[0].signature.s).slice(0,32)]);
+    // const pubkey = fromHex(signatures.signedMessages?.[0].publicKey);
+    // const stdSignature = encodeSecp256k1Signature(pubkey, fullSigBytes);
     return TxRaw.fromPartial({
       authInfoBytes: doc.authInfoBytes,
       bodyBytes: doc.bodyBytes,
-      signatures: [fromBase64(stdSignature.signature)],
+      signatures: [fullSigBytes],
     });
-
-    // const valid = secp256k1.ecdsaVerify(
-    //   transaction.signatures[0],
-    //   transaction.bodyBytes,
-    //   fromHex(signatures.signedMessages?.[0].publicKey),
-    // );
-    //
-    // console.log('valid: ', valid);
-
-    // return transaction;
-    //
-    // if (signedTx.verifySignature()) {
-    //   return signedTx;
-    // } else {
-    //   throw new InvalidSignature(`The transaction signatures could not be verified.`);
-    // }
   }
 
 
