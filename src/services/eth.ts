@@ -171,45 +171,40 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stakes of a Kiln account
-   * @param accountId id of the kiln account used to make the stake
+   * Retrieve stakes of given kiln accounts
+   * @param accountIds: account ids of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getAccountStakes(
-    accountId: string,
+  async getAccountsRewards(
+    accountIds: string[],
   ): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
-      `/v1/eth/stakes`,
-      {
-        headers: {
-          'x-kiln-account': accountId,
-        },
-      });
+      `/v1/eth/stakes?accounts=${accountIds.join(',')}`);
     return data;
   }
 
   /**
-   * Retrieve stakes made with a wallet
-   * @param walletAddress address of the wallet used to make the stake
+   * Retrieve stakes made with given wallets
+   * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getWalletStakes(
-    walletAddress: string,
+  async getWalletRewards(
+    walletAddresses: string[],
   ): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
-      `/v1/eth/stakes?wallets=${walletAddress}`,
+      `/v1/eth/stakes?wallets=${walletAddresses.join(',')}`,
     );
     return data;
   }
 
   /**
-   * Retrieve stake on a validator
-   * @param validatorAddress address of the validator
+   * Retrieve stake on given validators
+   * @param validatorAddresses validator addresses of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getValidatorStakes(validatorAddress: string): Promise<EthStakes> {
+  async getStakesRewards(validatorAddresses: string[]): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
-      `/v1/eth/stakes?validators=${validatorAddress}`,
+      `/v1/eth/stakes?validators=${validatorAddresses.join(',')}`,
     );
     return data;
   }
