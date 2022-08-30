@@ -294,15 +294,26 @@ export class SolService extends Service {
   }
 
   /**
-   * Retrieve stakes on a stake account
-   * @param stakeAccountAddress address of the stakeaccount used to make the stake
-   * @returns {SolStakes} solana Stakes
+   * Retrieve stakes of given kiln accounts
+   * @param accountIds: account ids of which you wish to retrieve rewards
+   * @returns {SolStakes} Solana Stakes
    */
-  async getStakeAccountStakes(
-    stakeAccountAddress: string,
+  async getAccountsRewards(
+    accountIds: string[],
   ): Promise<SolStakes> {
     const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?stakeaccounts=${stakeAccountAddress}`,
+      `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+  }
+
+  /**
+   * Retrieve stake on given stake accounts
+   * @param stakeAccountAddresses validator addresses of which you wish to retrieve rewards
+   * @returns {SolStakes} Solana Stakes
+   */
+  async getStakesRewards(stakeAccountAddresses: string[]): Promise<SolStakes> {
+    const { data } = await api.get<SolStakes>(
+      `/v1/sol/stakes?stakeaccounts=${stakeAccountAddresses.join(',')}`,
     );
     return data;
   }
