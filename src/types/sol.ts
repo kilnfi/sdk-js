@@ -46,3 +46,8 @@ export type ApiCreatedStake = {
 export type ApiCreatedStakes = {
   data: ApiCreatedStake[];
 };
+
+export type TaggedStake = {
+  stakeAccount: string;
+  balance: number;
+};

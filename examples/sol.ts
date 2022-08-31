@@ -20,11 +20,11 @@ const f = async () => {
   });
 
   try {
-    // const tx = await k.sol.craftStakeTx(
-    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
-    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-    //   0.1,
-    // );
+    const tx = await k.sol.craftStakeTx(
+      'ae6fbced-486c-4ebd-8cbf-c8173d21ea62',
+      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+      0.11,
+    );
     // const signedTx = await k.sol.sign('vault1', tx);
     // const hash = await k.sol.broadcast(signedTx);
     // console.log(hash);
