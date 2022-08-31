@@ -18,7 +18,7 @@ import {
   SolanaStakeOptions,
   SolanaTx,
   SolNetworkStats,
-  SolStakes,
+  SolStakes, TaggedStake,
 } from '../types/sol';
 import {
   BroadcastError,
@@ -127,11 +127,15 @@ export class SolService extends Service {
     tx.partialSign(stakeKey);
 
     // Tag stake
+    const stake: TaggedStake = {
+      stakeAccount: stakeKey.publicKey.toString(),
+      balance: amount * LAMPORTS_TO_SOL
+    };
     await api.post<ApiCreatedStakes>(
       '/v1/sol/stakes',
       {
-        accountId,
-        stakeaccounts: [stakeKey.publicKey.toString()],
+        account_id: accountId,
+        stakes: [stake],
       });
 
     return tx;
