@@ -188,7 +188,7 @@ export class EthService extends Service {
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getWalletRewards(
+  async getWalletsRewards(
     walletAddresses: string[],
   ): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
