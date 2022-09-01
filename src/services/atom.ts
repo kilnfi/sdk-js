@@ -7,7 +7,7 @@ import {
   StargateClient,
   StdFee,
 } from "@cosmjs/stargate";
-import { AtomTx, InternalAtomConfig } from "../types/atom";
+import { AtomStakeOptions, AtomTx, InternalAtomConfig } from "../types/atom";
 import { NoAccountFound, InvalidStakeAmount } from "../errors/atom";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { OfflineSigner } from "@cosmjs/proto-signing";
@@ -39,11 +39,13 @@ export class AtomService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param amount how many tokens to stake in ETH (must be a multiple of 32)
+   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     amount: number,
+    options?: AtomStakeOptions,
   ): Promise<AtomTx> {
     if (amount < 0.01) {
       throw new InvalidStakeAmount('Atom stake must be at least 0.01 SOL');
@@ -57,9 +59,14 @@ export class AtomService extends Service {
         throw new NoAccountFound(`No account found on this address: ${walletAddress}`);
       }
 
+      const validatorAddress = options?.validatorAddress ? options.validatorAddress :
+        this.testnet ?
+          ADDRESSES.atom.testnet.validatorAddress :
+          ADDRESSES.atom.mainnet.validatorAddress;
+
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: account.address,
-        validatorAddress: this.testnet ? ADDRESSES.atom.testnet.validatorAddress : ADDRESSES.atom.mainnet.validatorAddress,
+        validatorAddress: validatorAddress,
         amount: coin((amount * UATOM_TO_ATOM).toString(), "uatom"),
       });
 

@@ -15,3 +15,7 @@ export type AtomTx = {
   fee: StdFee;
   memo: string;
 };
+
+export type AtomStakeOptions = {
+  validatorAddress?: string;
+};
