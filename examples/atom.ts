@@ -19,10 +19,17 @@ const f = async () => {
   });
 
   try {
-    const tx = await k.atom.craftStakeTx(
-      '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    // const tx = await k.atom.craftStakeTx(
+    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    //   'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
+    //   0.1,
+    //   {
+    //     validatorAddress: 'cosmosvaloper17hskshytlrepzhas628uk00jvvppg7yfj3wpqz'
+    //   }
+    // );
+    const tx = await k.atom.craftUnstakeTx(
       'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
-      0.1
+      'cosmosvaloper17hskshytlrepzhas628uk00jvvppg7yfj3wpqz',
     );
 
     const signedTx = await k.atom.sign('vault1', tx);

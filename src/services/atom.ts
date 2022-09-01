@@ -3,15 +3,19 @@ import { Service } from "./service";
 import {
   coin,
   MsgDelegateEncodeObject,
+  MsgUndelegateEncodeObject,
   SigningStargateClient,
   StargateClient,
   StdFee,
 } from "@cosmjs/stargate";
 import { AtomStakeOptions, AtomTx, InternalAtomConfig } from "../types/atom";
-import { NoAccountFound, InvalidStakeAmount } from "../errors/atom";
+import { CouldNotFetchDelegation, InvalidStakeAmount } from "../errors/atom";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { OfflineSigner } from "@cosmjs/proto-signing";
-import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
+import { Coin, OfflineSigner } from "@cosmjs/proto-signing";
+import {
+  MsgDelegate,
+  MsgUndelegate,
+} from "cosmjs-types/cosmos/staking/v1beta1/tx";
 import { AtomFbSigner } from "../integrations/atom_fb_signer";
 import { ADDRESSES } from "../globals";
 
@@ -38,7 +42,7 @@ export class AtomService extends Service {
    * Craft atom staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amount how many tokens to stake in ETH (must be a multiple of 32)
+   * @param amount how many tokens to stake in ATOM
    * @param options
    */
   async craftStakeTx(
@@ -52,20 +56,13 @@ export class AtomService extends Service {
     }
 
     try {
-      const client = await this.getClient();
-      const account = await client.getAccount(walletAddress);
-
-      if (!account) {
-        throw new NoAccountFound(`No account found on this address: ${walletAddress}`);
-      }
-
       const validatorAddress = options?.validatorAddress ? options.validatorAddress :
         this.testnet ?
           ADDRESSES.atom.testnet.validatorAddress :
           ADDRESSES.atom.mainnet.validatorAddress;
 
       const msg = MsgDelegate.fromPartial({
-        delegatorAddress: account.address,
+        delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
         amount: coin((amount * UATOM_TO_ATOM).toString(), "uatom"),
       });
@@ -82,10 +79,62 @@ export class AtomService extends Service {
       };
 
       return {
-        address: account.address,
+        address: walletAddress,
         messages: [delegateMsg],
         fee: fee,
         memo: Buffer.from(accountId).toString('base64'),
+      };
+
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Craft atom unstaking staking transaction
+   * @param walletAddress wallet address from which the delegation has been made
+   * @param validatorAddress validator address to which the delegation has been made
+   * @param amount how many tokens to un undelegate in ATOM
+   */
+  async craftUnstakeTx(
+    walletAddress: string,
+    validatorAddress: string,
+    amount?: number,
+  ): Promise<AtomTx> {
+    try {
+      let amountToWithdraw: Coin;
+      if (!amount) {
+        const client = await this.getClient();
+        const delegation = await client.getDelegation(walletAddress, validatorAddress);
+        if (!delegation) {
+          throw new CouldNotFetchDelegation('Could not fetch delegation.');
+        }
+        amountToWithdraw = delegation;
+      } else {
+        amountToWithdraw = coin((amount * UATOM_TO_ATOM).toString(), "uatom");
+      }
+
+      const msg = MsgUndelegate.fromPartial({
+        delegatorAddress: walletAddress,
+        validatorAddress: validatorAddress,
+        amount: amountToWithdraw,
+      });
+
+      const undelegateMsg: MsgUndelegateEncodeObject = {
+        typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+        value: msg,
+      };
+
+      const feeAmount = coin(5000, "uatom");
+      const fee: StdFee = {
+        amount: [feeAmount],
+        gas: '300000',
+      };
+
+      return {
+        address: walletAddress,
+        messages: [undelegateMsg],
+        fee: fee,
       };
 
     } catch (err: any) {

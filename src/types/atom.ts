@@ -13,7 +13,7 @@ export type AtomTx = {
   address: string;
   messages: EncodeObject[];
   fee: StdFee;
-  memo: string;
+  memo?: string;
 };
 
 export type AtomStakeOptions = {
