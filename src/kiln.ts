@@ -3,6 +3,7 @@ import { EthService } from './services/eth';
 import { SolService } from './services/sol';
 import { Integrations } from "./types/integrations";
 import { Rpcs } from "./types/rpcs";
+import { AtomService } from "./services/atom";
 import { AccountService } from "./services/accounts";
 
 type Config = {
@@ -16,6 +17,7 @@ export class Kiln {
   eth: EthService;
   sol: SolService;
   accounts: AccountService;
+  atom: AtomService;
 
   constructor({ testnet, apiToken, integrations, rpcs }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -27,6 +29,7 @@ export class Kiln {
 
     this.eth = new EthService({ testnet, integrations, rpc: rpcs?.ethereum,  });
     this.sol = new SolService({ testnet, integrations, rpc: rpcs?.solana, });
+    this.atom = new AtomService({ testnet, integrations, rpc: rpcs?.atom, });
     this.accounts = new AccountService({ testnet });
   }
 }

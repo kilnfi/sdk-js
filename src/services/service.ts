@@ -7,6 +7,7 @@ export class Service {
   protected testnet: boolean;
   protected integrations: Integrations | undefined;
   protected fbSigner: FbSigner | undefined;
+  protected fbSdk: FireblocksSDK | undefined;
 
   constructor({ testnet, integrations }: ServiceProps) {
     this.testnet = testnet === true;
@@ -15,8 +16,8 @@ export class Service {
     // Fireblocks integration
     const fireblocksIntegration = integrations?.find(integration => integration.provider === 'fireblocks');
     if (fireblocksIntegration) {
-      const fireblocks = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKeyPath, fireblocksIntegration.fireblocksApiKey);
-      this.fbSigner = new FbSigner(fireblocks, fireblocksIntegration.vaultAccountId);
+      this.fbSdk = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKeyPath, fireblocksIntegration.fireblocksApiKey);
+      this.fbSigner = new FbSigner(this.fbSdk, fireblocksIntegration.vaultAccountId);
     }
   }
 
