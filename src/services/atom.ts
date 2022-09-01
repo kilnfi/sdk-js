@@ -52,7 +52,7 @@ export class AtomService extends Service {
     options?: AtomStakeOptions,
   ): Promise<AtomTx> {
     if (amount < 0.01) {
-      throw new InvalidStakeAmount('Atom stake must be at least 0.01 SOL');
+      throw new InvalidStakeAmount('Atom stake must be at least 0.01 ATOM');
     }
 
     try {
