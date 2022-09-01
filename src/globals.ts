@@ -15,5 +15,13 @@ export const ADDRESSES = {
     mainnet: {
       voteAccountAddress: 'DdCNGDpP7qMgoAy6paFzhhak2EeyCZcgjH7ak5u5v28m'
     }
+  },
+  atom: {
+    testnet: {
+      validatorAddress: 'cosmosvaloper178h4s6at5v9cd8m9n7ew3hg7k9eh0s6wptxpcn' // random validator
+    },
+    mainnet: {
+      validatorAddress: 'cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2'
+    }
   }
 };

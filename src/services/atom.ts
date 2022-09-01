@@ -1,35 +1,26 @@
-import { InternalEthereumConfig } from '../types/eth';
-import {
-  BroadcastError,
-  InvalidIntegration,
-  InvalidSignature,
-} from "../errors/integrations";
+import { BroadcastError, InvalidIntegration } from "../errors/integrations";
 import { Service } from "./service";
 import {
   coin,
   MsgDelegateEncodeObject,
+  SigningStargateClient,
   StargateClient,
+  StdFee,
 } from "@cosmjs/stargate";
-import { AtomTx } from "../types/atom";
-import { NoAccountFound } from "../errors/atom";
-import { SignDoc, TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import {
-  encodePubkey,
-  makeAuthInfoBytes,
-  makeSignBytes,
-  makeSignDoc,
-  Registry,
-  TxBodyEncodeObject,
-} from "@cosmjs/proto-signing";
+import { AtomTx, InternalAtomConfig } from "../types/atom";
+import { NoAccountFound, InvalidStakeAmount } from "../errors/atom";
+import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { OfflineSigner } from "@cosmjs/proto-signing";
 import { MsgDelegate } from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { createHash } from "crypto";
+import { AtomFbSigner } from "../integrations/atom_fb_signer";
+import { ADDRESSES } from "../globals";
 
 const UATOM_TO_ATOM = 1000000;
 
 export class AtomService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations, rpc }: InternalEthereumConfig) {
+  constructor({ testnet, integrations, rpc }: InternalAtomConfig) {
     super({ testnet, integrations });
     const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.cosmos.network';
     this.rpc = rpc ?? kilnRpc;
@@ -37,6 +28,10 @@ export class AtomService extends Service {
 
   private async getClient(): Promise<StargateClient> {
     return await StargateClient.connect(this.rpc);
+  }
+
+  private async getSigningClient(signer: OfflineSigner): Promise<SigningStargateClient> {
+    return await SigningStargateClient.connectWithSigner(this.rpc, signer);
   }
 
   /**
@@ -49,7 +44,11 @@ export class AtomService extends Service {
     accountId: string,
     walletAddress: string,
     amount: number,
-  ): Promise<SignDoc> {
+  ): Promise<AtomTx> {
+    if (amount < 0.01) {
+      throw new InvalidStakeAmount('Atom stake must be at least 0.01 SOL');
+    }
+
     try {
       const client = await this.getClient();
       const account = await client.getAccount(walletAddress);
@@ -60,7 +59,7 @@ export class AtomService extends Service {
 
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: account.address,
-        validatorAddress: 'cosmosvaloper178h4s6at5v9cd8m9n7ew3hg7k9eh0s6wptxpcn',
+        validatorAddress: this.testnet ? ADDRESSES.atom.testnet.validatorAddress : ADDRESSES.atom.mainnet.validatorAddress,
         amount: coin((amount * UATOM_TO_ATOM).toString(), "uatom"),
       });
 
@@ -69,36 +68,18 @@ export class AtomService extends Service {
         value: msg,
       };
 
-      const txBodyFields: TxBodyEncodeObject = {
-        typeUrl: '/cosmos.tx.v1beta1.TxBody',
-        value: {
-          messages: [delegateMsg],
-          memo: accountId,
-        },
-      };
-
       const feeAmount = coin(5000, "uatom");
-      const fee = {
+      const fee: StdFee = {
         amount: [feeAmount],
         gas: '300000',
       };
 
-      const pubkey = encodePubkey({
-        type: 'tendermint/PubKeySecp256k1',
-        value: account.pubkey?.value,
-      });
-
-      const registry = new Registry([['/cosmos.staking.v1beta1.MsgDelegate', MsgDelegate]]);
-      const txBodyBytes = registry.encode(txBodyFields);
-      const authInfoBytes = makeAuthInfoBytes(
-        [{ pubkey, sequence: account.sequence }],
-        fee.amount,
-        Number(fee.gas),
-      );
-
-      const chainId = this.testnet ? 'theta-testnet-001' : 'cosmoshub-4';
-
-      return makeSignDoc(txBodyBytes, authInfoBytes, chainId, account.accountNumber);
+      return {
+        address: account.address,
+        messages: [delegateMsg],
+        fee: fee,
+        memo: Buffer.from(accountId).toString('base64'),
+      };
 
     } catch (err: any) {
       throw new Error(err);
@@ -108,45 +89,12 @@ export class AtomService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration
-   * @param doc
-   * @param note
+   * @param transaction
    */
-  async sign(integration: string, doc: SignDoc, note?: string): Promise<AtomTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
-    }
-
-    // const hashedMessage = (0, crypto_1.sha256)(signBytes);
-    // const signature = await crypto_1.Secp256k1.createSignature(hashedMessage, this.privkey);
-    // const signatureBytes = new Uint8Array([...signature.r(32), ...signature.s(32)]);
-    // const stdSignature = (0, amino_1.encodeSecp256k1Signature)(this.pubkey, signatureBytes);
-
-    const signedBytes = makeSignBytes(doc);
-    const content = createHash('sha256').update(signedBytes).digest("hex");
-    const payload = [
-      {
-        "content": content,
-      },
-    ];
-
-    const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', note);
-    if (!signatures.signedMessages?.[0].signature.fullSig || !signatures.signedMessages?.[0].signature.r || !signatures.signedMessages?.[0].signature.s) {
-      throw new InvalidSignature(`The transaction signatures could not be verified.`);
-    }
-
-    const fullSigBytes = Uint8Array.from(Buffer.from(signatures.signedMessages?.[0].signature.fullSig, 'hex'));
-    // const sigBytes = new Uint8Array([...fromBase64(signatures.signedMessages?.[0].signature.r).slice(0,32), ...fromBase64(signatures.signedMessages?.[0].signature.s).slice(0,32)]);
-    // const pubkey = fromHex(signatures.signedMessages?.[0].publicKey);
-    // const stdSignature = encodeSecp256k1Signature(pubkey, fullSigBytes);
-    return TxRaw.fromPartial({
-      authInfoBytes: doc.authInfoBytes,
-      bodyBytes: doc.bodyBytes,
-      signatures: [fullSigBytes],
-    });
+  async sign(integration: string, transaction: AtomTx): Promise<TxRaw> {
+    const signer = this.getSigner(integration);
+    const client = await this.getSigningClient(signer);
+    return client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
   }
 
 
@@ -154,7 +102,7 @@ export class AtomService extends Service {
    * Broadcast transaction to the network
    * @param transaction
    */
-  async broadcast(transaction: AtomTx): Promise<string | undefined> {
+  async broadcast(transaction: TxRaw): Promise<string | undefined> {
     try {
       const client = await this.getClient();
       const res = await client.broadcastTx(TxRaw.encode(transaction).finish());
@@ -162,5 +110,28 @@ export class AtomService extends Service {
     } catch (e: any) {
       throw new BroadcastError(e);
     }
+  }
+
+  /**
+   * Get correct signer given integration. (only support fireblocks provider for now)
+   * @param integration
+   * @private
+   */
+  private getSigner(integration: string): OfflineSigner {
+    const currentIntegration = this.integrations?.find(int => int.name === integration);
+    if (!currentIntegration) {
+      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
+    }
+
+    // We only support fireblocks integration for now
+    if (currentIntegration.provider !== 'fireblocks') {
+      throw new InvalidIntegration(`Unsupported integration provider: ${currentIntegration.provider}`);
+    }
+
+    if (!this.fbSdk) {
+      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+    }
+
+    return new AtomFbSigner(this.fbSdk, currentIntegration.vaultAccountId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS');
   }
 }

@@ -1,5 +1,6 @@
 import { Integrations } from "./integrations";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
+import { StdFee } from "@cosmjs/stargate";
+import { EncodeObject } from "@cosmjs/proto-signing";
 
 export type InternalAtomConfig = {
   testnet?: boolean;
@@ -7,4 +8,10 @@ export type InternalAtomConfig = {
   rpc: string | undefined;
 };
 
-export type AtomTx = TxRaw;
+
+export type AtomTx = {
+  address: string;
+  messages: EncodeObject[];
+  fee: StdFee;
+  memo: string;
+};

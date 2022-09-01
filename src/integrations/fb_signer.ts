@@ -10,10 +10,13 @@ import {
 type AssetId = 'SOL_TEST' | 'SOL' | 'ETH_TEST3' | 'ETH' | 'ATOM_COS_TEST' | 'ATOM_COS';
 
 export class FbSigner {
-  constructor(
-    private fireblocks: FireblocksSDK,
-    private vaultAccountId: string,
-  ){};
+  protected fireblocks: FireblocksSDK;
+  protected vaultAccountId: string;
+
+  constructor(fireblocks: FireblocksSDK, vaultAccountId: string){
+    this.fireblocks = fireblocks;
+    this.vaultAccountId = vaultAccountId;
+  };
 
 
   /**
@@ -21,7 +24,7 @@ export class FbSigner {
    * @param fbTx: fireblocks transaction
    * @private
    */
-  private async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse>{
+  protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse>{
 
     let tx = fbTx;
     while (tx.status != TransactionStatus.COMPLETED) {
