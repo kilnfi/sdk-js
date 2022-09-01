@@ -2,6 +2,13 @@
 
 Kiln JS SDK makes it easy to interact with the kiln platform. It provides a simple way of crafting staking transactions as well getting real time rewards data.
 
+Check out the full documentation [here](https://docs.kiln.fi/kiln-connect/).
+
+## Supported protocols
+- ETH
+- SOL
+- More protocol to come, don't hesitate to contact us (support@kiln.fi)
+
 ## Installation
 
 You can install the JS SDK with npm:
@@ -10,68 +17,75 @@ You can install the JS SDK with npm:
 npm install --save @kilnfi/sdk
 ```
 
-## Craft ETH staking transaction
+## Setup
+In order to use this sdk, you will need a kiln api token.  
+Please contact support@kiln.fi to get one.
+
 ```typescript
+import { Kiln } from "../src/kiln";
+
 const k = new Kiln({
   testnet: true,
   apiToken: 'kiln_xxx',
 });
+```
+
+## Craft 32 ETH staking transaction, sign it with fireblocks and broadcast it
+```typescript
+import { Kiln } from "../src/kiln";
+const fs = require('fs');
+
+const apiSecretPath = fs.readFileSync(__dirname + '/path_to_fireblocks_secret', 'utf8');
+
+const k = new Kiln({
+  testnet: true,
+  apiToken: 'kiln_xxx',
+  integrations: [
+    {
+      name: 'vault1',
+      provider: 'fireblocks',
+      fireblocksApiKey: 'fireblocks_api_key',
+      fireblocksSecretKeyPath: apiSecretPath,
+      vaultAccountId: 'vault_account_id'
+    }
+  ],
+});
 
 try {
+  // Craft 32 ETH staking transaction
   const tx = await k.eth.craftStakeTx(
-    'kiln-account-id',
-    'withdrawl-address',
+    'kiln_account_id',
+    'withdrawal_address',
     32
   );
+  
+  // Sign it with fireblocks vault 'vault1'
+  const txSigned = await k.eth.sign('vault1', tx);
+  
+  // Broadcast it
+  const receipt = await k.eth.broadcast(txSigned);
+  
 } catch (err) {
-  console.log(err);
+  // handle errors
 }
 ```
 
 ## Fetch ETH stakes and network stats
 ```typescript
 try {
-    // Get stakes by account
-    const stakes = await k.eth.getAccountStakes('kiln-account-id');
+    // Get stakes by accounts
+    const stakes = await k.eth.getAccountsRewards(['kiln-account-id']);
     
-    // Get stakes by wallet
-    const stakesByWallet = await k.eth.getWalletStakes('wallet-address');
+    // Get stakes by wallets
+    const stakesByWallet = await k.eth.getWalletRewards(['wallet-address']);
 
-    // Get stakes by validator
-    const stakesByValidator = await k.eth.getValidatorStakes('validator-address');
+    // Get stakes by validators
+    const stakesByValidator = await k.eth.getStakesRewards(['validator-address']);
 
     // Get network stats
     const stats = await k.eth.getNetworkStats();
     
   } catch (err) {
-    console.log(err);
-  }
-```
-
-## Craft SOL staking transaction
-
-```typescript
-try {
-  const tx = await k.sol.craftStakeTx(
-    'account-id',
-    'wallet-address',
-    2
-  );
-} catch (err){
-  console.log(err);
-}
-```
-
-## Fetch SOL stakes and network stats
-```typescript
-try {
-    // Get stakes by stake account
-    const stakes = await k.sol.getStakeAccountStakes('stake-account-address');
-
-    // Get network stats
-    const stats = await k.sol.getNetworkStats();
-    
-  } catch (err) {
-    console.log(err);
+    // handle errors
   }
 ```

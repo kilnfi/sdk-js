@@ -25,8 +25,8 @@ const f = async () => {
       0.1
     );
     const signedTx = await k.sol.sign('vault1', tx);
-    // const hash = await k.sol.broadcast(signedTx);
-    // console.log(hash);
+    const hash = await k.sol.broadcast(signedTx);
+    console.log(hash);
   } catch (err){
     console.log(err);
   }

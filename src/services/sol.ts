@@ -13,10 +13,12 @@ import api from '../api';
 import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
+  ApiCreatedStakes,
   InternalSolanaConfig,
+  SolanaStakeOptions,
   SolanaTx,
   SolNetworkStats,
-  SolStakes,
+  SolStakes, TaggedStake,
 } from '../types/sol';
 import {
   BroadcastError,
@@ -51,11 +53,13 @@ export class SolService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
    * @param amount how many tokens to stake in SOL (must be at least 0.01 SOL)
+   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     amount: number,
+    options?: SolanaStakeOptions,
   ): Promise<SolanaTx> {
     if (amount < 0.01) {
       throw new InvalidStakeAmount('Solana stake must be at least 0.01 SOL');
@@ -64,6 +68,13 @@ export class SolService extends Service {
     const tx = new Transaction();
     const staker = new PublicKey(walletAddress);
     const stakeKey = new Keypair();
+    const votePubKey = new PublicKey(
+      options?.voteAccountAddress ? options.voteAccountAddress :
+        this.testnet ?
+          ADDRESSES.sol.devnet.voteAccountAddress :
+          ADDRESSES.sol.mainnet.voteAccountAddress,
+    );
+    const memoProgram = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
 
     const instructions = [
       // memo the transaction with account id
@@ -75,8 +86,8 @@ export class SolService extends Service {
             isWritable: true,
           },
         ],
-        programId: new PublicKey('Memo1UhkJRfHyvLMcVucJwxXeuD728EqVDDwQDxFMNo'),
-        data: Buffer.from(accountId),
+        programId: new PublicKey(memoProgram),
+        data: Buffer.from(Buffer.from(accountId).toString('base64')),
       }),
       StakeProgram.createAccount({
         fromPubkey: staker,
@@ -87,20 +98,45 @@ export class SolService extends Service {
       StakeProgram.delegate({
         stakePubkey: stakeKey.publicKey,
         authorizedPubkey: staker,
-        votePubkey: new PublicKey(this.testnet ?
-          ADDRESSES.sol.devnet.voteAccountAddress :
-          ADDRESSES.sol.mainnet.voteAccountAddress,
-        ),
+        votePubkey: votePubKey,
       }),
     ];
     tx.add(...instructions);
 
+    if (options?.memo) {
+      tx.add(
+        // custom memo
+        new TransactionInstruction({
+          keys: [
+            {
+              pubkey: staker,
+              isSigner: true,
+              isWritable: true,
+            },
+          ],
+          programId: new PublicKey(memoProgram),
+          data: Buffer.from(options.memo),
+        }),
+      );
+    }
 
     const connection = await this.getConnection();
     let blockhash = await connection.getLatestBlockhash('finalized');
     tx.recentBlockhash = blockhash.blockhash;
     tx.feePayer = staker;
     tx.partialSign(stakeKey);
+
+    // Tag stake
+    const stake: TaggedStake = {
+      stakeAccount: stakeKey.publicKey.toString(),
+      balance: amount * LAMPORTS_TO_SOL
+    };
+    await api.post<ApiCreatedStakes>(
+      '/v1/sol/stakes',
+      {
+        account_id: accountId,
+        stakes: [stake],
+      });
 
     return tx;
   }
@@ -263,15 +299,26 @@ export class SolService extends Service {
   }
 
   /**
-   * Retrieve stakes on a stake account
-   * @param stakeAccountAddress address of the stakeaccount used to make the stake
-   * @returns {SolStakes} solana Stakes
+   * Retrieve stakes of given kiln accounts
+   * @param accountIds: account ids of which you wish to retrieve rewards
+   * @returns {SolStakes} Solana Stakes
    */
-  async getStakeAccountStakes(
-    stakeAccountAddress: string,
+  async getAccountsRewards(
+    accountIds: string[],
   ): Promise<SolStakes> {
     const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?stakeaccounts=${stakeAccountAddress}`,
+      `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+  }
+
+  /**
+   * Retrieve stake on given stake accounts
+   * @param stakeAccountAddresses validator addresses of which you wish to retrieve rewards
+   * @returns {SolStakes} Solana Stakes
+   */
+  async getStakesRewards(stakeAccountAddresses: string[]): Promise<SolStakes> {
+    const { data } = await api.get<SolStakes>(
+      `/v1/sol/stakes?stakeaccounts=${stakeAccountAddresses.join(',')}`,
     );
     return data;
   }

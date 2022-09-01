@@ -4,6 +4,7 @@ import { SolService } from './services/sol';
 import { Integrations } from "./types/integrations";
 import { Rpcs } from "./types/rpcs";
 import { AtomService } from "./services/atom";
+import { AccountService } from "./services/accounts";
 
 type Config = {
   apiToken: string;
@@ -15,6 +16,7 @@ type Config = {
 export class Kiln {
   eth: EthService;
   sol: SolService;
+  accounts: AccountService;
   atom: AtomService;
 
   constructor({ testnet, apiToken, integrations, rpcs }: Config) {
@@ -28,5 +30,6 @@ export class Kiln {
     this.eth = new EthService({ testnet, integrations, rpc: rpcs?.ethereum,  });
     this.sol = new SolService({ testnet, integrations, rpc: rpcs?.solana, });
     this.atom = new AtomService({ testnet, integrations, rpc: rpcs?.atom, });
+    this.accounts = new AccountService({ testnet });
   }
 }

@@ -23,7 +23,7 @@ export type EthStake = {
 
 export type EthereumTx = Transaction;
 
-export type InternalBatchDeposit = {
+export type ValidationKeyDepositData = {
   data: {
     pubkeys: string[];
     withdrawal_credentials: string[];
