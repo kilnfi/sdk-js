@@ -7,7 +7,7 @@ import {
   TransactionResponse,
 } from "fireblocks-sdk";
 
-type AssetId = 'SOL_TEST' | 'SOL' | 'ETH_TEST3' | 'ETH' | 'ATOM_COS_TEST' | 'ATOM_COS';
+type AssetId = 'SOL_TEST' | 'SOL' | 'ETH_TEST3' | 'ETH' | 'ATOM_COS_TEST' | 'ATOM_COS' | 'ADA_TEST' | 'ADA';
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
@@ -55,11 +55,7 @@ export class FbSigner {
           id: String(this.vaultAccountId)
         },
         note,
-        extraParameters: {
-          rawMessageData: {
-            messages: payloadToSign
-          }
-        }
+        extraParameters: payloadToSign,
 
       }
     );
