@@ -8,7 +8,6 @@ import {
   BlockfrostServerError,
 } from "@blockfrost/blockfrost-js";
 import { InvalidIntegration } from "../errors/integrations";
-import { PeerType, TransactionOperation } from "fireblocks-sdk";
 
 const CARDANO_PARAMS = {
   COINS_PER_UTXO_WORD: '34482',
@@ -102,24 +101,17 @@ export class AdaService extends Service {
       }
     };
 
-    const tx = await this.fbSigner.signWithFB(payload, 'ADA_TEST');
-    const sigBuffer = Buffer.from(tx.signedMessages![0].signature.fullSig, 'hex');
-    console.log(tx.signedMessages);
-    // // transaction.set_is_valid(true);
-    //
-    // const txHash = CardanoWasm.hash_transaction(transaction.body());
-    // const witnesses = CardanoWasm.TransactionWitnessSet.new();
-    // const vkeyWitnesses = CardanoWasm.Vkeywitnesses.new();
-    // const MNEMONIC = 'word 1 word 2';
-    // const bip32PrvKey = this.mnemonicToPrivateKey(MNEMONIC);
-    // const { signKey } = this.deriveAddressPrvKey(bip32PrvKey, this.testnet);
-    // vkeyWitnesses.add(CardanoWasm.make_vkey_witness(txHash, signKey));
-    // witnesses.set_vkeys(vkeyWitnesses);
-    // console.log(witnesses);
-    // const tx = CardanoWasm.Transaction.new(transaction.body(), witnesses);
+    const fbTx = await this.fbSigner.signWithFB(payload, 'ADA_TEST');
 
-    return transaction;
-
+    const pubKey = CardanoWasm.PublicKey.from_hex(fbTx.signedMessages![0].publicKey);
+    const vKey = CardanoWasm.Vkey.new(pubKey);
+    const signature = CardanoWasm.Ed25519Signature.from_hex(fbTx.signedMessages![0].signature.fullSig);
+    const witnesses = CardanoWasm.TransactionWitnessSet.new();
+    const vkeyWitnesses = CardanoWasm.Vkeywitnesses.new();
+    const vkeyWitness = CardanoWasm.Vkeywitness.new(vKey, signature);
+    vkeyWitnesses.add(vkeyWitness);
+    witnesses.set_vkeys(vkeyWitnesses);
+    return CardanoWasm.Transaction.new(transaction.body(), witnesses);
   }
 
   /**
