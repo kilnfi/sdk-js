@@ -130,21 +130,25 @@ export class EthService extends Service {
     }
 
     const message = transaction.getMessageToSign(true).toString('hex');
-    const payload = [
-      {
-        "content": message,
-      },
-    ];
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            "content": message,
+          },
+        ]
+      }
+    };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
     const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
     const chainId = this.testnet ? 5 : 1;
-    const sigV: number = signatures.signedMessages?.[0].signature.v ?? 0;
+    const sigV: number = signatures?.signedMessages?.[0].signature.v ?? 0;
     const v: number = chainId * 2 + (35 + sigV);
     const signedTx = Transaction.fromTxData({
       ...transaction.toJSON(),
-      r: `0x${signatures.signedMessages?.[0].signature.r}`,
-      s: `0x${signatures.signedMessages?.[0].signature.s}`,
+      r: `0x${signatures?.signedMessages?.[0].signature.r}`,
+      s: `0x${signatures?.signedMessages?.[0].signature.s}`,
       v: v,
     }, { common });
 
