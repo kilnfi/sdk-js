@@ -25,8 +25,8 @@ const f = async () => {
     );
 
     const txSigned = await k.ada.sign('vault1', tx);
-    // const hash = await k.ada.broadcast(txSigned);
-    // console.log(hash);
+    const hash = await k.ada.broadcast(txSigned);
+    console.log(hash);
   } catch (err){
     console.log(err);
   }
