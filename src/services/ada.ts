@@ -1,8 +1,8 @@
 import * as CardanoWasm from '@emurgo/cardano-serialization-lib-nodejs';
 import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { mnemonicToEntropy } from 'bip39';
+import { mnemonicToEntropy, generateMnemonic } from 'bip39';
 import { Service } from "./service";
-import { InternalAdaConfig, UTXO } from "../types/ada";
+import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
 import {
   BlockFrostAPI,
   BlockfrostServerError,
@@ -24,13 +24,15 @@ export class AdaService extends Service {
   }
 
   /**
-   * Craft ada delegate transaction
+   * Craft ada delegate transaction, all the wallet's balance will be delegated to the pool
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
+   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
+    options?: AdaStakeOptions,
   ): Promise<Transaction> {
 
     let utxo: UTXO = [];
@@ -38,32 +40,99 @@ export class AdaService extends Service {
       utxo = await this.client.addressesUtxosAll(walletAddress);
     } catch (error) {
       if (error instanceof BlockfrostServerError && error.status_code === 404) {
-        // Address derived from the seed was not used yet
-        // In this case Blockfrost API will return 404
-        utxo = [];
+        throw new Error(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
       } else {
         throw error;
       }
     }
 
-    if (utxo.length === 0) {
-      throw new Error(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
-    }
-
-    // Get current blockchain slot from latest block
     const latestBlock = await this.client.blocksLatest();
     const currentSlot = latestBlock.slot;
     if (!currentSlot) {
       throw Error('Failed to fetch slot number');
     }
 
-    return this.composeTransaction(
-      walletAddress,
-      'addr_test1qqh2fphcgd0qsmwsqf4v8v9z2w3cpmzw5y9nx6h8z9v85qj7mjg5eydjgyvn3md3fwlyt2e4veynlwutp7u99m4l6q2sp3rdkv',
-      '1000000',
-      utxo,
-      currentSlot,
+    const txBuilder = CardanoWasm.TransactionBuilder.new(
+      CardanoWasm.TransactionBuilderConfigBuilder.new()
+        .fee_algo(
+          CardanoWasm.LinearFee.new(
+            CardanoWasm.BigNum.from_str('44'),
+            CardanoWasm.BigNum.from_str('155381'),
+          ),
+        )
+        .pool_deposit(CardanoWasm.BigNum.from_str('500000000'))
+        .key_deposit(CardanoWasm.BigNum.from_str('2000000'))
+        .coins_per_utxo_word(
+          CardanoWasm.BigNum.from_str(CARDANO_PARAMS.COINS_PER_UTXO_WORD),
+        )
+        .max_value_size(CARDANO_PARAMS.MAX_VALUE_SIZE)
+        .max_tx_size(CARDANO_PARAMS.MAX_TX_SIZE)
+        .build(),
     );
+
+    const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
+    const wasmWalletAddress = CardanoWasm.Address.from_bech32(walletAddress);
+    const baseWalletAddress = CardanoWasm.BaseAddress.from_address(wasmWalletAddress);
+
+
+    // Set TTL to +2h from currentSlot
+    // If the transaction is not included in a block before that slot it will be cancelled.
+    const ttl = currentSlot + 7200;
+    txBuilder.set_ttl(ttl);
+
+    // Add delegation
+    const poolKeyHash = CardanoWasm.Ed25519KeyHash.from_hex(poolHash);
+    const stakeCredentials = baseWalletAddress?.stake_cred();
+    if(!stakeCredentials){
+      throw new Error('Could not generate stake credentials');
+    }
+
+    const certificates = CardanoWasm.Certificates.new();
+    const stakeRegistration = CardanoWasm.StakeRegistration.new(stakeCredentials);
+    const stakeDelegation = CardanoWasm.StakeDelegation.new(stakeCredentials, poolKeyHash);
+    const stakeRegistrationCertificate = CardanoWasm.Certificate.new_stake_registration(stakeRegistration);
+    const delegationCertificate = CardanoWasm.Certificate.new_stake_delegation(stakeDelegation);
+    certificates.add(stakeRegistrationCertificate);
+    certificates.add(delegationCertificate);
+    txBuilder.set_certs(certificates);
+
+    // Filter out multi asset utxo to keep this simple
+    const lovelaceUtxos = utxo.filter(
+      (u: any) => !u.amount.find((a: any) => a.unit !== 'lovelace'),
+    );
+
+    // Create TransactionUnspentOutputs from utxos fetched from Blockfrost
+    const unspentOutputs = CardanoWasm.TransactionUnspentOutputs.new();
+    for (const utxo of lovelaceUtxos) {
+      const amount = utxo.amount.find(
+        (a: any) => a.unit === 'lovelace',
+      )?.quantity;
+
+      if (!amount) continue;
+
+      const inputValue = CardanoWasm.Value.new(
+        CardanoWasm.BigNum.from_str(amount.toString()),
+      );
+
+      const input = CardanoWasm.TransactionInput.new(
+        CardanoWasm.TransactionHash.from_bytes(Buffer.from(utxo.tx_hash, 'hex')),
+        utxo.output_index,
+      );
+      const output = CardanoWasm.TransactionOutput.new(wasmWalletAddress, inputValue);
+      unspentOutputs.add(CardanoWasm.TransactionUnspentOutput.new(input, output));
+    }
+
+    txBuilder.add_inputs_from(
+      unspentOutputs,
+      CardanoWasm.CoinSelectionStrategyCIP2.LargestFirst,
+    );
+
+    // Adds a change output if there are more ADA in utxo than we need for the transaction,
+    // these coins will be returned to change address
+    txBuilder.add_change_if_needed(wasmWalletAddress);
+
+    // Build transaction
+    return txBuilder.build_tx();
   }
 
   /**
@@ -86,7 +155,7 @@ export class AdaService extends Service {
       throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
     }
 
-    const message = transaction.to_hex();
+    const message = CardanoWasm.hash_transaction(transaction.body()).to_hex();
 
     const payload = {
       rawMessageData: {
@@ -131,90 +200,6 @@ export class AdaService extends Service {
       }
     }
   }
-
-  private composeTransaction (
-    address: string,
-    outputAddress: string,
-    outputAmount: string,
-    utxos: UTXO,
-    currentSlot: number,
-  ): Transaction {
-    if (!utxos || utxos.length === 0) {
-      throw Error(`No utxo on address ${address}`);
-    }
-
-    const txBuilder = CardanoWasm.TransactionBuilder.new(
-      CardanoWasm.TransactionBuilderConfigBuilder.new()
-        .fee_algo(
-          CardanoWasm.LinearFee.new(
-            CardanoWasm.BigNum.from_str('44'),
-            CardanoWasm.BigNum.from_str('155381'),
-          ),
-        )
-        .pool_deposit(CardanoWasm.BigNum.from_str('500000000'))
-        .key_deposit(CardanoWasm.BigNum.from_str('2000000'))
-        .coins_per_utxo_word(
-          CardanoWasm.BigNum.from_str(CARDANO_PARAMS.COINS_PER_UTXO_WORD),
-        )
-        .max_value_size(CARDANO_PARAMS.MAX_VALUE_SIZE)
-        .max_tx_size(CARDANO_PARAMS.MAX_TX_SIZE)
-        .build(),
-    );
-
-    const outputAddr = CardanoWasm.Address.from_bech32(outputAddress);
-    const changeAddr = CardanoWasm.Address.from_bech32(address);
-
-    // Set TTL to +2h from currentSlot
-    // If the transaction is not included in a block before that slot it will be cancelled.
-    const ttl = currentSlot + 7200;
-    txBuilder.set_ttl(ttl);
-
-    // Add output to the tx
-    txBuilder.add_output(
-      CardanoWasm.TransactionOutput.new(
-        outputAddr,
-        CardanoWasm.Value.new(CardanoWasm.BigNum.from_str(outputAmount)),
-      ),
-    );
-
-    // Filter out multi asset utxo to keep this simple
-    const lovelaceUtxos = utxos.filter(
-      (u: any) => !u.amount.find((a: any) => a.unit !== 'lovelace'),
-    );
-
-    // Create TransactionUnspentOutputs from utxos fetched from Blockfrost
-    const unspentOutputs = CardanoWasm.TransactionUnspentOutputs.new();
-    for (const utxo of lovelaceUtxos) {
-      const amount = utxo.amount.find(
-        (a: any) => a.unit === 'lovelace',
-      )?.quantity;
-
-      if (!amount) continue;
-
-      const inputValue = CardanoWasm.Value.new(
-        CardanoWasm.BigNum.from_str(amount.toString()),
-      );
-
-      const input = CardanoWasm.TransactionInput.new(
-        CardanoWasm.TransactionHash.from_bytes(Buffer.from(utxo.tx_hash, 'hex')),
-        utxo.output_index,
-      );
-      const output = CardanoWasm.TransactionOutput.new(changeAddr, inputValue);
-      unspentOutputs.add(CardanoWasm.TransactionUnspentOutput.new(input, output));
-    }
-
-    txBuilder.add_inputs_from(
-      unspentOutputs,
-      CardanoWasm.CoinSelectionStrategyCIP2.LargestFirst,
-    );
-
-    // Adds a change output if there are more ADA in utxo than we need for the transaction,
-    // these coins will be returned to change address
-    txBuilder.add_change_if_needed(changeAddr);
-
-    // Build transaction
-    return txBuilder.build_tx();
-  };
 
   private harden (num: number): number {
     return 0x80000000 + num;

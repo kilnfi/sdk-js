@@ -19,7 +19,7 @@ export type AdaTx = {
   txHash: string;
   txBody: CardanoWasm.TransactionBody;
 };
-//
-// export type AtomStakeOptions = {
-//   validatorAddress?: string;
-// };
+
+export type AdaStakeOptions = {
+  poolId: string;
+};
