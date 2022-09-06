@@ -70,23 +70,20 @@ export class AdaService extends Service {
         .build(),
     );
 
-    const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
-    const wasmWalletAddress = CardanoWasm.Address.from_bech32(walletAddress);
-    const baseWalletAddress = CardanoWasm.BaseAddress.from_address(wasmWalletAddress);
-
-
     // Set TTL to +2h from currentSlot
     // If the transaction is not included in a block before that slot it will be cancelled.
     const ttl = currentSlot + 7200;
     txBuilder.set_ttl(ttl);
 
-    // Add delegation
-    const poolKeyHash = CardanoWasm.Ed25519KeyHash.from_hex(poolHash);
-    const stakeCredentials = baseWalletAddress?.stake_cred();
-    if(!stakeCredentials){
-      throw new Error('Could not generate stake credentials');
+    // Add delegation (stake registration + stake delegation certificates)
+    const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
+    const wasmWalletAddress = CardanoWasm.Address.from_bech32(walletAddress);
+    const baseWalletAddress = CardanoWasm.BaseAddress.from_address(wasmWalletAddress);
+    if(!baseWalletAddress){
+      throw new Error('Could not generate base wallet address');
     }
-
+    const poolKeyHash = CardanoWasm.Ed25519KeyHash.from_hex(poolHash);
+    const stakeCredentials = baseWalletAddress.stake_cred();
     const certificates = CardanoWasm.Certificates.new();
     const stakeRegistration = CardanoWasm.StakeRegistration.new(stakeCredentials);
     const stakeDelegation = CardanoWasm.StakeDelegation.new(stakeCredentials, poolKeyHash);
@@ -170,7 +167,7 @@ export class AdaService extends Service {
       }
     };
 
-    const fbTx = await this.fbSigner.signWithFB(payload, 'ADA_TEST');
+    const fbTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
 
     const pubKey = CardanoWasm.PublicKey.from_hex(fbTx.signedMessages![0].publicKey);
     const vKey = CardanoWasm.Vkey.new(pubKey);
