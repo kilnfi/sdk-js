@@ -34,7 +34,14 @@ export class AdaService extends Service {
     walletAddress: string,
     options?: AdaStakeOptions,
   ): Promise<Transaction> {
+    const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
+    const wasmWalletAddress = CardanoWasm.Address.from_bech32(walletAddress);
+    const baseWalletAddress = CardanoWasm.BaseAddress.from_address(wasmWalletAddress);
 
+    if(!baseWalletAddress){
+      throw new Error('Could not generate base wallet address');
+
+    }
     let utxo: UTXO = [];
     try {
       utxo = await this.client.addressesUtxosAll(walletAddress);
@@ -75,13 +82,17 @@ export class AdaService extends Service {
     const ttl = currentSlot + 7200;
     txBuilder.set_ttl(ttl);
 
+    const addresses = await this.client.addresses(walletAddress);
+
+    // Add output
+    txBuilder.add_output(
+      CardanoWasm.TransactionOutput.new(
+        wasmWalletAddress,
+        CardanoWasm.Value.new(CardanoWasm.BigNum.from_str(addresses.amount[0].quantity.toString())),
+      ),
+    );
+
     // Add delegation (stake registration + stake delegation certificates)
-    const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
-    const wasmWalletAddress = CardanoWasm.Address.from_bech32(walletAddress);
-    const baseWalletAddress = CardanoWasm.BaseAddress.from_address(wasmWalletAddress);
-    if(!baseWalletAddress){
-      throw new Error('Could not generate base wallet address');
-    }
     const poolKeyHash = CardanoWasm.Ed25519KeyHash.from_hex(poolHash);
     const stakeCredentials = baseWalletAddress.stake_cred();
     const certificates = CardanoWasm.Certificates.new();
