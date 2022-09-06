@@ -7,7 +7,7 @@ const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 const f = async () => {
   const k = new Kiln({
     testnet: true,
-    // apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6bVE3bUYyUExZeDd3LUM2Ty01THJ2QTlyMmVtUG92NzI5ejRqU19FVzQ3UFdkUFdZTmgyMHJ2VWcxcUdjWXNsMg',
+    // apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6ejJoV3FCSTlyZlBtM2ZIM0RFRVVaM3NwTkZReHJXTDZWZUxJMWtWWlVrb3VNYUVzcE9Lakt4ZVplOG9vd1oyVw',
     apiToken: 'kiln_V1JKOW55SkZMOFZvMzBJYmw0aGQ3bkM3UFpIM2IzeXA6YkN6VG9BZW56OWQtUVlGRjNqRW10c1E3R0w2YkRKdjAxQW1Cem5ONnF4Sm1WLUx6STNoRWE2XzdXSVZIc2s0Ug',
     integrations: [
       {
