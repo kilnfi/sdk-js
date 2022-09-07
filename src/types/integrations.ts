@@ -4,7 +4,7 @@ export type FireblocksIntegration = {
   name: string;
   provider: SupportedProviders;
   fireblocksApiKey: string;
-  fireblocksSecretKeyPath: string;
+  fireblocksSecretKey: string;
   vaultAccountId: string;
 };
 

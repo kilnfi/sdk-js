@@ -14,7 +14,7 @@ const f = async () => {
         name: 'vault1',
         provider: 'fireblocks',
         fireblocksApiKey: '53aee35e-04b7-9314-8f28-135a66c8af2c',
-        fireblocksSecretKeyPath: apiSecretPath,
+        fireblocksSecretKey: apiSecretPath,
         vaultAccountId: '7'
       }
     ],
