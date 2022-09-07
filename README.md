@@ -35,7 +35,7 @@ const k = new Kiln({
 import { Kiln } from "../src/kiln";
 const fs = require('fs');
 
-const apiSecretPath = fs.readFileSync(__dirname + '/path_to_fireblocks_secret', 'utf8');
+const apiSecret = fs.readFileSync(__dirname + '/path_to_fireblocks_secret', 'utf8');
 
 const k = new Kiln({
   testnet: true,
@@ -45,7 +45,7 @@ const k = new Kiln({
       name: 'vault1',
       provider: 'fireblocks',
       fireblocksApiKey: 'fireblocks_api_key',
-      fireblocksSecretKeyPath: apiSecretPath,
+      fireblocksSecretKey: apiSecret,
       vaultAccountId: 'vault_account_id'
     }
   ],

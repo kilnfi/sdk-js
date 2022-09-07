@@ -16,7 +16,7 @@ export class Service {
     // Fireblocks integration
     const fireblocksIntegration = integrations?.find(integration => integration.provider === 'fireblocks');
     if (fireblocksIntegration) {
-      this.fbSdk = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKeyPath, fireblocksIntegration.fireblocksApiKey);
+      this.fbSdk = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKey, fireblocksIntegration.fireblocksApiKey);
       this.fbSigner = new FbSigner(this.fbSdk, fireblocksIntegration.vaultAccountId);
     }
   }
