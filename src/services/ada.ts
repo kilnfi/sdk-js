@@ -82,19 +82,20 @@ export class AdaService extends Service {
     const ttl = currentSlot + 7200;
     txBuilder.set_ttl(ttl);
 
-    const addresses = await this.client.addresses(walletAddress);
-
-    // Add output
-    txBuilder.add_output(
-      CardanoWasm.TransactionOutput.new(
-        wasmWalletAddress,
-        CardanoWasm.Value.new(CardanoWasm.BigNum.from_str(addresses.amount[0].quantity.toString())),
-      ),
-    );
+    // const addresses = await this.client.addresses(walletAddress);
+    //
+    // // Add output
+    // txBuilder.add_output(
+    //   CardanoWasm.TransactionOutput.new(
+    //     wasmWalletAddress,
+    //     CardanoWasm.Value.new(CardanoWasm.BigNum.from_str(addresses.amount[0].quantity.toString())),
+    //   ),
+    // );
 
     // Add delegation (stake registration + stake delegation certificates)
     const poolKeyHash = CardanoWasm.Ed25519KeyHash.from_hex(poolHash);
     const stakeCredentials = baseWalletAddress.stake_cred();
+    console.log(stakeCredentials);
     const certificates = CardanoWasm.Certificates.new();
     const stakeRegistration = CardanoWasm.StakeRegistration.new(stakeCredentials);
     const stakeDelegation = CardanoWasm.StakeDelegation.new(stakeCredentials, poolKeyHash);
