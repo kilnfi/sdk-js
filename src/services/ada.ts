@@ -1,11 +1,14 @@
-import * as CardanoWasm from '@emurgo/cardano-serialization-lib-nodejs';
 import {
   Address,
   BigNum,
   Certificate,
   Certificates,
+  CoinSelectionStrategyCIP2,
   Ed25519KeyHash,
-  LinearFee, PublicKey,
+  Ed25519Signature,
+  hash_transaction,
+  LinearFee,
+  PublicKey,
   RewardAddress,
   StakeCredential,
   StakeDelegation,
@@ -13,11 +16,16 @@ import {
   Transaction,
   TransactionBuilder,
   TransactionBuilderConfigBuilder,
+  TransactionHash,
+  TransactionInput,
   TransactionOutput,
   TransactionOutputs,
-  Value, Vkey, VRFVKey,
+  TransactionUnspentOutput,
+  TransactionUnspentOutputs,
+  TransactionWitnessSet,
+  Value,
+  Vkey, Vkeywitness, Vkeywitnesses,
 } from '@emurgo/cardano-serialization-lib-nodejs';
-import { mnemonicToEntropy } from 'bip39';
 import { Service } from "./service";
 import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
 import {
@@ -125,10 +133,10 @@ export class AdaService extends Service {
             BigNum.from_str(CARDANO_PARAMS.MIN_FEE_B),
           ),
         )
-        .pool_deposit(CardanoWasm.BigNum.from_str(CARDANO_PARAMS.POOL_DEPOSIT))
-        .key_deposit(CardanoWasm.BigNum.from_str(CARDANO_PARAMS.KEY_DEPOSIT))
+        .pool_deposit(BigNum.from_str(CARDANO_PARAMS.POOL_DEPOSIT))
+        .key_deposit(BigNum.from_str(CARDANO_PARAMS.KEY_DEPOSIT))
         .coins_per_utxo_word(
-          CardanoWasm.BigNum.from_str(CARDANO_PARAMS.COINS_PER_UTXO_WORD),
+          BigNum.from_str(CARDANO_PARAMS.COINS_PER_UTXO_WORD),
         )
         .max_value_size(CARDANO_PARAMS.MAX_VALUE_SIZE)
         .max_tx_size(CARDANO_PARAMS.MAX_TX_SIZE)
@@ -144,7 +152,7 @@ export class AdaService extends Service {
       (u: any) => !u.amount.find((a: any) => a.unit !== 'lovelace'),
     );
 
-    const unspentOutputs = CardanoWasm.TransactionUnspentOutputs.new();
+    const unspentOutputs = TransactionUnspentOutputs.new();
     for (const utxo of lovelaceUtxos) {
       const amount = utxo.amount.find(
         (a: any) => a.unit === 'lovelace',
@@ -152,21 +160,21 @@ export class AdaService extends Service {
 
       if (!amount) continue;
 
-      const inputValue = CardanoWasm.Value.new(
-        CardanoWasm.BigNum.from_str(amount.toString()),
+      const inputValue = Value.new(
+        BigNum.from_str(amount.toString()),
       );
 
-      const input = CardanoWasm.TransactionInput.new(
-        CardanoWasm.TransactionHash.from_bytes(Buffer.from(utxo.tx_hash, 'hex')),
+      const input = TransactionInput.new(
+        TransactionHash.from_bytes(Buffer.from(utxo.tx_hash, 'hex')),
         utxo.output_index,
       );
-      const output = CardanoWasm.TransactionOutput.new(Address.from_bech32(changeAddress), inputValue);
-      unspentOutputs.add(CardanoWasm.TransactionUnspentOutput.new(input, output));
+      const output = TransactionOutput.new(Address.from_bech32(changeAddress), inputValue);
+      unspentOutputs.add(TransactionUnspentOutput.new(input, output));
     }
 
     txBuilder.add_inputs_from(
       unspentOutputs,
-      CardanoWasm.CoinSelectionStrategyCIP2.LargestFirst,
+      CoinSelectionStrategyCIP2.LargestFirst,
     );
 
     // Outputs
@@ -247,7 +255,7 @@ export class AdaService extends Service {
       throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
     }
 
-    const message = CardanoWasm.hash_transaction(transaction.body()).to_hex();
+    const message = hash_transaction(transaction.body()).to_hex();
 
     const payload = {
       rawMessageData: {
@@ -264,15 +272,15 @@ export class AdaService extends Service {
 
     const fbTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
 
-    const pubKey = CardanoWasm.PublicKey.from_hex(fbTx.signedMessages![0].publicKey);
-    const vKey = CardanoWasm.Vkey.new(pubKey);
-    const signature = CardanoWasm.Ed25519Signature.from_hex(fbTx.signedMessages![0].signature.fullSig);
-    const witnesses = CardanoWasm.TransactionWitnessSet.new();
-    const vkeyWitnesses = CardanoWasm.Vkeywitnesses.new();
-    const vkeyWitness = CardanoWasm.Vkeywitness.new(vKey, signature);
+    const pubKey = PublicKey.from_hex(fbTx.signedMessages![0].publicKey);
+    const vKey = Vkey.new(pubKey);
+    const signature = Ed25519Signature.from_hex(fbTx.signedMessages![0].signature.fullSig);
+    const witnesses = TransactionWitnessSet.new();
+    const vkeyWitnesses = Vkeywitnesses.new();
+    const vkeyWitness = Vkeywitness.new(vKey, signature);
     vkeyWitnesses.add(vkeyWitness);
     witnesses.set_vkeys(vkeyWitnesses);
-    return CardanoWasm.Transaction.new(transaction.body(), witnesses);
+    return Transaction.new(transaction.body(), witnesses);
   }
 
   /**
