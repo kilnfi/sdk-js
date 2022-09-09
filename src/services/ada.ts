@@ -1,6 +1,23 @@
 import * as CardanoWasm from '@emurgo/cardano-serialization-lib-nodejs';
-import { Transaction } from '@emurgo/cardano-serialization-lib-nodejs';
-import { mnemonicToEntropy, generateMnemonic } from 'bip39';
+import {
+  Address,
+  BigNum,
+  Certificate,
+  Certificates,
+  Ed25519KeyHash,
+  LinearFee, PublicKey,
+  RewardAddress,
+  StakeCredential,
+  StakeDelegation,
+  StakeRegistration,
+  Transaction,
+  TransactionBuilder,
+  TransactionBuilderConfigBuilder,
+  TransactionOutput,
+  TransactionOutputs,
+  Value, Vkey, VRFVKey,
+} from '@emurgo/cardano-serialization-lib-nodejs';
+import { mnemonicToEntropy } from 'bip39';
 import { Service } from "./service";
 import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
 import {
@@ -13,6 +30,10 @@ const CARDANO_PARAMS = {
   COINS_PER_UTXO_WORD: '34482',
   MAX_TX_SIZE: 16384,
   MAX_VALUE_SIZE: 5000,
+  MIN_FEE_A: '44',
+  MIN_FEE_B: '155381',
+  POOL_DEPOSIT: '500000000',
+  KEY_DEPOSIT: '2000000',
 };
 
 export class AdaService extends Service {
@@ -34,41 +55,78 @@ export class AdaService extends Service {
     walletAddress: string,
     options?: AdaStakeOptions,
   ): Promise<Transaction> {
+    const poolId = this.testnet ? 'pool1xjt9ylq7rvsd2mxf6njkzhrkhgjzrtflz039vxs66ntvv82rdky' : 'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k';
     const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
-    const wasmWalletAddress = CardanoWasm.Address.from_bech32(walletAddress);
-    const baseWalletAddress = CardanoWasm.BaseAddress.from_address(wasmWalletAddress);
+    const poolKeyHash = Ed25519KeyHash.from_hex(poolHash);
 
-    if(!baseWalletAddress){
-      throw new Error('Could not generate base wallet address');
-
-    }
-    let utxo: UTXO = [];
     try {
-      utxo = await this.client.addressesUtxosAll(walletAddress);
-    } catch (error) {
-      if (error instanceof BlockfrostServerError && error.status_code === 404) {
-        throw new Error(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
-      } else {
-        throw error;
+      const utxos = await this.getUtxos(walletAddress);
+      const outputs = this.prepareTx(CARDANO_PARAMS.KEY_DEPOSIT, walletAddress);
+      const address = await this.client.addresses(walletAddress);
+      if (!address.stake_address) {
+        throw Error('No stake address');
       }
-    }
+      const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
+      if (!stakeKeyHash) {
+        throw Error('Could not hash stake key');
+      }
+      const certificates = Certificates.new();
 
-    const latestBlock = await this.client.blocksLatest();
-    const currentSlot = latestBlock.slot;
-    if (!currentSlot) {
-      throw Error('Failed to fetch slot number');
-    }
+      const registrations = await this.client.accountsRegistrations(address.stake_address);
+      // const pool = await this.client.poolsById(poolId);
 
-    const txBuilder = CardanoWasm.TransactionBuilder.new(
-      CardanoWasm.TransactionBuilderConfigBuilder.new()
+      // Register stake key if not done already
+      if (registrations.length === 0) {
+        certificates.add(
+          Certificate.new_stake_registration(
+            StakeRegistration.new(
+              StakeCredential.from_keyhash(
+                Ed25519KeyHash.from_bytes(stakeKeyHash),
+              ),
+            ),
+          ),
+        );
+      }
+      certificates.add(
+        Certificate.new_stake_delegation(
+          StakeDelegation.new(
+            StakeCredential.from_keyhash(
+              Ed25519KeyHash.from_bytes(stakeKeyHash),
+            ),
+            poolKeyHash,
+          ),
+        ),
+      );
+      return await this.buildTx(walletAddress, utxos, outputs, certificates);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private prepareTx(lovelaceValue: string, paymentAddress: string): TransactionOutputs {
+    const outputs = TransactionOutputs.new();
+
+    outputs.add(
+      TransactionOutput.new(
+        Address.from_bech32(paymentAddress),
+        Value.new(BigNum.from_str(lovelaceValue)),
+      ),
+    );
+
+    return outputs;
+  }
+
+  private async buildTx(changeAddress: string, utxos: UTXO, outputs: TransactionOutputs, certificates: Certificates | null = null) {
+    const txBuilder = TransactionBuilder.new(
+      TransactionBuilderConfigBuilder.new()
         .fee_algo(
-          CardanoWasm.LinearFee.new(
-            CardanoWasm.BigNum.from_str('44'),
-            CardanoWasm.BigNum.from_str('155381'),
+          LinearFee.new(
+            BigNum.from_str(CARDANO_PARAMS.MIN_FEE_A),
+            BigNum.from_str(CARDANO_PARAMS.MIN_FEE_B),
           ),
         )
-        .pool_deposit(CardanoWasm.BigNum.from_str('500000000'))
-        .key_deposit(CardanoWasm.BigNum.from_str('2000000'))
+        .pool_deposit(CardanoWasm.BigNum.from_str(CARDANO_PARAMS.POOL_DEPOSIT))
+        .key_deposit(CardanoWasm.BigNum.from_str(CARDANO_PARAMS.KEY_DEPOSIT))
         .coins_per_utxo_word(
           CardanoWasm.BigNum.from_str(CARDANO_PARAMS.COINS_PER_UTXO_WORD),
         )
@@ -77,40 +135,15 @@ export class AdaService extends Service {
         .build(),
     );
 
-    // Set TTL to +2h from currentSlot
-    // If the transaction is not included in a block before that slot it will be cancelled.
-    const ttl = currentSlot + 7200;
-    txBuilder.set_ttl(ttl);
+    if (certificates) {
+      txBuilder.set_certs(certificates);
+    }
 
-    // const addresses = await this.client.addresses(walletAddress);
-    //
-    // // Add output
-    // txBuilder.add_output(
-    //   CardanoWasm.TransactionOutput.new(
-    //     wasmWalletAddress,
-    //     CardanoWasm.Value.new(CardanoWasm.BigNum.from_str(addresses.amount[0].quantity.toString())),
-    //   ),
-    // );
-
-    // Add delegation (stake registration + stake delegation certificates)
-    const poolKeyHash = CardanoWasm.Ed25519KeyHash.from_hex(poolHash);
-    const stakeCredentials = baseWalletAddress.stake_cred();
-    console.log(stakeCredentials);
-    const certificates = CardanoWasm.Certificates.new();
-    const stakeRegistration = CardanoWasm.StakeRegistration.new(stakeCredentials);
-    const stakeDelegation = CardanoWasm.StakeDelegation.new(stakeCredentials, poolKeyHash);
-    const stakeRegistrationCertificate = CardanoWasm.Certificate.new_stake_registration(stakeRegistration);
-    const delegationCertificate = CardanoWasm.Certificate.new_stake_delegation(stakeDelegation);
-    certificates.add(stakeRegistrationCertificate);
-    certificates.add(delegationCertificate);
-    txBuilder.set_certs(certificates);
-
-    // Filter out multi asset utxo to keep this simple
-    const lovelaceUtxos = utxo.filter(
+    // Inputs
+    const lovelaceUtxos = utxos.filter(
       (u: any) => !u.amount.find((a: any) => a.unit !== 'lovelace'),
     );
 
-    // Create TransactionUnspentOutputs from utxos fetched from Blockfrost
     const unspentOutputs = CardanoWasm.TransactionUnspentOutputs.new();
     for (const utxo of lovelaceUtxos) {
       const amount = utxo.amount.find(
@@ -127,7 +160,7 @@ export class AdaService extends Service {
         CardanoWasm.TransactionHash.from_bytes(Buffer.from(utxo.tx_hash, 'hex')),
         utxo.output_index,
       );
-      const output = CardanoWasm.TransactionOutput.new(wasmWalletAddress, inputValue);
+      const output = CardanoWasm.TransactionOutput.new(Address.from_bech32(changeAddress), inputValue);
       unspentOutputs.add(CardanoWasm.TransactionUnspentOutput.new(input, output));
     }
 
@@ -136,12 +169,57 @@ export class AdaService extends Service {
       CardanoWasm.CoinSelectionStrategyCIP2.LargestFirst,
     );
 
+    // Outputs
+    txBuilder.add_output(outputs.get(0));
+
+
+    const latestBlock = await this.client.blocksLatest();
+    const currentSlot = latestBlock.slot;
+    if (!currentSlot) {
+      throw Error('Failed to fetch slot number');
+    }
+    // Current slot + 2h
+    const ttl = currentSlot + 7200;
+    txBuilder.set_ttl(ttl);
+
     // Adds a change output if there are more ADA in utxo than we need for the transaction,
     // these coins will be returned to change address
-    txBuilder.add_change_if_needed(wasmWalletAddress);
+    txBuilder.add_change_if_needed(Address.from_bech32(changeAddress));
 
-    // Build transaction
     return txBuilder.build_tx();
+  }
+
+  private adaToLovelace(value: string) {
+    return (parseFloat(value || '1') * 1000000).toFixed();
+  }
+
+  private hexToBytes(string: string) {
+    return Buffer.from(string, 'hex');
+  }
+
+  private hexToBech32(address: string) {
+    return Address.from_bytes(this.hexToBytes(address)).to_bech32();
+  }
+
+  private async getUtxos(walletAddress: string) {
+    let utxo: UTXO = [];
+    try {
+      utxo = await this.client.addressesUtxosAll(walletAddress);
+    } catch (error) {
+      if (error instanceof BlockfrostServerError && error.status_code === 404) {
+        throw new Error(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
+      } else {
+        throw error;
+      }
+    }
+    return utxo;
+  }
+
+  private getStakeKeyHash(stakeKey: string) {
+    const rewardAddress = RewardAddress.from_address(Address.from_bech32(stakeKey));
+    const paymentCred = rewardAddress?.payment_cred();
+    const hash = paymentCred?.to_keyhash();
+    return hash?.to_bytes();
   }
 
   /**
@@ -172,11 +250,11 @@ export class AdaService extends Service {
           {
             "content": message,
           },
-        ]
+        ],
       },
       inputsSelection: {
         inputsToSpend: JSON.parse(transaction.body().inputs().to_json()),
-      }
+      },
     };
 
     const fbTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
@@ -202,7 +280,7 @@ export class AdaService extends Service {
     } catch (error) {
       // submit could fail if the transactions is rejected by cardano node
       if (error instanceof BlockfrostServerError && error.status_code === 400) {
-        console.log(error.message);
+        console.log(error.stack, error.error);
       } else {
         // rethrow other errors
         throw error;
@@ -210,11 +288,11 @@ export class AdaService extends Service {
     }
   }
 
-  private harden (num: number): number {
+  private harden(num: number): number {
     return 0x80000000 + num;
   };
 
-  private deriveAddressPrvKey (
+  private deriveAddressPrvKey(
     bipPrvKey: CardanoWasm.Bip32PrivateKey,
     testnet: boolean,
   ): {
@@ -254,7 +332,7 @@ export class AdaService extends Service {
     return { signKey: utxoKey.to_raw_key(), address: address };
   };
 
-  private mnemonicToPrivateKey (
+  private mnemonicToPrivateKey(
     mnemonic: string,
   ): CardanoWasm.Bip32PrivateKey {
     const entropy = mnemonicToEntropy(mnemonic);
