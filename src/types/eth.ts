@@ -17,7 +17,7 @@ export type EthStake = {
   balance: string | null;
   consensus_rewards: string | null;
   execution_rewards: string | null;
-  effectiveBalance: string | null;
+  effective_balance: string | null;
   deposit_tx_sender: string | null;
   fee_recipient: string | null;
   apy: number | null;
