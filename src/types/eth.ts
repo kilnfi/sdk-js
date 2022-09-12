@@ -14,11 +14,14 @@ export type EthStakes = {
 export type EthStake = {
   pubkey: string;
   state: string;
-  state_updated_at: number | null;
   balance: string | null;
+  consensus_rewards: string | null;
+  execution_rewards: string | null;
   effective_balance: string | null;
-  apy: number | null;
   deposit_tx_sender: string | null;
+  fee_recipient: string | null;
+  apy: number | null;
+  activated_at: string | null;
 };
 
 export type EthereumTx = Transaction;
