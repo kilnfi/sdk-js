@@ -5,7 +5,7 @@ import {
   Keypair,
   PublicKey,
   sendAndConfirmRawTransaction,
-  StakeProgram,
+  StakeProgram, SystemProgram,
   Transaction,
   TransactionInstruction,
 } from '@solana/web3.js';
@@ -14,7 +14,7 @@ import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
   ApiCreatedStakes,
-  InternalSolanaConfig,
+  InternalSolanaConfig, PublicNonceAccountInfo, PublicSignature,
   SolanaStakeOptions,
   SolanaTx,
   SolNetworkStats,
@@ -49,6 +49,27 @@ export class SolService extends Service {
   }
 
   /**
+   * Get Kiln nonce account info
+   * @private
+   */
+  private async getNonceAccount (): Promise<PublicNonceAccountInfo> {
+    const { data } =  await api.get<PublicNonceAccountInfo>('/v1/sol/nonce-account');
+    return data;
+  };
+
+  /**
+   * Partially sign a hex encoded message with kiln nonce account
+   * @param message
+   * @private
+   */
+  private async partialSignWithNonceAccount (message: string): Promise<PublicSignature[]> {
+    const { data } =  await api.post<PublicSignature[]>('/v1/sol/nonce-account/partial-sign', {
+      message,
+    });
+    return data;
+  };
+
+  /**
    * Craft Solana staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
@@ -76,8 +97,20 @@ export class SolService extends Service {
     );
     const memoProgram = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
 
+    // Get nonce account info
+    const nonceInfo = await this.getNonceAccount();
+    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
+    const connection = await this.getConnection();
+    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
+    if (!nonceAccount) {
+      throw new Error('Could not fetch nonce account');
+    }
+
     const instructions = [
-      // memo the transaction with account id
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
       new TransactionInstruction({
         keys: [
           {
@@ -120,11 +153,20 @@ export class SolService extends Service {
       );
     }
 
-    const connection = await this.getConnection();
-    let blockhash = await connection.getLatestBlockhash('finalized');
-    tx.recentBlockhash = blockhash.blockhash;
+    tx.recentBlockhash = nonceAccount.nonce;
     tx.feePayer = staker;
     tx.partialSign(stakeKey);
+
+    // Sign with nonce account
+    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
+    signatures.forEach((signature: PublicSignature) => {
+      if (signature.signature) {
+        tx.addSignature(
+          new PublicKey(signature.pubkey),
+          Buffer.from(signature.signature, 'hex'),
+        );
+      }
+    });
 
     // Tag stake
     const stake: TaggedStake = {
@@ -155,7 +197,20 @@ export class SolService extends Service {
     const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
     const walletPubKey = new PublicKey(walletAddress);
 
+    // Get nonce account info
+    const nonceInfo = await this.getNonceAccount();
+    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
+    const connection = await this.getConnection();
+    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
+    if (!nonceAccount) {
+      throw new Error('Could not fetch nonce account');
+    }
+
     const instructions = [
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
       StakeProgram.deactivate({
         stakePubkey: stakeAccountPubKey,
         authorizedPubkey: walletPubKey,
@@ -164,10 +219,20 @@ export class SolService extends Service {
     tx.add(...instructions);
 
 
-    const connection = await this.getConnection();
-    let blockhash = await connection.getLatestBlockhash('finalized');
-    tx.recentBlockhash = blockhash.blockhash;
+    tx.recentBlockhash = nonceAccount.nonce;
     tx.feePayer = walletPubKey;
+
+    // Sign with nonce account
+    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
+    signatures.forEach((signature: PublicSignature) => {
+      if (signature.signature) {
+        tx.addSignature(
+          new PublicKey(signature.pubkey),
+          Buffer.from(signature.signature, 'hex'),
+        );
+      }
+    });
+
     return tx;
   }
 
@@ -184,8 +249,17 @@ export class SolService extends Service {
   ): Promise<SolanaTx> {
     const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
     const walletPubKey = new PublicKey(walletAddress);
-    let amount;
+
+    // Get nonce account info
+    const nonceInfo = await this.getNonceAccount();
+    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
     const connection = await this.getConnection();
+    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
+    if (!nonceAccount) {
+      throw new Error('Could not fetch nonce account');
+    }
+
+    let amount;
 
     if (!amountToWithdraw) {
       amount = await connection.getBalance(stakeAccountPubKey);
@@ -196,6 +270,10 @@ export class SolService extends Service {
     const tx = new Transaction();
 
     const instructions = [
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
       StakeProgram.withdraw({
         stakePubkey: stakeAccountPubKey,
         authorizedPubkey: walletPubKey,
@@ -205,10 +283,20 @@ export class SolService extends Service {
     ];
     tx.add(...instructions);
 
-
-    let blockhash = await connection.getLatestBlockhash('finalized');
-    tx.recentBlockhash = blockhash.blockhash;
+    tx.recentBlockhash = nonceAccount.nonce;
     tx.feePayer = walletPubKey;
+
+    // Sign with nonce account
+    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
+    signatures.forEach((signature: PublicSignature) => {
+      if (signature.signature) {
+        tx.addSignature(
+          new PublicKey(signature.pubkey),
+          Buffer.from(signature.signature, 'hex'),
+        );
+      }
+    });
+
     return tx;
   }
 
@@ -228,6 +316,15 @@ export class SolService extends Service {
     const sourcePubKey = new PublicKey(stakeAccountSourceAddress);
     const destinationPubKey = new PublicKey(stakeAccountDestinationAddress);
 
+    // Get nonce account info
+    const nonceInfo = await this.getNonceAccount();
+    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
+    const connection = await this.getConnection();
+    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
+    if (!nonceAccount) {
+      throw new Error('Could not fetch nonce account');
+    }
+
     const instructions = [
       StakeProgram.merge({
         stakePubkey: destinationPubKey,
@@ -237,10 +334,19 @@ export class SolService extends Service {
     ];
     tx.add(...instructions);
 
-    const connection = await this.getConnection();
-    let blockhash = await connection.getLatestBlockhash('finalized');
-    tx.recentBlockhash = blockhash.blockhash;
+    tx.recentBlockhash = nonceAccount.nonce;
     tx.feePayer = stakerPubKey;
+
+    // Sign with nonce account
+    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
+    signatures.forEach((signature: PublicSignature) => {
+      if (signature.signature) {
+        tx.addSignature(
+          new PublicKey(signature.pubkey),
+          Buffer.from(signature.signature, 'hex'),
+        );
+      }
+    });
 
     return tx;
   }
@@ -270,7 +376,6 @@ export class SolService extends Service {
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
     signatures.signedMessages?.forEach((signedMessage: any) => {
-      console.log(signedMessage);
       if (signedMessage.derivationPath[3] == 0 && transaction.feePayer) {
         transaction.addSignature(transaction.feePayer, Buffer.from(signedMessage.signature.fullSig, "hex"));
       }
