@@ -6,7 +6,7 @@ const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 const f = async () => {
   const k = new Kiln({
     testnet: true,
-    apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6bVE3bUYyUExZeDd3LUM2Ty01THJ2QTlyMmVtUG92NzI5ejRqU19FVzQ3UFdkUFdZTmgyMHJ2VWcxcUdjWXNsMg',
+    apiToken: 'kiln_V1JKOW55SkZMOFZvMzBJYmw0aGQ3bkM3UFpIM2IzeXA6Zi0zcUU3SHNIZTB6WDg2dkVUbUpWbmhLRFFyYmljdm1aQzFqOGcwOWFtY3U0Yk9fZHh6SkVweDJRcUxOVERWMA',
     integrations: [
       {
         name: 'vault1',
@@ -19,10 +19,9 @@ const f = async () => {
   });
 
   try {
-    const tx = await k.sol.craftStakeTx(
-      '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    const tx = await k.sol.craftDeactivateStakeTx(
+      'AhymNaMJBxLCWRgrNb7Er4bUQoGWpYV2EG4qrGwqzemY',
       '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-      0.1
     );
     const signedTx = await k.sol.sign('vault1', tx);
     const hash = await k.sol.broadcast(signedTx);

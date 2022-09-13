@@ -51,3 +51,13 @@ export type TaggedStake = {
   stakeAccount: string;
   balance: number;
 };
+
+export type PublicNonceAccountInfo = {
+  nonce_account: string;
+  nonce_account_authority: string;
+};
+
+export type PublicSignature = {
+  pubkey: string;
+  signature: string | null;
+};
