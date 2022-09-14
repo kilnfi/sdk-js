@@ -24,7 +24,9 @@ import {
   TransactionUnspentOutputs,
   TransactionWitnessSet,
   Value,
-  Vkey, Vkeywitness, Vkeywitnesses,
+  Vkey,
+  Vkeywitness,
+  Vkeywitnesses,
 } from '@emurgo/cardano-serialization-lib-nodejs';
 import { Service } from "./service";
 import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
@@ -32,7 +34,7 @@ import {
   BlockFrostAPI,
   BlockfrostServerError,
 } from "@blockfrost/blockfrost-js";
-import { InvalidIntegration } from "../errors/integrations";
+import { InvalidIntegration, InvalidSignature } from "../errors/integrations";
 
 const CARDANO_PARAMS = {
   COINS_PER_UTXO_WORD: '34482',
@@ -63,9 +65,9 @@ export class AdaService extends Service {
     walletAddress: string,
     options?: AdaStakeOptions,
   ): Promise<Transaction> {
-    const poolId = this.testnet ? 'pool1xjt9ylq7rvsd2mxf6njkzhrkhgjzrtflz039vxs66ntvv82rdky' : 'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k';
-    const poolHash = this.testnet ? '3496527c1e1b20d56cc9d4e5615c76ba2421ad3f13e2561a1ad4d6c6' : '78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c6';
-    const poolKeyHash = Ed25519KeyHash.from_hex(poolHash);
+    const poolId = options?.poolId ? options.poolId :
+      this.testnet ? 'pool1xjt9ylq7rvsd2mxf6njkzhrkhgjzrtflz039vxs66ntvv82rdky' :
+        'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k';
 
     try {
       const utxos = await this.getUtxos(walletAddress);
@@ -74,6 +76,7 @@ export class AdaService extends Service {
       if (!address.stake_address) {
         throw Error('No stake address');
       }
+
       const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
       if (!stakeKeyHash) {
         throw Error('Could not hash stake key');
@@ -81,7 +84,8 @@ export class AdaService extends Service {
       const certificates = Certificates.new();
 
       const registrations = await this.client.accountsRegistrations(address.stake_address);
-      // const pool = await this.client.poolsById(poolId);
+      const pool = await this.client.poolsById(poolId);
+      const poolKeyHash = Ed25519KeyHash.from_hex(pool.hex);
 
       // Register stake key if not done already
       if (registrations.length === 0) {
@@ -111,6 +115,12 @@ export class AdaService extends Service {
     }
   }
 
+  /**
+   * Prepare outputs (destination addresses and amounts) for a transaction
+   * @param lovelaceValue
+   * @param paymentAddress
+   * @private
+   */
   private prepareTx(lovelaceValue: string, paymentAddress: string): TransactionOutputs {
     const outputs = TransactionOutputs.new();
 
@@ -124,6 +134,14 @@ export class AdaService extends Service {
     return outputs;
   }
 
+  /**
+   * Build transaction with correct fees, inputs, outputs and certificates
+   * @param changeAddress
+   * @param utxos
+   * @param outputs
+   * @param certificates
+   * @private
+   */
   private async buildTx(changeAddress: string, utxos: UTXO, outputs: TransactionOutputs, certificates: Certificates | null = null) {
     const txBuilder = TransactionBuilder.new(
       TransactionBuilderConfigBuilder.new()
@@ -180,7 +198,6 @@ export class AdaService extends Service {
     // Outputs
     txBuilder.add_output(outputs.get(0));
 
-
     const latestBlock = await this.client.blocksLatest();
     const currentSlot = latestBlock.slot;
     if (!currentSlot) {
@@ -201,18 +218,15 @@ export class AdaService extends Service {
     return (parseFloat(value || '1') * 1000000).toFixed();
   }
 
-  private hexToBytes(string: string) {
-    return Buffer.from(string, 'hex');
-  }
-
-  private hexToBech32(address: string) {
-    return Address.from_bytes(this.hexToBytes(address)).to_bech32();
-  }
-
-  private async getUtxos(walletAddress: string) {
+  /**
+   * Get addresses to spend from wallet
+   * @param walletAddress
+   * @private
+   */
+  private async getUtxos(walletAddress: string): Promise<UTXO> {
     let utxo: UTXO = [];
     try {
-      utxo = await this.client.addressesUtxosAll(walletAddress);
+      utxo = await this.client.addressesUtxos(walletAddress);
     } catch (error) {
       if (error instanceof BlockfrostServerError && error.status_code === 404) {
         throw new Error(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
@@ -224,7 +238,7 @@ export class AdaService extends Service {
   }
 
   /**
-   * Get
+   * Get stake key keyhash
    * @param stakeKey
    * @private
    */
@@ -263,6 +277,10 @@ export class AdaService extends Service {
           {
             "content": message,
           },
+          {
+            "content": message,
+            "bip44change": 2,
+          },
         ],
       },
       inputsSelection: {
@@ -272,13 +290,22 @@ export class AdaService extends Service {
 
     const fbTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
 
-    const pubKey = PublicKey.from_hex(fbTx.signedMessages![0].publicKey);
-    const vKey = Vkey.new(pubKey);
-    const signature = Ed25519Signature.from_hex(fbTx.signedMessages![0].signature.fullSig);
+    if (!fbTx.signedMessages) {
+      throw new InvalidSignature(`Could not sign the transaction.`);
+    }
+
+    // Add signatures
     const witnesses = TransactionWitnessSet.new();
     const vkeyWitnesses = Vkeywitnesses.new();
-    const vkeyWitness = Vkeywitness.new(vKey, signature);
-    vkeyWitnesses.add(vkeyWitness);
+
+    for (const signedMessage of fbTx.signedMessages) {
+      const pubKey = PublicKey.from_hex(signedMessage.publicKey);
+      const vKey = Vkey.new(pubKey);
+      const signature = Ed25519Signature.from_hex(signedMessage.signature.fullSig);
+      const vkeyWitness = Vkeywitness.new(vKey, signature);
+      vkeyWitnesses.add(vkeyWitness);
+    }
+
     witnesses.set_vkeys(vkeyWitnesses);
     return Transaction.new(transaction.body(), witnesses);
   }
