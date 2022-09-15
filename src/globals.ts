@@ -23,5 +23,13 @@ export const ADDRESSES = {
     mainnet: {
       validatorAddress: 'cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2'
     }
+  },
+  ada: {
+    testnet: {
+      poolId: 'pool1xjt9ylq7rvsd2mxf6njkzhrkhgjzrtflz039vxs66ntvv82rdky'
+    },
+    mainnet: {
+      poolId: 'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k'
+    }
   }
 };

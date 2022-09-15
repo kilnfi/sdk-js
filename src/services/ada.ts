@@ -26,7 +26,7 @@ import {
   Value,
   Vkey,
   Vkeywitness,
-  Vkeywitnesses,
+  Vkeywitnesses, Withdrawals,
 } from '@emurgo/cardano-serialization-lib-nodejs';
 import { Service } from "./service";
 import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
@@ -35,6 +35,7 @@ import {
   BlockfrostServerError,
 } from "@blockfrost/blockfrost-js";
 import { InvalidIntegration, InvalidSignature } from "../errors/integrations";
+import { ADDRESSES } from "../globals";
 
 const CARDANO_PARAMS = {
   COINS_PER_UTXO_WORD: '34482',
@@ -44,6 +45,7 @@ const CARDANO_PARAMS = {
   MIN_FEE_B: '155381',
   POOL_DEPOSIT: '500000000',
   KEY_DEPOSIT: '2000000',
+  MIN_UTXO_VALUE_ADA_ONLY: 1000000,
 };
 
 export class AdaService extends Service {
@@ -66,8 +68,8 @@ export class AdaService extends Service {
     options?: AdaStakeOptions,
   ): Promise<Transaction> {
     const poolId = options?.poolId ? options.poolId :
-      this.testnet ? 'pool1xjt9ylq7rvsd2mxf6njkzhrkhgjzrtflz039vxs66ntvv82rdky' :
-        'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k';
+      this.testnet ? ADDRESSES.ada.testnet.poolId :
+        ADDRESSES.ada.mainnet.poolId;
 
     try {
       const utxos = await this.getUtxos(walletAddress);
@@ -116,6 +118,62 @@ export class AdaService extends Service {
   }
 
   /**
+   * Craft ada withdraw rewards transaction
+   * @param walletAddress wallet delegating that will receive the rewards
+   * @param amountToWithdraw amount of rewards to withdraw, if not provided all rewards are withdrawn
+   */
+  async craftWithdrawRewardsTx(
+    walletAddress: string,
+    amountToWithdraw?: number,
+  ): Promise<Transaction> {
+
+
+    try {
+      const utxos = await this.getUtxos(walletAddress);
+      const address = await this.client.addresses(walletAddress);
+      if (!address.stake_address) {
+        throw Error('No stake address');
+      }
+
+      const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
+      if (!stakeKeyHash) {
+        throw Error('Could not hash stake key');
+      }
+
+      const withdrawals = Withdrawals.new();
+      const rewardAddress = RewardAddress.from_address(Address.from_bech32(address.stake_address));
+
+      if (!rewardAddress) {
+        throw Error('Could not retrieve rewards address');
+      }
+
+      const rewardsHistory = await this.client.accountsRewardsAll(address.stake_address);
+      let totalRewards: number = 0;
+      for(const rewards of rewardsHistory){
+        totalRewards += Number(rewards.amount);
+      }
+
+      const amountToWithdrawLovelace = amountToWithdraw ? this.adaToLovelace(amountToWithdraw.toString()) : totalRewards.toString();
+      withdrawals.insert(rewardAddress, BigNum.from_str(amountToWithdrawLovelace));
+
+      let walletBalance = 0;
+      for(const utxo of utxos){
+        if(utxo.amount.length > 0 && utxo.amount[0].unit === 'lovelace'){
+          walletBalance += Number(utxo.amount[0].quantity);
+        }
+      }
+      // Not sure about this value (might need to be BALANCE + REWARDS + FEES)
+      const outAmount = (CARDANO_PARAMS.MIN_UTXO_VALUE_ADA_ONLY + totalRewards).toString();
+      const outputs = this.prepareTx(outAmount, walletAddress);
+
+      const tx = await this.buildTx(walletAddress, utxos, outputs, null, withdrawals);
+      return tx;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
    * Prepare outputs (destination addresses and amounts) for a transaction
    * @param lovelaceValue
    * @param paymentAddress
@@ -140,9 +198,16 @@ export class AdaService extends Service {
    * @param utxos
    * @param outputs
    * @param certificates
+   * @param withdrawals
    * @private
    */
-  private async buildTx(changeAddress: string, utxos: UTXO, outputs: TransactionOutputs, certificates: Certificates | null = null) {
+  private async buildTx(
+    changeAddress: string,
+    utxos: UTXO,
+    outputs: TransactionOutputs,
+    certificates: Certificates | null = null,
+    withdrawals: Withdrawals | null = null,
+  ): Promise<Transaction> {
     const txBuilder = TransactionBuilder.new(
       TransactionBuilderConfigBuilder.new()
         .fee_algo(
@@ -163,6 +228,10 @@ export class AdaService extends Service {
 
     if (certificates) {
       txBuilder.set_certs(certificates);
+    }
+
+    if(withdrawals){
+      txBuilder.set_withdrawals(withdrawals);
     }
 
     // Inputs
