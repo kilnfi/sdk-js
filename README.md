@@ -7,6 +7,8 @@ Check out the full documentation [here](https://docs.kiln.fi/kiln-connect/).
 ## Supported protocols
 - ETH
 - SOL
+- ATOM
+- Cardano
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation
