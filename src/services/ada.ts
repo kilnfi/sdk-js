@@ -3,7 +3,6 @@ import {
   BigNum,
   Certificate,
   Certificates,
-  CoinSelectionStrategyCIP2,
   Ed25519KeyHash,
   Ed25519Signature,
   hash_transaction,
@@ -12,6 +11,7 @@ import {
   RewardAddress,
   StakeCredential,
   StakeDelegation,
+  StakeDeregistration,
   StakeRegistration,
   Transaction,
   TransactionBuilder,
@@ -20,13 +20,12 @@ import {
   TransactionInput,
   TransactionOutput,
   TransactionOutputs,
-  TransactionUnspentOutput,
-  TransactionUnspentOutputs,
   TransactionWitnessSet,
   Value,
   Vkey,
   Vkeywitness,
-  Vkeywitnesses, Withdrawals,
+  Vkeywitnesses,
+  Withdrawals,
 } from '@emurgo/cardano-serialization-lib-nodejs';
 import { Service } from "./service";
 import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
@@ -46,6 +45,7 @@ const CARDANO_PARAMS = {
   POOL_DEPOSIT: '500000000',
   KEY_DEPOSIT: '2000000',
   MIN_UTXO_VALUE_ADA_ONLY: 1000000,
+  DEFAULT_NATIVE_FEES: 300000, // Over-estimate (0.3 ADA)
 };
 
 export class AdaService extends Service {
@@ -73,10 +73,9 @@ export class AdaService extends Service {
 
     try {
       const utxos = await this.getUtxos(walletAddress);
-      const outputs = this.prepareTx(CARDANO_PARAMS.KEY_DEPOSIT, walletAddress);
       const address = await this.client.addresses(walletAddress);
       if (!address.stake_address) {
-        throw Error('No stake address');
+        throw Error('Could not fetch stake address');
       }
 
       const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
@@ -85,12 +84,13 @@ export class AdaService extends Service {
       }
       const certificates = Certificates.new();
 
-      const registrations = await this.client.accountsRegistrations(address.stake_address);
+      const registrations = await this.client.accountsRegistrationsAll(address.stake_address);
+      const lastRegistration = registrations.length > 0 ? registrations[registrations.length - 1] : undefined;
       const pool = await this.client.poolsById(poolId);
       const poolKeyHash = Ed25519KeyHash.from_hex(pool.hex);
 
-      // Register stake key if not done already
-      if (registrations.length === 0) {
+      // Register stake key if not done already or if last registration was a deregister action
+      if (!lastRegistration || lastRegistration.action === 'deregistered') {
         certificates.add(
           Certificate.new_stake_registration(
             StakeRegistration.new(
@@ -111,6 +111,10 @@ export class AdaService extends Service {
           ),
         ),
       );
+
+      const walletBalance = this.getWalletBalance(utxos);
+      const outAmount = (walletBalance - CARDANO_PARAMS.DEFAULT_NATIVE_FEES - Number(CARDANO_PARAMS.KEY_DEPOSIT)).toString();
+      const outputs = this.prepareTx(outAmount, walletAddress);
       return await this.buildTx(walletAddress, utxos, outputs, certificates);
     } catch (error) {
       throw error;
@@ -147,27 +151,69 @@ export class AdaService extends Service {
         throw Error('Could not retrieve rewards address');
       }
 
-      const rewardsHistory = await this.client.accountsRewardsAll(address.stake_address);
-      let totalRewards: number = 0;
-      for(const rewards of rewardsHistory){
-        totalRewards += Number(rewards.amount);
-      }
-
-      const amountToWithdrawLovelace = amountToWithdraw ? this.adaToLovelace(amountToWithdraw.toString()) : totalRewards.toString();
+      const availableRewards = await this.getAvailableRewards(address.stake_address);
+      const amountToWithdrawLovelace = amountToWithdraw ? this.adaToLovelace(amountToWithdraw.toString()) : availableRewards.toString();
       withdrawals.insert(rewardAddress, BigNum.from_str(amountToWithdrawLovelace));
 
-      let walletBalance = 0;
-      for(const utxo of utxos){
-        if(utxo.amount.length > 0 && utxo.amount[0].unit === 'lovelace'){
-          walletBalance += Number(utxo.amount[0].quantity);
-        }
-      }
-      // Not sure about this value (might need to be BALANCE + REWARDS + FEES)
-      const outAmount = (CARDANO_PARAMS.MIN_UTXO_VALUE_ADA_ONLY + totalRewards).toString();
+      const walletBalance = this.getWalletBalance(utxos);
+      const outAmount = (walletBalance - CARDANO_PARAMS.DEFAULT_NATIVE_FEES + availableRewards).toString();
       const outputs = this.prepareTx(outAmount, walletAddress);
 
-      const tx = await this.buildTx(walletAddress, utxos, outputs, null, withdrawals);
-      return tx;
+      return await this.buildTx(walletAddress, utxos, outputs, null, withdrawals);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /**
+   * Craft ada undelegate transaction
+   * @param walletAddress wallet delegating that will receive the rewards
+   */
+  async craftUnstakeTx(
+    walletAddress: string,
+  ): Promise<Transaction> {
+
+
+    try {
+      const utxos = await this.getUtxos(walletAddress);
+      const address = await this.client.addresses(walletAddress);
+      if (!address.stake_address) {
+        throw Error('No stake address');
+      }
+
+      const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
+      if (!stakeKeyHash) {
+        throw Error('Could not hash stake key');
+      }
+
+      const withdrawals = Withdrawals.new();
+      const rewardAddress = RewardAddress.from_address(Address.from_bech32(address.stake_address));
+
+      if (!rewardAddress) {
+        throw Error('Could not retrieve rewards address');
+      }
+
+
+      const availableRewards = await this.getAvailableRewards(address.stake_address);
+      withdrawals.insert(rewardAddress, BigNum.from_str(availableRewards.toString()));
+
+      const walletBalance = this.getWalletBalance(utxos);
+      const outAmount = (walletBalance - CARDANO_PARAMS.DEFAULT_NATIVE_FEES + Number(CARDANO_PARAMS.KEY_DEPOSIT) + availableRewards).toString();
+      const outputs = this.prepareTx(outAmount, walletAddress);
+
+      // Deregister certificate
+      const certificates = Certificates.new();
+      certificates.add(
+        Certificate.new_stake_deregistration(
+          StakeDeregistration.new(
+            StakeCredential.from_keyhash(
+              Ed25519KeyHash.from_bytes(stakeKeyHash),
+            ),
+          ),
+        ),
+      );
+
+      return await this.buildTx(walletAddress, utxos, outputs, certificates, withdrawals);
     } catch (error) {
       throw error;
     }
@@ -176,15 +222,15 @@ export class AdaService extends Service {
   /**
    * Prepare outputs (destination addresses and amounts) for a transaction
    * @param lovelaceValue
-   * @param paymentAddress
+   * @param toAddress
    * @private
    */
-  private prepareTx(lovelaceValue: string, paymentAddress: string): TransactionOutputs {
+  private prepareTx(lovelaceValue: string, toAddress: string): TransactionOutputs {
     const outputs = TransactionOutputs.new();
 
     outputs.add(
       TransactionOutput.new(
-        Address.from_bech32(paymentAddress),
+        Address.from_bech32(toAddress),
         Value.new(BigNum.from_str(lovelaceValue)),
       ),
     );
@@ -194,7 +240,7 @@ export class AdaService extends Service {
 
   /**
    * Build transaction with correct fees, inputs, outputs and certificates
-   * @param changeAddress
+   * @param inputAddress
    * @param utxos
    * @param outputs
    * @param certificates
@@ -202,7 +248,7 @@ export class AdaService extends Service {
    * @private
    */
   private async buildTx(
-    changeAddress: string,
+    inputAddress: string,
     utxos: UTXO,
     outputs: TransactionOutputs,
     certificates: Certificates | null = null,
@@ -230,7 +276,7 @@ export class AdaService extends Service {
       txBuilder.set_certs(certificates);
     }
 
-    if(withdrawals){
+    if (withdrawals) {
       txBuilder.set_withdrawals(withdrawals);
     }
 
@@ -239,12 +285,8 @@ export class AdaService extends Service {
       (u: any) => !u.amount.find((a: any) => a.unit !== 'lovelace'),
     );
 
-    const unspentOutputs = TransactionUnspentOutputs.new();
     for (const utxo of lovelaceUtxos) {
-      const amount = utxo.amount.find(
-        (a: any) => a.unit === 'lovelace',
-      )?.quantity;
-
+      const amount = utxo.amount.find(a => a.unit === 'lovelace')?.quantity;
       if (!amount) continue;
 
       const inputValue = Value.new(
@@ -255,14 +297,8 @@ export class AdaService extends Service {
         TransactionHash.from_bytes(Buffer.from(utxo.tx_hash, 'hex')),
         utxo.output_index,
       );
-      const output = TransactionOutput.new(Address.from_bech32(changeAddress), inputValue);
-      unspentOutputs.add(TransactionUnspentOutput.new(input, output));
+      txBuilder.add_input(Address.from_bech32(inputAddress), input, inputValue);
     }
-
-    txBuilder.add_inputs_from(
-      unspentOutputs,
-      CoinSelectionStrategyCIP2.LargestFirst,
-    );
 
     // Outputs
     txBuilder.add_output(outputs.get(0));
@@ -276,9 +312,7 @@ export class AdaService extends Service {
     const ttl = currentSlot + 7200;
     txBuilder.set_ttl(ttl);
 
-    // Adds a change output if there are more ADA in utxo than we need for the transaction,
-    // these coins will be returned to change address
-    txBuilder.add_change_if_needed(Address.from_bech32(changeAddress));
+    txBuilder.set_fee(BigNum.from_str(CARDANO_PARAMS.DEFAULT_NATIVE_FEES.toString()));
 
     return txBuilder.build_tx();
   }
@@ -304,6 +338,40 @@ export class AdaService extends Service {
       }
     }
     return utxo;
+  }
+
+  /**
+   * Calculate wallet total balance from given utxo
+   * @param utxos
+   * @private
+   */
+  private getWalletBalance(utxos: UTXO): number {
+    let walletBalance = 0;
+    for (const utxo of utxos) {
+      if (utxo.amount.length > 0 && utxo.amount[0].unit === 'lovelace') {
+        walletBalance += Number(utxo.amount[0].quantity);
+      }
+    }
+    return walletBalance;
+  }
+
+  /**
+   * Get available rewards for given stake address
+   * @param stakeAddress
+   * @private
+   */
+  private async getAvailableRewards(stakeAddress: string): Promise<number> {
+    let availableRewards = 0;
+    const rewardsHistory = await this.client.accountsRewardsAll(stakeAddress);
+    for (const rewards of rewardsHistory) {
+      availableRewards += Number(rewards.amount);
+    }
+
+    const withdrawalsHistory = await this.client.accountsWithdrawalsAll(stakeAddress);
+    for (const withdrawal of withdrawalsHistory) {
+      availableRewards -= Number(withdrawal.amount);
+    }
+    return availableRewards;
   }
 
   /**

@@ -19,7 +19,15 @@ const f = async () => {
       ],
     });
 
-    const tx = await k.ada.craftWithdrawRewardsTx(
+    // const tx = await k.ada.craftStakeTx(
+    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    //   'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
+    // );
+    // const tx = await k.ada.craftWithdrawRewardsTx(
+    //   'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
+    // );
+
+    const tx = await k.ada.craftUnstakeTx(
       'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
     );
     const txSigned = await k.ada.sign('vault1', tx);
