@@ -35,6 +35,12 @@ import {
 } from "@blockfrost/blockfrost-js";
 import { InvalidIntegration, InvalidSignature } from "../errors/integrations";
 import { ADDRESSES } from "../globals";
+import {
+  CouldNotFetchSlot,
+  CouldNotFetchStakeAddress,
+  CouldNotHashStakeKey, NoRewardAddressFound,
+  NoStakeAddressFound, NotEnoughFunds,
+} from "../errors/ada";
 
 const CARDANO_PARAMS = {
   COINS_PER_UTXO_WORD: '34482',
@@ -75,12 +81,12 @@ export class AdaService extends Service {
       const utxos = await this.getUtxos(walletAddress);
       const address = await this.client.addresses(walletAddress);
       if (!address.stake_address) {
-        throw Error('Could not fetch stake address');
+        throw new CouldNotFetchStakeAddress('Could not fetch stake address');
       }
 
       const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
       if (!stakeKeyHash) {
-        throw Error('Could not hash stake key');
+        throw new CouldNotHashStakeKey('Could not hash stake key');
       }
       const certificates = Certificates.new();
 
@@ -136,19 +142,19 @@ export class AdaService extends Service {
       const utxos = await this.getUtxos(walletAddress);
       const address = await this.client.addresses(walletAddress);
       if (!address.stake_address) {
-        throw Error('No stake address');
+        throw new NoStakeAddressFound('No stake address');
       }
 
       const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
       if (!stakeKeyHash) {
-        throw Error('Could not hash stake key');
+        throw new CouldNotHashStakeKey('Could not hash stake key');
       }
 
       const withdrawals = Withdrawals.new();
       const rewardAddress = RewardAddress.from_address(Address.from_bech32(address.stake_address));
 
       if (!rewardAddress) {
-        throw Error('Could not retrieve rewards address');
+        throw new NoRewardAddressFound('Could not retrieve rewards address');
       }
 
       const availableRewards = await this.getAvailableRewards(address.stake_address);
@@ -178,19 +184,19 @@ export class AdaService extends Service {
       const utxos = await this.getUtxos(walletAddress);
       const address = await this.client.addresses(walletAddress);
       if (!address.stake_address) {
-        throw Error('No stake address');
+        throw new NoStakeAddressFound('No stake address');
       }
 
       const stakeKeyHash = await this.getStakeKeyHash(address.stake_address);
       if (!stakeKeyHash) {
-        throw Error('Could not hash stake key');
+        throw new CouldNotHashStakeKey('Could not hash stake key');
       }
 
       const withdrawals = Withdrawals.new();
       const rewardAddress = RewardAddress.from_address(Address.from_bech32(address.stake_address));
 
       if (!rewardAddress) {
-        throw Error('Could not retrieve rewards address');
+        throw new NoRewardAddressFound('Could not retrieve rewards address');
       }
 
 
@@ -306,7 +312,7 @@ export class AdaService extends Service {
     const latestBlock = await this.client.blocksLatest();
     const currentSlot = latestBlock.slot;
     if (!currentSlot) {
-      throw Error('Failed to fetch slot number');
+      throw new CouldNotFetchSlot('Failed to fetch slot number');
     }
     // Current slot + 2h
     const ttl = currentSlot + 7200;
@@ -332,7 +338,7 @@ export class AdaService extends Service {
       utxo = await this.client.addressesUtxos(walletAddress);
     } catch (error) {
       if (error instanceof BlockfrostServerError && error.status_code === 404) {
-        throw new Error(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
+        throw new NotEnoughFunds(`You should send ADA to ${walletAddress} to have enough funds to sent a transaction`);
       } else {
         throw error;
       }
