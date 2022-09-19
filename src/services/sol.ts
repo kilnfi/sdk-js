@@ -368,11 +368,15 @@ export class SolService extends Service {
 
     let transactionBuffer = transaction.serializeMessage();
     const message = transactionBuffer.toString('hex');
-    const payload = [
-      {
-        "content": message,
-      },
-    ];
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            "content": message,
+          },
+        ]
+      }
+    };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
     signatures.signedMessages?.forEach((signedMessage: any) => {
