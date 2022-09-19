@@ -8,7 +8,7 @@ Check out the full documentation [here](https://docs.kiln.fi/kiln-connect/).
 - ETH
 - SOL
 - ATOM
-- Cardano
+- ADA
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation
