@@ -7,5 +7,5 @@ export type InternalNearConfig = {
 
 
 export type NearStakeOptions = {
-  validatorId: string;
+  stakePoolId: string;
 };

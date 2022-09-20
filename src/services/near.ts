@@ -1,4 +1,4 @@
-import { transactions, connect, Near, utils } from "near-api-js";
+import { connect, Near, transactions, utils } from "near-api-js";
 import BN from 'bn.js';
 import { sha256 } from "js-sha256";
 import { Service } from "./service";
@@ -39,24 +39,24 @@ export class NearService extends Service {
     options?: NearStakeOptions,
   ): Promise<Transaction> {
 
-    const validatorId = options?.validatorId ? options.validatorId : this.testnet ? 'kiln.pool.f863973.m0' : 'kiln.poolv1.near';
+    const stakePoolId = options?.stakePoolId ? options.stakePoolId : this.testnet ? 'kiln.pool.f863973.m0' : 'kiln.poolv1.near';
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
     const accessKeys = await account.getAccessKeys();
     const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
-    if(!fullAccessKey){
+    if (!fullAccessKey) {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = fullAccessKey.access_key.nonce + 1;
     const stakeAmountYocto = utils.format.parseNearAmount(amount.toString());
-    if(!stakeAmountYocto){
+    if (!stakeAmountYocto) {
       throw new CouldNotParseStakeAmount('Could not parse stake amount');
     }
     // Max gas fee to use in NEAR (300 Tgas)
     const maxGasAmount = '0.0000000003';
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
-    if(!parsedGasAmount){
+    if (!parsedGasAmount) {
       throw new CouldNotParseStakeAmount('Could not parse gas amount');
     }
     const bnAmount = new BN(stakeAmountYocto);
@@ -64,16 +64,124 @@ export class NearService extends Service {
     const actions = [transactions.functionCall('deposit_and_stake', {}, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      ""
+      "",
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
       walletId,
       walletPubKey,
-      validatorId,
+      stakePoolId,
       nonce,
       actions,
-      blockHash
+      blockHash,
+    );
+  }
+
+  /**
+   * Craft near unstake transaction, unstaking takes 2-3 epochs (~48 hours) and needs to be done before a staked amount can be withdrawn
+   * @param walletId near wallet id
+   * @param stakePoolId stake pool id
+   * @param amount amount in near to unstake
+   */
+  async craftUnstakeTx(
+    walletId: string,
+    stakePoolId: string,
+    amount?: number,
+  ): Promise<Transaction> {
+    const connection = await this.getConnection();
+    const account = await connection.account(walletId);
+    const accessKeys = await account.getAccessKeys();
+    const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
+    if (!fullAccessKey) {
+      throw new CouldNotFindAccessKey('Could not find access key');
+    }
+    const walletPubKey = PublicKey.from(fullAccessKey.public_key);
+    const nonce = fullAccessKey.access_key.nonce + 1;
+    let params = {};
+    if (amount) {
+      const amountYocto = utils.format.parseNearAmount(amount.toString());
+      if (!amountYocto) {
+        throw new CouldNotParseStakeAmount('Could not parse stake amount');
+      }
+      params = {
+        amount: amountYocto,
+      };
+    }
+    // Max gas fee to use in NEAR (300 Tgas)
+    const maxGasAmount = '0.0000000003';
+    const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
+    if (!parsedGasAmount) {
+      throw new CouldNotParseStakeAmount('Could not parse gas amount');
+    }
+    const bnAmount = new BN('0');
+    const bnMaxGasFees = new BN(parsedGasAmount);
+    const actions = [transactions.functionCall(amount ? 'unstake' : 'unstake_all', params, bnMaxGasFees, bnAmount)];
+    const accessKey = await connection.connection.provider.query(
+      `access_key/${walletId}/${walletPubKey.toString()}`,
+      "",
+    );
+    const blockHash = utils.serialize.base_decode(accessKey.block_hash);
+    return transactions.createTransaction(
+      walletId,
+      walletPubKey,
+      stakePoolId,
+      nonce,
+      actions,
+      blockHash,
+    );
+  }
+
+  /**
+   * Craft near withdraw transaction, withdrawing funds from a pool can only be done after previously unstaking funds
+   * @param walletId near wallet id
+   * @param stakePoolId stake pool id
+   * @param amount amount in near to unstake
+   */
+  async craftWithdrawTx(
+    walletId: string,
+    stakePoolId: string,
+    amount?: number,
+  ): Promise<Transaction> {
+    const connection = await this.getConnection();
+    const account = await connection.account(walletId);
+    const accessKeys = await account.getAccessKeys();
+    const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
+    if (!fullAccessKey) {
+      throw new CouldNotFindAccessKey('Could not find access key');
+    }
+    const walletPubKey = PublicKey.from(fullAccessKey.public_key);
+    const nonce = fullAccessKey.access_key.nonce + 1;
+    let params = {};
+    if (amount) {
+      const amountYocto = utils.format.parseNearAmount(amount.toString());
+      if (!amountYocto) {
+        throw new CouldNotParseStakeAmount('Could not parse stake amount');
+      }
+      params = {
+        amount: amountYocto,
+      };
+    }
+    // Max gas fee to use in NEAR (300 Tgas)
+    const maxGasAmount = '0.0000000003';
+    const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
+    if (!parsedGasAmount) {
+      throw new CouldNotParseStakeAmount('Could not parse gas amount');
+    }
+    const bnAmount = new BN('0');
+    const bnMaxGasFees = new BN(parsedGasAmount);
+    const actions = [transactions.functionCall(amount ? 'withdraw' : 'withdraw_all', params, bnMaxGasFees, bnAmount)];
+    const accessKey = await connection.connection.provider.query(
+      `access_key/${walletId}/${walletPubKey.toString()}`,
+      "",
+    );
+    const blockHash = utils.serialize.base_decode(accessKey.block_hash);
+    return transactions.createTransaction(
+      walletId,
+      walletPubKey,
+      stakePoolId,
+      nonce,
+      actions,
+      blockHash,
     );
   }
 
@@ -94,7 +202,7 @@ export class NearService extends Service {
 
     const serializedTx = utils.serialize.serialize(
       transactions.SCHEMA,
-      transaction
+      transaction,
     );
     const serializedTxArray = new Uint8Array(sha256.array(serializedTx));
     const serializedTxHash = Buffer.from(serializedTxArray).toString('hex');
@@ -104,8 +212,8 @@ export class NearService extends Service {
           {
             "content": serializedTxHash,
           },
-        ]
-      }
+        ],
+      },
     };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'NEAR_TEST' : 'NEAR', note);
