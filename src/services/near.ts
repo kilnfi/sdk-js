@@ -10,6 +10,7 @@ import {
   CouldNotParseStakeAmount,
 } from "../errors/near";
 import { BroadcastError, InvalidIntegration } from "../errors/integrations";
+import { ADDRESSES } from "../globals";
 
 export class NearService extends Service {
 
@@ -39,7 +40,7 @@ export class NearService extends Service {
     options?: NearStakeOptions,
   ): Promise<Transaction> {
 
-    const stakePoolId = options?.stakePoolId ? options.stakePoolId : this.testnet ? 'kiln.pool.f863973.m0' : 'kiln.poolv1.near';
+    const stakePoolId = options?.stakePoolId ? options.stakePoolId : this.testnet ? ADDRESSES.near.testnet.poolId : ADDRESSES.near.mainnet.poolId;
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
     const accessKeys = await account.getAccessKeys();
