@@ -29,6 +29,12 @@ const f = async () => {
     //   '2ax6R5pHCS4hLC4q6xfrqToQ36hyy5PofUDodCGWkNtJ',
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
     // );
+    // const tx = await k.sol.craftSplitStakeAccountTx(
+    //   '771254de-ac5a-4911-afdf-1d5b7e802dc9',
+    //   '2ax6R5pHCS4hLC4q6xfrqToQ36hyy5PofUDodCGWkNtJ',
+    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+    //   0.1
+    // );
     // const signedTx = await k.sol.sign('vault1', tx);
     // const hash = await k.sol.broadcast(signedTx);
     // console.log(hash);
