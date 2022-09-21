@@ -301,7 +301,8 @@ export class SolService extends Service {
   }
 
   /**
-   * Craft merge stake accounts transaction
+   * Craft merge stake accounts transaction, merging stake accounts can only be done on these conditions
+   * https://docs.solana.com/staking/stake-accounts#merging-stake-accounts
    * @param stakeAccountSourceAddress source stake account to merge into the destination stake account
    * @param stakeAccountDestinationAddress stake account to merge the source stake account into
    * @param walletAddress that has authority over the 2 stake accounts to merge
@@ -326,6 +327,10 @@ export class SolService extends Service {
     }
 
     const instructions = [
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
       StakeProgram.merge({
         stakePubkey: destinationPubKey,
         sourceStakePubKey: sourcePubKey,
