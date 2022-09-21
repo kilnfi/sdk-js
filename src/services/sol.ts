@@ -5,7 +5,8 @@ import {
   Keypair,
   PublicKey,
   sendAndConfirmRawTransaction,
-  StakeProgram, SystemProgram,
+  StakeProgram,
+  SystemProgram,
   Transaction,
   TransactionInstruction,
 } from '@solana/web3.js';
@@ -14,11 +15,14 @@ import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
   ApiCreatedStakes,
-  InternalSolanaConfig, PublicNonceAccountInfo, PublicSignature,
+  InternalSolanaConfig,
+  PublicNonceAccountInfo,
+  PublicSignature,
   SolanaStakeOptions,
   SolanaTx,
   SolNetworkStats,
-  SolStakes, TaggedStake,
+  SolStakes,
+  TaggedStake,
 } from '../types/sol';
 import {
   BroadcastError,
@@ -52,8 +56,8 @@ export class SolService extends Service {
    * Get Kiln nonce account info
    * @private
    */
-  private async getNonceAccount (): Promise<PublicNonceAccountInfo> {
-    const { data } =  await api.get<PublicNonceAccountInfo>('/v1/sol/nonce-account');
+  private async getNonceAccount(): Promise<PublicNonceAccountInfo> {
+    const { data } = await api.get<PublicNonceAccountInfo>('/v1/sol/nonce-account');
     return data;
   };
 
@@ -62,8 +66,8 @@ export class SolService extends Service {
    * @param message
    * @private
    */
-  private async partialSignWithNonceAccount (message: string): Promise<PublicSignature[]> {
-    const { data } =  await api.post<PublicSignature[]>('/v1/sol/nonce-account/partial-sign', {
+  private async partialSignWithNonceAccount(message: string): Promise<PublicSignature[]> {
+    const { data } = await api.post<PublicSignature[]>('/v1/sol/nonce-account/partial-sign', {
       message,
     });
     return data;
@@ -171,7 +175,7 @@ export class SolService extends Service {
     // Tag stake
     const stake: TaggedStake = {
       stakeAccount: stakeKey.publicKey.toString(),
-      balance: amount * LAMPORTS_TO_SOL
+      balance: amount * LAMPORTS_TO_SOL,
     };
     await api.post<ApiCreatedStakes>(
       '/v1/sol/stakes',
@@ -395,7 +399,7 @@ export class SolService extends Service {
         stakePubkey: sourcePubKey,
         authorizedPubkey: stakerPubKey,
         splitStakePubkey: newStakeAccountPubKey.publicKey,
-        lamports: amount * LAMPORTS_TO_SOL
+        lamports: amount * LAMPORTS_TO_SOL,
       }),
     ];
     tx.add(...instructions);
@@ -418,7 +422,7 @@ export class SolService extends Service {
     // Tag new stake
     const stake: TaggedStake = {
       stakeAccount: newStakeAccountPubKey.publicKey.toString(),
-      balance: amount * LAMPORTS_TO_SOL
+      balance: amount * LAMPORTS_TO_SOL,
     };
     await api.post<ApiCreatedStakes>(
       '/v1/sol/stakes',
@@ -453,8 +457,8 @@ export class SolService extends Service {
           {
             "content": message,
           },
-        ]
-      }
+        ],
+      },
     };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
