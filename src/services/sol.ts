@@ -357,6 +357,80 @@ export class SolService extends Service {
   }
 
   /**
+   * Craft split stake account transaction
+   * @param accountId kiln account id to associate the new stake account with
+   * @param stakeAccountAddress stake account to split
+   * @param walletAddress that has authority over the stake account to split
+   * @param amount amount in SOL to put in the new stake account
+   */
+  async craftSplitStakeAccountTx(
+    accountId: string,
+    stakeAccountAddress: string,
+    walletAddress: string,
+    amount: number,
+  ): Promise<SolanaTx> {
+    if (amount < 0.01) {
+      throw new InvalidStakeAmount('Amount must be at least 0.01 SOL');
+    }
+    const tx = new Transaction();
+    const stakerPubKey = new PublicKey(walletAddress);
+    const sourcePubKey = new PublicKey(stakeAccountAddress);
+    const newStakeAccountPubKey = new Keypair();
+
+    // Get nonce account info
+    const nonceInfo = await this.getNonceAccount();
+    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
+    const connection = await this.getConnection();
+    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
+    if (!nonceAccount) {
+      throw new Error('Could not fetch nonce account');
+    }
+
+    const instructions = [
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
+      StakeProgram.split({
+        stakePubkey: sourcePubKey,
+        authorizedPubkey: stakerPubKey,
+        splitStakePubkey: newStakeAccountPubKey.publicKey,
+        lamports: amount * LAMPORTS_TO_SOL
+      }),
+    ];
+    tx.add(...instructions);
+
+    tx.recentBlockhash = nonceAccount.nonce;
+    tx.feePayer = stakerPubKey;
+    tx.partialSign(newStakeAccountPubKey);
+
+    // Sign with nonce account
+    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
+    signatures.forEach((signature: PublicSignature) => {
+      if (signature.signature) {
+        tx.addSignature(
+          new PublicKey(signature.pubkey),
+          Buffer.from(signature.signature, 'hex'),
+        );
+      }
+    });
+
+    // Tag new stake
+    const stake: TaggedStake = {
+      stakeAccount: newStakeAccountPubKey.publicKey.toString(),
+      balance: amount * LAMPORTS_TO_SOL
+    };
+    await api.post<ApiCreatedStakes>(
+      '/v1/sol/stakes',
+      {
+        account_id: accountId,
+        stakes: [stake],
+      });
+
+    return tx;
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration
    * @param transaction
