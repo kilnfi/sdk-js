@@ -73,16 +73,16 @@ export class SolService extends Service {
    * Craft Solana staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param amount how many tokens to stake in SOL (must be at least 0.01 SOL)
+   * @param amountSol how many tokens to stake in SOL (must be at least 0.01 SOL)
    * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amount: number,
+    amountSol: number,
     options?: SolanaStakeOptions,
   ): Promise<SolanaTx> {
-    if (amount < 0.01) {
+    if (amountSol < 0.01) {
       throw new InvalidStakeAmount('Solana stake must be at least 0.01 SOL');
     }
 
@@ -125,7 +125,7 @@ export class SolService extends Service {
       StakeProgram.createAccount({
         fromPubkey: staker,
         authorized: new Authorized(staker, staker),
-        lamports: amount * LAMPORTS_TO_SOL,
+        lamports: amountSol * LAMPORTS_TO_SOL,
         stakePubkey: stakeKey.publicKey,
       }),
       StakeProgram.delegate({
@@ -171,7 +171,7 @@ export class SolService extends Service {
     // Tag stake
     const stake: TaggedStake = {
       stakeAccount: stakeKey.publicKey.toString(),
-      balance: amount * LAMPORTS_TO_SOL
+      balance: amountSol * LAMPORTS_TO_SOL
     };
     await api.post<ApiCreatedStakes>(
       '/v1/sol/stakes',
@@ -240,12 +240,12 @@ export class SolService extends Service {
    * Craft Solana withdraw staked balance transaction
    * @param stakeAccountAddress stake account address to deactivate
    * @param walletAddress wallet that has authority over the stake account
-   * @param amountToWithdraw: amount to withdraw, if not specified the whole balance will be withdrawn
+   * @param amountSol: amount to withdraw in SOL, if not specified the whole balance will be withdrawn
    */
   async craftWithdrawStakedBalanceTx(
     stakeAccountAddress: string,
     walletAddress: string,
-    amountToWithdraw?: number,
+    amountSol?: number,
   ): Promise<SolanaTx> {
     const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
     const walletPubKey = new PublicKey(walletAddress);
@@ -261,10 +261,10 @@ export class SolService extends Service {
 
     let amount;
 
-    if (!amountToWithdraw) {
+    if (!amountSol) {
       amount = await connection.getBalance(stakeAccountPubKey);
     } else {
-      amount = amountToWithdraw * LAMPORTS_TO_SOL;
+      amount = amountSol * LAMPORTS_TO_SOL;
     }
 
     const tx = new Transaction();

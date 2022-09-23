@@ -42,16 +42,16 @@ export class AtomService extends Service {
    * Craft atom staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amount how many tokens to stake in ATOM
+   * @param amountAtom how many tokens to stake in ATOM
    * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amount: number,
+    amountAtom: number,
     options?: AtomStakeOptions,
   ): Promise<AtomTx> {
-    if (amount < 0.01) {
+    if (amountAtom < 0.01) {
       throw new InvalidStakeAmount('Atom stake must be at least 0.01 ATOM');
     }
 
@@ -64,7 +64,7 @@ export class AtomService extends Service {
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
-        amount: coin((amount * UATOM_TO_ATOM).toString(), "uatom"),
+        amount: coin((amountAtom * UATOM_TO_ATOM).toString(), "uatom"),
       });
 
       const delegateMsg: MsgDelegateEncodeObject = {
@@ -94,16 +94,16 @@ export class AtomService extends Service {
    * Craft atom unstaking staking transaction
    * @param walletAddress wallet address from which the delegation has been made
    * @param validatorAddress validator address to which the delegation has been made
-   * @param amount how many tokens to un undelegate in ATOM
+   * @param amountAtom how many tokens to un undelegate in ATOM
    */
   async craftUnstakeTx(
     walletAddress: string,
     validatorAddress: string,
-    amount?: number,
+    amountAtom?: number,
   ): Promise<AtomTx> {
     try {
       let amountToWithdraw: Coin;
-      if (!amount) {
+      if (!amountAtom) {
         const client = await this.getClient();
         const delegation = await client.getDelegation(walletAddress, validatorAddress);
         if (!delegation) {
@@ -111,7 +111,7 @@ export class AtomService extends Service {
         }
         amountToWithdraw = delegation;
       } else {
-        amountToWithdraw = coin((amount * UATOM_TO_ATOM).toString(), "uatom");
+        amountToWithdraw = coin((amountAtom * UATOM_TO_ATOM).toString(), "uatom");
       }
 
       const msg = MsgUndelegate.fromPartial({

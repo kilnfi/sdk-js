@@ -130,11 +130,11 @@ export class AdaService extends Service {
   /**
    * Craft ada withdraw rewards transaction
    * @param walletAddress wallet delegating that will receive the rewards
-   * @param amountToWithdraw amount of rewards to withdraw, if not provided all rewards are withdrawn
+   * @param amountAda amount of rewards to withdraw in ada, if not provided all rewards are withdrawn
    */
   async craftWithdrawRewardsTx(
     walletAddress: string,
-    amountToWithdraw?: number,
+    amountAda?: number,
   ): Promise<Transaction> {
 
 
@@ -158,7 +158,7 @@ export class AdaService extends Service {
       }
 
       const availableRewards = await this.getAvailableRewards(address.stake_address);
-      const amountToWithdrawLovelace = amountToWithdraw ? this.adaToLovelace(amountToWithdraw.toString()) : availableRewards.toString();
+      const amountToWithdrawLovelace = amountAda ? this.adaToLovelace(amountAda.toString()) : availableRewards.toString();
       withdrawals.insert(rewardAddress, BigNum.from_str(amountToWithdrawLovelace));
 
       const walletBalance = this.getWalletBalance(utxos);
