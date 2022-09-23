@@ -5,7 +5,8 @@ import {
   Keypair,
   PublicKey,
   sendAndConfirmRawTransaction,
-  StakeProgram, SystemProgram,
+  StakeProgram,
+  SystemProgram,
   Transaction,
   TransactionInstruction,
 } from '@solana/web3.js';
@@ -14,11 +15,14 @@ import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
   ApiCreatedStakes,
-  InternalSolanaConfig, PublicNonceAccountInfo, PublicSignature,
+  InternalSolanaConfig,
+  PublicNonceAccountInfo,
+  PublicSignature,
   SolanaStakeOptions,
   SolanaTx,
   SolNetworkStats,
-  SolStakes, TaggedStake,
+  SolStakes,
+  TaggedStake,
 } from '../types/sol';
 import {
   BroadcastError,
@@ -52,8 +56,8 @@ export class SolService extends Service {
    * Get Kiln nonce account info
    * @private
    */
-  private async getNonceAccount (): Promise<PublicNonceAccountInfo> {
-    const { data } =  await api.get<PublicNonceAccountInfo>('/v1/sol/nonce-account');
+  private async getNonceAccount(): Promise<PublicNonceAccountInfo> {
+    const { data } = await api.get<PublicNonceAccountInfo>('/v1/sol/nonce-account');
     return data;
   };
 
@@ -62,8 +66,8 @@ export class SolService extends Service {
    * @param message
    * @private
    */
-  private async partialSignWithNonceAccount (message: string): Promise<PublicSignature[]> {
-    const { data } =  await api.post<PublicSignature[]>('/v1/sol/nonce-account/partial-sign', {
+  private async partialSignWithNonceAccount(message: string): Promise<PublicSignature[]> {
+    const { data } = await api.post<PublicSignature[]>('/v1/sol/nonce-account/partial-sign', {
       message,
     });
     return data;
@@ -301,7 +305,8 @@ export class SolService extends Service {
   }
 
   /**
-   * Craft merge stake accounts transaction
+   * Craft merge stake accounts transaction, merging stake accounts can only be done on these conditions
+   * https://docs.solana.com/staking/stake-accounts#merging-stake-accounts
    * @param stakeAccountSourceAddress source stake account to merge into the destination stake account
    * @param stakeAccountDestinationAddress stake account to merge the source stake account into
    * @param walletAddress that has authority over the 2 stake accounts to merge
@@ -326,6 +331,10 @@ export class SolService extends Service {
     }
 
     const instructions = [
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
       StakeProgram.merge({
         stakePubkey: destinationPubKey,
         sourceStakePubKey: sourcePubKey,
@@ -347,6 +356,80 @@ export class SolService extends Service {
         );
       }
     });
+
+    return tx;
+  }
+
+  /**
+   * Craft split stake account transaction
+   * @param accountId kiln account id to associate the new stake account with
+   * @param stakeAccountAddress stake account to split
+   * @param walletAddress that has authority over the stake account to split
+   * @param amount amount in SOL to put in the new stake account
+   */
+  async craftSplitStakeAccountTx(
+    accountId: string,
+    stakeAccountAddress: string,
+    walletAddress: string,
+    amountSol: number,
+  ): Promise<SolanaTx> {
+    if (amountSol < 0.01) {
+      throw new InvalidStakeAmount('Amount must be at least 0.01 SOL');
+    }
+    const tx = new Transaction();
+    const stakerPubKey = new PublicKey(walletAddress);
+    const sourcePubKey = new PublicKey(stakeAccountAddress);
+    const newStakeAccountPubKey = new Keypair();
+
+    // Get nonce account info
+    const nonceInfo = await this.getNonceAccount();
+    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
+    const connection = await this.getConnection();
+    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
+    if (!nonceAccount) {
+      throw new Error('Could not fetch nonce account');
+    }
+
+    const instructions = [
+      SystemProgram.nonceAdvance({
+        noncePubkey: nonceAccountPubKey,
+        authorizedPubkey: nonceAccount.authorizedPubkey,
+      }),
+      StakeProgram.split({
+        stakePubkey: sourcePubKey,
+        authorizedPubkey: stakerPubKey,
+        splitStakePubkey: newStakeAccountPubKey.publicKey,
+        lamports: amountSol * LAMPORTS_TO_SOL,
+      }),
+    ];
+    tx.add(...instructions);
+
+    tx.recentBlockhash = nonceAccount.nonce;
+    tx.feePayer = stakerPubKey;
+    tx.partialSign(newStakeAccountPubKey);
+
+    // Sign with nonce account
+    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
+    signatures.forEach((signature: PublicSignature) => {
+      if (signature.signature) {
+        tx.addSignature(
+          new PublicKey(signature.pubkey),
+          Buffer.from(signature.signature, 'hex'),
+        );
+      }
+    });
+
+    // Tag new stake
+    const stake: TaggedStake = {
+      stakeAccount: newStakeAccountPubKey.publicKey.toString(),
+      balance: amountSol * LAMPORTS_TO_SOL,
+    };
+    await api.post<ApiCreatedStakes>(
+      '/v1/sol/stakes',
+      {
+        account_id: accountId,
+        stakes: [stake],
+      });
 
     return tx;
   }
@@ -374,8 +457,8 @@ export class SolService extends Service {
           {
             "content": message,
           },
-        ]
-      }
+        ],
+      },
     };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
