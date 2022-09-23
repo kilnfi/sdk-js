@@ -32,16 +32,16 @@ export class EthService extends Service {
    * Spin Up Ethereum validators and craft staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amount how many tokens to stake in ETH (must be a multiple of 32)
+   * @param amountEth how many tokens to stake in ETH (must be a multiple of 32)
    * @param options it is possible to specify deposit keys
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amount: number,
+    amountEth: number,
     options?: EthereumStakeOptions,
   ): Promise<EthereumTx> {
-    if (amount % 32 !== 0 || amount <= 0) {
+    if (amountEth % 32 !== 0 || amountEth <= 0) {
       throw new InvalidStakeAmount(
         'Ethereum stake must be a multiple of 32 ETH',
       );
@@ -53,12 +53,12 @@ export class EthService extends Service {
       let withdrawalsCredentials: string[] = [];
       let signatures: string[] = [];
       let depositDataRoots: string[] = [];
-      const nbKeysNeeded = Math.floor(amount / 32);
+      const nbKeysNeeded = Math.floor(amountEth / 32);
 
       // Get keys from options
       if (options?.deposit_data && options?.deposit_data.length > 0) {
         if (nbKeysNeeded > options.deposit_data.length) {
-          throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amount} ETH. Number of keys provided: ${options.deposit_data.length}`);
+          throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amountEth} ETH. Number of keys provided: ${options.deposit_data.length}`);
         }
         pubkeys = options.deposit_data.map((v) => '0x' + v.pubkey);
         withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawalCredentials);
@@ -97,7 +97,7 @@ export class EthService extends Service {
       const data = batchDepositFunction.encodeABI();
       const gasPrice = await batchDepositFunction.estimateGas({
         from: walletAddress,
-        value: this.web3.utils.toWei(amount.toString(), 'ether'),
+        value: this.web3.utils.toWei(amountEth.toString(), 'ether'),
       });
       const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
       const nonce = await this.web3.eth.getTransactionCount(walletAddress);
@@ -105,7 +105,7 @@ export class EthService extends Service {
         nonce: nonce,
         data: data,
         to: this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
-        value: this.web3.utils.numberToHex(this.web3.utils.toWei(amount.toString(), 'ether')),
+        value: this.web3.utils.numberToHex(this.web3.utils.toWei(amountEth.toString(), 'ether')),
         gasPrice: this.web3.utils.numberToHex(gasPrice),
         gasLimit: this.web3.utils.numberToHex(100000),
       }, { common });

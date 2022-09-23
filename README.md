@@ -9,6 +9,7 @@ Check out the full documentation [here](https://docs.kiln.fi/kiln-connect/).
 - SOL
 - ATOM
 - ADA
+- NEAR
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation

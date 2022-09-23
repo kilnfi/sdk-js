@@ -31,5 +31,13 @@ export const ADDRESSES = {
     mainnet: {
       poolId: 'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k'
     }
+  },
+  near: {
+    testnet: {
+      poolId: 'kiln.pool.f863973.m0'
+    },
+    mainnet: {
+      poolId: 'kiln.poolv1.near'
+    }
   }
 };
