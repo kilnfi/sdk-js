@@ -10,7 +10,7 @@ export const ADDRESSES = {
   },
   sol: {
     devnet: {
-      voteAccountAddress: 'ChrXH3zgYkBYe7c9XXrkrajF1yrEca3EvZe2ErEBJPJf' // random validator vote account
+      voteAccountAddress: 'FwR3PbjS5iyqzLiLugrBqKSa5EKZ4vK9SKs7eQXtT59f'
     },
     mainnet: {
       voteAccountAddress: 'DdCNGDpP7qMgoAy6paFzhhak2EeyCZcgjH7ak5u5v28m'
