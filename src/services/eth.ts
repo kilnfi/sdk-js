@@ -8,12 +8,12 @@ import {
   EthereumStakeOptions,
   EthereumTx,
   EthNetworkStats,
-  EthStakes,
+  EthStakes, EthTxStatus,
   InternalEthereumConfig,
   ValidationKeyDepositData,
 } from '../types/eth';
 import {
-  BroadcastError,
+  BroadcastError, GetTxStatusError,
   InvalidIntegration,
   InvalidSignature,
 } from "../errors/integrations";
@@ -95,19 +95,16 @@ export class EthService extends Service {
         );
 
       const data = batchDepositFunction.encodeABI();
-      const gasPrice = await batchDepositFunction.estimateGas({
-        from: walletAddress,
-        value: this.web3.utils.toWei(amountEth.toString(), 'ether'),
-      });
+      const gasWei = 100000 + nbKeysNeeded * 80000;
       const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
       const nonce = await this.web3.eth.getTransactionCount(walletAddress);
       return Transaction.fromTxData({
         nonce: nonce,
         data: data,
-        to: this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
-        value: this.web3.utils.numberToHex(this.web3.utils.toWei(amountEth.toString(), 'ether')),
-        gasPrice: this.web3.utils.numberToHex(gasPrice),
-        gasLimit: this.web3.utils.numberToHex(100000),
+        to: walletAddress,
+        value: this.web3.utils.numberToHex(0),
+        gasPrice: this.web3.utils.numberToHex(gasWei),
+        gasLimit: this.web3.utils.numberToHex(gasWei),
       }, { common });
     } catch (err: any) {
       throw new Error(err);
@@ -171,6 +168,23 @@ export class EthService extends Service {
       return receipt.transactionHash;
     } catch (e: any) {
       throw new BroadcastError(e);
+    }
+  }
+
+  /**
+   * Get transaction status
+   * @param transactionHash: transaction hash
+   */
+  async getTxStatus(transactionHash: string): Promise<EthTxStatus> {
+    try {
+      const receipt = await this.web3.eth.getTransactionReceipt(transactionHash);
+      const status = receipt ? receipt.status ? 'success' : 'error' : 'pending_confirmation';
+      return {
+        status: status,
+        txReceipt: receipt,
+      };
+    } catch (e: any) {
+      throw new GetTxStatusError(e);
     }
   }
 

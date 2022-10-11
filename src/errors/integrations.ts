@@ -18,3 +18,10 @@ export class BroadcastError extends Error {
     this.name = 'BroadcastError';
   }
 }
+
+export class GetTxStatusError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'GetTxStatusError';
+  }
+}

@@ -19,20 +19,22 @@ const f = async () => {
   });
 
   try {
-    const tx = await k.atom.craftStakeTx(
-      '376acfff-e35d-4b7c-90da-c6acb8ea7197',
-      'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
-      0.1,
-    );
+    // const tx = await k.atom.craftStakeTx(
+    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    //   'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
+    //   0.1,
+    // );
     // const tx = await k.atom.craftUnstakeTx(
     //   'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
     //   'cosmosvaloper17hskshytlrepzhas628uk00jvvppg7yfj3wpqz',
     //   0.1
     // );
 
-    const signedTx = await k.atom.sign('vault1', tx);
-    const hash = await k.atom.broadcast(signedTx);
-    console.log(hash);
+    // const signedTx = await k.atom.sign('vault1', tx);
+    // const hash = await k.atom.broadcast(signedTx);
+    // console.log(hash);
+    const tx = await k.atom.getTxStatus('B0493A93397438DAD6D5641CBDE8CF43CC7424E6A322A2F5CD3C3B7DF02161E5');
+    console.log(tx);
   } catch (err){
     console.log(err);
   }

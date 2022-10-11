@@ -1,14 +1,23 @@
-import { BroadcastError, InvalidIntegration } from "../errors/integrations";
+import {
+  BroadcastError,
+  GetTxStatusError,
+  InvalidIntegration,
+} from "../errors/integrations";
 import { Service } from "./service";
 import {
-  coin,
+  coin, IndexedTx,
   MsgDelegateEncodeObject,
   MsgUndelegateEncodeObject,
   SigningStargateClient,
   StargateClient,
   StdFee,
 } from "@cosmjs/stargate";
-import { AtomStakeOptions, AtomTx, InternalAtomConfig } from "../types/atom";
+import {
+  AtomStakeOptions,
+  AtomTx,
+  AtomTxStatus,
+  InternalAtomConfig,
+} from "../types/atom";
 import { CouldNotFetchDelegation, InvalidStakeAmount } from "../errors/atom";
 import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import { Coin, OfflineSigner } from "@cosmjs/proto-signing";
@@ -165,6 +174,23 @@ export class AtomService extends Service {
       return res.transactionHash;
     } catch (e: any) {
       throw new BroadcastError(e);
+    }
+  }
+
+  /**
+   * Get transaction status
+   * @param transactionHash: hash of transaction
+   */
+  async getTxStatus(transactionHash: string): Promise<AtomTxStatus | null> {
+    try {
+      const client = await this.getClient();
+      const tx = await client.getTx(transactionHash);
+      return tx ? {
+        status: tx.code === 0 ? 'success' : 'error',
+        txReceipt: tx
+      } : null;
+    } catch (e: any) {
+      throw new GetTxStatusError(e);
     }
   }
 
