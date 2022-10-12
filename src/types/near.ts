@@ -4,6 +4,7 @@ import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 export type InternalNearConfig = {
   testnet?: boolean;
   integrations: Integrations | undefined;
+  rpc: string | undefined;
 };
 
 
