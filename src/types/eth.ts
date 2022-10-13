@@ -1,5 +1,6 @@
 import { Integrations } from "./integrations";
 import { Transaction } from "@ethereumjs/tx";
+import { TransactionReceipt } from "web3-core";
 
 export type InternalEthereumConfig = {
   testnet?: boolean;
@@ -49,4 +50,9 @@ export type EthereumStakeOptions = {
     signature: string;
     depositDataRoot: string;
   }[];
+}
+
+export type EthTxStatus = {
+  status: 'success' | 'error' | 'pending_confirmation';
+  txReceipt: TransactionReceipt | null;
 }

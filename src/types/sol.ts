@@ -1,4 +1,4 @@
-import { Transaction } from '@solana/web3.js';
+import { Transaction, TransactionResponse } from '@solana/web3.js';
 import { Integrations } from "./integrations";
 
 export type InternalSolanaConfig = {
@@ -61,3 +61,8 @@ export type PublicSignature = {
   pubkey: string;
   signature: string | null;
 };
+
+export type SolanaTxStatus = {
+  status: 'success' | 'error';
+  txReceipt: TransactionResponse | null;
+}

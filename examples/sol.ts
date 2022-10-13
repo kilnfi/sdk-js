@@ -39,8 +39,10 @@ const f = async () => {
     // const hash = await k.sol.broadcast(signedTx);
     // console.log(hash);
 
-    const accounts = await k.sol.getAccountsRewards(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
-    console.log(accounts);
+    // const accounts = await k.sol.getAccountsRewards(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
+    // console.log(accounts);
+    const tx = await k.sol.getTxStatus('26GZcovnvTGvf5fXFysbtJkNob5r4K9v4H8ZU9tSm8oF5hgUuUm231cabS8LCiC1cqQMFiRkNRNEgqtiVwpr2Bek');
+    console.log(tx);
   } catch (err){
     console.log(err);
   }

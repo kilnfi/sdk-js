@@ -1,5 +1,5 @@
 import { Integrations } from "./integrations";
-import { StdFee } from "@cosmjs/stargate";
+import { IndexedTx, StdFee } from "@cosmjs/stargate";
 import { EncodeObject } from "@cosmjs/proto-signing";
 
 export type InternalAtomConfig = {
@@ -19,3 +19,8 @@ export type AtomTx = {
 export type AtomStakeOptions = {
   validatorAddress?: string;
 };
+
+export type AtomTxStatus = {
+  status: 'success' | 'error',
+  txReceipt: IndexedTx,
+}

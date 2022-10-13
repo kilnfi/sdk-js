@@ -28,18 +28,30 @@ import {
   Withdrawals,
 } from '@emurgo/cardano-serialization-lib-nodejs';
 import { Service } from "./service";
-import { AdaStakeOptions, InternalAdaConfig, UTXO } from "../types/ada";
+import {
+  AdaStakeOptions,
+  AdaTxStatus,
+  InternalAdaConfig,
+  UTXO,
+} from "../types/ada";
 import {
   BlockFrostAPI,
   BlockfrostServerError,
 } from "@blockfrost/blockfrost-js";
-import { InvalidIntegration, InvalidSignature } from "../errors/integrations";
+import {
+  BroadcastError,
+  GetTxStatusError,
+  InvalidIntegration,
+  InvalidSignature,
+} from "../errors/integrations";
 import { ADDRESSES } from "../globals";
 import {
   CouldNotFetchSlot,
   CouldNotFetchStakeAddress,
-  CouldNotHashStakeKey, NoRewardAddressFound,
-  NoStakeAddressFound, NotEnoughFunds,
+  CouldNotHashStakeKey,
+  NoRewardAddressFound,
+  NoStakeAddressFound,
+  NotEnoughFunds,
 } from "../errors/ada";
 
 const CARDANO_PARAMS = {
@@ -460,14 +472,34 @@ export class AdaService extends Service {
   async broadcast(transaction: Transaction): Promise<string | undefined> {
     try {
       return await this.client.txSubmit(transaction.to_bytes());
-    } catch (error) {
+    } catch (error: any) {
       // submit could fail if the transactions is rejected by cardano node
       if (error instanceof BlockfrostServerError && error.status_code === 400) {
         console.log(error.stack, error.error);
       } else {
-        // rethrow other errors
-        throw error;
+        throw new BroadcastError(error);
       }
+    }
+  }
+
+  /**
+   * Get transaction status
+   * @param transactionHash
+   */
+  async getTxStatus(transactionHash: string): Promise<AdaTxStatus> {
+    try {
+      const receipt = await this.client.txs(transactionHash);
+      const block = await this.client.blocks(receipt.block);
+
+      // Confirmed transactions after 15 confirmations
+      const status = block.confirmations > 15 ? 'success' : 'pending_confirmation';
+
+      return {
+        status: status,
+        txReceipt: receipt,
+      };
+    } catch (error: any) {
+      throw new GetTxStatusError(error);
     }
   }
 }
