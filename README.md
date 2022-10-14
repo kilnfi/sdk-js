@@ -92,3 +92,7 @@ try {
     // handle errors
   }
 ```
+
+## License
+This package is open-sourced software licensed under the [BUSL-1.1 license](https://github.com/kilnfi/sdk-js/blob/main/LICENSE).
+
