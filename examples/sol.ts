@@ -19,11 +19,11 @@ const f = async () => {
   });
 
   try {
-    // const tx = await k.sol.craftStakeTx(
-    //   '771254de-ac5a-4911-afdf-1d5b7e802dc9',
-    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-    //   0.12
-    // );
+    const tx = await k.sol.craftMergeStakeAccountsTx(
+      'H1JADXwA94AfMa6tbzhyALDHeawPcWShsvrV3uHGXEWc',
+      '5dZHQaV1tHLs2z377Lsp6trQsJWe338scd1hYroxXRv3',
+      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+    );
     // const tx = await k.sol.craftMergeStakeAccountsTx(
     //   'Atms8wevMwkrMy7Nb5uqftayQSzxLHP2zNXq9gBS7vWB',
     //   '2ax6R5pHCS4hLC4q6xfrqToQ36hyy5PofUDodCGWkNtJ',
@@ -35,9 +35,9 @@ const f = async () => {
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
     //   0.1
     // );
-    // const signedTx = await k.sol.sign('vault1', tx);
-    // const hash = await k.sol.broadcast(signedTx);
-    // console.log(hash);
+    const signedTx = await k.sol.sign('vault1', tx);
+    const hash = await k.sol.broadcast(signedTx);
+    console.log(hash);
 
     const accounts = await k.sol.getAccountsRewards(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
     console.log(accounts);

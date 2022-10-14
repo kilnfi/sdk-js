@@ -7,6 +7,7 @@ import { AtomService } from "./services/atom";
 import { AccountService } from "./services/accounts";
 import { AdaService } from "./services/ada";
 import { NearService } from "./services/near";
+import { DotService } from "./services/dot";
 
 type Config = {
   apiToken: string;
@@ -22,6 +23,7 @@ export class Kiln {
   atom: AtomService;
   ada: AdaService;
   near: NearService;
+  dot: DotService;
 
   constructor({ testnet, apiToken, integrations, rpcs }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -37,5 +39,6 @@ export class Kiln {
     this.atom = new AtomService({ testnet, integrations, rpc: rpcs?.atom, });
     this.ada = new AdaService({ testnet, integrations });
     this.near = new NearService({ testnet, integrations });
+    this.dot = new DotService({ testnet, integrations, rpc: rpcs?.dot });
   }
 }
