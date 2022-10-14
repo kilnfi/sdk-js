@@ -1,6 +1,6 @@
 ## Description
 
-Kiln JS SDK makes it easy to interact with the kiln platform. It provides a simple way of crafting staking transactions as well getting real time rewards data.
+Kiln JS SDK makes it easy to interact with the Kiln platform. It provides a simple way of crafting staking transactions as well getting real time rewards data.
 
 Check out the full documentation [here](https://docs.kiln.fi/kiln-connect/).
 
@@ -92,3 +92,7 @@ try {
     // handle errors
   }
 ```
+
+## License
+This package is open-sourced software licensed under the [BUSL-1.1 license](https://github.com/kilnfi/sdk-js/blob/main/LICENSE).
+
