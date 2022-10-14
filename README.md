@@ -1,6 +1,6 @@
 ## Description
 
-Kiln JS SDK makes it easy to interact with the kiln platform. It provides a simple way of crafting staking transactions as well getting real time rewards data.
+Kiln JS SDK makes it easy to interact with the Kiln platform. It provides a simple way of crafting staking transactions as well getting real time rewards data.
 
 Check out the full documentation [here](https://docs.kiln.fi/kiln-connect/).
 
