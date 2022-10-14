@@ -7,7 +7,6 @@ import {
 import type { Signer, SignerResult } from "@polkadot/api/types";
 import type { SignerPayloadRaw } from "@polkadot/types/types";
 import type { HexString } from "@polkadot/util/types";
-import { hexToU8a } from "@polkadot/util";
 import { blake2AsHex } from '@polkadot/util-crypto';
 import { FbSigner } from "./fb_signer";
 
@@ -38,7 +37,7 @@ export class DotFbSigner extends FbSigner implements Signer {
       },
       assetId: this.assetId,
       extraParameters: { rawMessageData },
-      note: ""
+      note: "DOT transaction"
     };
 
     const fbTx = await this.fireblocks.createTransaction(tx);

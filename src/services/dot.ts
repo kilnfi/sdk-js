@@ -1,30 +1,35 @@
 import { Service } from "./service";
-import { ApiPromise, WsProvider } from "@polkadot/api";
+import { ApiPromise, HttpProvider } from "@polkadot/api";
 import { InvalidStakeAmount } from "../errors/dot";
 import {
   DotStakeOptions,
   DotTransaction,
-  InternalDotConfig,
+  InternalDotConfig, RewardDestination,
 } from "../types/dot";
 import { InvalidIntegration } from "../errors/integrations";
 import { DotFbSigner } from "../integrations/dot_fb_signer";
 import { Signer } from "@polkadot/api/types";
 import { SignerOptions } from "@polkadot/api/submittable/types";
 import { SubmittableExtrinsic } from "@polkadot/api/promise/types";
+import { ADDRESSES } from "../globals";
 
 const DOT_TO_PLANCK = 1000000000000;
 
+
+/**
+ * Staking docs: https://paritytech.github.io/substrate/master/pallet_staking/struct.Pallet.html
+ */
 export class DotService extends Service {
   private rpc: string;
 
   constructor({ testnet, integrations, rpc }: InternalDotConfig) {
     super({ testnet, integrations });
-    const kilnRpc = this.testnet ? 'wss://westend-rpc.polkadot.io' : 'wss://rpc.polkadot.io';
+    const kilnRpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
     this.rpc = rpc ?? kilnRpc;
   }
 
   private async getClient(): Promise<ApiPromise> {
-    const provider = new WsProvider(this.rpc);
+    const provider = new HttpProvider(this.rpc);
     return await ApiPromise.create({
       provider,
       noInitWarn: true,
@@ -35,13 +40,13 @@ export class DotService extends Service {
   /**
    * Craft dot bonding transaction
    * @param accountId id of the kiln account to use for the stake transaction
-   * @param walletAddress stash account
-   * @param amountDot how many tokens to stake in DOT
+   * @param stashAccount stash account address (your most secure cold wallet)
+   * @param amountDot how many tokens to bond in DOT
    * @param options
    */
   async craftBondTx(
     accountId: string,
-    walletAddress: string,
+    stashAccount: string,
     amountDot: number,
     options?: DotStakeOptions,
   ): Promise<DotTransaction> {
@@ -51,23 +56,27 @@ export class DotService extends Service {
 
     const client = await this.getClient();
     const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const controllerAccountAddress = options?.controllerAccountAddress ?? walletAddress;
+
+    // The controller account is responsible for managing the stake,
+    // it is recommended to have a separate wallet for it and keep the stash account as a cold offline wallet,
+    // although it is possible for the controller account to be the same as the stash account
+    const controllerAccount = options?.controllerAccount ?? stashAccount;
     const rewardsDestination = options?.rewardDestination ?? 'Staked';
-    const extrinsic = await client.tx.staking.bond(controllerAccountAddress, amount, rewardsDestination);
+    const extrinsic = await client.tx.staking.bond(controllerAccount, amount, rewardsDestination);
 
     return {
-      from: walletAddress,
+      from: stashAccount,
       submittableExtrinsic: extrinsic,
     };
   }
 
   /**
    * Craft dot bonding extra token transaction (to be used if you already bonded tokens)
-   * @param walletAddress stash account
-   * @param amountDot how many tokens to stake in DOT
+   * @param stashAccount stash account address
+   * @param amountDot how many tokens to bond in DOT
    */
   async craftBondExtraTx(
-    walletAddress: string,
+    stashAccount: string,
     amountDot: number,
   ): Promise<DotTransaction> {
     if (amountDot < 0.01) {
@@ -79,18 +88,38 @@ export class DotService extends Service {
     const extrinsic = await client.tx.staking.bondExtra(amount);
 
     return {
-      from: walletAddress,
+      from: stashAccount,
       submittableExtrinsic: extrinsic,
     };
   }
 
   /**
-   * Craft dot unbonding transaction, there is an unbonding period of ~9h before your tokens can be withdrawn
-   * @param walletAddress stash account
-   * @param amountDot how many tokens unbond
+   * Craft dot nominate transaction
+   * @param controllerAccount controller account address
+   * @param validatorAddresses validator addresses to nominate to, if not provided, will nominate to Kiln's validator
+   */
+  async craftNominateTx(
+    controllerAccount: string,
+    validatorAddresses?: string[],
+  ): Promise<DotTransaction> {
+
+    const validators: string[] = validatorAddresses ?? this.testnet ? [ADDRESSES.dot.testnet.validatorAddress] : [ADDRESSES.dot.mainnet.validatorAddress];
+    const client = await this.getClient();
+    const extrinsic = await client.tx.staking.nominate(validators);
+
+    return {
+      from: controllerAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft dot unbonding transaction, there is an unbonding period before your tokens can be withdrawn
+   * @param controllerAccount controller account address
+   * @param amountDot how many tokens to unbond in DOT
    */
   async craftUnbondTx(
-    walletAddress: string,
+    controllerAccount: string,
     amountDot: number,
   ): Promise<DotTransaction> {
     if (amountDot < 0.01) {
@@ -102,7 +131,24 @@ export class DotService extends Service {
     const extrinsic = await client.tx.staking.unbond(amount);
 
     return {
-      from: walletAddress,
+      from: controllerAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft dot withdraw unbonded token transaction
+   * @param controllerAccount controller account address
+   */
+  async craftWithdrawUnbondedTx(
+    controllerAccount: string,
+  ): Promise<DotTransaction> {
+    const client = await this.getClient();
+    const spanCount = await client.query.staking.slashingSpans(controllerAccount);
+    const extrinsic = await client.tx.staking.withdrawUnbonded(spanCount.toHex());
+
+    return {
+      from: controllerAccount,
       submittableExtrinsic: extrinsic,
     };
   }
@@ -112,16 +158,56 @@ export class DotService extends Service {
    * to the given stash account, meaning that given account will not nominate
    * any validator anymore, so you will stop earning rewards at the beginning
    * of the next era.
-   * @param walletAddress stash account
+   * @param controllerAccount controller account address
    */
   async craftChillTx(
-    walletAddress: string,
+    controllerAccount: string,
   ): Promise<DotTransaction> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.chill();
 
     return {
-      from: walletAddress,
+      from: controllerAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft dot set controller transaction that updates the controller for the given stash account
+   * @param stashAccount stash account address
+   * @param controllerAccount controller account address
+   */
+  async craftSetControllerTx(
+    stashAccount: string,
+    controllerAccount: string,
+  ): Promise<DotTransaction> {
+    const client = await this.getClient();
+    const extrinsic = await client.tx.staking.setController(controllerAccount);
+
+    return {
+      from: stashAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft dot set reward destination transaction that updates the destination rewards address for the given stash account
+   * @param controllerAccount controller account address
+   * @param rewardsDestination:
+   *  'Staked': rewards are paid into the stash account, increasing the amount at stake accordingly.
+   *  'Stash': rewards are paid into the stash account, not increasing the amount at stake.
+   *  'Controller': rewards are paid into the controller account
+   *  Custom account address: rewards are paid into the custom account address
+   */
+  async craftSetPayeeTx(
+    controllerAccount: string,
+    rewardsDestination: RewardDestination,
+  ): Promise<DotTransaction> {
+    const client = await this.getClient();
+    const extrinsic = await client.tx.staking.setPayee(rewardsDestination);
+
+    return {
+      from: controllerAccount,
       submittableExtrinsic: extrinsic,
     };
   }
@@ -131,16 +217,13 @@ export class DotService extends Service {
    * @param integration
    * @param transaction
    */
-  async sign(integration: string, transaction: DotTransaction): Promise<any> {
-    // const client = await this.getClient();
+  async sign(integration: string, transaction: DotTransaction): Promise<SubmittableExtrinsic> {
     const signer = this.getSigner(integration);
     const options: Partial<SignerOptions> = {
       era: 0,
       signer: signer,
     };
-    const txSigned = await transaction.submittableExtrinsic.signAsync(transaction.from, options);
-    // await client.disconnect();
-    return txSigned;
+    return await transaction.submittableExtrinsic.signAsync(transaction.from, options);
   }
 
   /**
@@ -150,6 +233,18 @@ export class DotService extends Service {
   async broadcast(transaction: SubmittableExtrinsic): Promise<string> {
     const submittedExtrinsic = await transaction.send();
     return submittedExtrinsic.toString();
+  }
+
+  /**
+   * Get transaction status
+   * @param transactionHash hash of transaction
+   */
+  async getTxStatus(
+    transactionHash: string,
+  ): Promise<any> {
+    const client = await this.getClient();
+    const extrinsicData = await client.query.system.extrinsicData(transactionHash);
+    console.log(extrinsicData.toHuman());
   }
 
   /**
