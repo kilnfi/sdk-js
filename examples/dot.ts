@@ -19,22 +19,14 @@ const f = async () => {
   });
 
   try {
-    const tx = await k.dot.craftBondTx(
-      '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    const tx = await k.dot.craftChillTx(
       '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
-      1,
-      {
-        controllerAccountAddress: '5CU93jHcRgEuGx3GXdJFunCL6AfwyKaRxBChcfHyZQdaSNLg'
-      }
     );
 
-    const txJson: any = tx.submittableExtrinsic.toHuman();
 
-    console.log(txJson['method']['args']);
-    // const signedTx = await k.dot.sign('vault1', tx);
-    // console.log(signedTx);
-    // const hash = await k.dot.broadcast(signedTx);
-    // console.log(hash);
+    const signedTx = await k.dot.sign('vault1', tx);
+    const hash = await k.dot.broadcast(signedTx);
+    console.log(hash);
   } catch (err){
     console.log(err);
   }
