@@ -7,8 +7,7 @@ const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 const f = async () => {
   const k = new Kiln({
     testnet: true,
-    // apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6ejJoV3FCSTlyZlBtM2ZIM0RFRVVaM3NwTkZReHJXTDZWZUxJMWtWWlVrb3VNYUVzcE9Lakt4ZVplOG9vd1oyVw',
-    apiToken: 'kiln_V1JKOW55SkZMOFZvMzBJYmw0aGQ3bkM3UFpIM2IzeXA6YkN6VG9BZW56OWQtUVlGRjNqRW10c1E3R0w2YkRKdjAxQW1Cem5ONnF4Sm1WLUx6STNoRWE2XzdXSVZIc2s0Ug',
+    apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6ZjF1SUw4d3R1ZDRxYUdreEwtV2sxcjdmbVFJYlhuMWFGUVduRjBkVFJscFdCaUc5bkV2WmpyTU9xb19pSjlsWg',
     integrations: [
       {
         name: 'vault1',
@@ -26,13 +25,16 @@ const f = async () => {
       '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
       32,
     );
-    console.log(tx);
     const txSigned = await k.eth.sign('vault1', tx);
-    const receipt = await k.eth.broadcast(txSigned);
-    console.log(receipt);
-
-    const rewards = await k.eth.getStakesRewards(['0xb15c8670d36abe47f03acaa3ba901ac433973048d43df4d2086de4c422ea4d3d0a6b63702d253c15712d3c85997f0071', 'a262bbe9197b0fe7ced73f8af4b13813e0e03a42d62bd223e96b31c8ba379d6c56835c6729647139963f3fade95f52f6']);
-    console.log(rewards);
+    const hash = await k.eth.broadcast(txSigned);
+    //
+    // const rewards = await k.eth.getStakesRewards(['0xb15c8670d36abe47f03acaa3ba901ac433973048d43df4d2086de4c422ea4d3d0a6b63702d253c15712d3c85997f0071', 'a262bbe9197b0fe7ced73f8af4b13813e0e03a42d62bd223e96b31c8ba379d6c56835c6729647139963f3fade95f52f6']);
+    // console.log(rewards);
+    if(hash){
+      console.log(hash);
+      const status = await k.eth.getTxStatus(hash);
+      console.log(status);
+    }
   } catch (err) {
     console.log(err);
   }

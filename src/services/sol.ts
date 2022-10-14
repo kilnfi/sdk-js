@@ -8,7 +8,7 @@ import {
   StakeProgram,
   SystemProgram,
   Transaction,
-  TransactionInstruction,
+  TransactionInstruction, TransactionResponse,
 } from '@solana/web3.js';
 import api from '../api';
 import { InvalidStakeAmount } from '../errors/sol';
@@ -19,13 +19,13 @@ import {
   PublicNonceAccountInfo,
   PublicSignature,
   SolanaStakeOptions,
-  SolanaTx,
+  SolanaTx, SolanaTxStatus,
   SolNetworkStats,
   SolStakes,
   TaggedStake,
 } from '../types/sol';
 import {
-  BroadcastError,
+  BroadcastError, GetTxStatusError,
   InvalidIntegration,
   InvalidSignature,
 } from "../errors/integrations";
@@ -487,6 +487,24 @@ export class SolService extends Service {
       return await sendAndConfirmRawTransaction(connection, transaction.serialize());
     } catch (e: any) {
       throw new BroadcastError(e);
+    }
+  }
+
+  /**
+   * Get transaction status
+   * @param transactionHash: transaction hash
+   */
+  async getTxStatus(transactionHash: string): Promise<SolanaTxStatus> {
+    try {
+      const connection = await this.getConnection();
+      const receipt = await connection.getTransaction(transactionHash);
+      const status = receipt?.meta?.err === null ? 'success' : 'error';
+      return {
+        status: status,
+        txReceipt: receipt,
+      };
+    } catch (e: any) {
+      throw new GetTxStatusError(e);
     }
   }
 

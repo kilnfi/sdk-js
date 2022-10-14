@@ -1,8 +1,8 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
-  "license": "MIT",
+  "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
   "main": "lib/kiln.js",
   "types": "lib/kiln.d.ts",

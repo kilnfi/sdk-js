@@ -2,26 +2,38 @@ import { connect, Near, transactions, utils } from "near-api-js";
 import BN from 'bn.js';
 import { sha256 } from "js-sha256";
 import { Service } from "./service";
-import { InternalNearConfig, NearStakeOptions } from "../types/near";
+import {
+  InternalNearConfig,
+  NearStakeOptions,
+  NearTxStatus,
+} from "../types/near";
 import { PublicKey } from "near-api-js/lib/utils";
 import { SignedTransaction, Transaction } from "near-api-js/lib/transaction";
 import {
   CouldNotFindAccessKey,
   CouldNotParseStakeAmount,
 } from "../errors/near";
-import { BroadcastError, InvalidIntegration } from "../errors/integrations";
+import {
+  BroadcastError,
+  GetTxStatusError,
+  InvalidIntegration,
+} from "../errors/integrations";
 import { ADDRESSES } from "../globals";
+import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 
 export class NearService extends Service {
+  private rpc: string | undefined;
 
-  constructor({ testnet, integrations }: InternalNearConfig) {
+  constructor({ testnet, integrations, rpc }: InternalNearConfig) {
     super({ testnet, integrations });
+    this.rpc = rpc;
   }
 
   private async getConnection(): Promise<Near> {
+    const officialRpc = `https://rpc.${this.testnet ? 'testnet' : 'mainnet'}.near.org`;
     const connectionConfig = {
-      networkId: this.testnet ? "testnet" : "mainnet",
-      nodeUrl: `https://rpc.${this.testnet ? 'testnet' : 'mainnet'}.near.org`,
+      networkId: this.testnet ? 'testnet' : 'mainnet',
+      nodeUrl: this.rpc ?? officialRpc,
     };
     return await connect(connectionConfig);
   }
@@ -240,6 +252,24 @@ export class NearService extends Service {
       return res.transaction.hash;
     } catch (e: any) {
       throw new BroadcastError(e);
+    }
+  }
+
+  /**
+   * Get transaction status
+   * @param transactionHash: transaction hash
+   */
+  async getTxStatus(transactionHash: string): Promise<NearTxStatus> {
+    try {
+      const connection = await this.getConnection();
+      const receipt = await connection.connection.provider.txStatusReceipts(transactionHash, this.testnet ? ADDRESSES.near.testnet.poolId : ADDRESSES.near.mainnet.poolId);
+      const status = Object.keys(receipt.status).includes('SuccessValue') ? 'success' : 'error';
+      return {
+        status: status,
+        txReceipt: receipt,
+      };
+    } catch (e: any) {
+      throw new GetTxStatusError(e);
     }
   }
 }

@@ -38,7 +38,7 @@ export class Kiln {
     this.sol = new SolService({ testnet, integrations, rpc: rpcs?.solana, });
     this.atom = new AtomService({ testnet, integrations, rpc: rpcs?.atom, });
     this.ada = new AdaService({ testnet, integrations });
-    this.near = new NearService({ testnet, integrations });
+    this.near = new NearService({ testnet, integrations, rpc: rpcs?.near });
     this.dot = new DotService({ testnet, integrations, rpc: rpcs?.dot });
   }
 }
