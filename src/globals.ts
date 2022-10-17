@@ -39,5 +39,13 @@ export const ADDRESSES = {
     mainnet: {
       poolId: 'kiln.poolv1.near'
     }
+  },
+  dot: {
+    testnet: {
+      validatorAddress: '5GR6UNoUW3VsXTqwDuMzRpZpeA7pmH3VtZNCaSGp2RGz8p6g'
+    },
+    mainnet: {
+      validatorAddress: '' // todo: add address once we have setup our mainnet validator
+    }
   }
 };

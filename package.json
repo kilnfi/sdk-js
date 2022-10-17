@@ -34,6 +34,7 @@
     "@emurgo/cardano-serialization-lib-nodejs": "^11.0.5",
     "@ethereumjs/common": "^2.6.5",
     "@ethereumjs/tx": "^3.5.2",
+    "@polkadot/api": "^9.5.1",
     "@solana/web3.js": "^1.47.3",
     "@stricahq/typhonjs": "^1.2.7",
     "axios": "^0.23.0",
