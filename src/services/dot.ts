@@ -3,10 +3,10 @@ import { ApiPromise, HttpProvider } from "@polkadot/api";
 import { InvalidStakeAmount } from "../errors/dot";
 import {
   DotStakeOptions,
-  DotTransaction,
-  InternalDotConfig, RewardDestination,
+  DotTransaction, DotTransactionStatus,
+  InternalDotConfig, RewardDestination, SubmittedDotTransaction,
 } from "../types/dot";
-import { InvalidIntegration } from "../errors/integrations";
+import { GetTxStatusError, InvalidIntegration } from "../errors/integrations";
 import { DotFbSigner } from "../integrations/dot_fb_signer";
 import { Signer } from "@polkadot/api/types";
 import { SignerOptions } from "@polkadot/api/submittable/types";
@@ -89,6 +89,29 @@ export class DotService extends Service {
 
     return {
       from: stashAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft dot rebond transaction (to be used to rebond unbonding token)
+   * @param controllerAccount stash account address
+   * @param amountDot how many tokens to bond in DOT
+   */
+  async craftRebondTx(
+    controllerAccount: string,
+    amountDot: number,
+  ): Promise<DotTransaction> {
+    if (amountDot < 0.01) {
+      throw new InvalidStakeAmount('Dot stake must be at least 0.01 DOT');
+    }
+
+    const client = await this.getClient();
+    const amount = (amountDot * DOT_TO_PLANCK).toString();
+    const extrinsic = await client.tx.staking.rebond(amount);
+
+    return {
+      from: controllerAccount,
       submittableExtrinsic: extrinsic,
     };
   }
@@ -230,21 +253,78 @@ export class DotService extends Service {
    * Broadcast signed transaction
    * @param transaction
    */
-  async broadcast(transaction: SubmittableExtrinsic): Promise<string> {
+  async broadcast(transaction: SubmittableExtrinsic): Promise<SubmittedDotTransaction> {
     const submittedExtrinsic = await transaction.send();
-    return submittedExtrinsic.toString();
+    const client = await this.getClient();
+    const currentBlockHash = await client.rpc.chain.getBlockHash();
+    return {
+      blockHash: currentBlockHash.toString(),
+      hash: submittedExtrinsic.toString()
+    };
   }
 
   /**
    * Get transaction status
-   * @param transactionHash hash of transaction
+   * @param transaction submitted dot transaction
    */
   async getTxStatus(
-    transactionHash: string,
-  ): Promise<any> {
+    transaction: SubmittedDotTransaction,
+  ): Promise<DotTransactionStatus> {
     const client = await this.getClient();
-    const extrinsicData = await client.query.system.extrinsicData(transactionHash);
-    console.log(extrinsicData.toHuman());
+    // Get block
+    const block = await client.rpc.chain.getBlock(transaction.blockHash);
+    if (!block) {
+      throw new GetTxStatusError(`Could find block ${transaction.blockHash}`);
+    }
+
+    // Get extrinsic in block
+    const extrinsic = block.block.extrinsics.find(ext => ext.hash.toString() === transaction.hash);
+    const extrinsicIndex = block.block.extrinsics.findIndex(ext => ext.hash.toString() === transaction.hash);
+    if (!extrinsic) {
+      throw new GetTxStatusError(`Could find extrinsic ${transaction.hash} in block ${transaction.blockHash}`);
+    }
+
+    // Get block events
+    const apiAt = await client.at(block.block.header.hash);
+    const allEventsResponse = await apiAt.query.system.events();
+
+    // @ts-ignore
+    const filteredEvents = allEventsResponse.filter(({ phase }) =>  phase.isApplyExtrinsic && phase.asApplyExtrinsic.eq(extrinsicIndex));
+
+    let status: 'success' | 'error' = 'error';
+    let error;
+
+    // Inspect each event to check for failed and success events
+    for(const event of filteredEvents){
+      if (client.events.system.ExtrinsicSuccess.is(event.event)) {
+        status = 'success';
+        error = null;
+        break;
+      } else if (client.events.system.ExtrinsicFailed.is(event.event)) {
+        status = 'error';
+        const dispatchError = event.event.data?.dispatchError;
+        // decode the error
+        if (dispatchError.isModule) {
+          // for module errors, we have the section indexed, lookup
+          // (For specific known errors, we can also do a check against the
+          // api.errors.<module>.<ErrorName>.is(dispatchError.asModule) guard)
+          const decoded = client.registry.findMetaError(dispatchError.asModule);
+          error = `${decoded.section}.${decoded.name}`;
+        } else {
+          // Other, CannotLookup, BadOrigin, no extra info
+          error = dispatchError.toString();
+        }
+      } else {
+        status = 'error';
+        error = 'Unknown error';
+      }
+    }
+
+    return {
+      status,
+      extrinsic,
+      error,
+    };
   }
 
   /**

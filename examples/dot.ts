@@ -25,7 +25,7 @@ const f = async () => {
     //   '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
     //   1,
     // );
-    // const tx = await k.dot.craftBondExtraTx(
+    // const tx = await k.dot.craftRebondTx(
     //   '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
     //   1,
     // );
@@ -61,9 +61,14 @@ const f = async () => {
     // const hash = await k.dot.broadcast(signedTx);
     // console.log(hash);
 
-    const tx = await k.dot.getTxStatus(
-      '0x6c6654109e448117ffb021fba07d38d1b41c6927da465ddc3de7af49760f0bae',
+    const status = await k.dot.getTxStatus(
+      {
+        blockHash: '0x62ea99ad580e8bfa9d4c79b61b9867838d7086e8c0c8c2ae70226ea37279fc47',
+        hash: '0x6c6654109e448117ffb021fba07d38d1b41c6927da465ddc3de7af49760f0bae'
+      },
     );
+
+    console.log(status);
   } catch (err) {
     console.log(err);
   }

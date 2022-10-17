@@ -1,6 +1,6 @@
 import { Integrations } from "./integrations";
 import { SubmittableExtrinsic } from "@polkadot/api/promise/types";
-import { ApiPromise } from "@polkadot/api";
+import { GenericExtrinsic } from "@polkadot/types/extrinsic";
 
 export type InternalDotConfig = {
   testnet?: boolean;
@@ -24,4 +24,15 @@ export type DotStakeOptions = {
 export type DotTransaction = {
   from: string;
   submittableExtrinsic: SubmittableExtrinsic;
+}
+
+export type SubmittedDotTransaction = {
+  blockHash: string;
+  hash: string;
+}
+
+export type DotTransactionStatus = {
+  status: 'success' | 'error',
+  extrinsic: GenericExtrinsic,
+  error: string | null;
 }
