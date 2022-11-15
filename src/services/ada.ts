@@ -71,7 +71,7 @@ export class AdaService extends Service {
 
   constructor({ testnet, integrations }: InternalAdaConfig) {
     super({ testnet, integrations });
-    this.client = new BlockFrostAPI({ projectId: 'testnetQMV4zxv1wbnSaqTFWuW3tVVOGA9noUkZ' });
+    this.client = new BlockFrostAPI({ projectId: this.testnet ? 'testnetQMV4zxv1wbnSaqTFWuW3tVVOGA9noUkZ' : 'mainneth94pswYNNTzi3qen0NpPFfpiSkI80HWi' });
   }
 
   /**
