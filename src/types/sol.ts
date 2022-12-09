@@ -56,18 +56,6 @@ export type SolanaStakeOptions = {
   memo?: string;
 };
 
-export type ApiCreatedStake = {
-  id: string;
-  tags: Map<string, string[]>;
-  protocol: string;
-  created_at: Date;
-  updated_at: Date;
-};
-
-export type ApiCreatedStakes = {
-  data: ApiCreatedStake[];
-};
-
 export type TaggedStake = {
   stakeAccount: string;
   balance: number;

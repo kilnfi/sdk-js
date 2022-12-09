@@ -21,7 +21,7 @@ const f = async () => {
     });
 
     // const tx = await k.ada.craftStakeTx(
-    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+    //   '771254de-ac5a-4911-afdf-1d5b7e802dc9',
     //   'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
     // );
     // const tx = await k.ada.craftWithdrawRewardsTx(
@@ -33,8 +33,19 @@ const f = async () => {
     // );
     // const txSigned = await k.ada.sign('vault1', tx);
     // const hash = await k.ada.broadcast(txSigned);
-    const status = await k.ada.getTxStatus('aad008eec08f606f763837144d18275203406bdada7fc2a429c656c15952dd9c');
-    console.log(status);
+    // console.log(hash);
+    // const status = await k.ada.getTxStatus('aad008eec08f606f763837144d18275203406bdada7fc2a429c656c15952dd9c');
+    // console.log(status);
+
+    // const stakes = await k.ada.getStakesByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
+    // const stakes = await k.ada.getStakesByStakeAddresses(['stake_test1uz59v5z9cjgs8dfp5wp8lajtnzyfx59z9756pdwv7u4j0xcvwv4gp']);
+    // const stakes = await k.ada.getStakesByWallets(['addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5']);
+    // console.log(stakes);
+
+    // const rewards = await k.ada.getRewardsByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
+    // const rewards = await k.ada.getRewardsByStakeAddresses(['stake_test1uz59v5z9cjgs8dfp5wp8lajtnzyfx59z9756pdwv7u4j0xcvwv4gp']);
+    // const rewards = await k.ada.getRewardsByWallets(['addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5']);
+    // console.log(rewards);
   } catch (err) {
     console.log(err);
   }
