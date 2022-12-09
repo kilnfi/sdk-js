@@ -7,7 +7,7 @@ import { ADDRESSES } from '../globals';
 import {
   EthereumStakeOptions,
   EthereumTx,
-  EthNetworkStats,
+  EthNetworkStats, EthRewards,
   EthStakes, EthTxStatus,
   InternalEthereumConfig,
   ValidationKeyDepositData,
@@ -193,7 +193,7 @@ export class EthService extends Service {
    * @param accountIds: account ids of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getAccountsRewards(
+  async getStakesByAccounts(
     accountIds: string[],
   ): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
@@ -202,11 +202,11 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stakes made with given wallets
+   * Retrieve stakes of given wallets
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getWalletsRewards(
+  async getStakesByWallets(
     walletAddresses: string[],
   ): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
@@ -216,14 +216,71 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stake on given validators
+   * Retrieve stake on given validator addresses
    * @param validatorAddresses validator addresses of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
-  async getStakesRewards(validatorAddresses: string[]): Promise<EthStakes> {
+  async getStakesByValidators(validatorAddresses: string[]): Promise<EthStakes> {
     const { data } = await api.get<EthStakes>(
       `/v1/eth/stakes?validators=${validatorAddresses.join(',')}`,
     );
+    return data;
+  }
+
+  /**
+   * Retrieve rewards of given kiln accounts
+   * @param accountIds: account ids of which you wish to retrieve rewards
+   * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {EthRewards} Ethereum rewards
+   */
+  async getRewardsByAccounts(
+    accountIds: string[],
+    startDay?: string,
+    endDay?: string,
+  ): Promise<EthRewards> {
+    const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
+      startDay ? `&start_day=${startDay}` : ''
+    }${endDay ? `&end_day=${endDay}` : ''}`;
+    const { data } = await api.get<EthRewards>(query);
+    return data;
+  }
+
+  /**
+   * Retrieve stakes of given wallets
+   * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
+   * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {EthRewards} Ethereum rewards
+   */
+  async getRewardsByWallets(
+    walletAddresses: string[],
+    startDay?: string,
+    endDay?: string,
+  ): Promise<EthRewards> {
+    const query = `/v1/eth/rewards?wallets=${walletAddresses.join(',')}${
+      startDay ? `&start_day=${startDay}` : ''
+    }${endDay ? `&end_day=${endDay}` : ''}`;
+    const { data } = await api.get<EthRewards>(query);
+    return data;
+  }
+
+  /**
+   * Retrieve stake on given validator addresses
+   * @param validatorAddresses validator addresses of which you wish to retrieve rewards
+   * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {EthRewards} Ethereum rewards
+   */
+  async getRewardsByValidators(
+    validatorAddresses: string[],
+    startDay?: string,
+    endDay?: string,
+  ): Promise<EthRewards> {
+    const query = `/v1/eth/rewards?validators=${validatorAddresses.join(',')}${
+      startDay ? `&start_day=${startDay}` : ''
+    }${endDay ? `&end_day=${endDay}` : ''}`;
+    const { data } = await api.get<EthRewards>(query);
     return data;
   }
 

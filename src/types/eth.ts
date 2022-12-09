@@ -12,17 +12,49 @@ export type EthStakes = {
   data: EthStake[]
 }
 
+export type StakeState =
+    | 'unknown'
+    | 'not_staked'
+    | 'deposit_in_progress'
+    | 'pending_initialized'
+    | 'pending'
+    | 'pending_queued'
+    | 'active'
+    | 'active_ongoing'
+    | 'active_exiting'
+    | 'active_slashed'
+    | 'exited'
+    | 'exited_slashed'
+    | 'exited_unslashed'
+    | 'withdrawal_possible'
+    | 'withdrawal_done'
+    | 'withdrawal';
+
 export type EthStake = {
-  pubkey: string;
-  state: string;
+  validator_address: string;
+  state: StakeState;
+  activated_at: string | null;
+  effective_balance: string | null;
   balance: string | null;
   consensus_rewards: string | null;
   execution_rewards: string | null;
-  effective_balance: string | null;
+  gross_apy: number | null;
   deposit_tx_sender: string | null;
   fee_recipient: string | null;
-  apy: number | null;
-  activated_at: string | null;
+  withdrawal_credentials: string | null;
+};
+
+export type EthRewards = {
+  data: EthReward[]
+}
+
+export type EthReward = {
+  time: string;
+  consensus_rewards: string;
+  execution_rewards: string;
+  gross_apy: number;
+  el_apy: number;
+  cl_apy: number;
 };
 
 export type EthereumTx = Transaction;
