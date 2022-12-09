@@ -202,7 +202,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stakes of given wallets
+   * Retrieve stakes of given wallet addresses
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
@@ -216,7 +216,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stake on given validator addresses
+   * Retrieve stakes on given validator addresses
    * @param validatorAddresses validator addresses of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
@@ -228,7 +228,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve rewards of given kiln accounts
+   * Retrieve rewards by day of given kiln accounts
    * @param accountIds: account ids of which you wish to retrieve rewards
    * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
    * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
@@ -247,7 +247,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stakes of given wallets
+   * Retrieve rewards by day of given wallet addresses
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
    * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
    * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
@@ -266,7 +266,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Retrieve stake on given validator addresses
+   * Retrieve rewards by day on given validator addresses
    * @param validatorAddresses validator addresses of which you wish to retrieve rewards
    * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
    * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards

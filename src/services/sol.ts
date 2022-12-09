@@ -14,7 +14,6 @@ import api from '../api';
 import { InvalidStakeAmount } from '../errors/sol';
 import { ADDRESSES } from '../globals';
 import {
-  ApiCreatedStakes,
   InternalSolanaConfig,
   PublicNonceAccountInfo,
   PublicSignature,
@@ -28,6 +27,7 @@ import {
 } from '../types/sol';
 import { BroadcastError, GetTxStatusError, InvalidIntegration, InvalidSignature, } from "../errors/integrations";
 import { Service } from "./service";
+import { CoreStakes } from "../types/core-stake";
 
 const LAMPORTS_TO_SOL = 1000000000;
 
@@ -175,7 +175,7 @@ export class SolService extends Service {
         stakeAccount: stakeKey.publicKey.toString(),
         balance: amountSol * LAMPORTS_TO_SOL
       };
-      await api.post<ApiCreatedStakes>(
+      await api.post<CoreStakes>(
         '/v1/sol/stakes',
         {
           account_id: accountId,
@@ -422,7 +422,7 @@ export class SolService extends Service {
         stakeAccount: newStakeAccountPubKey.publicKey.toString(),
         balance: amountSol * LAMPORTS_TO_SOL,
       };
-      await api.post<ApiCreatedStakes>(
+      await api.post<CoreStakes>(
         '/v1/sol/stakes',
         {
           account_id: accountId,
@@ -521,7 +521,7 @@ export class SolService extends Service {
 
     /**
      * Retrieve stakes of given stake accounts
-     * @param stakeAccounts: stake account addresses of which you wish to retrieve rewards
+     * @param stakeAccounts: stake account addresses of which you wish to retrieve stakes
      * @returns {SolStakes} Solana Stakes
      */
     async getStakesByStakeAccounts(
@@ -534,7 +534,7 @@ export class SolService extends Service {
 
     /**
      * Retrieve stakes of given wallets
-     * @param wallets: wallet addresses of which you wish to retrieve rewards
+     * @param wallets: wallet addresses of which you wish to retrieve stakes
      * @returns {SolStakes} Solana Stakes
      */
     async getStakesByWallets(

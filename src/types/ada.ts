@@ -17,3 +17,39 @@ export type AdaTxStatus = {
   status: 'success' | 'pending_confirmation',
   txReceipt: components['schemas']['tx_content']
 }
+
+export type TaggedStake = {
+  stakeAddress: string;
+  balance: number;
+};
+
+export type Epoch = {
+  nb: number;
+  begin_at: string;
+};
+
+export type AdaStake = {
+  wallet_addresses: string[];
+  stake_address: string;
+  pool_id: string;
+  balance: string;
+  rewards: string;
+  available_rewards: string;
+  activation_epoch: Epoch;
+  state: 'active' | 'activating' | 'inactive';
+  net_apy: number;
+};
+
+export type AdaStakes = {
+  data: AdaStake[];
+};
+
+export type AdaReward = {
+  epoch: Epoch;
+  rewards: string;
+  net_apy: number;
+};
+
+export type AdaRewards = {
+  data: AdaReward[];
+};
