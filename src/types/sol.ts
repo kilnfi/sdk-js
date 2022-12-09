@@ -9,16 +9,37 @@ export type InternalSolanaConfig = {
 
 export type SolanaTx = Transaction;
 
+type Epoch = {
+  nb: number;
+  begin_at: string;
+};
+
+export type StakeState = 'activating' | 'active' | 'deactivating' | 'inactive';
+
 export type SolStake = {
   stake_account: string;
   withdraw_pubkey: string;
-  balance: number;
-  rewards: number;
-  apy: number;
+  balance: string;
+  rewards: string;
+  activation_epoch: Epoch | null;
+  deactivation_epoch: Epoch | null;
+  state: StakeState;
+  net_apy: number;
+  vote_account: string;
 };
 
 export type SolStakes = {
   data: SolStake[];
+}
+
+export type SolReward = {
+  epoch: Epoch;
+  rewards: number;
+  net_apy: number;
+};
+
+export type SolRewards = {
+  data: SolReward[];
 }
 
 export type SolNetworkStats = {

@@ -39,6 +39,16 @@ const f = async () => {
     // const hash = await k.sol.broadcast(signedTx);
     // console.log(hash);
 
+    // const stakes = await k.sol.getStakesByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
+    // const stakes = await k.sol.getStakesByStakeAccounts(['22njeUeaSxRL9RUf6cFrn5BMBGhpotAgVvjfnWfh2qsm']);
+    // const stakes = await k.sol.getStakesByWallets(['c5oiYqNcFYVMvWvQ8ifLTjZTsJ8s3X9gitRHFaNi2rk']);
+    // console.log(stakes);
+
+    // const rewards = await k.sol.getRewardsByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
+    // const rewards = await k.sol.getRewardsByStakeAccounts(['22njeUeaSxRL9RUf6cFrn5BMBGhpotAgVvjfnWfh2qsm']);
+    // const rewards = await k.sol.getRewardsByWallets(['c5oiYqNcFYVMvWvQ8ifLTjZTsJ8s3X9gitRHFaNi2rk']);
+    // console.log(rewards);
+
     // const accounts = await k.sol.getAccountsRewards(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
     // console.log(accounts);
     // const tx = await k.sol.getTxStatus('26GZcovnvTGvf5fXFysbtJkNob5r4K9v4H8ZU9tSm8oF5hgUuUm231cabS8LCiC1cqQMFiRkNRNEgqtiVwpr2Bek');

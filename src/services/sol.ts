@@ -22,6 +22,7 @@ import {
   SolanaTx,
   SolanaTxStatus,
   SolNetworkStats,
+  SolRewards,
   SolStakes,
   TaggedStake,
 } from '../types/sol';
@@ -507,10 +508,10 @@ export class SolService extends Service {
 
     /**
      * Retrieve stakes of given kiln accounts
-     * @param accountIds: account ids of which you wish to retrieve rewards
+     * @param accountIds: kiln account ids of which you wish to retrieve stakes
      * @returns {SolStakes} Solana Stakes
      */
-    async getAccountsRewards(
+    async getStakesByAccounts(
       accountIds: string[],
     ): Promise<SolStakes> {
       const { data } = await api.get<SolStakes>(
@@ -519,13 +520,63 @@ export class SolService extends Service {
     }
 
     /**
-     * Retrieve stake on given stake accounts
-     * @param stakeAccountAddresses validator addresses of which you wish to retrieve rewards
+     * Retrieve stakes of given stake accounts
+     * @param stakeAccounts: stake account addresses of which you wish to retrieve rewards
      * @returns {SolStakes} Solana Stakes
      */
-    async getStakesRewards(stakeAccountAddresses: string[]): Promise<SolStakes> {
+    async getStakesByStakeAccounts(
+      stakeAccounts: string[],
+    ): Promise<SolStakes> {
       const { data } = await api.get<SolStakes>(
-        `/v1/sol/stakes?stakeaccounts=${stakeAccountAddresses.join(',')}`,
+        `/v1/sol/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+      return data;
+    }
+
+    /**
+     * Retrieve stakes of given wallets
+     * @param wallets: wallet addresses of which you wish to retrieve rewards
+     * @returns {SolStakes} Solana Stakes
+     */
+    async getStakesByWallets(
+      wallets: string[],
+    ): Promise<SolStakes> {
+      const { data } = await api.get<SolStakes>(
+        `/v1/sol/stakes?wallets=${wallets.join(',')}`);
+      return data;
+    }
+
+    /**
+     * Retrieve rewards for given accounts
+     * @param accountIds kiln account ids of which you wish to retrieve rewards
+     * @returns {SolRewards} Solana rewards
+     */
+    async getRewardsByAccounts(accountIds: string[]): Promise<SolRewards> {
+      const { data } = await api.get<SolRewards>(
+        `/v1/sol/rewards?accounts=${accountIds.join(',')}`,
+      );
+      return data;
+    }
+
+    /**
+     * Retrieve rewards for given stake accounts
+     * @param stakeAccounts stake account addresses of which you wish to retrieve rewards
+     * @returns {SolRewards} Solana rewards
+     */
+    async getRewardsByStakeAccounts(stakeAccounts: string[]): Promise<SolRewards> {
+      const { data } = await api.get<SolRewards>(
+        `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(',')}`,
+      );
+      return data;
+    }
+
+    /**
+     * Retrieve rewards for given stake accounts
+     * @param wallets wallet addresses of which you wish to retrieve rewards
+     * @returns {SolRewards} Solana rewards
+     */
+    async getRewardsByWallets(wallets: string[]): Promise<SolRewards> {
+      const { data } = await api.get<SolRewards>(
+        `/v1/sol/rewards?wallets=${wallets.join(',')}`,
       );
       return data;
     }
