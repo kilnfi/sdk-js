@@ -5,7 +5,7 @@ const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 
 const f = async () => {
   const k = new Kiln({
-    testnet: true,
+    testnet: false,
     apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6ZjF1SUw4d3R1ZDRxYUdreEwtV2sxcjdmbVFJYlhuMWFGUVduRjBkVFJscFdCaUc5bkV2WmpyTU9xb19pSjlsWg',
     integrations: [
       {
@@ -33,7 +33,7 @@ const f = async () => {
     // const signedTx = await k.atom.sign('vault1', tx);
     // const hash = await k.atom.broadcast(signedTx);
     // console.log(hash);
-    const tx = await k.atom.getTxStatus('B0493A93397438DAD6D5641CBDE8CF43CC7424E6A322A2F5CD3C3B7DF02161E5');
+    const tx = await k.atom.getTxStatus('D43C977E0A969B00CB79CFAC45F147C9C7DE5B6B735CFDA685EE3CFCE1DE5B33');
     console.log(tx);
   } catch (err){
     console.log(err);

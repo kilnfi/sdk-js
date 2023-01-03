@@ -35,7 +35,7 @@ export class AtomService extends Service {
 
   constructor({ testnet, integrations, rpc }: InternalAtomConfig) {
     super({ testnet, integrations });
-    const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.cosmos.network';
+    const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
     this.rpc = rpc ?? kilnRpc;
   }
 
