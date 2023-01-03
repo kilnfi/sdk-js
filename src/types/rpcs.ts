@@ -1,7 +1,7 @@
 export type Rpcs = {
-  ethereum: string;
-  solana: string;
-  atom: string;
-  near: string;
-  dot: string;
+  ethereum?: string;
+  solana?: string;
+  atom?: string;
+  near?: string;
+  dot?: string;
 }
