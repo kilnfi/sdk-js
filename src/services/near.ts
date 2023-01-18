@@ -61,7 +61,7 @@ export class NearService extends Service {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
-    const nonce = fullAccessKey.access_key.nonce + 1;
+    const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
     const stakeAmountYocto = utils.format.parseNearAmount(amountNear.toString());
     if (!stakeAmountYocto) {
       throw new CouldNotParseStakeAmount('Could not parse stake amount');
@@ -109,7 +109,7 @@ export class NearService extends Service {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
-    const nonce = fullAccessKey.access_key.nonce + 1;
+    const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
     let params = {};
     if (amountNear) {
       const amountYocto = utils.format.parseNearAmount(amountNear.toString());
@@ -163,7 +163,7 @@ export class NearService extends Service {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
-    const nonce = fullAccessKey.access_key.nonce + 1;
+    const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
     let params = {};
     if (amountNear) {
       const amountYocto = utils.format.parseNearAmount(amountNear.toString());

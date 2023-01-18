@@ -25,8 +25,8 @@ export const ADDRESSES = {
     }
   },
   ada: {
-    testnet: {
-      poolId: 'pool1xjt9ylq7rvsd2mxf6njkzhrkhgjzrtflz039vxs66ntvv82rdky'
+    preprod: {
+      poolId: 'pool1u4x4ly6qyx9fs9k2lt7f9hpa2gftd52fee67jcmuhnt7qqae3x0'
     },
     mainnet: {
       poolId: 'pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k'
