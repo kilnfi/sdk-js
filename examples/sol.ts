@@ -19,6 +19,11 @@ const f = async () => {
   });
 
   try {
+    const tx = await k.sol.craftStakeTx(
+      '771254de-ac5a-4911-afdf-1d5b7e802dc9',
+      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+      0.1,
+    );
     // const tx = await k.sol.craftMergeStakeAccountsTx(
     //   'H1JADXwA94AfMa6tbzhyALDHeawPcWShsvrV3uHGXEWc',
     //   '5dZHQaV1tHLs2z377Lsp6trQsJWe338scd1hYroxXRv3',
@@ -35,9 +40,9 @@ const f = async () => {
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
     //   0.1
     // );
-    // const signedTx = await k.sol.sign('vault1', tx);
-    // const hash = await k.sol.broadcast(signedTx);
-    // console.log(hash);
+    const signedTx = await k.sol.sign('vault1', tx);
+    const hash = await k.sol.broadcast(signedTx);
+    console.log(hash);
 
     // const stakes = await k.sol.getStakesByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
     // const stakes = await k.sol.getStakesByStakeAccounts(['22njeUeaSxRL9RUf6cFrn5BMBGhpotAgVvjfnWfh2qsm']);

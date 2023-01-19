@@ -68,7 +68,7 @@ export class AdaService extends Service {
 
     constructor({ testnet, integrations }: InternalAdaConfig) {
       super({ testnet, integrations });
-      this.client = new BlockFrostAPI({ projectId: this.testnet ? 'testnetQMV4zxv1wbnSaqTFWuW3tVVOGA9noUkZ' : 'mainneth94pswYNNTzi3qen0NpPFfpiSkI80HWi' });
+      this.client = new BlockFrostAPI({ projectId: this.testnet ? 'preprodC3XYvNhANJEqAQh2UNHREMiL4LfOdsxF' : 'mainneth94pswYNNTzi3qen0NpPFfpiSkI80HWi' });
     }
 
     /**
@@ -83,7 +83,7 @@ export class AdaService extends Service {
       options?: AdaStakeOptions,
     ): Promise<Transaction> {
       const poolId = options?.poolId ? options.poolId :
-        this.testnet ? ADDRESSES.ada.testnet.poolId :
+        this.testnet ? ADDRESSES.ada.preprod.poolId :
           ADDRESSES.ada.mainnet.poolId;
 
       try {
