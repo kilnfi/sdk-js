@@ -1,6 +1,6 @@
 import { Integrations } from "./integrations";
 import { Responses } from '@blockfrost/blockfrost-js';
-import { components } from "@blockfrost/blockfrost-js/lib/types/OpenApi";
+import { components } from '@blockfrost/openapi';
 
 export type InternalAdaConfig = {
   testnet?: boolean;
