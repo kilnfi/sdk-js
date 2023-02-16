@@ -6,7 +6,6 @@ import { InvalidStakeAmount, NotEnoughKeysProvided } from '../errors/eth';
 import { ADDRESSES } from '../globals';
 import {
   EthereumStakeOptions,
-  EthereumTx,
   EthNetworkStats, EthRewards,
   EthStakes, EthTxStatus,
   InternalEthereumConfig,
@@ -33,14 +32,12 @@ export class EthService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param amountEth how many tokens to stake in ETH (must be a multiple of 32)
-   * @param options it is possible to specify deposit keys
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     amountEth: number,
-    options?: EthereumStakeOptions,
-  ): Promise<EthereumTx> {
+  ): Promise<any> {
     if (amountEth % 32 !== 0 || amountEth <= 0) {
       throw new InvalidStakeAmount(
         'Ethereum stake must be a multiple of 32 ETH',
@@ -55,35 +52,25 @@ export class EthService extends Service {
       let depositDataRoots: string[] = [];
       const nbKeysNeeded = Math.floor(amountEth / 32);
 
-      // Get keys from options
-      if (options?.deposit_data && options?.deposit_data.length > 0) {
-        if (nbKeysNeeded > options.deposit_data.length) {
-          throw new NotEnoughKeysProvided(`You must provide ${nbKeysNeeded} keys in order to stake ${amountEth} ETH. Number of keys provided: ${options.deposit_data.length}`);
-        }
-        pubkeys = options.deposit_data.map((v) => '0x' + v.pubkey);
-        withdrawalsCredentials = options.deposit_data.map((v) => '0x' + v.withdrawalCredentials);
-        signatures = options.deposit_data.map((v) => '0x' + v.signature);
-        depositDataRoots = options.deposit_data.map((v) => '0x' + v.depositDataRoot);
-      } else { // Generate keys from API
-        const { data: keys } = await api.post<ValidationKeyDepositData>(
-          '/v1/eth/keys',
-          {
-            withdrawal_address: walletAddress,
-            number: nbKeysNeeded,
-            format: 'batch_deposit',
-            account_id: accountId,
-          },
-        );
+      const { data: keys } = await api.post<ValidationKeyDepositData>(
+        '/v1/eth/keys',
+        {
+          withdrawal_address: walletAddress,
+          number: nbKeysNeeded,
+          format: 'batch_deposit',
+          account_id: accountId,
+        },
+      );
 
-        pubkeys = keys.data.pubkeys.map((v) => '0x' + v);
-        withdrawalsCredentials = keys.data.withdrawal_credentials.map((v) => '0x' + v);
-        signatures = keys.data.signatures.map((v) => '0x' + v);
-        depositDataRoots = keys.data.deposit_data_roots.map((v) => '0x' + v);
-      }
+      pubkeys = keys.data.pubkeys.map((v) => '0x' + v);
+      withdrawalsCredentials = keys.data.withdrawal_credentials.map((v) => '0x' + v);
+      signatures = keys.data.signatures.map((v) => '0x' + v);
+      depositDataRoots = keys.data.deposit_data_roots.map((v) => '0x' + v);
 
+      const contractAddress = this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract;
       const batchDepositContract = new this.web3.eth.Contract(
         JSON.parse(ADDRESSES.eth.abi),
-        this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
+        contractAddress,
       );
 
       const batchDepositFunction = batchDepositContract.methods
@@ -95,17 +82,26 @@ export class EthService extends Service {
         );
 
       const data = batchDepositFunction.encodeABI();
-      const gasWei = 100000 + nbKeysNeeded * 80000;
+      const amountBN = this.web3.utils.toBN(amountEth);
+      const amountWei = this.web3.utils.toWei(amountBN);
+      const gasPriceWei = await this.web3.eth.getGasPrice();
+      let gasLimitWei = await batchDepositFunction.estimateGas({ from: walletAddress, value: amountWei });
+      gasLimitWei = gasLimitWei * 2;
       const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
       const nonce = await this.web3.eth.getTransactionCount(walletAddress);
-      return Transaction.fromTxData({
+      const unsignedTx = Transaction.fromTxData({
         nonce: nonce,
         data: data,
-        to: walletAddress,
-        value: this.web3.utils.numberToHex(0),
-        gasPrice: this.web3.utils.numberToHex(gasWei),
-        gasLimit: this.web3.utils.numberToHex(gasWei),
+        to: contractAddress,
+        value: this.web3.utils.numberToHex(amountWei),
+        gasPrice: this.web3.utils.numberToHex(gasPriceWei),
+        gasLimit: this.web3.utils.numberToHex(gasLimitWei),
       }, { common });
+
+      return {
+        hashed: unsignedTx.getMessageToSign(true).toString('hex'),
+        serialized: unsignedTx.serialize().toString('hex'),
+      };
     } catch (err: any) {
       throw new Error(err);
     }
@@ -114,10 +110,10 @@ export class EthService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration
-   * @param transaction
+   * @param tx
    * @param note
    */
-  async sign(integration: string, transaction: EthereumTx, note?: string): Promise<EthereumTx> {
+  async sign(integration: string, tx: any, note?: string): Promise<string> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -126,12 +122,11 @@ export class EthService extends Service {
       throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
     }
 
-    const message = transaction.getMessageToSign(true).toString('hex');
     const payload = {
       rawMessageData: {
         messages: [
           {
-            "content": message,
+            "content": tx.hashed,
           },
         ]
       }
@@ -142,15 +137,16 @@ export class EthService extends Service {
     const chainId = this.testnet ? 5 : 1;
     const sigV: number = signatures?.signedMessages?.[0].signature.v ?? 0;
     const v: number = chainId * 2 + (35 + sigV);
+    const unsignedTx = Transaction.fromSerializedTx(Buffer.from(tx.serialized, 'hex'));
     const signedTx = Transaction.fromTxData({
-      ...transaction.toJSON(),
+      ...unsignedTx.toJSON(),
       r: `0x${signatures?.signedMessages?.[0].signature.r}`,
       s: `0x${signatures?.signedMessages?.[0].signature.s}`,
       v: v,
     }, { common });
 
     if (signedTx.verifySignature()) {
-      return signedTx;
+      return signedTx.serialize().toString('hex');
     } else {
       throw new InvalidSignature(`The transaction signatures could not be verified.`);
     }
@@ -159,12 +155,11 @@ export class EthService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param transaction
+   * @param hexSerializedTx
    */
-  async broadcast(transaction: EthereumTx): Promise<string | undefined> {
+  async broadcast(hexSerializedTx: string): Promise<string | undefined> {
     try {
-      const serializedTx = transaction.serialize();
-      const receipt = await this.web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
+      const receipt = await this.web3.eth.sendSignedTransaction('0x' + hexSerializedTx);
       return receipt.transactionHash;
     } catch (e: any) {
       throw new BroadcastError(e);

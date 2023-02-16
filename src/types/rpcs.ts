@@ -4,4 +4,5 @@ export type Rpcs = {
   atom?: string;
   near?: string;
   dot?: string;
+  xtz?: string;
 }

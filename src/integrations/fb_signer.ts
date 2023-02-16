@@ -7,7 +7,7 @@ import {
   TransactionResponse,
 } from "fireblocks-sdk";
 
-type AssetId = 'SOL_TEST' | 'SOL' | 'ETH_TEST3' | 'ETH' | 'ATOM_COS_TEST' | 'ATOM_COS' | 'ADA_TEST' | 'ADA' | 'NEAR_TEST' | 'NEAR';
+type AssetId = 'SOL_TEST' | 'SOL' | 'ETH_TEST3' | 'ETH' | 'ATOM_COS_TEST' | 'ATOM_COS' | 'ADA_TEST' | 'ADA' | 'NEAR_TEST' | 'NEAR' | 'XTZ_TEST' | 'XTZ';
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;

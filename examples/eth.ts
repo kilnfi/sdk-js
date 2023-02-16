@@ -20,17 +20,19 @@ const f = async () => {
   });
 
   try {
-    // const tx = await k.eth.craftStakeTx(
-    //   '376acfff-e35d-4b7c-90da-c6acb8ea7197',
-    //   '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
-    //   32,
-    // );
+    const tx = await k.eth.craftStakeTx(
+      '376acfff-e35d-4b7c-90da-c6acb8ea7197',
+      '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
+      32,
+    );
     // const txSigned = await k.eth.sign('vault1', tx);
     // const hash = await k.eth.broadcast(txSigned);
-    //
+    // console.log(hash);
+    // //
     // const stakes = await k.eth.getStakesByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
     // const stakes = await k.eth.getStakesByValidators(['0xb682de189fd7e6c0e719ba4fcafa1f2ef878824df995617c11a656b99e88fdaf0bd696f48baf35ea8114dfaa67c9bf54']);
     // const stakes = await k.eth.getStakesByWallets(['0xbc86717BaD3F8CcF86D2882A6bC351C94580a994']);
+    // const stats = await k.eth.getNetworkStats();
     // console.log(stakes);
 
     // const rewards = await k.eth.getRewardsByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9'], '2022-11-10', '2022-11-12');
