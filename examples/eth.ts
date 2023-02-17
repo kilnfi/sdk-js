@@ -21,10 +21,11 @@ const f = async () => {
 
   try {
     console.log('crafting tx...');
+    const amountWei = k.eth.ethToWei('32');
     const tx = await k.eth.craftStakeTx(
       'd3f1b917-72b1-4982-a4dd-93fce579a708',
       '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
-      '32000000000000000000',
+      amountWei,
     );
     console.log('signing tx...');
     const txSigned = await k.eth.sign('vault1', tx);
