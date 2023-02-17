@@ -5,7 +5,6 @@ import { GenericExtrinsic } from "@polkadot/types/extrinsic";
 export type InternalDotConfig = {
   testnet?: boolean;
   integrations: Integrations | undefined;
-  rpc: string | undefined;
 };
 
 /**

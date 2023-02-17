@@ -22,10 +22,10 @@ const DOT_TO_PLANCK = 1000000000000;
 export class DotService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations, rpc }: InternalDotConfig) {
+  constructor({ testnet, integrations }: InternalDotConfig) {
     super({ testnet, integrations });
     const kilnRpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
-    this.rpc = rpc ?? kilnRpc;
+    this.rpc = kilnRpc;
   }
 
   private async getClient(): Promise<ApiPromise> {

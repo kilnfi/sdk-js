@@ -1,107 +1,48 @@
-import Web3 from 'web3';
-import Common, { Chain } from '@ethereumjs/common';
-import { Transaction } from "@ethereumjs/tx";
+import Common, { Chain, Hardfork } from '@ethereumjs/common';
+import { FeeMarketEIP1559Transaction } from "@ethereumjs/tx";
 import api from '../api';
-import { InvalidStakeAmount, NotEnoughKeysProvided } from '../errors/eth';
-import { ADDRESSES } from '../globals';
 import {
-  EthereumStakeOptions,
-  EthNetworkStats, EthRewards,
-  EthStakes, EthTxStatus,
+  EthereumTx, EthKilnStats,
+  EthNetworkStats,
+  EthRewards,
+  EthStakes,
+  EthTxStatus,
   InternalEthereumConfig,
-  ValidationKeyDepositData,
 } from '../types/eth';
 import {
-  BroadcastError, GetTxStatusError,
+  BroadcastError,
+  GetTxStatusError,
   InvalidIntegration,
   InvalidSignature,
 } from "../errors/integrations";
 import { Service } from "./service";
+import { utils } from "ethers";
 
 export class EthService extends Service {
-  private web3: Web3;
-
-  constructor({ testnet, integrations, rpc }: InternalEthereumConfig) {
+  constructor({ testnet, integrations }: InternalEthereumConfig) {
     super({ testnet, integrations });
-    const kilnRpc = testnet === true ? 'https://goerli.infura.io/v3/7c4e6c4152334af0b465e04fba62c5ec' : 'https://mainnet.infura.io/v3/7c4e6c4152334af0b465e04fba62c5ec';
-    this.web3 = new Web3(new Web3.providers.HttpProvider(rpc ? rpc : kilnRpc));
   }
 
   /**
-   * Spin Up Ethereum validators and craft staking transaction
+   * Spin up Ethereum validators and craft a staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amountEth how many tokens to stake in ETH (must be a multiple of 32)
+   * @param amountWei how many tokens to stake in WEI (must be a multiple of 32ETH, eg 32000000000000000000)
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amountEth: number,
-  ): Promise<any> {
-    if (amountEth % 32 !== 0 || amountEth <= 0) {
-      throw new InvalidStakeAmount(
-        'Ethereum stake must be a multiple of 32 ETH',
-      );
-    }
-
+    amountWei: string,
+  ): Promise<EthereumTx> {
     try {
-      // Construct batch deposit parameters
-      let pubkeys: string[] = [];
-      let withdrawalsCredentials: string[] = [];
-      let signatures: string[] = [];
-      let depositDataRoots: string[] = [];
-      const nbKeysNeeded = Math.floor(amountEth / 32);
-
-      const { data: keys } = await api.post<ValidationKeyDepositData>(
-        '/v1/eth/keys',
+      const { data } = await api.post<EthereumTx>(
+        `/v1/eth/transaction/stake`,
         {
-          withdrawal_address: walletAddress,
-          number: nbKeysNeeded,
-          format: 'batch_deposit',
           account_id: accountId,
-        },
-      );
-
-      pubkeys = keys.data.pubkeys.map((v) => '0x' + v);
-      withdrawalsCredentials = keys.data.withdrawal_credentials.map((v) => '0x' + v);
-      signatures = keys.data.signatures.map((v) => '0x' + v);
-      depositDataRoots = keys.data.deposit_data_roots.map((v) => '0x' + v);
-
-      const contractAddress = this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract;
-      const batchDepositContract = new this.web3.eth.Contract(
-        JSON.parse(ADDRESSES.eth.abi),
-        contractAddress,
-      );
-
-      const batchDepositFunction = batchDepositContract.methods
-        .batchDeposit(
-          pubkeys,
-          withdrawalsCredentials,
-          signatures,
-          depositDataRoots,
-        );
-
-      const data = batchDepositFunction.encodeABI();
-      const amountBN = this.web3.utils.toBN(amountEth);
-      const amountWei = this.web3.utils.toWei(amountBN);
-      const gasPriceWei = await this.web3.eth.getGasPrice();
-      let gasLimitWei = await batchDepositFunction.estimateGas({ from: walletAddress, value: amountWei });
-      gasLimitWei = gasLimitWei * 2;
-      const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
-      const nonce = await this.web3.eth.getTransactionCount(walletAddress);
-      const unsignedTx = Transaction.fromTxData({
-        nonce: nonce,
-        data: data,
-        to: contractAddress,
-        value: this.web3.utils.numberToHex(amountWei),
-        gasPrice: this.web3.utils.numberToHex(gasPriceWei),
-        gasLimit: this.web3.utils.numberToHex(gasLimitWei),
-      }, { common });
-
-      return {
-        hashed: unsignedTx.getMessageToSign(true).toString('hex'),
-        serialized: unsignedTx.serialize().toString('hex'),
-      };
+          wallet: walletAddress,
+          amount_wei: amountWei,
+        });
+      return data;
     } catch (err: any) {
       throw new Error(err);
     }
@@ -113,7 +54,7 @@ export class EthService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: any, note?: string): Promise<string> {
+  async sign(integration: string, tx: EthereumTx, note?: string): Promise<string> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -126,23 +67,25 @@ export class EthService extends Service {
       rawMessageData: {
         messages: [
           {
-            "content": tx.hashed,
+            "content": tx.unsigned_tx_hashed,
           },
-        ]
-      }
+        ],
+      },
     };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
-    const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
-    const chainId = this.testnet ? 5 : 1;
+    const common = new Common({
+      chain: this.testnet ? Chain.Goerli : Chain.Mainnet,
+      hardfork: Hardfork.London,
+    });
     const sigV: number = signatures?.signedMessages?.[0].signature.v ?? 0;
-    const v: number = chainId * 2 + (35 + sigV);
-    const unsignedTx = Transaction.fromSerializedTx(Buffer.from(tx.serialized, 'hex'));
-    const signedTx = Transaction.fromTxData({
+    const unsignedTx = FeeMarketEIP1559Transaction.fromSerializedTx(Buffer.from(tx.unsigned_tx_serialized, 'hex'));
+    const signedTx = FeeMarketEIP1559Transaction.fromTxData({
       ...unsignedTx.toJSON(),
       r: `0x${signatures?.signedMessages?.[0].signature.r}`,
       s: `0x${signatures?.signedMessages?.[0].signature.s}`,
-      v: v,
+      v: sigV,
+      gasPrice: undefined,
     }, { common });
 
     if (signedTx.verifySignature()) {
@@ -159,10 +102,14 @@ export class EthService extends Service {
    */
   async broadcast(hexSerializedTx: string): Promise<string | undefined> {
     try {
-      const receipt = await this.web3.eth.sendSignedTransaction('0x' + hexSerializedTx);
-      return receipt.transactionHash;
-    } catch (e: any) {
-      throw new BroadcastError(e);
+      const { data } = await api.post<string>(
+        `/v1/eth/transaction/broadcast`,
+        {
+          serialized_tx: hexSerializedTx,
+        });
+      return data;
+    } catch (err: any) {
+      throw new BroadcastError(err);
     }
   }
 
@@ -172,14 +119,11 @@ export class EthService extends Service {
    */
   async getTxStatus(transactionHash: string): Promise<EthTxStatus> {
     try {
-      const receipt = await this.web3.eth.getTransactionReceipt(transactionHash);
-      const status = receipt ? receipt.status ? 'success' : 'error' : 'pending_confirmation';
-      return {
-        status: status,
-        txReceipt: receipt,
-      };
-    } catch (e: any) {
-      throw new GetTxStatusError(e);
+      const { data } = await api.get<EthTxStatus>(
+        `/v1/eth/transaction/status?tx_hash=${transactionHash}`);
+      return data;
+    } catch (err: any) {
+      throw new GetTxStatusError(err);
     }
   }
 
@@ -191,9 +135,13 @@ export class EthService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<EthStakes> {
-    const { data } = await api.get<EthStakes>(
-      `/v1/eth/stakes?accounts=${accountIds.join(',')}`);
-    return data;
+    try {
+      const { data } = await api.get<EthStakes>(
+        `/v1/eth/stakes?accounts=${accountIds.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -204,10 +152,14 @@ export class EthService extends Service {
   async getStakesByWallets(
     walletAddresses: string[],
   ): Promise<EthStakes> {
-    const { data } = await api.get<EthStakes>(
-      `/v1/eth/stakes?wallets=${walletAddresses.join(',')}`,
-    );
-    return data;
+    try {
+      const { data } = await api.get<EthStakes>(
+        `/v1/eth/stakes?wallets=${walletAddresses.join(',')}`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -216,76 +168,118 @@ export class EthService extends Service {
    * @returns {EthStakes} Ethereum Stakes
    */
   async getStakesByValidators(validatorAddresses: string[]): Promise<EthStakes> {
-    const { data } = await api.get<EthStakes>(
-      `/v1/eth/stakes?validators=${validatorAddresses.join(',')}`,
-    );
-    return data;
+    try {
+      const { data } = await api.get<EthStakes>(
+        `/v1/eth/stakes?validators=${validatorAddresses.join(',')}`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve rewards by day of given kiln accounts
    * @param accountIds: account ids of which you wish to retrieve rewards
-   * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {EthRewards} Ethereum rewards
    */
   async getRewardsByAccounts(
     accountIds: string[],
-    startDay?: string,
-    endDay?: string,
+    startDate?: string,
+    endDate?: string,
   ): Promise<EthRewards> {
-    const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
-      startDay ? `&start_day=${startDay}` : ''
-    }${endDay ? `&end_day=${endDay}` : ''}`;
-    const { data } = await api.get<EthRewards>(query);
-    return data;
+    try {
+      const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_day=${endDate}` : ''}`;
+      const { data } = await api.get<EthRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve rewards by day of given wallet addresses
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
-   * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {EthRewards} Ethereum rewards
    */
   async getRewardsByWallets(
     walletAddresses: string[],
-    startDay?: string,
-    endDay?: string,
+    startDate?: string,
+    endDate?: string,
   ): Promise<EthRewards> {
-    const query = `/v1/eth/rewards?wallets=${walletAddresses.join(',')}${
-      startDay ? `&start_day=${startDay}` : ''
-    }${endDay ? `&end_day=${endDay}` : ''}`;
-    const { data } = await api.get<EthRewards>(query);
-    return data;
+    try {
+      const query = `/v1/eth/rewards?wallets=${walletAddresses.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<EthRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve rewards by day on given validator addresses
    * @param validatorAddresses validator addresses of which you wish to retrieve rewards
-   * @param startDay: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDay: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {EthRewards} Ethereum rewards
    */
   async getRewardsByValidators(
     validatorAddresses: string[],
-    startDay?: string,
-    endDay?: string,
+    startDate?: string,
+    endDate?: string,
   ): Promise<EthRewards> {
-    const query = `/v1/eth/rewards?validators=${validatorAddresses.join(',')}${
-      startDay ? `&start_day=${startDay}` : ''
-    }${endDay ? `&end_day=${endDay}` : ''}`;
-    const { data } = await api.get<EthRewards>(query);
-    return data;
+    try {
+      const query = `/v1/eth/rewards?validators=${validatorAddresses.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<EthRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve ETH network stats
    */
   async getNetworkStats(): Promise<EthNetworkStats> {
-    const { data } = await api.get<EthNetworkStats>(
-      `/v1/eth/network-stats`,
-    );
-    return data;
+    try {
+      const { data } = await api.get<EthNetworkStats>(
+        `/v1/eth/network-stats`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve ETH kiln stats
+   */
+  async getKilnStats(): Promise<EthKilnStats> {
+    try {
+      const { data } = await api.get<EthKilnStats>(
+        `/v1/eth/kiln-stats`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Utility function to convert ETH to WEI
+   * @param eth
+   */
+  ethToWei(eth: string): string {
+    return utils.parseEther(eth).toString();
   }
 }

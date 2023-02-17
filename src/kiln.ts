@@ -2,7 +2,6 @@ import api from './api';
 import { EthService } from './services/eth';
 import { SolService } from './services/sol';
 import { Integrations } from "./types/integrations";
-import { Rpcs } from "./types/rpcs";
 import { AtomService } from "./services/atom";
 import { AccountService } from "./services/accounts";
 import { AdaService } from "./services/ada";
@@ -14,7 +13,6 @@ type Config = {
   apiToken: string;
   testnet?: boolean;
   integrations?: Integrations;
-  rpcs?: Rpcs;
 };
 
 export class Kiln {
@@ -27,21 +25,21 @@ export class Kiln {
   dot: DotService;
   xtz: XtzService;
 
-  constructor({ testnet, apiToken, integrations, rpcs }: Config) {
+  constructor({ testnet, apiToken, integrations }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
     api.defaults.headers.common['Content-Type'] = 'application/json';
     api.defaults.baseURL =
       testnet === true
-        ? 'https://api.testnet.kiln.fi/'
+        ? 'https://api.testnet.kiln.fi'
         : 'https://api.kiln.fi/';
 
     this.accounts = new AccountService({ testnet });
-    this.eth = new EthService({ testnet, integrations, rpc: rpcs?.ethereum,  });
-    this.sol = new SolService({ testnet, integrations, rpc: rpcs?.solana, });
-    this.atom = new AtomService({ testnet, integrations, rpc: rpcs?.atom, });
+    this.eth = new EthService({ testnet, integrations });
+    this.sol = new SolService({ testnet, integrations });
+    this.atom = new AtomService({ testnet, integrations });
     this.ada = new AdaService({ testnet, integrations });
-    this.near = new NearService({ testnet, integrations, rpc: rpcs?.near });
-    this.dot = new DotService({ testnet, integrations, rpc: rpcs?.dot });
+    this.near = new NearService({ testnet, integrations });
+    this.dot = new DotService({ testnet, integrations });
     this.xtz = new XtzService({ testnet, integrations });
   }
 }

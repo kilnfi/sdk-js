@@ -5,7 +5,6 @@ import { EncodeObject } from "@cosmjs/proto-signing";
 export type InternalAtomConfig = {
   testnet?: boolean;
   integrations: Integrations | undefined;
-  rpc: string | undefined;
 };
 
 
