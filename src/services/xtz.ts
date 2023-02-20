@@ -32,14 +32,18 @@ export class XtzService extends Service {
     walletAddress: string,
     options?: XtzStakeOptions,
   ): Promise<TezosTx> {
-    const { data } = await api.post<TezosTx>(
-      `/v1/xtz/transaction/stake`,
-      {
-        account_id: accountId,
-        wallet: walletAddress,
-        options: options,
-      });
-    return data;
+    try {
+      const { data } = await api.post<TezosTx>(
+        `/v1/xtz/transaction/stake`,
+        {
+          account_id: accountId,
+          wallet: walletAddress,
+          options: options,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -49,12 +53,16 @@ export class XtzService extends Service {
   async craftUnStakeTx(
     walletAddress: string,
   ): Promise<TezosTx> {
-    const { data } = await api.post<TezosTx>(
-      `/v1/xtz/transaction/unstake`,
-      {
-        wallet: walletAddress,
-      });
-    return data;
+    try {
+      const { data } = await api.post<TezosTx>(
+        `/v1/xtz/transaction/unstake`,
+        {
+          wallet: walletAddress,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -63,7 +71,7 @@ export class XtzService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: TezosTx, note?: string): Promise<string | any> {
+  async sign(integration: string, tx: TezosTx, note?: string): Promise<string> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -131,9 +139,13 @@ export class XtzService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<XtzStakes> {
-    const { data } = await api.get<XtzStakes>(
-      `/v1/xtz/stakes?accounts=${accountIds.join(',')}`);
-    return data;
+    try {
+      const { data } = await api.get<XtzStakes>(
+        `/v1/xtz/stakes?accounts=${accountIds.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -144,10 +156,14 @@ export class XtzService extends Service {
   async getStakesByWallets(
     walletAddresses: string[],
   ): Promise<XtzStakes> {
-    const { data } = await api.get<XtzStakes>(
-      `/v1/xtz/stakes?wallets=${walletAddresses.join(',')}`,
-    );
-    return data;
+    try {
+      const { data } = await api.get<XtzStakes>(
+        `/v1/xtz/stakes?wallets=${walletAddresses.join(',')}`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -162,11 +178,15 @@ export class XtzService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<XtzRewards> {
-    const query = `/v1/xtz/rewards?accounts=${accountIds.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
-    const { data } = await api.get<XtzRewards>(query);
-    return data;
+    try {
+      const query = `/v1/xtz/rewards?accounts=${accountIds.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<XtzRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -181,20 +201,28 @@ export class XtzService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<XtzRewards> {
-    const query = `/v1/xtz/rewards?wallets=${walletAddresses.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
-    const { data } = await api.get<XtzRewards>(query);
-    return data;
+    try {
+      const query = `/v1/xtz/rewards?wallets=${walletAddresses.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<XtzRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve XTZ network stats
    */
   async getNetworkStats(): Promise<XtzNetworkStats> {
-    const { data } = await api.get<XtzNetworkStats>(
-      `/v1/xtz/network-stats`,
-    );
-    return data;
+    try {
+      const { data } = await api.get<XtzNetworkStats>(
+        `/v1/xtz/network-stats`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 }

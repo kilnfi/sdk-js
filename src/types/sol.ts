@@ -4,7 +4,6 @@ import { Integrations } from "./integrations";
 export type InternalSolanaConfig = {
   testnet?: boolean;
   integrations: Integrations | undefined;
-  rpc: string | undefined;
 };
 
 export type SolanaTx = Transaction;

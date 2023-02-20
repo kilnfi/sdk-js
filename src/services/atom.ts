@@ -33,10 +33,10 @@ const UATOM_TO_ATOM = 1000000;
 export class AtomService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations, rpc }: InternalAtomConfig) {
+  constructor({ testnet, integrations }: InternalAtomConfig) {
     super({ testnet, integrations });
     const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
-    this.rpc = rpc ?? kilnRpc;
+    this.rpc = kilnRpc;
   }
 
   private async getClient(): Promise<StargateClient> {

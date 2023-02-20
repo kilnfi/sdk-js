@@ -19,21 +19,18 @@ import {
   InvalidIntegration,
 } from "../errors/integrations";
 import { ADDRESSES } from "../globals";
-import { FinalExecutionOutcome } from "near-api-js/lib/providers";
 
 export class NearService extends Service {
-  private rpc: string | undefined;
 
-  constructor({ testnet, integrations, rpc }: InternalNearConfig) {
+  constructor({ testnet, integrations }: InternalNearConfig) {
     super({ testnet, integrations });
-    this.rpc = rpc;
   }
 
   private async getConnection(): Promise<Near> {
     const officialRpc = `https://rpc.${this.testnet ? 'testnet' : 'mainnet'}.near.org`;
     const connectionConfig = {
       networkId: this.testnet ? 'testnet' : 'mainnet',
-      nodeUrl: this.rpc ?? officialRpc,
+      nodeUrl: officialRpc,
     };
     return await connect(connectionConfig);
   }

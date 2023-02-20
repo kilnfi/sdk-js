@@ -1,11 +1,9 @@
 import { Integrations } from "./integrations";
-import { Transaction } from "@ethereumjs/tx";
 import { TransactionReceipt } from "web3-core";
 
 export type InternalEthereumConfig = {
   testnet?: boolean;
   integrations: Integrations | undefined;
-  rpc: string | undefined;
 };
 
 export type EthStakes = {
@@ -33,15 +31,19 @@ export type StakeState =
 export type EthStake = {
   validator_address: string;
   state: StakeState;
-  activated_at: string | null;
-  effective_balance: string | null;
-  balance: string | null;
-  consensus_rewards: string | null;
-  execution_rewards: string | null;
-  gross_apy: number | null;
-  deposit_tx_sender: string | null;
-  fee_recipient: string | null;
-  withdrawal_credentials: string | null;
+  activated_at?: string;
+  delegated_epoch?: number;
+  delegated_block?: number;
+  effective_balance?: string;
+  balance?: string;
+  consensus_rewards?: string;
+  execution_rewards?: string;
+  rewards?: string;
+  gross_apy?: number;
+  deposit_tx_sender?: string;
+  execution_fee_recipient?: string;
+  withdrawal_credentials?: string;
+  updated_at: string;
 };
 
 export type EthRewards = {
@@ -49,40 +51,38 @@ export type EthRewards = {
 }
 
 export type EthReward = {
-  time: string;
+  date: string;
   consensus_rewards: string;
   execution_rewards: string;
+  rewards: string;
+  stake_balance: string;
   gross_apy: number;
   el_apy: number;
   cl_apy: number;
 };
 
-export type EthereumTx = Transaction;
 
-export type ValidationKeyDepositData = {
-  data: {
-    pubkeys: string[];
-    withdrawal_credentials: string[];
-    signatures: string[];
-    deposit_data_roots: string[];
-  };
+export type EthereumTx = {
+  unsigned_tx_hashed: string;
+  unsigned_tx_serialized: string;
 };
 
 export type EthNetworkStats = {
   data: {
-    apy: number;
+    network_gross_apy: number;
     supply_staked_percent: number;
   };
 };
 
-export type EthereumStakeOptions = {
-  deposit_data: {
-    pubkey: string;
-    withdrawalCredentials: string;
-    signature: string;
-    depositDataRoot: string;
-  }[];
-}
+export type EthKilnStats = {
+  data: {
+    gross_apy: {
+      last_1d: number;
+      last_7d: number;
+      last_30d: number;
+    };
+  };
+};
 
 export type EthTxStatus = {
   status: 'success' | 'error' | 'pending_confirmation';
