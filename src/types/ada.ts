@@ -1,6 +1,6 @@
 import { Integrations } from "./integrations";
 import { Responses } from '@blockfrost/blockfrost-js';
-import { components } from "@blockfrost/blockfrost-js/lib/types/OpenApi";
+import { Schemas } from "@blockfrost/blockfrost-js/lib/types/open-api";
 
 export type InternalAdaConfig = {
   testnet?: boolean;
@@ -15,7 +15,7 @@ export type AdaStakeOptions = {
 
 export type AdaTxStatus = {
   status: 'success' | 'pending_confirmation',
-  txReceipt: components['schemas']['tx_content']
+  txReceipt: Schemas['tx_content']
 }
 
 export type TaggedStake = {
