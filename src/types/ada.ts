@@ -23,7 +23,7 @@ export type TaggedStake = {
   balance: number;
 };
 
-export type Epoch = {
+export type AdaEpoch = {
   nb: number;
   begin_at: string;
 };
@@ -35,7 +35,7 @@ export type AdaStake = {
   balance: string;
   rewards: string;
   available_rewards: string;
-  activation_epoch: Epoch;
+  activation_epoch: AdaEpoch;
   state: 'active' | 'activating' | 'inactive';
   net_apy: number;
 };
@@ -45,7 +45,7 @@ export type AdaStakes = {
 };
 
 export type AdaReward = {
-  epoch: Epoch;
+  epoch: AdaEpoch;
   rewards: string;
   net_apy: number;
 };

@@ -1,20 +1,15 @@
 import api from '../api';
-import {
-  BroadcastError,
-  GetTxStatusError,
-  InvalidIntegration,
-} from "../errors/integrations";
-import { Service } from "./service";
+import { Service } from './service';
 import { b58cdecode, b58cencode, buf2hex, prefix } from '@taquito/utils';
 import {
   InternalTezosConfig,
-  TezosTx,
-  TxStatus,
   XtzNetworkStats,
   XtzRewards,
   XtzStakeOptions,
   XtzStakes,
-} from "../types/xtz";
+  XtzTx,
+  XtzTxStatus,
+} from '../types/xtz';
 
 export class XtzService extends Service {
   constructor({ testnet, integrations }: InternalTezosConfig) {
@@ -31,9 +26,9 @@ export class XtzService extends Service {
     accountId: string,
     walletAddress: string,
     options?: XtzStakeOptions,
-  ): Promise<TezosTx> {
+  ): Promise<XtzTx> {
     try {
-      const { data } = await api.post<TezosTx>(
+      const { data } = await api.post<XtzTx>(
         `/v1/xtz/transaction/stake`,
         {
           account_id: accountId,
@@ -52,9 +47,9 @@ export class XtzService extends Service {
    */
   async craftUnStakeTx(
     walletAddress: string,
-  ): Promise<TezosTx> {
+  ): Promise<XtzTx> {
     try {
-      const { data } = await api.post<TezosTx>(
+      const { data } = await api.post<XtzTx>(
         `/v1/xtz/transaction/unstake`,
         {
           wallet: walletAddress,
@@ -71,20 +66,20 @@ export class XtzService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: TezosTx, note?: string): Promise<string> {
+  async sign(integration: string, tx: XtzTx, note?: string): Promise<string> {
     if (!this.integrations?.find(int => int.name === integration)) {
-      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
+      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     if (!this.fbSigner) {
-      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+      throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
     const payload = {
       rawMessageData: {
         messages: [
           {
-            "content": tx.unsigned_tx_hashed,
+            'content': tx.unsigned_tx_hashed,
           },
         ],
       },
@@ -112,7 +107,7 @@ export class XtzService extends Service {
         });
       return data;
     } catch (e: any) {
-      throw new BroadcastError(e);
+      throw new Error(e);
     }
   }
 
@@ -121,13 +116,13 @@ export class XtzService extends Service {
    * @param blockNumber
    * @param transactionHash: transaction hash
    */
-  async getTxStatus(blockNumber: number, transactionHash: string): Promise<TxStatus> {
+  async getTxStatus(blockNumber: number, transactionHash: string): Promise<XtzTxStatus> {
     try {
-      const { data } = await api.get<TxStatus>(
+      const { data } = await api.get<XtzTxStatus>(
         `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${transactionHash}`);
       return data;
     } catch (e: any) {
-      throw new GetTxStatusError(e);
+      throw new Error(e);
     }
   }
 
@@ -224,5 +219,13 @@ export class XtzService extends Service {
     } catch (err: any) {
       throw new Error(err);
     }
+  }
+
+  /**
+   * Utility function to convert XTZ to mutez
+   * @param xtz
+   */
+  xtzToMutez(xtz: string): string {
+    return (Number(xtz) * 10 ** 6).toString();
   }
 }

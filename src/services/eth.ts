@@ -1,22 +1,17 @@
 import Common, { Chain, Hardfork } from '@ethereumjs/common';
-import { FeeMarketEIP1559Transaction } from "@ethereumjs/tx";
+import { FeeMarketEIP1559Transaction } from '@ethereumjs/tx';
 import api from '../api';
 import {
-  EthereumTx, EthKilnStats,
+  EthTx,
+  EthKilnStats,
   EthNetworkStats,
   EthRewards,
   EthStakes,
   EthTxStatus,
   InternalEthereumConfig,
 } from '../types/eth';
-import {
-  BroadcastError,
-  GetTxStatusError,
-  InvalidIntegration,
-  InvalidSignature,
-} from "../errors/integrations";
-import { Service } from "./service";
-import { utils } from "ethers";
+import { Service } from './service';
+import { utils } from 'ethers';
 
 export class EthService extends Service {
   constructor({ testnet, integrations }: InternalEthereumConfig) {
@@ -33,9 +28,9 @@ export class EthService extends Service {
     accountId: string,
     walletAddress: string,
     amountWei: string,
-  ): Promise<EthereumTx> {
+  ): Promise<EthTx> {
     try {
-      const { data } = await api.post<EthereumTx>(
+      const { data } = await api.post<EthTx>(
         `/v1/eth/transaction/stake`,
         {
           account_id: accountId,
@@ -54,20 +49,20 @@ export class EthService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: EthereumTx, note?: string): Promise<string> {
+  async sign(integration: string, tx: EthTx, note?: string): Promise<string> {
     if (!this.integrations?.find(int => int.name === integration)) {
-      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
+      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     if (!this.fbSigner) {
-      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+      throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
     const payload = {
       rawMessageData: {
         messages: [
           {
-            "content": tx.unsigned_tx_hashed,
+            'content': tx.unsigned_tx_hashed,
           },
         ],
       },
@@ -91,7 +86,7 @@ export class EthService extends Service {
     if (signedTx.verifySignature()) {
       return signedTx.serialize().toString('hex');
     } else {
-      throw new InvalidSignature(`The transaction signatures could not be verified.`);
+      throw new Error(`The transaction signatures could not be verified.`);
     }
   }
 
@@ -109,7 +104,7 @@ export class EthService extends Service {
         });
       return data;
     } catch (err: any) {
-      throw new BroadcastError(err);
+      throw new Error(err);
     }
   }
 
@@ -123,7 +118,7 @@ export class EthService extends Service {
         `/v1/eth/transaction/status?tx_hash=${transactionHash}`);
       return data;
     } catch (err: any) {
-      throw new GetTxStatusError(err);
+      throw new Error(err);
     }
   }
 

@@ -10,12 +10,12 @@ export type XtzStakeOptions = {
   baker_address: string;
 };
 
-export type TezosTx = {
+export type XtzTx = {
   unsigned_tx_hashed: string;
   unsigned_tx_hex: string;
 };
 
-export type TxStatus = {
+export type XtzTxStatus = {
   status: string;
   txReceipt: OperationEntry;
 };

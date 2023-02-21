@@ -1,4 +1,4 @@
-import { Transaction, TransactionResponse } from '@solana/web3.js';
+import { TransactionResponse } from '@solana/web3.js';
 import { Integrations } from "./integrations";
 
 export type InternalSolanaConfig = {
@@ -6,23 +6,29 @@ export type InternalSolanaConfig = {
   integrations: Integrations | undefined;
 };
 
-export type SolanaTx = Transaction;
+export type SolTx = {
+  unsigned_tx_serialized: string;
+};
 
-type Epoch = {
+export type SignedSolTx = {
+  signed_tx_serialized: string;
+};
+
+type SolEpoch = {
   nb: number;
   begin_at: string;
 };
 
-export type StakeState = 'activating' | 'active' | 'deactivating' | 'inactive';
+export type SolStakeState = 'activating' | 'active' | 'deactivating' | 'inactive';
 
 export type SolStake = {
   stake_account: string;
   withdraw_pubkey: string;
   balance: string;
   rewards: string;
-  activation_epoch: Epoch | null;
-  deactivation_epoch: Epoch | null;
-  state: StakeState;
+  activation_epoch: SolEpoch | null;
+  deactivation_epoch: SolEpoch | null;
+  state: SolStakeState;
   net_apy: number;
   vote_account: string;
 };
@@ -32,7 +38,7 @@ export type SolStakes = {
 }
 
 export type SolReward = {
-  epoch: Epoch;
+  epoch: SolEpoch;
   rewards: number;
   net_apy: number;
 };
@@ -50,27 +56,12 @@ export type SolNetworkStats = {
   };
 };
 
-export type SolanaStakeOptions = {
+export type SolStakeOptions = {
   voteAccountAddress?: string;
   memo?: string;
 };
 
-export type TaggedStake = {
-  stakeAccount: string;
-  balance: number;
-};
-
-export type PublicNonceAccountInfo = {
-  nonce_account: string;
-  nonce_account_authority: string;
-};
-
-export type PublicSignature = {
-  pubkey: string;
-  signature: string | null;
-};
-
-export type SolanaTxStatus = {
+export type SolTxStatus = {
   status: 'success' | 'error';
   txReceipt: TransactionResponse | null;
 }
