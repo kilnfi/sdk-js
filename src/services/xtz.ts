@@ -114,12 +114,12 @@ export class XtzService extends Service {
   /**
    * Get transaction status
    * @param blockNumber
-   * @param transactionHash: transaction hash
+   * @param txHash: transaction hash
    */
-  async getTxStatus(blockNumber: number, transactionHash: string): Promise<XtzTxStatus> {
+  async getTxStatus(blockNumber: number, txHash: string): Promise<XtzTxStatus> {
     try {
       const { data } = await api.get<XtzTxStatus>(
-        `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${transactionHash}`);
+        `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${txHash}`);
       return data;
     } catch (e: any) {
       throw new Error(e);
