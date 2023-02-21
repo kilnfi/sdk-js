@@ -1,12 +1,4 @@
 export const ADDRESSES = {
-  sol: {
-    devnet: {
-      voteAccountAddress: 'FwR3PbjS5iyqzLiLugrBqKSa5EKZ4vK9SKs7eQXtT59f'
-    },
-    mainnet: {
-      voteAccountAddress: 'DdCNGDpP7qMgoAy6paFzhhak2EeyCZcgjH7ak5u5v28m'
-    }
-  },
   atom: {
     testnet: {
       validatorAddress: 'cosmosvaloper178h4s6at5v9cd8m9n7ew3hg7k9eh0s6wptxpcn' // random validator

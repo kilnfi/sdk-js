@@ -1,32 +1,26 @@
+import { Service } from './service';
 import {
-  BroadcastError,
-  GetTxStatusError,
-  InvalidIntegration,
-} from "../errors/integrations";
-import { Service } from "./service";
-import {
-  coin, IndexedTx,
+  coin,
   MsgDelegateEncodeObject,
   MsgUndelegateEncodeObject,
   SigningStargateClient,
   StargateClient,
   StdFee,
-} from "@cosmjs/stargate";
+} from '@cosmjs/stargate';
 import {
   AtomStakeOptions,
   AtomTx,
   AtomTxStatus,
   InternalAtomConfig,
-} from "../types/atom";
-import { CouldNotFetchDelegation, InvalidStakeAmount } from "../errors/atom";
-import { TxRaw } from "cosmjs-types/cosmos/tx/v1beta1/tx";
-import { Coin, OfflineSigner } from "@cosmjs/proto-signing";
+} from '../types/atom';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { Coin, OfflineSigner } from '@cosmjs/proto-signing';
 import {
   MsgDelegate,
   MsgUndelegate,
-} from "cosmjs-types/cosmos/staking/v1beta1/tx";
-import { AtomFbSigner } from "../integrations/atom_fb_signer";
-import { ADDRESSES } from "../globals";
+} from 'cosmjs-types/cosmos/staking/v1beta1/tx';
+import { AtomFbSigner } from '../integrations/atom_fb_signer';
+import { ADDRESSES } from '../globals';
 
 const UATOM_TO_ATOM = 1000000;
 
@@ -61,7 +55,7 @@ export class AtomService extends Service {
     options?: AtomStakeOptions,
   ): Promise<AtomTx> {
     if (amountAtom < 0.01) {
-      throw new InvalidStakeAmount('Atom stake must be at least 0.01 ATOM');
+      throw new Error('Atom stake must be at least 0.01 ATOM');
     }
 
     try {
@@ -73,15 +67,15 @@ export class AtomService extends Service {
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
-        amount: coin((amountAtom * UATOM_TO_ATOM).toString(), "uatom"),
+        amount: coin((amountAtom * UATOM_TO_ATOM).toString(), 'uatom'),
       });
 
       const delegateMsg: MsgDelegateEncodeObject = {
-        typeUrl: "/cosmos.staking.v1beta1.MsgDelegate",
+        typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
         value: msg,
       };
 
-      const feeAmount = coin(5000, "uatom");
+      const feeAmount = coin(5000, 'uatom');
       const fee: StdFee = {
         amount: [feeAmount],
         gas: '300000',
@@ -116,11 +110,11 @@ export class AtomService extends Service {
         const client = await this.getClient();
         const delegation = await client.getDelegation(walletAddress, validatorAddress);
         if (!delegation) {
-          throw new CouldNotFetchDelegation('Could not fetch delegation.');
+          throw new Error('Could not fetch delegation.');
         }
         amountToWithdraw = delegation;
       } else {
-        amountToWithdraw = coin((amountAtom * UATOM_TO_ATOM).toString(), "uatom");
+        amountToWithdraw = coin((amountAtom * UATOM_TO_ATOM).toString(), 'uatom');
       }
 
       const msg = MsgUndelegate.fromPartial({
@@ -130,11 +124,11 @@ export class AtomService extends Service {
       });
 
       const undelegateMsg: MsgUndelegateEncodeObject = {
-        typeUrl: "/cosmos.staking.v1beta1.MsgUndelegate",
+        typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
         value: msg,
       };
 
-      const feeAmount = coin(5000, "uatom");
+      const feeAmount = coin(5000, 'uatom');
       const fee: StdFee = {
         amount: [feeAmount],
         gas: '300000',
@@ -173,7 +167,7 @@ export class AtomService extends Service {
       const res = await client.broadcastTx(TxRaw.encode(transaction).finish());
       return res.transactionHash;
     } catch (e: any) {
-      throw new BroadcastError(e);
+      throw new Error(e);
     }
   }
 
@@ -187,10 +181,10 @@ export class AtomService extends Service {
       const tx = await client.getTx(transactionHash);
       return tx ? {
         status: tx.code === 0 ? 'success' : 'error',
-        txReceipt: tx
+        txReceipt: tx,
       } : null;
     } catch (e: any) {
-      throw new GetTxStatusError(e);
+      throw new Error(e);
     }
   }
 
@@ -202,16 +196,16 @@ export class AtomService extends Service {
   private getSigner(integration: string): OfflineSigner {
     const currentIntegration = this.integrations?.find(int => int.name === integration);
     if (!currentIntegration) {
-      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
+      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     // We only support fireblocks integration for now
     if (currentIntegration.provider !== 'fireblocks') {
-      throw new InvalidIntegration(`Unsupported integration provider: ${currentIntegration.provider}`);
+      throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
     }
 
     if (!this.fbSdk) {
-      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+      throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
     return new AtomFbSigner(this.fbSdk, currentIntegration.vaultAccountId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS');

@@ -10,7 +10,7 @@ export type EthStakes = {
   data: EthStake[]
 }
 
-export type StakeState =
+export type EthStakeState =
     | 'unknown'
     | 'not_staked'
     | 'deposit_in_progress'
@@ -30,7 +30,7 @@ export type StakeState =
 
 export type EthStake = {
   validator_address: string;
-  state: StakeState;
+  state: EthStakeState;
   activated_at?: string;
   delegated_epoch?: number;
   delegated_block?: number;
@@ -62,7 +62,7 @@ export type EthReward = {
 };
 
 
-export type EthereumTx = {
+export type EthTx = {
   unsigned_tx_hashed: string;
   unsigned_tx_serialized: string;
 };

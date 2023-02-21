@@ -1,190 +1,49 @@
-import {
-  Authorized,
-  clusterApiUrl,
-  Connection,
-  Keypair,
-  PublicKey,
-  sendAndConfirmRawTransaction,
-  StakeProgram,
-  SystemProgram,
-  Transaction,
-  TransactionInstruction,
-} from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, Transaction } from '@solana/web3.js';
 import api from '../api';
-import { InvalidStakeAmount } from '../errors/sol';
-import { ADDRESSES } from '../globals';
 import {
   InternalSolanaConfig,
-  PublicNonceAccountInfo,
-  PublicSignature,
-  SolanaStakeOptions,
-  SolanaTx,
-  SolanaTxStatus,
+  SignedSolTx,
   SolNetworkStats,
   SolRewards,
+  SolStakeOptions,
   SolStakes,
-  TaggedStake,
+  SolTx,
+  SolTxStatus,
 } from '../types/sol';
-import {
-  BroadcastError,
-  GetTxStatusError,
-  InvalidIntegration,
-  InvalidSignature,
-} from "../errors/integrations";
-import { Service } from "./service";
-import { CoreStakes } from "../types/core-stake";
+import { Service } from './service';
 
-const LAMPORTS_TO_SOL = 1000000000;
 
 export class SolService extends Service {
   constructor({ testnet, integrations }: InternalSolanaConfig) {
     super({ testnet, integrations });
   }
 
-  private async getConnection(): Promise<Connection> {
-    let connection;
-
-    if (this.testnet) {
-      connection = new Connection(clusterApiUrl('devnet'));
-    } else {
-      connection = new Connection(clusterApiUrl('mainnet-beta'));
-    }
-    return connection;
-  }
-
-  /**
-   * Get Kiln nonce account info
-   * @private
-   */
-  private async getNonceAccount(): Promise<PublicNonceAccountInfo> {
-    const { data } = await api.get<PublicNonceAccountInfo>('/v1/sol/nonce-account');
-    return data;
-  };
-
-  /**
-   * Partially sign a hex encoded message with kiln nonce account
-   * @param message
-   * @private
-   */
-  private async partialSignWithNonceAccount(message: string): Promise<PublicSignature[]> {
-    const { data } = await api.post<PublicSignature[]>('/v1/sol/nonce-account/partial-sign', {
-      message,
-    });
-    return data;
-  };
-
   /**
    * Craft Solana staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param amountSol how many tokens to stake in SOL (must be at least 0.01 SOL)
+   * @param amountLamports how much to stake in lamports (min 0.01 SOL)
    * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amountSol: number,
-    options?: SolanaStakeOptions,
-  ): Promise<SolanaTx> {
-    if (amountSol < 0.01) {
-      throw new InvalidStakeAmount('Solana stake must be at least 0.01 SOL');
+    amountLamports: string,
+    options?: SolStakeOptions,
+  ): Promise<SolTx> {
+    try {
+      const { data } = await api.post<SolTx>(
+        `/v1/sol/transaction/stake`,
+        {
+          account_id: accountId,
+          wallet: walletAddress,
+          amount_lamports: amountLamports,
+          options: options,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
-    const tx = new Transaction();
-    const staker = new PublicKey(walletAddress);
-    const stakeKey = new Keypair();
-    const votePubKey = new PublicKey(
-      options?.voteAccountAddress ? options.voteAccountAddress :
-        this.testnet ?
-          ADDRESSES.sol.devnet.voteAccountAddress :
-          ADDRESSES.sol.mainnet.voteAccountAddress,
-    );
-    const memoProgram = 'MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr';
-
-    // Get nonce account info
-    const nonceInfo = await this.getNonceAccount();
-    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
-    const connection = await this.getConnection();
-    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
-    if (!nonceAccount) {
-      throw new Error('Could not fetch nonce account');
-    }
-
-    const instructions = [
-      SystemProgram.nonceAdvance({
-        noncePubkey: nonceAccountPubKey,
-        authorizedPubkey: nonceAccount.authorizedPubkey,
-      }),
-      new TransactionInstruction({
-        keys: [
-          {
-            pubkey: staker,
-            isSigner: true,
-            isWritable: true,
-          },
-        ],
-        programId: new PublicKey(memoProgram),
-        data: Buffer.from(Buffer.from(accountId).toString('base64')),
-      }),
-      StakeProgram.createAccount({
-        fromPubkey: staker,
-        authorized: new Authorized(staker, staker),
-        lamports: amountSol * LAMPORTS_TO_SOL,
-        stakePubkey: stakeKey.publicKey,
-      }),
-      StakeProgram.delegate({
-        stakePubkey: stakeKey.publicKey,
-        authorizedPubkey: staker,
-        votePubkey: votePubKey,
-      }),
-    ];
-    tx.add(...instructions);
-
-    if (options?.memo) {
-      tx.add(
-        // custom memo
-        new TransactionInstruction({
-          keys: [
-            {
-              pubkey: staker,
-              isSigner: true,
-              isWritable: true,
-            },
-          ],
-          programId: new PublicKey(memoProgram),
-          data: Buffer.from(options.memo),
-        }),
-      );
-    }
-
-    tx.recentBlockhash = nonceAccount.nonce;
-    tx.feePayer = staker;
-    tx.partialSign(stakeKey);
-
-    // Sign with nonce account
-    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
-    signatures.forEach((signature: PublicSignature) => {
-      if (signature.signature) {
-        tx.addSignature(
-          new PublicKey(signature.pubkey),
-          Buffer.from(signature.signature, 'hex'),
-        );
-      }
-    });
-
-    // Tag stake
-    const stake: TaggedStake = {
-      stakeAccount: stakeKey.publicKey.toString(),
-      balance: amountSol * LAMPORTS_TO_SOL,
-    };
-    await api.post<CoreStakes>(
-      '/v1/sol/stakes',
-      {
-        account_id: accountId,
-        stakes: [stake],
-      });
-
-    return tx;
   }
 
   /**
@@ -195,113 +54,43 @@ export class SolService extends Service {
   async craftDeactivateStakeTx(
     stakeAccountAddress: string,
     walletAddress: string,
-  ): Promise<SolanaTx> {
-
-    const tx = new Transaction();
-    const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
-    const walletPubKey = new PublicKey(walletAddress);
-
-    // Get nonce account info
-    const nonceInfo = await this.getNonceAccount();
-    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
-    const connection = await this.getConnection();
-    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
-    if (!nonceAccount) {
-      throw new Error('Could not fetch nonce account');
+  ): Promise<SolTx> {
+    try {
+      const { data } = await api.post<SolTx>(
+        `/v1/sol/transaction/deactivate-stake`,
+        {
+          stake_account: stakeAccountAddress,
+          wallet: walletAddress,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
-    const instructions = [
-      SystemProgram.nonceAdvance({
-        noncePubkey: nonceAccountPubKey,
-        authorizedPubkey: nonceAccount.authorizedPubkey,
-      }),
-      StakeProgram.deactivate({
-        stakePubkey: stakeAccountPubKey,
-        authorizedPubkey: walletPubKey,
-      }),
-    ];
-    tx.add(...instructions);
-
-
-    tx.recentBlockhash = nonceAccount.nonce;
-    tx.feePayer = walletPubKey;
-
-    // Sign with nonce account
-    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
-    signatures.forEach((signature: PublicSignature) => {
-      if (signature.signature) {
-        tx.addSignature(
-          new PublicKey(signature.pubkey),
-          Buffer.from(signature.signature, 'hex'),
-        );
-      }
-    });
-
-    return tx;
   }
 
   /**
-   * Craft Solana withdraw staked balance transaction
+   * Craft Solana withdraw stake transaction
    * @param stakeAccountAddress stake account address to deactivate
    * @param walletAddress wallet that has authority over the stake account
-   * @param amountSol: amount to withdraw in SOL, if not specified the whole balance will be withdrawn
+   * @param amountLamports: amount to withdraw in lamports, if not specified the whole balance will be withdrawn
    */
-  async craftWithdrawStakedBalanceTx(
+  async craftWithdrawStakeTx(
     stakeAccountAddress: string,
     walletAddress: string,
-    amountSol?: number,
-  ): Promise<SolanaTx> {
-    const stakeAccountPubKey = new PublicKey(stakeAccountAddress);
-    const walletPubKey = new PublicKey(walletAddress);
-
-    // Get nonce account info
-    const nonceInfo = await this.getNonceAccount();
-    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
-    const connection = await this.getConnection();
-    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
-    if (!nonceAccount) {
-      throw new Error('Could not fetch nonce account');
+    amountLamports?: string,
+  ): Promise<SolTx> {
+    try {
+      const { data } = await api.post<SolTx>(
+        `/v1/sol/transaction/withdraw-stake`,
+        {
+          stake_account: stakeAccountAddress,
+          wallet: walletAddress,
+          amount_lamports: amountLamports,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
-    let amount;
-
-    if (!amountSol) {
-      amount = await connection.getBalance(stakeAccountPubKey);
-    } else {
-      amount = amountSol * LAMPORTS_TO_SOL;
-    }
-
-    const tx = new Transaction();
-
-    const instructions = [
-      SystemProgram.nonceAdvance({
-        noncePubkey: nonceAccountPubKey,
-        authorizedPubkey: nonceAccount.authorizedPubkey,
-      }),
-      StakeProgram.withdraw({
-        stakePubkey: stakeAccountPubKey,
-        authorizedPubkey: walletPubKey,
-        toPubkey: walletPubKey,
-        lamports: amount,
-      }),
-    ];
-    tx.add(...instructions);
-
-    tx.recentBlockhash = nonceAccount.nonce;
-    tx.feePayer = walletPubKey;
-
-    // Sign with nonce account
-    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
-    signatures.forEach((signature: PublicSignature) => {
-      if (signature.signature) {
-        tx.addSignature(
-          new PublicKey(signature.pubkey),
-          Buffer.from(signature.signature, 'hex'),
-        );
-      }
-    });
-
-    return tx;
   }
 
   /**
@@ -311,53 +100,23 @@ export class SolService extends Service {
    * @param stakeAccountDestinationAddress stake account to merge the source stake account into
    * @param walletAddress that has authority over the 2 stake accounts to merge
    */
-  async craftMergeStakeAccountsTx(
+  async craftMergeStakesTx(
     stakeAccountSourceAddress: string,
     stakeAccountDestinationAddress: string,
     walletAddress: string,
-  ): Promise<SolanaTx> {
-    const tx = new Transaction();
-    const stakerPubKey = new PublicKey(walletAddress);
-    const sourcePubKey = new PublicKey(stakeAccountSourceAddress);
-    const destinationPubKey = new PublicKey(stakeAccountDestinationAddress);
-
-    // Get nonce account info
-    const nonceInfo = await this.getNonceAccount();
-    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
-    const connection = await this.getConnection();
-    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
-    if (!nonceAccount) {
-      throw new Error('Could not fetch nonce account');
+  ): Promise<SolTx> {
+    try {
+      const { data } = await api.post<SolTx>(
+        `/v1/sol/transaction/merge-stakes`,
+        {
+          stake_account_source: stakeAccountSourceAddress,
+          stake_account_destination: stakeAccountDestinationAddress,
+          wallet: walletAddress,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
-    const instructions = [
-      SystemProgram.nonceAdvance({
-        noncePubkey: nonceAccountPubKey,
-        authorizedPubkey: nonceAccount.authorizedPubkey,
-      }),
-      StakeProgram.merge({
-        stakePubkey: destinationPubKey,
-        sourceStakePubKey: sourcePubKey,
-        authorizedPubkey: stakerPubKey,
-      }),
-    ];
-    tx.add(...instructions);
-
-    tx.recentBlockhash = nonceAccount.nonce;
-    tx.feePayer = stakerPubKey;
-
-    // Sign with nonce account
-    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
-    signatures.forEach((signature: PublicSignature) => {
-      if (signature.signature) {
-        tx.addSignature(
-          new PublicKey(signature.pubkey),
-          Buffer.from(signature.signature, 'hex'),
-        );
-      }
-    });
-
-    return tx;
   }
 
   /**
@@ -365,73 +124,27 @@ export class SolService extends Service {
    * @param accountId kiln account id to associate the new stake account with
    * @param stakeAccountAddress stake account to split
    * @param walletAddress that has authority over the stake account to split
-   * @param amountSol amount in SOL to put in the new stake account
+   * @param amountLamports amount in lamports to put in the new stake account
    */
   async craftSplitStakeAccountTx(
     accountId: string,
     stakeAccountAddress: string,
     walletAddress: string,
-    amountSol: number,
-  ): Promise<SolanaTx> {
-    if (amountSol < 0.01) {
-      throw new InvalidStakeAmount('Amount must be at least 0.01 SOL');
+    amountLamports: string,
+  ): Promise<SolTx> {
+    try {
+      const { data } = await api.post<SolTx>(
+        `/v1/sol/transaction/split-stake`,
+        {
+          account_id: accountId,
+          stake_account: stakeAccountAddress,
+          wallet: walletAddress,
+          amount_lamports: amountLamports,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
-    const tx = new Transaction();
-    const stakerPubKey = new PublicKey(walletAddress);
-    const sourcePubKey = new PublicKey(stakeAccountAddress);
-    const newStakeAccountPubKey = new Keypair();
-
-    // Get nonce account info
-    const nonceInfo = await this.getNonceAccount();
-    const nonceAccountPubKey = new PublicKey(nonceInfo.nonce_account);
-    const connection = await this.getConnection();
-    const nonceAccount = await connection.getNonce(nonceAccountPubKey);
-    if (!nonceAccount) {
-      throw new Error('Could not fetch nonce account');
-    }
-
-    const instructions = [
-      SystemProgram.nonceAdvance({
-        noncePubkey: nonceAccountPubKey,
-        authorizedPubkey: nonceAccount.authorizedPubkey,
-      }),
-      StakeProgram.split({
-        stakePubkey: sourcePubKey,
-        authorizedPubkey: stakerPubKey,
-        splitStakePubkey: newStakeAccountPubKey.publicKey,
-        lamports: amountSol * LAMPORTS_TO_SOL,
-      }),
-    ];
-    tx.add(...instructions);
-
-    tx.recentBlockhash = nonceAccount.nonce;
-    tx.feePayer = stakerPubKey;
-    tx.partialSign(newStakeAccountPubKey);
-
-    // Sign with nonce account
-    const signatures = await this.partialSignWithNonceAccount(tx.serializeMessage().toString('hex'));
-    signatures.forEach((signature: PublicSignature) => {
-      if (signature.signature) {
-        tx.addSignature(
-          new PublicKey(signature.pubkey),
-          Buffer.from(signature.signature, 'hex'),
-        );
-      }
-    });
-
-    // Tag new stake
-    const stake: TaggedStake = {
-      stakeAccount: newStakeAccountPubKey.publicKey.toString(),
-      balance: amountSol * LAMPORTS_TO_SOL,
-    };
-    await api.post<CoreStakes>(
-      '/v1/sol/stakes',
-      {
-        account_id: accountId,
-        stakes: [stake],
-      });
-
-    return tx;
   }
 
   /**
@@ -440,22 +153,22 @@ export class SolService extends Service {
    * @param transaction
    * @param note
    */
-  async sign(integration: string, transaction: SolanaTx, note?: string): Promise<SolanaTx> {
+  async sign(integration: string, transaction: SolTx, note?: string): Promise<SignedSolTx> {
     if (!this.integrations?.find(int => int.name === integration)) {
-      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
+      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     if (!this.fbSigner) {
-      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+      throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
-    let transactionBuffer = transaction.serializeMessage();
-    const message = transactionBuffer.toString('hex');
+    const tx = Transaction.from(Buffer.from(transaction.unsigned_tx_serialized, 'hex'));
+
     const payload = {
       rawMessageData: {
         messages: [
           {
-            "content": message,
+            'content': tx.serializeMessage().toString('hex'),
           },
         ],
       },
@@ -463,15 +176,17 @@ export class SolService extends Service {
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
     signatures.signedMessages?.forEach((signedMessage: any) => {
-      if (signedMessage.derivationPath[3] == 0 && transaction.feePayer) {
-        transaction.addSignature(transaction.feePayer, Buffer.from(signedMessage.signature.fullSig, "hex"));
+      if (signedMessage.derivationPath[3] == 0 && tx.feePayer) {
+        tx.addSignature(tx.feePayer, Buffer.from(signedMessage.signature.fullSig, 'hex'));
       }
     });
 
-    if (transaction.verifySignatures()) {
-      return transaction;
+    if (tx.verifySignatures()) {
+      return {
+        signed_tx_serialized: tx.serialize().toString('hex'),
+      };
     } else {
-      throw new InvalidSignature(`The transaction signatures could not be verified.`);
+      throw new Error(`The transaction signatures could not be verified.`);
     }
 
   }
@@ -481,12 +196,16 @@ export class SolService extends Service {
    * Broadcast transaction to the network
    * @param transaction
    */
-  async broadcast(transaction: SolanaTx): Promise<string | undefined> {
+  async broadcast(transaction: SignedSolTx): Promise<string> {
     try {
-      const connection = await this.getConnection();
-      return await sendAndConfirmRawTransaction(connection, transaction.serialize());
-    } catch (e: any) {
-      throw new BroadcastError(e);
+      const { data } = await api.post<string>(
+        `/v1/sol/transaction/broadcast`,
+        {
+          serialized_tx: transaction.signed_tx_serialized,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
   }
 
@@ -494,17 +213,13 @@ export class SolService extends Service {
    * Get transaction status
    * @param transactionHash: transaction hash
    */
-  async getTxStatus(transactionHash: string): Promise<SolanaTxStatus> {
+  async getTxStatus(transactionHash: string): Promise<SolTxStatus> {
     try {
-      const connection = await this.getConnection();
-      const receipt = await connection.getTransaction(transactionHash);
-      const status = receipt?.meta?.err === null ? 'success' : 'error';
-      return {
-        status: status,
-        txReceipt: receipt,
-      };
+      const { data } = await api.get<SolTxStatus>(
+        `/v1/sol/transaction/status?tx_hash=${transactionHash}`);
+      return data;
     } catch (e: any) {
-      throw new GetTxStatusError(e);
+      throw new Error(e);
     }
   }
 
@@ -516,9 +231,13 @@ export class SolService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<SolStakes> {
-    const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
-    return data;
+    try {
+      const { data } = await api.get<SolStakes>(
+        `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -529,9 +248,13 @@ export class SolService extends Service {
   async getStakesByStakeAccounts(
     stakeAccounts: string[],
   ): Promise<SolStakes> {
-    const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?stake_accounts=${stakeAccounts.join(',')}`);
-    return data;
+    try {
+      const { data } = await api.get<SolStakes>(
+        `/v1/sol/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -542,54 +265,103 @@ export class SolService extends Service {
   async getStakesByWallets(
     wallets: string[],
   ): Promise<SolStakes> {
-    const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?wallets=${wallets.join(',')}`);
-    return data;
+    try {
+      const { data } = await api.get<SolStakes>(
+        `/v1/sol/stakes?wallets=${wallets.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve rewards for given accounts
    * @param accountIds kiln account ids of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
-  async getRewardsByAccounts(accountIds: string[]): Promise<SolRewards> {
-    const { data } = await api.get<SolRewards>(
-      `/v1/sol/rewards?accounts=${accountIds.join(',')}`,
-    );
-    return data;
+  async getRewardsByAccounts(
+    accountIds: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<SolRewards> {
+    try {
+      const query = `/v1/sol/rewards?accounts=${accountIds.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<SolRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve rewards for given stake accounts
    * @param stakeAccounts stake account addresses of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
-  async getRewardsByStakeAccounts(stakeAccounts: string[]): Promise<SolRewards> {
-    const { data } = await api.get<SolRewards>(
-      `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(',')}`,
-    );
-    return data;
+  async getRewardsByStakeAccounts(
+    stakeAccounts: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<SolRewards> {
+    try {
+      const query = `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<SolRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve rewards for given stake accounts
    * @param wallets wallet addresses of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
-  async getRewardsByWallets(wallets: string[]): Promise<SolRewards> {
-    const { data } = await api.get<SolRewards>(
-      `/v1/sol/rewards?wallets=${wallets.join(',')}`,
-    );
-    return data;
+  async getRewardsByWallets(
+    wallets: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<SolRewards> {
+    try {
+      const query = `/v1/sol/rewards?wallets=${wallets.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<SolRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
    * Retrieve SOL network stats
    */
   async getNetworkStats(): Promise<SolNetworkStats> {
-    const { data } = await api.get<SolNetworkStats>(
-      `/v1/sol/network-stats`,
-    );
-    return data;
+    try {
+      const { data } = await api.get<SolNetworkStats>(
+        `/v1/sol/network-stats`,
+      );
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Utility function to convert SOL to lamports
+   * @param sol
+   */
+  solToLamports(sol: string): string {
+    return (Number(sol) * LAMPORTS_PER_SOL).toString();
   }
 }

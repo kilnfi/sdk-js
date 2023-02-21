@@ -1,24 +1,15 @@
-import { connect, Near, transactions, utils } from "near-api-js";
+import { connect, Near, transactions, utils } from 'near-api-js';
 import BN from 'bn.js';
-import { sha256 } from "js-sha256";
-import { Service } from "./service";
+import { sha256 } from 'js-sha256';
+import { Service } from './service';
 import {
   InternalNearConfig,
   NearStakeOptions,
   NearTxStatus,
-} from "../types/near";
-import { PublicKey } from "near-api-js/lib/utils";
-import { SignedTransaction, Transaction } from "near-api-js/lib/transaction";
-import {
-  CouldNotFindAccessKey,
-  CouldNotParseStakeAmount,
-} from "../errors/near";
-import {
-  BroadcastError,
-  GetTxStatusError,
-  InvalidIntegration,
-} from "../errors/integrations";
-import { ADDRESSES } from "../globals";
+} from '../types/near';
+import { PublicKey } from 'near-api-js/lib/utils';
+import { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
+import { ADDRESSES } from '../globals';
 
 export class NearService extends Service {
 
@@ -55,26 +46,26 @@ export class NearService extends Service {
     const accessKeys = await account.getAccessKeys();
     const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
     if (!fullAccessKey) {
-      throw new CouldNotFindAccessKey('Could not find access key');
+      throw new Error('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
     const stakeAmountYocto = utils.format.parseNearAmount(amountNear.toString());
     if (!stakeAmountYocto) {
-      throw new CouldNotParseStakeAmount('Could not parse stake amount');
+      throw new Error('Could not parse stake amount');
     }
     // Max gas fee to use in NEAR (300 Tgas)
     const maxGasAmount = '0.0000000003';
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
     if (!parsedGasAmount) {
-      throw new CouldNotParseStakeAmount('Could not parse gas amount');
+      throw new Error('Could not parse gas amount');
     }
     const bnAmount = new BN(stakeAmountYocto);
     const bnMaxGasFees = new BN(parsedGasAmount);
     const actions = [transactions.functionCall('deposit_and_stake', {}, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      "",
+      '',
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
@@ -103,7 +94,7 @@ export class NearService extends Service {
     const accessKeys = await account.getAccessKeys();
     const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
     if (!fullAccessKey) {
-      throw new CouldNotFindAccessKey('Could not find access key');
+      throw new Error('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
@@ -111,7 +102,7 @@ export class NearService extends Service {
     if (amountNear) {
       const amountYocto = utils.format.parseNearAmount(amountNear.toString());
       if (!amountYocto) {
-        throw new CouldNotParseStakeAmount('Could not parse stake amount');
+        throw new Error('Could not parse stake amount');
       }
       params = {
         amount: amountYocto,
@@ -121,14 +112,14 @@ export class NearService extends Service {
     const maxGasAmount = '0.0000000003';
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
     if (!parsedGasAmount) {
-      throw new CouldNotParseStakeAmount('Could not parse gas amount');
+      throw new Error('Could not parse gas amount');
     }
     const bnAmount = new BN('0');
     const bnMaxGasFees = new BN(parsedGasAmount);
     const actions = [transactions.functionCall(amountNear ? 'unstake' : 'unstake_all', params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      "",
+      '',
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
@@ -157,7 +148,7 @@ export class NearService extends Service {
     const accessKeys = await account.getAccessKeys();
     const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
     if (!fullAccessKey) {
-      throw new CouldNotFindAccessKey('Could not find access key');
+      throw new Error('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
@@ -165,7 +156,7 @@ export class NearService extends Service {
     if (amountNear) {
       const amountYocto = utils.format.parseNearAmount(amountNear.toString());
       if (!amountYocto) {
-        throw new CouldNotParseStakeAmount('Could not parse stake amount');
+        throw new Error('Could not parse stake amount');
       }
       params = {
         amount: amountYocto,
@@ -175,14 +166,14 @@ export class NearService extends Service {
     const maxGasAmount = '0.0000000003';
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
     if (!parsedGasAmount) {
-      throw new CouldNotParseStakeAmount('Could not parse gas amount');
+      throw new Error('Could not parse gas amount');
     }
     const bnAmount = new BN('0');
     const bnMaxGasFees = new BN(parsedGasAmount);
     const actions = [transactions.functionCall(amountNear ? 'withdraw' : 'withdraw_all', params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      "",
+      '',
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
@@ -203,11 +194,11 @@ export class NearService extends Service {
    */
   async sign(integration: string, transaction: Transaction, note?: string): Promise<SignedTransaction> {
     if (!this.integrations?.find(int => int.name === integration)) {
-      throw new InvalidIntegration(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
+      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
 
     if (!this.fbSigner) {
-      throw new InvalidIntegration(`Could not retrieve fireblocks signer.`);
+      throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
     const serializedTx = utils.serialize.serialize(
@@ -220,7 +211,7 @@ export class NearService extends Service {
       rawMessageData: {
         messages: [
           {
-            "content": serializedTxHash,
+            'content': serializedTxHash,
           },
         ],
       },
@@ -248,7 +239,7 @@ export class NearService extends Service {
       const res = await connection.connection.provider.sendTransaction(transaction);
       return res.transaction.hash;
     } catch (e: any) {
-      throw new BroadcastError(e);
+      throw new Error(e);
     }
   }
 
@@ -266,7 +257,7 @@ export class NearService extends Service {
         txReceipt: receipt,
       };
     } catch (e: any) {
-      throw new GetTxStatusError(e);
+      throw new Error(e);
     }
   }
 }

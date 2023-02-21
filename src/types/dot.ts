@@ -13,24 +13,24 @@ export type InternalDotConfig = {
  * 'Controller': Rewards are paid into the controller account
  * Custom account address: Rewards are paid into the custom account address
  */
-export type RewardDestination = 'Staked' | 'Stash' | 'Controller' | string;
+export type DotRewardDestination = 'Staked' | 'Stash' | 'Controller' | string;
 
 export type DotStakeOptions = {
   controllerAccount?: string;
-  rewardDestination?: RewardDestination;
+  rewardDestination?: DotRewardDestination;
 };
 
-export type DotTransaction = {
+export type DotTx = {
   from: string;
   submittableExtrinsic: SubmittableExtrinsic;
 }
 
-export type SubmittedDotTransaction = {
+export type SubmittedDotTx = {
   blockHash: string;
   hash: string;
 }
 
-export type DotTransactionStatus = {
+export type DotTxStatus = {
   status: 'success' | 'error',
   extrinsic: GenericExtrinsic,
   error: string | null;

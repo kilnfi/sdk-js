@@ -31,7 +31,7 @@ export class Kiln {
     api.defaults.baseURL =
       testnet === true
         ? 'https://api.testnet.kiln.fi'
-        : 'https://api.kiln.fi/';
+        : 'https://api.kiln.fi';
 
     this.accounts = new AccountService({ testnet });
     this.eth = new EthService({ testnet, integrations });
