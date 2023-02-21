@@ -11,13 +11,23 @@ export type XtzStakeOptions = {
 };
 
 export type XtzTx = {
-  unsigned_tx_hashed: string;
-  unsigned_tx_hex: string;
+  data: {
+    unsigned_tx_hash: string;
+    unsigned_tx_serialized: string;
+  }
+};
+
+export type XtzTxHash = {
+  data: {
+    tx_hash: string;
+  }
 };
 
 export type XtzTxStatus = {
-  status: string;
-  txReceipt: OperationEntry;
+  data: {
+    status: string;
+    txReceipt: OperationEntry;
+  }
 };
 
 export type XtzStake = {
