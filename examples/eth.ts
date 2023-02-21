@@ -43,11 +43,11 @@ const f = async () => {
     // const rewards = await k.eth.getRewardsByValidators(['0xb682de189fd7e6c0e719ba4fcafa1f2ef878824df995617c11a656b99e88fdaf0bd696f48baf35ea8114dfaa67c9bf54']);
     // const rewards = await k.eth.getRewardsByWallets(['0xbc86717BaD3F8CcF86D2882A6bC351C94580a994']);
     // console.log(rewards);
-    // if(hash){
-    //   console.log(hash);
-    //   const status = await k.eth.getTxStatus(hash);
-    //   console.log(status);
-    // }
+    if(hash){
+      console.log(hash);
+      const status = await k.eth.getTxStatus(hash.data.tx_hash);
+      console.log(status);
+    }
   } catch (err) {
     console.log(err);
   }
