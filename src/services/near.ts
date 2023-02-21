@@ -1,25 +1,24 @@
-import { connect, Near, transactions, utils } from "near-api-js";
+import { connect, Near, transactions, utils } from 'near-api-js';
 import BN from 'bn.js';
-import { sha256 } from "js-sha256";
-import { Service } from "./service";
+import { sha256 } from 'js-sha256';
+import { Service } from './service';
 import {
   InternalNearConfig,
   NearStakeOptions,
   NearTxStatus,
-} from "../types/near";
-import { PublicKey } from "near-api-js/lib/utils";
-import { SignedTransaction, Transaction } from "near-api-js/lib/transaction";
+} from '../types/near';
+import { PublicKey } from 'near-api-js/lib/utils';
+import { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
 import {
   CouldNotFindAccessKey,
   CouldNotParseStakeAmount,
-} from "../errors/near";
+} from '../errors/near';
 import {
   BroadcastError,
   GetTxStatusError,
   InvalidIntegration,
-} from "../errors/integrations";
-import { ADDRESSES } from "../globals";
-import { FinalExecutionOutcome } from "near-api-js/lib/providers";
+} from '../errors/integrations';
+import { ADDRESSES } from '../globals';
 
 export class NearService extends Service {
   private rpc: string | undefined;
@@ -61,7 +60,7 @@ export class NearService extends Service {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
-    const nonce = fullAccessKey.access_key.nonce + 1;
+    const nonce = fullAccessKey.access_key.nonce.toNumber() + 1;
     const stakeAmountYocto = utils.format.parseNearAmount(amountNear.toString());
     if (!stakeAmountYocto) {
       throw new CouldNotParseStakeAmount('Could not parse stake amount');
@@ -77,7 +76,7 @@ export class NearService extends Service {
     const actions = [transactions.functionCall('deposit_and_stake', {}, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      "",
+      '',
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
@@ -109,7 +108,7 @@ export class NearService extends Service {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
-    const nonce = fullAccessKey.access_key.nonce + 1;
+    const nonce = fullAccessKey.access_key.nonce.toNumber() + 1;
     let params = {};
     if (amountNear) {
       const amountYocto = utils.format.parseNearAmount(amountNear.toString());
@@ -131,7 +130,7 @@ export class NearService extends Service {
     const actions = [transactions.functionCall(amountNear ? 'unstake' : 'unstake_all', params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      "",
+      '',
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
@@ -163,7 +162,7 @@ export class NearService extends Service {
       throw new CouldNotFindAccessKey('Could not find access key');
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
-    const nonce = fullAccessKey.access_key.nonce + 1;
+    const nonce = fullAccessKey.access_key.nonce.toNumber() + 1;
     let params = {};
     if (amountNear) {
       const amountYocto = utils.format.parseNearAmount(amountNear.toString());
@@ -185,7 +184,7 @@ export class NearService extends Service {
     const actions = [transactions.functionCall(amountNear ? 'withdraw' : 'withdraw_all', params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      "",
+      '',
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
     return transactions.createTransaction(
@@ -223,7 +222,7 @@ export class NearService extends Service {
       rawMessageData: {
         messages: [
           {
-            "content": serializedTxHash,
+            'content': serializedTxHash,
           },
         ],
       },

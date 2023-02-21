@@ -1,6 +1,6 @@
-import { Integrations } from "./integrations";
-import { Transaction } from "@ethereumjs/tx";
-import { TransactionReceipt } from "web3-core";
+import { Integrations } from './integrations';
+import { FeeMarketEIP1559Transaction } from '@ethereumjs/tx';
+import { TransactionReceipt } from 'web3-core';
 
 export type InternalEthereumConfig = {
   testnet?: boolean;
@@ -13,22 +13,22 @@ export type EthStakes = {
 }
 
 export type StakeState =
-    | 'unknown'
-    | 'not_staked'
-    | 'deposit_in_progress'
-    | 'pending_initialized'
-    | 'pending'
-    | 'pending_queued'
-    | 'active'
-    | 'active_ongoing'
-    | 'active_exiting'
-    | 'active_slashed'
-    | 'exited'
-    | 'exited_slashed'
-    | 'exited_unslashed'
-    | 'withdrawal_possible'
-    | 'withdrawal_done'
-    | 'withdrawal';
+  | 'unknown'
+  | 'not_staked'
+  | 'deposit_in_progress'
+  | 'pending_initialized'
+  | 'pending'
+  | 'pending_queued'
+  | 'active'
+  | 'active_ongoing'
+  | 'active_exiting'
+  | 'active_slashed'
+  | 'exited'
+  | 'exited_slashed'
+  | 'exited_unslashed'
+  | 'withdrawal_possible'
+  | 'withdrawal_done'
+  | 'withdrawal';
 
 export type EthStake = {
   validator_address: string;
@@ -57,7 +57,7 @@ export type EthReward = {
   cl_apy: number;
 };
 
-export type EthereumTx = Transaction;
+export type EthereumTx = FeeMarketEIP1559Transaction;
 
 export type ValidationKeyDepositData = {
   data: {

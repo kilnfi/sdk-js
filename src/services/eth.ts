@@ -1,6 +1,6 @@
 import Web3 from 'web3';
-import Common, { Chain } from '@ethereumjs/common';
-import { Transaction } from "@ethereumjs/tx";
+import Common, { Chain, Hardfork } from '@ethereumjs/common';
+import { FeeMarketEIP1559Transaction, Transaction } from '@ethereumjs/tx';
 import api from '../api';
 import { InvalidStakeAmount, NotEnoughKeysProvided } from '../errors/eth';
 import { ADDRESSES } from '../globals';
@@ -95,17 +95,41 @@ export class EthService extends Service {
         );
 
       const data = batchDepositFunction.encodeABI();
-      const gasWei = 100000 + nbKeysNeeded * 80000;
-      const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
-      const nonce = await this.web3.eth.getTransactionCount(walletAddress);
-      return Transaction.fromTxData({
-        nonce: nonce,
+      const amountWeiBN = this.web3.utils.toWei(this.web3.utils.toBN(amountEth));
+      let gasLimitWei = await batchDepositFunction.estimateGas({
+        from: walletAddress,
         data: data,
-        to: walletAddress,
-        value: this.web3.utils.numberToHex(0),
-        gasPrice: this.web3.utils.numberToHex(gasWei),
-        gasLimit: this.web3.utils.numberToHex(gasWei),
-      }, { common });
+        value: this.web3.utils.numberToHex(amountWeiBN),
+      });
+      gasLimitWei = Math.round(gasLimitWei * 2);
+      const common = new Common({
+        chain: this.testnet ? Chain.Goerli : Chain.Mainnet,
+        hardfork: Hardfork.London,
+      });
+      const nonce = await this.web3.eth.getTransactionCount(walletAddress);
+      const feesHistory = await this.web3.eth.getFeeHistory(
+        1,
+        'pending',
+        [25, 50, 75],
+      );
+      // We set the base fee as the base fee from the last black + 20% to be safe
+      // Base fees can vary ~12% between blocks
+      const baseFeeWei = Math.round(Number(feesHistory.baseFeePerGas[0]) * 1.2);
+      // 2gwei as tip for miners (1gwei is the default, but we're generous and want our tx to be fast rather than cheap)
+      const maxPriorityFeePerGasWei = 2000000000;
+      const maxFeePerGas = Math.round(baseFeeWei + maxPriorityFeePerGasWei);
+      return FeeMarketEIP1559Transaction.fromTxData(
+        {
+          nonce: nonce,
+          data: data,
+          to: this.testnet ? ADDRESSES.eth.testnet.depositContract : ADDRESSES.eth.mainnet.depositContract,
+          value: this.web3.utils.numberToHex(amountWeiBN),
+          gasLimit: this.web3.utils.numberToHex(gasLimitWei),
+          maxPriorityFeePerGas: this.web3.utils.numberToHex(maxPriorityFeePerGasWei),
+          maxFeePerGas: this.web3.utils.numberToHex(maxFeePerGas),
+        },
+        { common },
+      );
     } catch (err: any) {
       throw new Error(err);
     }
@@ -138,15 +162,17 @@ export class EthService extends Service {
     };
 
     const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
-    const common = new Common({ chain: this.testnet ? Chain.Goerli : Chain.Mainnet });
-    const chainId = this.testnet ? 5 : 1;
+    const common = new Common({
+      chain: this.testnet ? Chain.Goerli : Chain.Mainnet,
+      hardfork: Hardfork.London,
+    });
     const sigV: number = signatures?.signedMessages?.[0].signature.v ?? 0;
-    const v: number = chainId * 2 + (35 + sigV);
-    const signedTx = Transaction.fromTxData({
+    const signedTx = FeeMarketEIP1559Transaction.fromTxData({
       ...transaction.toJSON(),
       r: `0x${signatures?.signedMessages?.[0].signature.r}`,
       s: `0x${signatures?.signedMessages?.[0].signature.s}`,
-      v: v,
+      v: sigV,
+      gasPrice: undefined,
     }, { common });
 
     if (signedTx.verifySignature()) {
