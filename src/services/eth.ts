@@ -2,13 +2,14 @@ import Common, { Chain, Hardfork } from '@ethereumjs/common';
 import { FeeMarketEIP1559Transaction } from '@ethereumjs/tx';
 import api from '../api';
 import {
-  EthTx,
   EthKilnStats,
   EthNetworkStats,
   EthRewards,
   EthStakes,
+  EthTx,
+  EthTxHash,
   EthTxStatus,
-  InternalEthereumConfig, EthTxHash,
+  InternalEthereumConfig,
 } from '../types/eth';
 import { Service } from './service';
 import { utils } from 'ethers';

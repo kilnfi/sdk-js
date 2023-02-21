@@ -6,7 +6,8 @@ import {
   SolRewards,
   SolStakeOptions,
   SolStakes,
-  SolTx, SolTxHash,
+  SolTx,
+  SolTxHash,
   SolTxStatus,
 } from '../types/sol';
 import { Service } from './service';

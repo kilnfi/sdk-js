@@ -7,7 +7,8 @@ import {
   XtzRewards,
   XtzStakeOptions,
   XtzStakes,
-  XtzTx, XtzTxHash,
+  XtzTx,
+  XtzTxHash,
   XtzTxStatus,
 } from '../types/xtz';
 
