@@ -7,11 +7,15 @@ export type InternalSolanaConfig = {
 };
 
 export type SolTx = {
-  unsigned_tx_serialized: string;
+  data: {
+    unsigned_tx_serialized: string;
+  }
 };
 
-export type SignedSolTx = {
-  signed_tx_serialized: string;
+export type SolTxHash = {
+  data: {
+    tx_hash: string;
+  }
 };
 
 type SolEpoch = {
@@ -62,6 +66,8 @@ export type SolStakeOptions = {
 };
 
 export type SolTxStatus = {
-  status: 'success' | 'error';
-  txReceipt: TransactionResponse | null;
+  data: {
+    status: 'success' | 'error';
+    txReceipt: TransactionResponse | null;
+  }
 }

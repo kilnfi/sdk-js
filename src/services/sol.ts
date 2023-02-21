@@ -2,12 +2,12 @@ import { LAMPORTS_PER_SOL, Transaction } from '@solana/web3.js';
 import api from '../api';
 import {
   InternalSolanaConfig,
-  SignedSolTx,
   SolNetworkStats,
   SolRewards,
   SolStakeOptions,
   SolStakes,
   SolTx,
+  SolTxHash,
   SolTxStatus,
 } from '../types/sol';
 import { Service } from './service';
@@ -153,7 +153,7 @@ export class SolService extends Service {
    * @param transaction
    * @param note
    */
-  async sign(integration: string, transaction: SolTx, note?: string): Promise<SignedSolTx> {
+  async sign(integration: string, transaction: SolTx, note?: string): Promise<string> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -162,7 +162,7 @@ export class SolService extends Service {
       throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
-    const tx = Transaction.from(Buffer.from(transaction.unsigned_tx_serialized, 'hex'));
+    const tx = Transaction.from(Buffer.from(transaction.data.unsigned_tx_serialized, 'hex'));
 
     const payload = {
       rawMessageData: {
@@ -182,9 +182,7 @@ export class SolService extends Service {
     });
 
     if (tx.verifySignatures()) {
-      return {
-        signed_tx_serialized: tx.serialize().toString('hex'),
-      };
+      return tx.serialize().toString('hex');
     } else {
       throw new Error(`The transaction signatures could not be verified.`);
     }
@@ -194,14 +192,14 @@ export class SolService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param transaction
+   * @param txSerialized: serialized signed tx
    */
-  async broadcast(transaction: SignedSolTx): Promise<string> {
+  async broadcast(txSerialized: string): Promise<SolTxHash> {
     try {
-      const { data } = await api.post<string>(
+      const { data } = await api.post<SolTxHash>(
         `/v1/sol/transaction/broadcast`,
         {
-          serialized_tx: transaction.signed_tx_serialized,
+          tx_serialized: txSerialized,
         });
       return data;
     } catch (err: any) {
@@ -211,12 +209,12 @@ export class SolService extends Service {
 
   /**
    * Get transaction status
-   * @param transactionHash: transaction hash
+   * @param txHash: transaction hash
    */
-  async getTxStatus(transactionHash: string): Promise<SolTxStatus> {
+  async getTxStatus(txHash: string): Promise<SolTxStatus> {
     try {
       const { data } = await api.get<SolTxStatus>(
-        `/v1/sol/transaction/status?tx_hash=${transactionHash}`);
+        `/v1/sol/transaction/status?tx_hash=${txHash}`);
       return data;
     } catch (e: any) {
       throw new Error(e);

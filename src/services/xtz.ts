@@ -8,6 +8,7 @@ import {
   XtzStakeOptions,
   XtzStakes,
   XtzTx,
+  XtzTxHash,
   XtzTxStatus,
 } from '../types/xtz';
 
@@ -79,7 +80,7 @@ export class XtzService extends Service {
       rawMessageData: {
         messages: [
           {
-            'content': tx.unsigned_tx_hashed,
+            'content': tx.data.unsigned_tx_hash,
           },
         ],
       },
@@ -90,20 +91,20 @@ export class XtzService extends Service {
     const prefixSig: any = b58cencode(signature, prefix.edsig);
     const sigDecoded: Uint8Array = b58cdecode(prefixSig, prefix.edsig);
     const sigToInject: string = buf2hex(Buffer.from(sigDecoded));
-    return tx.unsigned_tx_hex + sigToInject;
+    return tx.data.unsigned_tx_serialized + sigToInject;
   }
 
 
   /**
    * Broadcast transaction to the network
-   * @param hexSerializedTx
+   * @param txSerialized
    */
-  async broadcast(hexSerializedTx: string): Promise<string | undefined> {
+  async broadcast(txSerialized: string): Promise<XtzTxHash> {
     try {
-      const { data } = await api.post<string>(
+      const { data } = await api.post<XtzTxHash>(
         `/v1/xtz/transaction/broadcast`,
         {
-          serialized_tx: hexSerializedTx,
+          tx_serialized: txSerialized,
         });
       return data;
     } catch (e: any) {
@@ -114,12 +115,12 @@ export class XtzService extends Service {
   /**
    * Get transaction status
    * @param blockNumber
-   * @param transactionHash: transaction hash
+   * @param txHash: transaction hash
    */
-  async getTxStatus(blockNumber: number, transactionHash: string): Promise<XtzTxStatus> {
+  async getTxStatus(blockNumber: number, txHash: string): Promise<XtzTxStatus> {
     try {
       const { data } = await api.get<XtzTxStatus>(
-        `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${transactionHash}`);
+        `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${txHash}`);
       return data;
     } catch (e: any) {
       throw new Error(e);

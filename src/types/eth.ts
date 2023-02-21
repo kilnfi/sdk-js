@@ -63,8 +63,16 @@ export type EthReward = {
 
 
 export type EthTx = {
-  unsigned_tx_hashed: string;
-  unsigned_tx_serialized: string;
+  data: {
+    unsigned_tx_hash: string;
+    unsigned_tx_serialized: string;
+  }
+};
+
+export type EthTxHash = {
+  data: {
+    tx_hash: string;
+  }
 };
 
 export type EthNetworkStats = {
@@ -85,6 +93,8 @@ export type EthKilnStats = {
 };
 
 export type EthTxStatus = {
-  status: 'success' | 'error' | 'pending_confirmation';
-  txReceipt: TransactionReceipt | null;
+  data: {
+    status: 'success' | 'error' | 'pending_confirmation';
+    txReceipt: TransactionReceipt | null;
+  }
 }

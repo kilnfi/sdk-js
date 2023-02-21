@@ -2,11 +2,12 @@ import Common, { Chain, Hardfork } from '@ethereumjs/common';
 import { FeeMarketEIP1559Transaction } from '@ethereumjs/tx';
 import api from '../api';
 import {
-  EthTx,
   EthKilnStats,
   EthNetworkStats,
   EthRewards,
   EthStakes,
+  EthTx,
+  EthTxHash,
   EthTxStatus,
   InternalEthereumConfig,
 } from '../types/eth';
@@ -62,7 +63,7 @@ export class EthService extends Service {
       rawMessageData: {
         messages: [
           {
-            'content': tx.unsigned_tx_hashed,
+            'content': tx.data.unsigned_tx_hash,
           },
         ],
       },
@@ -74,7 +75,7 @@ export class EthService extends Service {
       hardfork: Hardfork.London,
     });
     const sigV: number = signatures?.signedMessages?.[0].signature.v ?? 0;
-    const unsignedTx = FeeMarketEIP1559Transaction.fromSerializedTx(Buffer.from(tx.unsigned_tx_serialized, 'hex'));
+    const unsignedTx = FeeMarketEIP1559Transaction.fromSerializedTx(Buffer.from(tx.data.unsigned_tx_serialized, 'hex'));
     const signedTx = FeeMarketEIP1559Transaction.fromTxData({
       ...unsignedTx.toJSON(),
       r: `0x${signatures?.signedMessages?.[0].signature.r}`,
@@ -93,14 +94,14 @@ export class EthService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param hexSerializedTx
+   * @param txSerialized
    */
-  async broadcast(hexSerializedTx: string): Promise<string | undefined> {
+  async broadcast(txSerialized: string): Promise<EthTxHash> {
     try {
-      const { data } = await api.post<string>(
+      const { data } = await api.post<EthTxHash>(
         `/v1/eth/transaction/broadcast`,
         {
-          serialized_tx: hexSerializedTx,
+          tx_serialized: txSerialized,
         });
       return data;
     } catch (err: any) {
@@ -110,12 +111,12 @@ export class EthService extends Service {
 
   /**
    * Get transaction status
-   * @param transactionHash: transaction hash
+   * @param txHash: transaction hash
    */
-  async getTxStatus(transactionHash: string): Promise<EthTxStatus> {
+  async getTxStatus(txHash: string): Promise<EthTxStatus> {
     try {
       const { data } = await api.get<EthTxStatus>(
-        `/v1/eth/transaction/status?tx_hash=${transactionHash}`);
+        `/v1/eth/transaction/status?tx_hash=${txHash}`);
       return data;
     } catch (err: any) {
       throw new Error(err);
