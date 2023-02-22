@@ -13,6 +13,7 @@ import {
 } from '../types/eth';
 import { Service } from './service';
 import { utils } from 'ethers';
+import { SignedTx } from '../types/api';
 
 export class EthService extends Service {
   constructor({ testnet, integrations }: InternalEthereumConfig) {
@@ -50,7 +51,7 @@ export class EthService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: EthTx, note?: string): Promise<string> {
+  async sign(integration: string, tx: EthTx, note?: string): Promise<SignedTx> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -59,49 +60,44 @@ export class EthService extends Service {
       throw new Error(`Could not retrieve fireblocks signer.`);
     }
 
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            'content': tx.data.unsigned_tx_hash,
-          },
-        ],
-      },
-    };
 
-    const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
-    const common = new Common({
-      chain: this.testnet ? Chain.Goerli : Chain.Mainnet,
-      hardfork: Hardfork.London,
-    });
-    const sigV: number = signatures?.signedMessages?.[0].signature.v ?? 0;
-    const unsignedTx = FeeMarketEIP1559Transaction.fromSerializedTx(Buffer.from(tx.data.unsigned_tx_serialized, 'hex'));
-    const signedTx = FeeMarketEIP1559Transaction.fromTxData({
-      ...unsignedTx.toJSON(),
-      r: `0x${signatures?.signedMessages?.[0].signature.r}`,
-      s: `0x${signatures?.signedMessages?.[0].signature.s}`,
-      v: sigV,
-      gasPrice: undefined,
-    }, { common });
+    try {
+      const payload = {
+        rawMessageData: {
+          messages: [
+            {
+              'content': tx.data.unsigned_tx_hash,
+            },
+          ],
+        },
+      };
 
-    if (signedTx.verifySignature()) {
-      return signedTx.serialize().toString('hex');
-    } else {
-      throw new Error(`The transaction signatures could not be verified.`);
+      const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
+      const { data } = await api.post<SignedTx>(
+        `/v1/eth/transaction/prepare`,
+        {
+          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+          r: `0x${signatures?.signedMessages?.[0].signature.r}`,
+          s: `0x${signatures?.signedMessages?.[0].signature.s}`,
+          v: signatures?.signedMessages?.[0].signature.v ?? 0
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
   }
 
 
   /**
    * Broadcast transaction to the network
-   * @param txSerialized
+   * @param signedTx
    */
-  async broadcast(txSerialized: string): Promise<EthTxHash> {
+  async broadcast(signedTx: SignedTx): Promise<EthTxHash> {
     try {
       const { data } = await api.post<EthTxHash>(
         `/v1/eth/transaction/broadcast`,
         {
-          tx_serialized: txSerialized,
+          tx_serialized: signedTx.data.signed_tx_serialized,
         });
       return data;
     } catch (err: any) {
