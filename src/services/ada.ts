@@ -152,14 +152,14 @@ export class AdaService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param txSerialized
+   * @param signedTx
    */
-  async broadcast(txSerialized: string): Promise<AdaTxHash> {
+  async broadcast(signedTx: AdaSignedTx): Promise<AdaTxHash> {
     try {
       const { data } = await api.post<AdaTxHash>(
         `/v1/ada/transaction/broadcast`,
         {
-          tx_serialized: txSerialized,
+          tx_serialized: signedTx.data.signed_tx_serialized,
         });
       return data;
     } catch (error: any) {

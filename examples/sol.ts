@@ -50,7 +50,7 @@ const f = async () => {
     const txSigned = await k.sol.sign('vault1', tx);
     console.log('tx signed');
     console.log('broadcasting tx...');
-    const txHash = await k.sol.broadcast(txSigned.data.signed_tx_serialized);
+    const txHash = await k.sol.broadcast(txSigned);
     console.log(txHash);
 
     // const stakes = await k.sol.getStakesByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);

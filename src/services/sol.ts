@@ -197,14 +197,14 @@ export class SolService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param txSerialized: serialized signed tx
+   * @param signedTx: serialized signed tx
    */
-  async broadcast(txSerialized: string): Promise<SolTxHash> {
+  async broadcast(signedTx: SolSignedTx): Promise<SolTxHash> {
     try {
       const { data } = await api.post<SolTxHash>(
         `/v1/sol/transaction/broadcast`,
         {
-          tx_serialized: txSerialized,
+          tx_serialized: signedTx.data.signed_tx_serialized,
         });
       return data;
     } catch (err: any) {

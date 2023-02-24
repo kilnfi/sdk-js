@@ -32,7 +32,7 @@ const f = async () => {
     //   'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
     // );
     const txSigned = await k.ada.sign('vault1', tx);
-    const hash = await k.ada.broadcast(txSigned.data.signed_tx_serialized);
+    const hash = await k.ada.broadcast(txSigned);
     console.log(hash);
     // const status = await k.ada.getTxStatus('aad008eec08f606f763837144d18275203406bdada7fc2a429c656c15952dd9c');
     // console.log(status);
