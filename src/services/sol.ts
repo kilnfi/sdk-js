@@ -1,9 +1,10 @@
-import { LAMPORTS_PER_SOL, Transaction } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import api from '../api';
 import {
   InternalSolanaConfig,
   SolNetworkStats,
   SolRewards,
+  SolSignedTx,
   SolStakeOptions,
   SolStakes,
   SolTx,
@@ -150,43 +151,47 @@ export class SolService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration
-   * @param transaction
+   * @param tx
    * @param note
    */
-  async sign(integration: string, transaction: SolTx, note?: string): Promise<string> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-    const tx = Transaction.from(Buffer.from(transaction.data.unsigned_tx_serialized, 'hex'));
-
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            'content': tx.serializeMessage().toString('hex'),
-          },
-        ],
-      },
-    };
-
-    const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
-    signatures.signedMessages?.forEach((signedMessage: any) => {
-      if (signedMessage.derivationPath[3] == 0 && tx.feePayer) {
-        tx.addSignature(tx.feePayer, Buffer.from(signedMessage.signature.fullSig, 'hex'));
+  async sign(integration: string, tx: SolTx, note?: string): Promise<SolSignedTx> {
+    try {
+      if (!this.integrations?.find(int => int.name === integration)) {
+        throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
       }
-    });
 
-    if (tx.verifySignatures()) {
-      return tx.serialize().toString('hex');
-    } else {
-      throw new Error(`The transaction signatures could not be verified.`);
+      if (!this.fbSigner) {
+        throw new Error(`Could not retrieve fireblocks signer.`);
+      }
+
+      const payload = {
+        rawMessageData: {
+          messages: [
+            {
+              'content': tx.data.unsigned_tx_hash,
+            },
+          ],
+        },
+      };
+
+      const fbSignatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
+      const signatures: string[] = [];
+      fbSignatures.signedMessages?.forEach((signedMessage: any) => {
+        if (signedMessage.derivationPath[3] == 0) {
+          signatures.push(signedMessage.signature.fullSig);
+        }
+      });
+
+      const { data } = await api.post<SolSignedTx>(
+        `/v1/sol/transaction/prepare`,
+        {
+          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+          signatures: signatures,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
-
   }
 
 
