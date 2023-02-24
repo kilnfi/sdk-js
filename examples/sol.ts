@@ -19,11 +19,12 @@ const f = async () => {
   });
 
   try {
-    // const tx = await k.sol.craftStakeTx(
-    //   'd3f1b917-72b1-4982-a4dd-93fce579a708',
-    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-    //   '200000000',
-    // );
+    const amount = k.sol.solToLamports('1');
+    const tx = await k.sol.craftStakeTx(
+      'd3f1b917-72b1-4982-a4dd-93fce579a708',
+      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+      amount,
+    );
     // const tx = await k.sol.craftDeactivateStakeTx(
     //   '3M7sFDMdUxfNNSmKk2ZmDKgKJFzuLvxpuXKDTLRGXpcK',
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
@@ -37,12 +38,12 @@ const f = async () => {
     //   'GyPnKF88P8c3jESicELWLrxAmeF9PoaKzqYGREDuEAMx',
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
     // );
-    const tx = await k.sol.craftSplitStakeAccountTx(
-      'd3f1b917-72b1-4982-a4dd-93fce579a708',
-      'GyPnKF88P8c3jESicELWLrxAmeF9PoaKzqYGREDuEAMx',
-      '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-      '200000000'
-    );
+    // const tx = await k.sol.craftSplitStakeAccountTx(
+    //   'd3f1b917-72b1-4982-a4dd-93fce579a708',
+    //   'GyPnKF88P8c3jESicELWLrxAmeF9PoaKzqYGREDuEAMx',
+    //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
+    //   '200000000'
+    // );
     const txSigned = await k.sol.sign('vault1', tx);
     const txHash = await k.sol.broadcast(txSigned);
     console.log(txHash);

@@ -126,7 +126,7 @@ export class SolService extends Service {
    * @param walletAddress that has authority over the stake account to split
    * @param amountLamports amount in lamports to put in the new stake account
    */
-  async craftSplitStakeAccountTx(
+  async craftSplitStakeTx(
     accountId: string,
     stakeAccountAddress: string,
     walletAddress: string,
