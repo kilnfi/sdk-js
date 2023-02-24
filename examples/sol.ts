@@ -19,7 +19,8 @@ const f = async () => {
   });
 
   try {
-    const amount = k.sol.solToLamports('1');
+    console.log('crafting tx...');
+    const amount = k.sol.solToLamports('0.1');
     const tx = await k.sol.craftStakeTx(
       'd3f1b917-72b1-4982-a4dd-93fce579a708',
       '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
@@ -44,8 +45,12 @@ const f = async () => {
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
     //   '200000000'
     // );
+    console.log('tx crafted');
+    console.log('signing tx...');
     const txSigned = await k.sol.sign('vault1', tx);
-    const txHash = await k.sol.broadcast(txSigned);
+    console.log('tx signed');
+    console.log('broadcasting tx...');
+    const txHash = await k.sol.broadcast(txSigned.data.signed_tx_serialized);
     console.log(txHash);
 
     // const stakes = await k.sol.getStakesByAccounts(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
@@ -60,8 +65,8 @@ const f = async () => {
 
     // const accounts = await k.sol.getAccountsRewards(['771254de-ac5a-4911-afdf-1d5b7e802dc9']);
     // console.log(accounts);
-    const txStatus = await k.sol.getTxStatus(txHash.data.tx_hash);
-    console.log(tx);
+    // const txStatus = await k.sol.getTxStatus(txHash.data.tx_hash);
+    // console.log(tx);
   } catch (err){
     console.log(err);
   }

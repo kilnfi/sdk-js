@@ -8,8 +8,15 @@ export type InternalSolanaConfig = {
 
 export type SolTx = {
   data: {
+    unsigned_tx_hash: string;
     unsigned_tx_serialized: string;
   }
+};
+
+export type SolSignedTx = {
+  data: {
+    signed_tx_serialized: string;
+  };
 };
 
 export type SolTxHash = {
