@@ -1,26 +1,23 @@
 import { Integrations } from "./integrations";
 import { Responses } from '@blockfrost/blockfrost-js';
-import { components } from '@blockfrost/openapi';
+import {
+  TransactionInputsJSON
+} from '@emurgo/cardano-serialization-lib-nodejs';
 
 export type InternalAdaConfig = {
   testnet?: boolean;
   integrations: Integrations | undefined;
 };
 
-export type UTXO = Responses['address_utxo_content'];
-
 export type AdaStakeOptions = {
   poolId: string;
 };
 
 export type AdaTxStatus = {
-  status: 'success' | 'pending_confirmation',
-  txReceipt: components['schemas']['tx_content']
-}
-
-export type TaggedStake = {
-  stakeAddress: string;
-  balance: number;
+  data: {
+    status: 'success' | 'pending_confirmation';
+    receipt: Responses['tx_content'];
+  };
 };
 
 export type AdaEpoch = {
@@ -52,4 +49,29 @@ export type AdaReward = {
 
 export type AdaRewards = {
   data: AdaReward[];
+};
+
+export type AdaSignedTx = {
+  data: {
+    signed_tx_serialized: string;
+  };
+};
+
+export type AdaTxHash = {
+  data: {
+    tx_hash: string;
+  };
+};
+
+export type AdaSignedMessage = {
+  pubkey: string;
+  signature: string;
+}
+
+export type AdaTx = {
+  data: {
+    unsigned_tx_hash: string;
+    unsigned_tx_serialized: string;
+    inputs: TransactionInputsJSON;
+  };
 };

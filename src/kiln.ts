@@ -30,7 +30,7 @@ export class Kiln {
     api.defaults.headers.common['Content-Type'] = 'application/json';
     api.defaults.baseURL =
       testnet === true
-        ? 'https://api.testnet.kiln.fi'
+        ? 'http://localhost:3001'
         : 'https://api.kiln.fi';
 
     this.accounts = new AccountService({ testnet });
