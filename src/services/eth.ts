@@ -1,10 +1,9 @@
-import Common, { Chain, Hardfork } from '@ethereumjs/common';
-import { FeeMarketEIP1559Transaction } from '@ethereumjs/tx';
 import api from '../api';
 import {
   EthKilnStats,
   EthNetworkStats,
   EthRewards,
+  EthSignedTx,
   EthStakes,
   EthTx,
   EthTxHash,
@@ -13,7 +12,6 @@ import {
 } from '../types/eth';
 import { Service } from './service';
 import { utils } from 'ethers';
-import { SignedTx } from '../types/api';
 
 export class EthService extends Service {
   constructor({ testnet, integrations }: InternalEthereumConfig) {
@@ -51,7 +49,7 @@ export class EthService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: EthTx, note?: string): Promise<SignedTx> {
+  async sign(integration: string, tx: EthTx, note?: string): Promise<EthSignedTx> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -73,13 +71,13 @@ export class EthService extends Service {
       };
 
       const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
-      const { data } = await api.post<SignedTx>(
+      const { data } = await api.post<EthSignedTx>(
         `/v1/eth/transaction/prepare`,
         {
           unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
           r: `0x${signatures?.signedMessages?.[0].signature.r}`,
           s: `0x${signatures?.signedMessages?.[0].signature.s}`,
-          v: signatures?.signedMessages?.[0].signature.v ?? 0
+          v: signatures?.signedMessages?.[0].signature.v ?? 0,
         });
       return data;
     } catch (err: any) {
@@ -92,7 +90,7 @@ export class EthService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: SignedTx): Promise<EthTxHash> {
+  async broadcast(signedTx: EthSignedTx): Promise<EthTxHash> {
     try {
       const { data } = await api.post<EthTxHash>(
         `/v1/eth/transaction/broadcast`,

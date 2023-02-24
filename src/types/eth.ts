@@ -1,5 +1,5 @@
-import { Integrations } from "./integrations";
-import { TransactionReceipt } from "web3-core";
+import { Integrations } from './integrations';
+import { TransactionReceipt } from 'web3-core';
 
 export type InternalEthereumConfig = {
   testnet?: boolean;
@@ -98,3 +98,8 @@ export type EthTxStatus = {
     txReceipt: TransactionReceipt | null;
   }
 }
+export type EthSignedTx = {
+  data: {
+    signed_tx_serialized: string;
+  };
+};
