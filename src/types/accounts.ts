@@ -4,7 +4,7 @@ export type InternalAccountsConfig = {
 };
 
 export type Account = {
-  createdAt: string;
+  created_at: string;
   id: string;
   name: string;
   description: string;
