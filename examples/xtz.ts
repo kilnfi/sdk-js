@@ -25,7 +25,7 @@ const f = async () => {
     const txSigned = await k.xtz.sign('vault1', tx);
     const txHash = await k.xtz.broadcast(txSigned);
     console.log(txHash);
-    const status = await k.xtz.getTxStatus(1992906, txHash.data.tx_hash);
+    // const status = await k.xtz.getTxStatus(1992906, txHash.data.tx_hash);
     // console.log(status);
   } catch (err) {
     console.log(err);

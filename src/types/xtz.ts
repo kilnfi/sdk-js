@@ -17,6 +17,12 @@ export type XtzTx = {
   }
 };
 
+export type XtzSignedTx = {
+  data: {
+    signed_tx_serialized: string;
+  }
+};
+
 export type XtzTxHash = {
   data: {
     tx_hash: string;
