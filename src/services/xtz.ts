@@ -1,17 +1,16 @@
 import api from '../api';
 import { Service } from './service';
-import { b58cdecode, b58cencode, buf2hex, prefix } from '@taquito/utils';
 import {
   InternalTezosConfig,
   XtzNetworkStats,
-  XtzRewards, XtzSignedTx,
+  XtzRewards,
+  XtzSignedTx,
   XtzStakeOptions,
   XtzStakes,
   XtzTx,
   XtzTxHash,
   XtzTxStatus,
 } from '../types/xtz';
-import { SolSignedTx } from '../types/sol';
 
 export class XtzService extends Service {
   constructor({ testnet, integrations }: InternalTezosConfig) {
