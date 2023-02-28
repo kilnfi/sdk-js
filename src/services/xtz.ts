@@ -1,10 +1,10 @@
 import api from '../api';
 import { Service } from './service';
-import { b58cdecode, b58cencode, buf2hex, prefix } from '@taquito/utils';
 import {
   InternalTezosConfig,
   XtzNetworkStats,
   XtzRewards,
+  XtzSignedTx,
   XtzStakeOptions,
   XtzStakes,
   XtzTx,
@@ -67,7 +67,7 @@ export class XtzService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: XtzTx, note?: string): Promise<string> {
+  async sign(integration: string, tx: XtzTx, note?: string): Promise<XtzSignedTx> {
     if (!this.integrations?.find(int => int.name === integration)) {
       throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
     }
@@ -88,23 +88,26 @@ export class XtzService extends Service {
 
     const signedTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'XTZ_TEST' : 'XTZ', note);
     const signature: string = signedTx.signedMessages![0].signature.fullSig;
-    const prefixSig: any = b58cencode(signature, prefix.edsig);
-    const sigDecoded: Uint8Array = b58cdecode(prefixSig, prefix.edsig);
-    const sigToInject: string = buf2hex(Buffer.from(sigDecoded));
-    return tx.data.unsigned_tx_serialized + sigToInject;
+    const { data } = await api.post<XtzSignedTx>(
+      `/v1/xtz/transaction/prepare`,
+      {
+        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+        signature: signature,
+      });
+    return data;
   }
 
 
   /**
    * Broadcast transaction to the network
-   * @param txSerialized
+   * @param signedTx: serialized signed tx
    */
-  async broadcast(txSerialized: string): Promise<XtzTxHash> {
+  async broadcast(signedTx: XtzSignedTx): Promise<XtzTxHash> {
     try {
       const { data } = await api.post<XtzTxHash>(
         `/v1/xtz/transaction/broadcast`,
         {
-          tx_serialized: txSerialized,
+          tx_serialized: signedTx.data.signed_tx_serialized,
         });
       return data;
     } catch (e: any) {
