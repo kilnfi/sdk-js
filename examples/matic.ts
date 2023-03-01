@@ -28,12 +28,12 @@ const f = async () => {
       amountWei,
     );
     console.log(tx);
-    // console.log('signing tx...');
-    // const txSigned = await k.matic.sign('vault1', tx);
-    // console.log(txSigned);
-    // console.log('broadcasting tx...');
-    // const hash = await k.eth.broadcast(txSigned);
-    // console.log(hash);
+    console.log('signing tx...');
+    const txSigned = await k.matic.sign('vault1', tx);
+    console.log(txSigned);
+    console.log('broadcasting tx...');
+    const hash = await k.eth.broadcast(txSigned);
+    console.log(hash);
   } catch (err) {
     console.log(err);
   }
