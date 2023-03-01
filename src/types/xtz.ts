@@ -1,10 +1,4 @@
 import { OperationEntry } from '@taquito/rpc';
-import { Integrations } from "./integrations";
-
-export type InternalTezosConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
 
 export type XtzStakeOptions = {
   baker_address: string;

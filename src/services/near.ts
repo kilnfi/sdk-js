@@ -2,18 +2,15 @@ import { connect, Near, transactions, utils } from 'near-api-js';
 import BN from 'bn.js';
 import { sha256 } from 'js-sha256';
 import { Service } from './service';
-import {
-  InternalNearConfig,
-  NearStakeOptions,
-  NearTxStatus,
-} from '../types/near';
+import { NearStakeOptions, NearTxStatus } from '../types/near';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
 import { ADDRESSES } from '../globals';
+import { ServiceProps } from '../types/service';
 
 export class NearService extends Service {
 
-  constructor({ testnet, integrations }: InternalNearConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
   }
 

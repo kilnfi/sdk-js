@@ -1,7 +1,6 @@
 import api from '../api';
 import { Service } from './service';
 import {
-  InternalTezosConfig,
   XtzNetworkStats,
   XtzRewards,
   XtzSignedTx,
@@ -11,9 +10,10 @@ import {
   XtzTxHash,
   XtzTxStatus,
 } from '../types/xtz';
+import { ServiceProps } from '../types/service';
 
 export class XtzService extends Service {
-  constructor({ testnet, integrations }: InternalTezosConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
   }
 

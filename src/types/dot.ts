@@ -1,11 +1,5 @@
-import { Integrations } from "./integrations";
-import { SubmittableExtrinsic } from "@polkadot/api/promise/types";
-import { GenericExtrinsic } from "@polkadot/types/extrinsic";
-
-export type InternalDotConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
+import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
+import { GenericExtrinsic } from '@polkadot/types/extrinsic';
 
 /**
  * 'Staked': Rewards are paid into the stash account, increasing the amount at stake accordingly.

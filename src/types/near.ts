@@ -1,11 +1,4 @@
-import { Integrations } from "./integrations";
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
-
-export type InternalNearConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
-
 
 export type NearStakeOptions = {
   stakePoolId: string;

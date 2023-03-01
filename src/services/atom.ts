@@ -7,12 +7,7 @@ import {
   StargateClient,
   StdFee,
 } from '@cosmjs/stargate';
-import {
-  AtomStakeOptions,
-  AtomTx,
-  AtomTxStatus,
-  InternalAtomConfig,
-} from '../types/atom';
+import { AtomStakeOptions, AtomTx, AtomTxStatus } from '../types/atom';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Coin, OfflineSigner } from '@cosmjs/proto-signing';
 import {
@@ -21,13 +16,14 @@ import {
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { AtomFbSigner } from '../integrations/atom_fb_signer';
 import { ADDRESSES } from '../globals';
+import { ServiceProps } from '../types/service';
 
 const UATOM_TO_ATOM = 1000000;
 
 export class AtomService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations }: InternalAtomConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
     const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
     this.rpc = kilnRpc;
