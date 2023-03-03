@@ -20,20 +20,22 @@ const f = async () => {
   });
 
   try {
-    console.log('crafting tx...');
-    const amountWei = k.matic.maticToWei('0.01');
-    const tx = await k.matic.craftStakeTx(
+    const amountWei = k.matic.maticToWei('0.1');
+    // const txApprove = await k.matic.craftApproveTx(
+    //   '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
+    //   amountWei,
+    // );
+    // const txSigned = await k.matic.sign('vault1', txApprove);
+    // const hash = await k.eth.broadcast(txSigned);
+    // console.log(hash);
+    const txStake = await k.matic.craftStakeTx(
       'd3f1b917-72b1-4982-a4dd-93fce579a708',
       '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
       amountWei,
     );
-    console.log(tx);
-    console.log('signing tx...');
-    const txSigned = await k.matic.sign('vault1', tx);
-    console.log(txSigned);
-    console.log('broadcasting tx...');
-    const hash = await k.eth.broadcast(txSigned);
-    console.log(hash);
+    const txSigned2 = await k.matic.sign('vault1', txStake);
+    const hash2 = await k.eth.broadcast(txSigned2);
+    console.log(hash2);
   } catch (err) {
     console.log(err);
   }

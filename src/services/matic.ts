@@ -15,6 +15,28 @@ export class MaticService extends Service {
   }
 
   /**
+   * Craft an approve transaction
+   * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
+   * @param amountWei how many tokens to stake in WEI
+   */
+  async craftApproveTx(
+    walletAddress: string,
+    amountWei: string,
+  ): Promise<MaticTx> {
+    try {
+      const { data } = await api.post<MaticTx>(
+        `/v1/matic/transaction/approve`,
+        {
+          wallet: walletAddress,
+          amount_wei: amountWei,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
    * Craft a MATIC buy shares transaction on the validator shares smart contract
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
