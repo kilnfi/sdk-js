@@ -21,9 +21,8 @@ const f = async () => {
 
   try {
     const amountWei = k.matic.maticToWei('0.1');
-    // const txApprove = await k.matic.craftApproveTx(
+    // const txApprove = await k.matic.craftApproveStakeManagerTx(
     //   '0x9cE658155A6f05FE4aef83b7Fa8F431D5e8CcB55',
-    //   amountWei,
     // );
     // const txSigned = await k.matic.sign('vault1', txApprove);
     // const hash = await k.eth.broadcast(txSigned);
