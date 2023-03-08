@@ -15,7 +15,8 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an approve transaction
+   * Craft an approve transaction to the MATIC token contract allowing the contract given to spend the amount given
+   * If no amount is provided, an infinite amount will be approved
    * @param walletAddress wallet address signing the transaction
    * @param contractAddressToApprove contract address that you allow to spend the token
    * @param amountWei how many tokens to approve the spending, if not specified an infinite amount will be approved
