@@ -3,7 +3,7 @@ import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
 import {
-  MaticSignedTx,
+  MaticSignedTx, MaticStakeTxOptions,
   MaticTx,
   MaticTxHash,
   MaticTxStatus,
@@ -16,18 +16,21 @@ export class MaticService extends Service {
 
   /**
    * Craft an approve transaction
-   * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amountWei how many tokens to stake in WEI
+   * @param walletAddress wallet address signing the transaction
+   * @param contractAddressToApprove contract address that you allow to spend the token
+   * @param amountWei how many tokens to approve the spending, if not specified an infinite amount will be approved
    */
   async craftApproveTx(
     walletAddress: string,
-    amountWei: string,
+    contractAddressToApprove: string,
+    amountWei?: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/approve`,
         {
           wallet: walletAddress,
+          contract: contractAddressToApprove,
           amount_wei: amountWei,
         });
       return data;
@@ -37,34 +40,17 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an approve transaction
-   * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   */
-  async craftApproveStakeManagerTx(
-    walletAddress: string,
-  ): Promise<MaticTx> {
-    try {
-      const { data } = await api.post<MaticTx>(
-        `/v1/matic/transaction/approve-stake-manager`,
-        {
-          wallet: walletAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  }
-
-  /**
-   * Craft a MATIC buy shares transaction on the validator shares smart contract
+   * Craft a MATIC buy shares transaction on Kiln's ValidatorShare proxy contract
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param amountWei how many tokens to stake in WEI
+   * @param options options to pass a custom ValidatorShare proxy contract address
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     amountWei: string,
+    options?: MaticStakeTxOptions,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -73,6 +59,32 @@ export class MaticService extends Service {
           account_id: accountId,
           wallet: walletAddress,
           amount_wei: amountWei,
+          options: options,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Craft a MATIC sell shares transaction on the validator shares smart contract
+   * @param walletAddress address delegating
+   * @param amountWei how many tokens to stake in WEI
+   * @param options options to pass a custom ValidatorShare proxy contract address
+   */
+  async craftUnStakeTx(
+    walletAddress: string,
+    amountWei: string,
+    options?: MaticStakeTxOptions,
+  ): Promise<MaticTx> {
+    try {
+      const { data } = await api.post<MaticTx>(
+        `/v1/matic/transaction/unstake`,
+        {
+          wallet: walletAddress,
+          amount_wei: amountWei,
+          options: options,
         });
       return data;
     } catch (err: any) {
