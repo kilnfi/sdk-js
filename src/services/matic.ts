@@ -40,7 +40,8 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft a MATIC buy shares transaction on Kiln's ValidatorShare proxy contract
+   * Craft a buyVoucher transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * It also links the stake to the account id given
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param amountWei how many tokens to stake in WEI
@@ -68,7 +69,8 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft a MATIC sell shares transaction on the validator shares smart contract
+   * Craft a sellVoucher transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Note there that your tokens will be unbonding and locked for 21 days after this transaction
    * @param walletAddress address delegating
    * @param amountWei how many tokens to stake in WEI
    * @param options options to pass a custom ValidatorShare proxy contract address
@@ -84,6 +86,29 @@ export class MaticService extends Service {
         {
           wallet: walletAddress,
           amount_wei: amountWei,
+          options: options,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Craft an unstakeClaimTokens transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Note that your tokens must be unbonded before you can withdraw them
+   * @param walletAddress address delegating
+   * @param options options to pass a custom ValidatorShare proxy contract address
+   */
+  async craftWithdrawStakeTx(
+    walletAddress: string,
+    options?: MaticStakeTxOptions,
+  ): Promise<MaticTx> {
+    try {
+      const { data } = await api.post<MaticTx>(
+        `/v1/matic/transaction/withdraw`,
+        {
+          wallet: walletAddress,
           options: options,
         });
       return data;
