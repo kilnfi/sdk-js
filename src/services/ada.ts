@@ -8,12 +8,12 @@ import {
   AdaTx,
   AdaTxHash,
   AdaTxStatus,
-  InternalAdaConfig,
 } from '../types/ada';
 import api from '../api';
+import { ServiceProps } from '../types/service';
 
 export class AdaService extends Service {
-  constructor({ testnet, integrations }: InternalAdaConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
   }
 

@@ -1,10 +1,4 @@
 import { TransactionResponse } from '@solana/web3.js';
-import { Integrations } from "./integrations";
-
-export type InternalSolanaConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
 
 export type SolTx = {
   data: {

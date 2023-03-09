@@ -1,12 +1,5 @@
-import { Integrations } from "./integrations";
 import { IndexedTx, StdFee } from "@cosmjs/stargate";
 import { EncodeObject } from "@cosmjs/proto-signing";
-
-export type InternalAtomConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
-
 
 export type AtomTx = {
   address: string;

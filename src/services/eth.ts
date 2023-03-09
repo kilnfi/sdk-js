@@ -8,13 +8,13 @@ import {
   EthTx,
   EthTxHash,
   EthTxStatus,
-  InternalEthereumConfig,
 } from '../types/eth';
 import { Service } from './service';
 import { utils } from 'ethers';
+import { ServiceProps } from '../types/service';
 
 export class EthService extends Service {
-  constructor({ testnet, integrations }: InternalEthereumConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
   }
 

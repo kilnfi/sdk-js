@@ -1,13 +1,7 @@
-import { Integrations } from "./integrations";
 import { Responses } from '@blockfrost/blockfrost-js';
 import {
-  TransactionInputsJSON
+  TransactionInputsJSON,
 } from '@emurgo/cardano-serialization-lib-nodejs';
-
-export type InternalAdaConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
 
 export type AdaStakeOptions = {
   poolId: string;

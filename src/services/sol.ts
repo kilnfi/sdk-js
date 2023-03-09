@@ -1,7 +1,6 @@
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import api from '../api';
 import {
-  InternalSolanaConfig,
   SolNetworkStats,
   SolRewards,
   SolSignedTx,
@@ -12,10 +11,11 @@ import {
   SolTxStatus,
 } from '../types/sol';
 import { Service } from './service';
+import { ServiceProps } from '../types/service';
 
 
 export class SolService extends Service {
-  constructor({ testnet, integrations }: InternalSolanaConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
   }
 

@@ -8,6 +8,7 @@ import { AdaService } from "./services/ada";
 import { NearService } from "./services/near";
 import { DotService } from "./services/dot";
 import { XtzService } from "./services/xtz";
+import { MaticService } from './services/matic';
 
 type Config = {
   apiToken: string;
@@ -24,6 +25,7 @@ export class Kiln {
   near: NearService;
   dot: DotService;
   xtz: XtzService;
+  matic: MaticService;
 
   constructor({ testnet, apiToken, integrations }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -41,5 +43,6 @@ export class Kiln {
     this.near = new NearService({ testnet, integrations });
     this.dot = new DotService({ testnet, integrations });
     this.xtz = new XtzService({ testnet, integrations });
+    this.matic = new MaticService({ testnet, integrations });
   }
 }

@@ -56,7 +56,6 @@ export class FbSigner {
         },
         note,
         extraParameters: payloadToSign,
-
       }
     );
     return (await this.waitForTxCompletion(fbTx));

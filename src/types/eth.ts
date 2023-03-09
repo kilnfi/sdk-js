@@ -1,10 +1,4 @@
-import { Integrations } from './integrations';
 import { TransactionReceipt } from 'web3-core';
-
-export type InternalEthereumConfig = {
-  testnet?: boolean;
-  integrations: Integrations | undefined;
-};
 
 export type EthStakes = {
   data: EthStake[]

@@ -1,11 +1,10 @@
 import { Service } from './service';
 import { ApiPromise, HttpProvider } from '@polkadot/api';
 import {
+  DotRewardDestination,
   DotStakeOptions,
   DotTx,
   DotTxStatus,
-  InternalDotConfig,
-  DotRewardDestination,
   SubmittedDotTx,
 } from '../types/dot';
 import { DotFbSigner } from '../integrations/dot_fb_signer';
@@ -13,6 +12,7 @@ import { Signer } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ADDRESSES } from '../globals';
+import { ServiceProps } from '../types/service';
 
 const DOT_TO_PLANCK = 1000000000000;
 
@@ -23,7 +23,7 @@ const DOT_TO_PLANCK = 1000000000000;
 export class DotService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations }: InternalDotConfig) {
+  constructor({ testnet, integrations }: ServiceProps) {
     super({ testnet, integrations });
     const kilnRpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
     this.rpc = kilnRpc;
