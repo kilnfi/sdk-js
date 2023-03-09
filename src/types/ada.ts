@@ -69,3 +69,11 @@ export type AdaTx = {
     inputs: TransactionInputsJSON;
   };
 };
+
+export type AdaNetworkStats = {
+  data: {
+    updated_at: string;
+    network_gross_apy: number;
+    supply_staked_percent: number;
+  };
+};
