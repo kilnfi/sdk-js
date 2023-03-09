@@ -1,5 +1,6 @@
 import { Service } from './service';
 import {
+  AdaNetworkStats,
   AdaRewards,
   AdaSignedMessage,
   AdaSignedTx,
@@ -295,6 +296,20 @@ export class AdaService extends Service {
         startDate ? `&start_date=${startDate}` : ''
       }${endDate ? `&end_day=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve ADA network stats
+   */
+  async getNetworkStats(): Promise<AdaNetworkStats> {
+    try {
+      const { data } = await api.get<AdaNetworkStats>(
+        `/v1/ada/network-stats`,
+      );
       return data;
     } catch (err: any) {
       throw new Error(err);
