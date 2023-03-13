@@ -177,7 +177,7 @@ export class AtomService extends Service {
       const tx = await client.getTx(transactionHash);
       return tx ? {
         status: tx.code === 0 ? 'success' : 'error',
-        txReceipt: tx,
+        receipt: tx,
       } : null;
     } catch (e: any) {
       throw new Error(e);

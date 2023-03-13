@@ -14,5 +14,5 @@ export type AtomStakeOptions = {
 
 export type AtomTxStatus = {
   status: 'success' | 'error',
-  txReceipt: IndexedTx,
+  receipt: IndexedTx,
 }

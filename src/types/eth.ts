@@ -89,7 +89,7 @@ export type EthKilnStats = {
 export type EthTxStatus = {
   data: {
     status: 'success' | 'error' | 'pending_confirmation';
-    txReceipt: TransactionReceipt | null;
+    receipt: TransactionReceipt | null;
   }
 }
 export type EthSignedTx = {

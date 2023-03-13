@@ -26,7 +26,7 @@ export type XtzTxHash = {
 export type XtzTxStatus = {
   data: {
     status: string;
-    txReceipt: OperationEntry;
+    receipt: OperationEntry;
   }
 };
 

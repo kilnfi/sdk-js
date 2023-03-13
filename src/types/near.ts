@@ -6,5 +6,5 @@ export type NearStakeOptions = {
 
 export type NearTxStatus = {
   status: 'success' | 'error';
-  txReceipt: FinalExecutionOutcome;
+  receipt: FinalExecutionOutcome;
 }

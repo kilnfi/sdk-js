@@ -251,7 +251,7 @@ export class NearService extends Service {
       const status = Object.keys(receipt.status).includes('SuccessValue') ? 'success' : 'error';
       return {
         status: status,
-        txReceipt: receipt,
+        receipt: receipt,
       };
     } catch (e: any) {
       throw new Error(e);

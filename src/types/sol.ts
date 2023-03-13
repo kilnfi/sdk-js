@@ -69,6 +69,6 @@ export type SolStakeOptions = {
 export type SolTxStatus = {
   data: {
     status: 'success' | 'error';
-    txReceipt: TransactionResponse | null;
+    receipt: TransactionResponse | null;
   }
 }

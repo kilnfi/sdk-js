@@ -20,7 +20,7 @@ export type MaticTxHash = {
 export type MaticTxStatus = {
   data: {
     status: 'success' | 'error' | 'pending_confirmation';
-    txReceipt: TransactionReceipt | null;
+    receipt: TransactionReceipt | null;
   }
 }
 export type MaticSignedTx = {
