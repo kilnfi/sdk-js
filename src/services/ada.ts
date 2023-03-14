@@ -12,10 +12,11 @@ import {
 } from '../types/ada';
 import api from '../api';
 import { ServiceProps } from '../types/service';
+import { FireblocksIntegration, Integration } from '../types/integrations';
 
 export class AdaService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
@@ -93,22 +94,9 @@ export class AdaService extends Service {
    * @param integration
    * @param tx
    */
-  async sign(integration: string, tx: AdaTx): Promise<AdaSignedTx> {
+  async sign(integration: Integration, tx: AdaTx): Promise<AdaSignedTx> {
     try {
-      const currentIntegration = this.integrations?.find(int => int.name === integration);
-      if (!currentIntegration) {
-        throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-      }
-
-      // We only support fireblocks integration for now
-      if (currentIntegration.provider !== 'fireblocks') {
-        throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
-      }
-
-      if (!this.fbSigner) {
-        throw new Error(`Could not retrieve fireblocks signer.`);
-      }
-
+      const fbSigner = this.getFbSigner(integration);
       const payload = {
         rawMessageData: {
           messages: [
@@ -126,7 +114,7 @@ export class AdaService extends Service {
         },
       };
 
-      const fbTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
+      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
 
       if (!fbTx.signedMessages) {
         throw new Error(`Could not sign the transaction.`);

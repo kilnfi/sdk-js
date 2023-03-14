@@ -1,19 +1,17 @@
 import api from './api';
 import { EthService } from './services/eth';
 import { SolService } from './services/sol';
-import { Integrations } from "./types/integrations";
-import { AtomService } from "./services/atom";
-import { AccountService } from "./services/accounts";
-import { AdaService } from "./services/ada";
-import { NearService } from "./services/near";
-import { DotService } from "./services/dot";
-import { XtzService } from "./services/xtz";
+import { AtomService } from './services/atom';
+import { AccountService } from './services/accounts';
+import { AdaService } from './services/ada';
+import { NearService } from './services/near';
+import { DotService } from './services/dot';
+import { XtzService } from './services/xtz';
 import { MaticService } from './services/matic';
 
 type Config = {
   apiToken: string;
   testnet?: boolean;
-  integrations?: Integrations;
 };
 
 export class Kiln {
@@ -27,22 +25,22 @@ export class Kiln {
   xtz: XtzService;
   matic: MaticService;
 
-  constructor({ testnet, apiToken, integrations }: Config) {
+  constructor({ testnet, apiToken }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
     api.defaults.headers.common['Content-Type'] = 'application/json';
     api.defaults.baseURL =
       testnet === true
-        ? 'https://api.testnet.kiln.fi'
+        ? 'https://api.devnet.kiln.fi'
         : 'https://api.kiln.fi';
 
     this.accounts = new AccountService({ testnet });
-    this.eth = new EthService({ testnet, integrations });
-    this.sol = new SolService({ testnet, integrations });
-    this.atom = new AtomService({ testnet, integrations });
-    this.ada = new AdaService({ testnet, integrations });
-    this.near = new NearService({ testnet, integrations });
-    this.dot = new DotService({ testnet, integrations });
-    this.xtz = new XtzService({ testnet, integrations });
-    this.matic = new MaticService({ testnet, integrations });
+    this.eth = new EthService({ testnet });
+    this.sol = new SolService({ testnet });
+    this.atom = new AtomService({ testnet });
+    this.ada = new AdaService({ testnet });
+    this.near = new NearService({ testnet });
+    this.dot = new DotService({ testnet });
+    this.xtz = new XtzService({ testnet });
+    this.matic = new MaticService({ testnet });
   }
 }

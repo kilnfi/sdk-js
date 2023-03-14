@@ -11,11 +11,11 @@ type AssetId = 'SOL_TEST' | 'SOL' | 'ETH_TEST3' | 'ETH' | 'ATOM_COS_TEST' | 'ATO
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
-  protected vaultAccountId: string;
+  protected vaultId: number;
 
-  constructor(fireblocks: FireblocksSDK, vaultAccountId: string){
+  constructor(fireblocks: FireblocksSDK, vaultId: number){
     this.fireblocks = fireblocks;
-    this.vaultAccountId = vaultAccountId;
+    this.vaultId = vaultId;
   };
 
 
@@ -52,7 +52,7 @@ export class FbSigner {
         operation: TransactionOperation.RAW,
         source: {
           type: PeerType.VAULT_ACCOUNT,
-          id: String(this.vaultAccountId)
+          id: String(this.vaultId)
         },
         note,
         extraParameters: payloadToSign,

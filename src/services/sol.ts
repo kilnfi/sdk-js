@@ -12,11 +12,12 @@ import {
 } from '../types/sol';
 import { Service } from './service';
 import { ServiceProps } from '../types/service';
+import { FireblocksIntegration } from '../types/integrations';
 
 
 export class SolService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
@@ -154,16 +155,9 @@ export class SolService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: SolTx, note?: string): Promise<SolSignedTx> {
+  async sign(integration: FireblocksIntegration, tx: SolTx, note?: string): Promise<SolSignedTx> {
     try {
-      if (!this.integrations?.find(int => int.name === integration)) {
-        throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-      }
-
-      if (!this.fbSigner) {
-        throw new Error(`Could not retrieve fireblocks signer.`);
-      }
-
+      const fbSigner = this.getFbSigner(integration);
       const payload = {
         rawMessageData: {
           messages: [
@@ -174,7 +168,7 @@ export class SolService extends Service {
         },
       };
 
-      const fbSignatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
+      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
       const signatures: string[] = [];
       fbSignatures.signedMessages?.forEach((signedMessage: any) => {
         if (signedMessage.derivationPath[3] == 0) {

@@ -17,16 +17,16 @@ import {
 import { AtomFbSigner } from '../integrations/atom_fb_signer';
 import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 const UATOM_TO_ATOM = 1000000;
 
 export class AtomService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
-    const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
-    this.rpc = kilnRpc;
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
+    this.rpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
   }
 
   private async getClient(): Promise<StargateClient> {
@@ -146,7 +146,7 @@ export class AtomService extends Service {
    * @param integration
    * @param transaction
    */
-  async sign(integration: string, transaction: AtomTx): Promise<TxRaw> {
+  async sign(integration: Integration, transaction: AtomTx): Promise<TxRaw> {
     const signer = this.getSigner(integration);
     const client = await this.getSigningClient(signer);
     return client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
@@ -189,21 +189,8 @@ export class AtomService extends Service {
    * @param integration
    * @private
    */
-  private getSigner(integration: string): OfflineSigner {
-    const currentIntegration = this.integrations?.find(int => int.name === integration);
-    if (!currentIntegration) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    // We only support fireblocks integration for now
-    if (currentIntegration.provider !== 'fireblocks') {
-      throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
-    }
-
-    if (!this.fbSdk) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-    return new AtomFbSigner(this.fbSdk, currentIntegration.vaultAccountId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS');
+  private getSigner(integration: Integration): OfflineSigner {
+    const fbSdk = this.getFbSdk(integration);
+    return new AtomFbSigner(fbSdk, integration.vaultId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS');
   }
 }

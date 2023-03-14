@@ -14,8 +14,8 @@ type AssetId = 'ATOM_COS_TEST' | 'ATOM_COS';
 export class AtomFbSigner extends FbSigner implements OfflineDirectSigner {
   protected assetId: AssetId;
 
-  constructor(fireblocks: FireblocksSDK, vaultAccountId: string, assetId: AssetId) {
-    super(fireblocks, vaultAccountId);
+  constructor(fireblocks: FireblocksSDK, vaultId: number, assetId: AssetId) {
+    super(fireblocks, vaultId);
     this.assetId = assetId;
   };
 
@@ -23,13 +23,13 @@ export class AtomFbSigner extends FbSigner implements OfflineDirectSigner {
     // Get the compressed public key
     const pubkey = await this.fireblocks.getPublicKeyInfoForVaultAccount({
       assetId: this.assetId,
-      vaultAccountId: parseInt(this.vaultAccountId),
+      vaultAccountId: this.vaultId,
       compressed: true,
       change: 0,
       addressIndex: 0,
     });
 
-    const address = (await this.fireblocks.getDepositAddresses(this.vaultAccountId, this.assetId))[0].address;
+    const address = (await this.fireblocks.getDepositAddresses(this.vaultId.toString(), this.assetId))[0].address;
 
     return [
       {
@@ -49,7 +49,7 @@ export class AtomFbSigner extends FbSigner implements OfflineDirectSigner {
       assetId: this.assetId,
       source: {
         type: PeerType.VAULT_ACCOUNT,
-        id: this.vaultAccountId,
+        id: this.vaultId,
       },
       extraParameters: {
         rawMessageData: {

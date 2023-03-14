@@ -1,23 +1,37 @@
-import { Integrations } from "../types/integrations";
-import { FbSigner } from "../integrations/fb_signer";
-import { ServiceProps } from "../types/service";
-import { FireblocksSDK } from "fireblocks-sdk";
+import { FireblocksIntegration } from '../types/integrations';
+import { FbSigner } from '../integrations/fb_signer';
+import { ServiceProps } from '../types/service';
+import { FireblocksSDK } from 'fireblocks-sdk';
 
 export class Service {
   protected testnet: boolean;
-  protected integrations: Integrations | undefined;
-  protected fbSigner: FbSigner | undefined;
-  protected fbSdk: FireblocksSDK | undefined;
 
-  constructor({ testnet, integrations }: ServiceProps) {
+  constructor({ testnet }: ServiceProps) {
     this.testnet = testnet === true;
-    this.integrations = integrations;
+  }
 
-    // Fireblocks integration
-    const fireblocksIntegration = integrations?.find(integration => integration.provider === 'fireblocks');
-    if (fireblocksIntegration) {
-      this.fbSdk = new FireblocksSDK(fireblocksIntegration.fireblocksSecretKey, fireblocksIntegration.fireblocksApiKey);
-      this.fbSigner = new FbSigner(this.fbSdk, fireblocksIntegration.vaultAccountId);
+  /**
+   * Retrieve a fireblocks SDK from a Fireblocks integration
+   * @param integration: Fireblocks integration
+   */
+  getFbSdk(integration: FireblocksIntegration): FireblocksSDK {
+    try {
+      return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve a fireblocks signer from a Fireblocks integration
+   * @param integration: Fireblocks integration
+   */
+  getFbSigner(integration: FireblocksIntegration): FbSigner {
+    try {
+      const fbSdk = this.getFbSdk(integration);
+      return new FbSigner(fbSdk, integration.vaultId);
+    } catch (err: any) {
+      throw new Error(err);
     }
   }
 

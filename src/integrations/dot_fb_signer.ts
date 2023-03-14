@@ -33,7 +33,7 @@ export class DotFbSigner extends FbSigner implements Signer {
       operation: TransactionOperation.RAW,
       source: {
         type: PeerType.VAULT_ACCOUNT,
-        id: this.vaultAccountId
+        id: this.vaultId
       },
       assetId: this.assetId,
       extraParameters: { rawMessageData },
