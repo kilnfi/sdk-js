@@ -13,7 +13,7 @@ import { SignerOptions } from "@polkadot/api/submittable/types";
 import { SubmittableExtrinsic } from "@polkadot/api/promise/types";
 import { ADDRESSES } from "../globals";
 
-const DOT_TO_PLANCK = 1000000000000;
+const DOT_TO_PLANCK = 10000000000;
 
 
 /**
