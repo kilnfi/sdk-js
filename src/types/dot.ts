@@ -19,6 +19,11 @@ export type DotTx = {
   submittableExtrinsic: SubmittableExtrinsic;
 }
 
+export type DotSignedTx = {
+  from: string;
+  submittableExtrinsic: SubmittableExtrinsic;
+}
+
 export type SubmittedDotTx = {
   blockHash: string;
   hash: string;

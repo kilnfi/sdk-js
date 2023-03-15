@@ -42,29 +42,23 @@ export class DotService extends Service {
    * Craft dot bonding transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param stashAccount stash account address (your most secure cold wallet)
-   * @param amountDot how many tokens to bond in DOT
+   * @param amountPlanck amount to bond in planck
    * @param options
    */
   async craftBondTx(
     accountId: string,
     stashAccount: string,
-    amountDot: number,
+    amountPlanck: string,
     options?: DotStakeOptions,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
 
     // The controller account is responsible for managing the stake,
     // it is recommended to have a separate wallet for it and keep the stash account as a cold offline wallet,
     // although it is possible for the controller account to be the same as the stash account
     const controllerAccount = options?.controllerAccount ?? stashAccount;
     const rewardsDestination = options?.rewardDestination ?? 'Staked';
-    const extrinsic = await client.tx.staking.bond(controllerAccount, amount, rewardsDestination);
-
+    const extrinsic = await client.tx.staking.bond(controllerAccount, amountPlanck, rewardsDestination);
     return {
       from: stashAccount,
       submittableExtrinsic: extrinsic,
@@ -74,20 +68,14 @@ export class DotService extends Service {
   /**
    * Craft dot bonding extra token transaction (to be used if you already bonded tokens)
    * @param stashAccount stash account address
-   * @param amountDot how many tokens to bond in DOT
+   * @param amountPlanck amount to bond extra in planck
    */
   async craftBondExtraTx(
     stashAccount: string,
-    amountDot: number,
+    amountPlanck: string,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const extrinsic = await client.tx.staking.bondExtra(amount);
-
+    const extrinsic = await client.tx.staking.bondExtra(amountPlanck);
     return {
       from: stashAccount,
       submittableExtrinsic: extrinsic,
@@ -97,20 +85,14 @@ export class DotService extends Service {
   /**
    * Craft dot rebond transaction (to be used to rebond unbonding token)
    * @param controllerAccount stash account address
-   * @param amountDot how many tokens to bond in DOT
+   * @param amountPlanck amount to rebond in planck
    */
   async craftRebondTx(
     controllerAccount: string,
-    amountDot: number,
+    amountPlanck: string,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const extrinsic = await client.tx.staking.rebond(amount);
-
+    const extrinsic = await client.tx.staking.rebond(amountPlanck);
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -126,11 +108,9 @@ export class DotService extends Service {
     controllerAccount: string,
     validatorAddresses?: string[],
   ): Promise<DotTx> {
-
     const validators: string[] = validatorAddresses ?? this.testnet ? [ADDRESSES.dot.testnet.validatorAddress] : [ADDRESSES.dot.mainnet.validatorAddress];
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.nominate(validators);
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -140,20 +120,14 @@ export class DotService extends Service {
   /**
    * Craft dot unbonding transaction, there is an unbonding period before your tokens can be withdrawn
    * @param controllerAccount controller account address
-   * @param amountDot how many tokens to unbond in DOT
+   * @param amountPlanck amount to unrebond in planck
    */
   async craftUnbondTx(
     controllerAccount: string,
-    amountDot: number,
+    amountPlanck: string,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const extrinsic = await client.tx.staking.unbond(amount);
-
+    const extrinsic = await client.tx.staking.unbond(amountPlanck);
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -170,7 +144,6 @@ export class DotService extends Service {
     const client = await this.getClient();
     const spanCount = await client.query.staking.slashingSpans(controllerAccount);
     const extrinsic = await client.tx.staking.withdrawUnbonded(spanCount.toHex());
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -189,7 +162,6 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.chill();
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -207,7 +179,6 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.setController(controllerAccount);
-
     return {
       from: stashAccount,
       submittableExtrinsic: extrinsic,
@@ -229,7 +200,6 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.setPayee(rewardsDestination);
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,

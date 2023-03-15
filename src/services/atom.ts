@@ -13,7 +13,7 @@ import {
   AtomTx, AtomTxHash,
   AtomTxStatus,
 } from '../types/atom';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Coin, OfflineSigner } from '@cosmjs/proto-signing';
 import {
   MsgDelegate,
@@ -26,8 +26,6 @@ import { Integration } from '../types/integrations';
 import {
   MsgWithdrawDelegatorReward
 } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
-
-const UATOM_TO_ATOM = 1000000;
 
 export class AtomService extends Service {
   private rpc: string;
