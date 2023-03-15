@@ -63,7 +63,7 @@ export class AtomService extends Service {
     options?: AtomStakeOptions,
   ): Promise<AtomTx> {
     try {
-      const validatorAddress = options?.validatorAddress ? options.validatorAddress :
+      const validatorAddress = options?.validator_address ? options.validator_address :
         this.testnet ?
           ADDRESSES.atom.testnet.validatorAddress :
           ADDRESSES.atom.mainnet.validatorAddress;
@@ -99,19 +99,14 @@ export class AtomService extends Service {
 
   /**
    * Craft atom withdraw rewards transaction
-   * @param walletAddress
-   * @param options
+   * @param walletAddress wallet address from which the delegation has been made
+   * @param validatorAddress validator address to which the delegation has been made
    */
   async craftWithdrawRewardsTx(
     walletAddress: string,
-    options?: AtomStakeOptions,
+    validatorAddress: string,
   ): Promise<AtomTx> {
     try {
-      const validatorAddress = options?.validatorAddress ? options.validatorAddress :
-        this.testnet ?
-          ADDRESSES.atom.testnet.validatorAddress :
-          ADDRESSES.atom.mainnet.validatorAddress;
-
       const msg = MsgWithdrawDelegatorReward.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
@@ -140,7 +135,7 @@ export class AtomService extends Service {
   }
 
   /**
-   * Craft atom unstaking staking transaction
+   * Craft atom unstaking transaction
    * @param walletAddress wallet address from which the delegation has been made
    * @param validatorAddress validator address to which the delegation has been made
    * @param amountUatom how many tokens to undelegate in UATOM
@@ -236,10 +231,13 @@ export class AtomService extends Service {
     try {
       const client = await this.getClient();
       const tx = await client.getTx(transactionHash);
-      return tx ? {
-        status: tx.code === 0 ? 'success' : 'error',
-        receipt: tx,
-      } : null;
+      if(!tx) return null;
+      return {
+        data: {
+          status: tx.code === 0 ? 'success' : 'error',
+          receipt: tx,
+        }
+      };
     } catch (e: any) {
       throw new Error(e);
     }

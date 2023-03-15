@@ -4,7 +4,7 @@ import {
 } from '@emurgo/cardano-serialization-lib-nodejs';
 
 export type AdaStakeOptions = {
-  poolId: string;
+  pool_id: string;
 };
 
 export type AdaTxStatus = {

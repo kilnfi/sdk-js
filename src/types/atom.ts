@@ -21,10 +21,12 @@ export type AtomTxHash = {
 };
 
 export type AtomStakeOptions = {
-  validatorAddress?: string;
+  validator_address?: string;
 };
 
 export type AtomTxStatus = {
-  status: 'success' | 'error',
-  receipt: IndexedTx,
+  data: {
+    status: 'success' | 'error',
+    receipt: IndexedTx,
+  }
 }

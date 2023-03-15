@@ -27,6 +27,7 @@ const f = async () => {
     );
     // const tx = await k.atom.craftWithdrawRewardsTx(
     //   'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
+    //   'cosmosvaloper178h4s6at5v9cd8m9n7ew3hg7k9eh0s6wptxpcn'
     // );
     // const tx = await k.atom.craftUnstakeTx(
     //   'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
