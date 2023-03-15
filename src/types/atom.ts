@@ -8,6 +8,18 @@ export type AtomTx = {
   memo?: string;
 };
 
+export type AtomSignedTx = {
+  data: {
+    signed_tx_serialized: string;
+  };
+};
+
+export type AtomTxHash = {
+  data: {
+    tx_hash: string;
+  };
+};
+
 export type AtomStakeOptions = {
   validatorAddress?: string;
 };

@@ -2,12 +2,17 @@ import { Service } from './service';
 import {
   coin,
   MsgDelegateEncodeObject,
-  MsgUndelegateEncodeObject,
+  MsgUndelegateEncodeObject, MsgWithdrawDelegatorRewardEncodeObject,
   SigningStargateClient,
   StargateClient,
   StdFee,
 } from '@cosmjs/stargate';
-import { AtomStakeOptions, AtomTx, AtomTxStatus } from '../types/atom';
+import {
+  AtomSignedTx,
+  AtomStakeOptions,
+  AtomTx, AtomTxHash,
+  AtomTxStatus,
+} from '../types/atom';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Coin, OfflineSigner } from '@cosmjs/proto-signing';
 import {
@@ -18,6 +23,9 @@ import { AtomFbSigner } from '../integrations/atom_fb_signer';
 import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
+import {
+  MsgWithdrawDelegatorReward
+} from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 
 const UATOM_TO_ATOM = 1000000;
 
@@ -37,23 +45,23 @@ export class AtomService extends Service {
     return await SigningStargateClient.connectWithSigner(this.rpc, signer);
   }
 
+  atomToUatom(amountAtom: string): string {
+    return (parseFloat(amountAtom) * 1000000).toFixed();
+  }
+
   /**
    * Craft atom staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amountAtom how many tokens to stake in ATOM
+   * @param amountUatom how many tokens to stake in UATOM
    * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amountAtom: number,
+    amountUatom: string,
     options?: AtomStakeOptions,
   ): Promise<AtomTx> {
-    if (amountAtom < 0.01) {
-      throw new Error('Atom stake must be at least 0.01 ATOM');
-    }
-
     try {
       const validatorAddress = options?.validatorAddress ? options.validatorAddress :
         this.testnet ?
@@ -63,7 +71,7 @@ export class AtomService extends Service {
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
-        amount: coin((amountAtom * UATOM_TO_ATOM).toString(), 'uatom'),
+        amount: coin(amountUatom, 'uatom'),
       });
 
       const delegateMsg: MsgDelegateEncodeObject = {
@@ -90,19 +98,61 @@ export class AtomService extends Service {
   }
 
   /**
+   * Craft atom withdraw rewards transaction
+   * @param walletAddress
+   * @param options
+   */
+  async craftWithdrawRewardsTx(
+    walletAddress: string,
+    options?: AtomStakeOptions,
+  ): Promise<AtomTx> {
+    try {
+      const validatorAddress = options?.validatorAddress ? options.validatorAddress :
+        this.testnet ?
+          ADDRESSES.atom.testnet.validatorAddress :
+          ADDRESSES.atom.mainnet.validatorAddress;
+
+      const msg = MsgWithdrawDelegatorReward.fromPartial({
+        delegatorAddress: walletAddress,
+        validatorAddress: validatorAddress,
+      });
+
+      const msgEncoded: MsgWithdrawDelegatorRewardEncodeObject = {
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        value: msg,
+      };
+
+      const feeAmount = coin(5000, 'uatom');
+      const fee: StdFee = {
+        amount: [feeAmount],
+        gas: '300000',
+      };
+
+      return {
+        address: walletAddress,
+        messages: [msgEncoded],
+        fee: fee,
+      };
+
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
    * Craft atom unstaking staking transaction
    * @param walletAddress wallet address from which the delegation has been made
    * @param validatorAddress validator address to which the delegation has been made
-   * @param amountAtom how many tokens to un undelegate in ATOM
+   * @param amountUatom how many tokens to undelegate in UATOM
    */
   async craftUnstakeTx(
     walletAddress: string,
     validatorAddress: string,
-    amountAtom?: number,
+    amountUatom?: string,
   ): Promise<AtomTx> {
     try {
       let amountToWithdraw: Coin;
-      if (!amountAtom) {
+      if (!amountUatom) {
         const client = await this.getClient();
         const delegation = await client.getDelegation(walletAddress, validatorAddress);
         if (!delegation) {
@@ -110,7 +160,7 @@ export class AtomService extends Service {
         }
         amountToWithdraw = delegation;
       } else {
-        amountToWithdraw = coin((amountAtom * UATOM_TO_ATOM).toString(), 'uatom');
+        amountToWithdraw = coin(amountUatom, 'uatom');
       }
 
       const msg = MsgUndelegate.fromPartial({
@@ -147,23 +197,32 @@ export class AtomService extends Service {
    * @param transaction
    * @param note
    */
-  async sign(integration: Integration, transaction: AtomTx, note?: string): Promise<TxRaw> {
+  async sign(integration: Integration, transaction: AtomTx, note?: string): Promise<AtomSignedTx> {
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const signer = this.getSigner(integration, fbNote);
     const client = await this.getSigningClient(signer);
-    return client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
+    const signedTx = await client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
+    return {
+      data: {
+        signed_tx_serialized: Buffer.from(TxRaw.encode(signedTx).finish()).toString('hex')
+      }
+    };
   }
 
 
   /**
    * Broadcast transaction to the network
-   * @param transaction
+   * @param signedTx
    */
-  async broadcast(transaction: TxRaw): Promise<string | undefined> {
+  async broadcast(signedTx: AtomSignedTx): Promise<AtomTxHash> {
     try {
       const client = await this.getClient();
-      const res = await client.broadcastTx(TxRaw.encode(transaction).finish());
-      return res.transactionHash;
+      const res = await client.broadcastTx(Uint8Array.from(Buffer.from(signedTx.data.signed_tx_serialized, 'hex')));
+      return {
+        data: {
+          tx_hash: res.transactionHash
+        }
+      };
     } catch (e: any) {
       throw new Error(e);
     }

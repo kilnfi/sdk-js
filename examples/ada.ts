@@ -12,7 +12,7 @@ const f = async () => {
       apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6cS01ZkhkV3ZrZnZ5cjVZQXk1czl1M29SeXBoeEV0U01wczVpWm1zNTlXSkdjLUkyR1ZIeWpyc291a3pWbEl0MQ',
     });
     
-    const fbVault: Integration = {
+    const vault: Integration = {
       provider: 'fireblocks',
       fireblocksApiKey: '53aee35e-04b7-9314-8f28-135a66c8af2c',
       fireblocksSecretKey: apiSecret,
@@ -32,7 +32,7 @@ const f = async () => {
       'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
     );
     console.log('signing...');
-    const txSigned = await k.ada.sign(fbVault, tx);
+    const txSigned = await k.ada.sign(vault, tx);
     console.log('broadcasting...');
     const hash = await k.ada.broadcast(txSigned);
     console.log(hash);
