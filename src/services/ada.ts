@@ -12,7 +12,7 @@ import {
 } from '../types/ada';
 import api from '../api';
 import { ServiceProps } from '../types/service';
-import { FireblocksIntegration, Integration } from '../types/integrations';
+import { Integration } from '../types/integrations';
 
 export class AdaService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -93,8 +93,9 @@ export class AdaService extends Service {
    * Sign transaction with given integration
    * @param integration
    * @param tx
+   * @param note
    */
-  async sign(integration: Integration, tx: AdaTx): Promise<AdaSignedTx> {
+  async sign(integration: Integration, tx: AdaTx, note?: string): Promise<AdaSignedTx> {
     try {
       const fbSigner = this.getFbSigner(integration);
       const payload = {
@@ -114,7 +115,8 @@ export class AdaService extends Service {
         },
       };
 
-      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
+      const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
+      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA', fbNote);
 
       if (!fbTx.signedMessages) {
         throw new Error(`Could not sign the transaction.`);

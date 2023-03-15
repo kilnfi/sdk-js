@@ -12,7 +12,7 @@ import {
 } from '../types/sol';
 import { Service } from './service';
 import { ServiceProps } from '../types/service';
-import { FireblocksIntegration } from '../types/integrations';
+import { Integration } from '../types/integrations';
 
 
 export class SolService extends Service {
@@ -155,9 +155,8 @@ export class SolService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: FireblocksIntegration, tx: SolTx, note?: string): Promise<SolSignedTx> {
+  async sign(integration: Integration, tx: SolTx, note?: string): Promise<SolSignedTx> {
     try {
-      const fbSigner = this.getFbSigner(integration);
       const payload = {
         rawMessageData: {
           messages: [
@@ -168,7 +167,9 @@ export class SolService extends Service {
         },
       };
 
-      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
+      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
       const signatures: string[] = [];
       fbSignatures.signedMessages?.forEach((signedMessage: any) => {
         if (signedMessage.derivationPath[3] == 0) {

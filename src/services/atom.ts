@@ -145,9 +145,11 @@ export class AtomService extends Service {
    * Sign transaction with given integration
    * @param integration
    * @param transaction
+   * @param note
    */
-  async sign(integration: Integration, transaction: AtomTx): Promise<TxRaw> {
-    const signer = this.getSigner(integration);
+  async sign(integration: Integration, transaction: AtomTx, note?: string): Promise<TxRaw> {
+    const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
+    const signer = this.getSigner(integration, fbNote);
     const client = await this.getSigningClient(signer);
     return client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
   }
@@ -187,10 +189,11 @@ export class AtomService extends Service {
   /**
    * Get correct signer given integration. (only support fireblocks provider for now)
    * @param integration
+   * @param note
    * @private
    */
-  private getSigner(integration: Integration): OfflineSigner {
+  private getSigner(integration: Integration, note?: string): OfflineSigner {
     const fbSdk = this.getFbSdk(integration);
-    return new AtomFbSigner(fbSdk, integration.vaultId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS');
+    return new AtomFbSigner(fbSdk, integration.vaultId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', note);
   }
 }

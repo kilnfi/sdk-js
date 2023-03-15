@@ -11,10 +11,11 @@ import {
   XtzTxStatus,
 } from '../types/xtz';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 export class XtzService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
@@ -67,15 +68,7 @@ export class XtzService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: XtzTx, note?: string): Promise<XtzSignedTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
+  async sign(integration: Integration, tx: XtzTx, note?: string): Promise<XtzSignedTx> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -86,7 +79,9 @@ export class XtzService extends Service {
       },
     };
 
-    const signedTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'XTZ_TEST' : 'XTZ', note);
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
+    const signedTx = await fbSigner.signWithFB(payload, this.testnet ? 'XTZ_TEST' : 'XTZ', fbNote);
     const signature: string = signedTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<XtzSignedTx>(
       `/v1/xtz/transaction/prepare`,

@@ -18,7 +18,7 @@ export class Service {
     try {
       return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
     } catch (err: any) {
-      throw new Error(err);
+      throw new Error('getFbSdk: ' + err);
     }
   }
 
@@ -31,7 +31,7 @@ export class Service {
       const fbSdk = this.getFbSdk(integration);
       return new FbSigner(fbSdk, integration.vaultId);
     } catch (err: any) {
-      throw new Error(err);
+      throw new Error('getFbSigner: ' + err);
     }
   }
 

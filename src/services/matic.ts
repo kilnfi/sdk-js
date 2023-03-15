@@ -8,10 +8,11 @@ import {
   MaticTxHash,
   MaticTxStatus,
 } from '../types/matic';
+import { Integration } from '../types/integrations';
 
 export class MaticService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
@@ -170,16 +171,7 @@ export class MaticService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: MaticTx, note?: string): Promise<MaticSignedTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-
+  async sign(integration: Integration, tx: MaticTx, note?: string): Promise<MaticSignedTx> {
     try {
       const payload = {
         rawMessageData: {
@@ -191,7 +183,9 @@ export class MaticService extends Service {
         },
       };
 
-      const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'MATIC tx from @kilnfi/sdk';
+      const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
       const { data } = await api.post<MaticSignedTx>(
         `/v1/matic/transaction/prepare`,
         {

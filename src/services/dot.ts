@@ -13,8 +13,9 @@ import { SignerOptions } from '@polkadot/api/submittable/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
-const DOT_TO_PLANCK = 1000000000000;
+const DOT_TO_PLANCK = 10000000000;
 
 
 /**
@@ -23,10 +24,9 @@ const DOT_TO_PLANCK = 1000000000000;
 export class DotService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
-    const kilnRpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
-    this.rpc = kilnRpc;
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
+    this.rpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
   }
 
   private async getClient(): Promise<ApiPromise> {
@@ -240,9 +240,11 @@ export class DotService extends Service {
    * Sign transaction with given integration
    * @param integration
    * @param transaction
+   * @param note
    */
-  async sign(integration: string, transaction: DotTx): Promise<SubmittableExtrinsic> {
-    const signer = this.getSigner(integration);
+  async sign(integration: Integration, transaction: DotTx, note?: string): Promise<SubmittableExtrinsic> {
+    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
+    const signer = this.getSigner(integration, fbNote);
     const options: Partial<SignerOptions> = {
       era: 0,
       signer: signer,
@@ -331,23 +333,11 @@ export class DotService extends Service {
   /**
    * Get correct signer given integration. (only support fireblocks provider for now)
    * @param integration
+   * @param note
    * @private
    */
-  private getSigner(integration: string): Signer {
-    const currentIntegration = this.integrations?.find(int => int.name === integration);
-    if (!currentIntegration) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    // We only support fireblocks integration for now
-    if (currentIntegration.provider !== 'fireblocks') {
-      throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
-    }
-
-    if (!this.fbSdk) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-    return new DotFbSigner(this.fbSdk, currentIntegration.vaultAccountId, this.testnet ? 'WND' : 'DOT');
+  private getSigner(integration: Integration, note?: string): Signer {
+    const fbSdk = this.getFbSdk(integration);
+    return new DotFbSigner(fbSdk, integration.vaultId, this.testnet ? 'WND' : 'DOT', note);
   }
 }

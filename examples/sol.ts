@@ -1,24 +1,24 @@
 import { Kiln } from "../src/kiln";
-import { Integrations } from '../lib/types/integrations';
+import { Integration } from '../lib/types/integrations';
 const fs = require('fs');
 
 const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 
 const f = async () => {
-  const integrations: Integrations = [
+  const integrations: Integration[] = [
     {
       name: 'vault-1',
       provider: 'fireblocks',
       fireblocksApiKey: '53aee35e-04b7-9314-8f28-135a66c8af2c',
       fireblocksSecretKey: apiSecret,
-      vaultAccountId: '7'
+      vaultId: 7
     },
     {
       name: 'vault-2',
       provider: 'fireblocks',
       fireblocksApiKey: 'ffb2c38b-b513-1656-b1c4-077e81f41036',
       fireblocksSecretKey: apiSecret,
-      vaultAccountId: '2'
+      vaultId: 2
     }
   ];
   const k = new Kiln({

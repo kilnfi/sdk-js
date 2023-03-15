@@ -13,10 +13,12 @@ type AssetId = 'ATOM_COS_TEST' | 'ATOM_COS';
 
 export class AtomFbSigner extends FbSigner implements OfflineDirectSigner {
   protected assetId: AssetId;
+  protected note?: string;
 
-  constructor(fireblocks: FireblocksSDK, vaultId: number, assetId: AssetId) {
+  constructor(fireblocks: FireblocksSDK, vaultId: number, assetId: AssetId, note?: string) {
     super(fireblocks, vaultId);
     this.assetId = assetId;
+    this.note = note;
   };
 
   async getAccounts(): Promise<AccountData[]> {
@@ -49,8 +51,9 @@ export class AtomFbSigner extends FbSigner implements OfflineDirectSigner {
       assetId: this.assetId,
       source: {
         type: PeerType.VAULT_ACCOUNT,
-        id: this.vaultId,
+        id: this.vaultId.toString(),
       },
+      note: this.note,
       extraParameters: {
         rawMessageData: {
           messages: [

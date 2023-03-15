@@ -7,11 +7,12 @@ import { PublicKey } from 'near-api-js/lib/utils';
 import { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
 import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 export class NearService extends Service {
 
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   private async getConnection(): Promise<Near> {
@@ -189,15 +190,7 @@ export class NearService extends Service {
    * @param transaction
    * @param note
    */
-  async sign(integration: string, transaction: Transaction, note?: string): Promise<SignedTransaction> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
+  async sign(integration: Integration, transaction: Transaction, note?: string): Promise<SignedTransaction> {
     const serializedTx = utils.serialize.serialize(
       transactions.SCHEMA,
       transaction,
@@ -214,7 +207,9 @@ export class NearService extends Service {
       },
     };
 
-    const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'NEAR_TEST' : 'NEAR', note);
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : 'NEAR tx from @kilnfi/sdk';
+    const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'NEAR_TEST' : 'NEAR', fbNote);
     const signature = signatures.signedMessages![0];
 
     return new transactions.SignedTransaction({

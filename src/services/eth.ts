@@ -12,10 +12,11 @@ import {
 import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 export class EthService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
@@ -49,16 +50,7 @@ export class EthService extends Service {
    * @param tx
    * @param note
    */
-  async sign(integration: string, tx: EthTx, note?: string): Promise<EthSignedTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-
+  async sign(integration: Integration, tx: EthTx, note?: string): Promise<EthSignedTx> {
     try {
       const payload = {
         rawMessageData: {
@@ -70,7 +62,9 @@ export class EthService extends Service {
         },
       };
 
-      const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
+      const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
       const { data } = await api.post<EthSignedTx>(
         `/v1/eth/transaction/prepare`,
         {
