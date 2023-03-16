@@ -3,6 +3,7 @@ import BN from 'bn.js';
 import { sha256 } from 'js-sha256';
 import { Service } from './service';
 import {
+  NearNetworkStats,
   NearRewards,
   NearSignedTx,
   NearStakes,
@@ -14,7 +15,6 @@ import { PublicKey } from 'near-api-js/lib/utils';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import api from '../api';
-import { AdaStakes } from '../types/ada';
 
 export class NearService extends Service {
 
@@ -407,6 +407,20 @@ export class NearService extends Service {
         `/v1/near/rewards?wallets=${wallets.join(',')}${
           startDate ? `&start_date=${startDate}` : ''
         }${endDate ? `&end_date=${endDate}` : ''}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve NEAR network stats
+   */
+  async getNetworkStats(): Promise<NearNetworkStats> {
+    try {
+      const { data } = await api.get<NearNetworkStats>(
+        `/v1/near/network-stats`,
+      );
       return data;
     } catch (err: any) {
       throw new Error(err);

@@ -55,3 +55,12 @@ export type NearReward = {
 export type NearRewards = {
   data: NearReward[];
 };
+
+export type NearNetworkStats = {
+  data: {
+    updated_at: string;
+    nb_validators: number;
+    network_gross_apy: number;
+    supply_staked_percent: number;
+  };
+};
