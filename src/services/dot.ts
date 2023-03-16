@@ -11,12 +11,8 @@ import { DotFbSigner } from '../integrations/dot_fb_signer';
 import { Signer } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
 import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
-
-const DOT_TO_PLANCK = 10000000000;
-
 
 /**
  * Staking docs: https://paritytech.github.io/substrate/master/pallet_staking/struct.Pallet.html
@@ -102,15 +98,14 @@ export class DotService extends Service {
   /**
    * Craft dot nominate transaction
    * @param controllerAccount controller account address
-   * @param validatorAddresses validator addresses to nominate to, if not provided, will nominate to Kiln's validator
+   * @param validatorAddresses validator addresses to nominate to
    */
   async craftNominateTx(
     controllerAccount: string,
-    validatorAddresses?: string[],
+    validatorAddresses: string[],
   ): Promise<DotTx> {
-    const validators: string[] = validatorAddresses ?? this.testnet ? [ADDRESSES.dot.testnet.validatorAddress] : [ADDRESSES.dot.mainnet.validatorAddress];
     const client = await this.getClient();
-    const extrinsic = await client.tx.staking.nominate(validators);
+    const extrinsic = await client.tx.staking.nominate(validatorAddresses);
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,

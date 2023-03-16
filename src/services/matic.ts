@@ -3,7 +3,7 @@ import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
 import {
-  MaticSignedTx, MaticStakeTxOptions,
+  MaticSignedTx,
   MaticTx,
   MaticTxHash,
   MaticTxStatus,
@@ -42,18 +42,18 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft a buyVoucher transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft a buyVoucher transaction to a ValidatorShare proxy contract
    * It also links the stake to the account id given
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    * @param amountWei how many tokens to stake in WEI
-   * @param options options to pass a custom ValidatorShare proxy contract address
    */
   async craftBuyVoucherTx(
     accountId: string,
     walletAddress: string,
+    validatorShareProxyAddress: string,
     amountWei: string,
-    options?: MaticStakeTxOptions,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -62,7 +62,9 @@ export class MaticService extends Service {
           account_id: accountId,
           wallet: walletAddress,
           amount_wei: amountWei,
-          options: options,
+          options: {
+            validator_share_proxy_address: validatorShareProxyAddress,
+          },
         });
       return data;
     } catch (err: any) {
@@ -71,16 +73,16 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft a sellVoucher transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft a sellVoucher transaction to a ValidatorShare proxy contract
    * Note there that your tokens will be unbonding and locked for 21 days after this transaction
    * @param walletAddress address delegating
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    * @param amountWei how many tokens to stake in WEI
-   * @param options options to pass a custom ValidatorShare proxy contract address
    */
   async craftSellVoucherTx(
     walletAddress: string,
+    validatorShareProxyAddress: string,
     amountWei: string,
-    options?: MaticStakeTxOptions,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -88,7 +90,9 @@ export class MaticService extends Service {
         {
           wallet: walletAddress,
           amount_wei: amountWei,
-          options: options,
+          options: {
+            validator_share_proxy_address: validatorShareProxyAddress,
+          },
         });
       return data;
     } catch (err: any) {
@@ -97,21 +101,23 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an unstakeClaimTokens transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft an unstakeClaimTokens transaction to a ValidatorShare proxy contract
    * Note that your tokens must be unbonded before you can claim them
    * @param walletAddress address delegating
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
   async craftUnstakeClaimTokensTx(
     walletAddress: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/unstake-claim-tokens`,
         {
           wallet: walletAddress,
-          options: options,
+          options: {
+            validator_share_proxy_address: validatorShareProxyAddress,
+          },
         });
       return data;
     } catch (err: any) {
@@ -120,21 +126,23 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an withdrawRewards transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft an withdrawRewards transaction to a ValidatorShare proxy contract
    * All rewards earned are transferred to the delegator's wallet
    * @param walletAddress address delegating
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
   async craftWithdrawRewardsTx(
     walletAddress: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/withdraw-rewards`,
         {
           wallet: walletAddress,
-          options: options,
+          options: {
+            validator_share_proxy_address: validatorShareProxyAddress,
+          },
         });
       return data;
     } catch (err: any) {
@@ -143,21 +151,23 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an withdrawRewards transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft an withdrawRewards transaction to a ValidatorShare proxy contract
    * All rewards earned are then re-delegated
    * @param walletAddress address delegating
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
   async craftRestakeRewardsTx(
     walletAddress: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/restake-rewards`,
         {
           wallet: walletAddress,
-          options: options,
+          options: {
+            validator_share_proxy_address: validatorShareProxyAddress,
+          },
         });
       return data;
     } catch (err: any) {

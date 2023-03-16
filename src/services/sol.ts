@@ -4,7 +4,6 @@ import {
   SolNetworkStats,
   SolRewards,
   SolSignedTx,
-  SolStakeOptions,
   SolStakes,
   SolTx,
   SolTxHash,
@@ -24,14 +23,14 @@ export class SolService extends Service {
    * Craft Solana staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
+   * @param voteAccountAddress vote account address of the validator that you wish to delegate to
    * @param amountLamports how much to stake in lamports (min 0.01 SOL)
-   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
+    voteAccountAddress: string,
     amountLamports: string,
-    options?: SolStakeOptions,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -40,7 +39,9 @@ export class SolService extends Service {
           account_id: accountId,
           wallet: walletAddress,
           amount_lamports: amountLamports,
-          options: options,
+          options: {
+            vote_account_address: voteAccountAddress,
+          },
         });
       return data;
     } catch (err: any) {

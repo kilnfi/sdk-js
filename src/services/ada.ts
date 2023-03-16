@@ -4,7 +4,6 @@ import {
   AdaRewards,
   AdaSignedMessage,
   AdaSignedTx,
-  AdaStakeOptions,
   AdaStakes,
   AdaTx,
   AdaTxHash,
@@ -23,12 +22,12 @@ export class AdaService extends Service {
    * Craft ada delegate transaction, all the wallet's balance will be delegated to the pool
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param options
+   * @param poolId pool id (bech32) to delegate to, eg. pool1u4x4ly6qyx9fs9k2lt7f9hpa2gftd52fee67jcmuhnt7qqae3x0
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    options?: AdaStakeOptions,
+    poolId: string,
   ): Promise<AdaTx> {
     try {
       const { data } = await api.post<AdaTx>(
@@ -36,7 +35,9 @@ export class AdaService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          options: options,
+          options: {
+            pool_id: poolId,
+          },
         });
       return data;
     } catch (err: any) {

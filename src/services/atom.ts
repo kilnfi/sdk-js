@@ -2,29 +2,24 @@ import { Service } from './service';
 import {
   coin,
   MsgDelegateEncodeObject,
-  MsgUndelegateEncodeObject, MsgWithdrawDelegatorRewardEncodeObject,
+  MsgUndelegateEncodeObject,
+  MsgWithdrawDelegatorRewardEncodeObject,
   SigningStargateClient,
   StargateClient,
   StdFee,
 } from '@cosmjs/stargate';
-import {
-  AtomSignedTx,
-  AtomStakeOptions,
-  AtomTx, AtomTxHash,
-  AtomTxStatus,
-} from '../types/atom';
-import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { AtomSignedTx, AtomTx, AtomTxHash, AtomTxStatus } from '../types/atom';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Coin, OfflineSigner } from '@cosmjs/proto-signing';
 import {
   MsgDelegate,
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { AtomFbSigner } from '../integrations/atom_fb_signer';
-import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import {
-  MsgWithdrawDelegatorReward
+  MsgWithdrawDelegatorReward,
 } from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 
 export class AtomService extends Service {
@@ -51,21 +46,16 @@ export class AtomService extends Service {
    * Craft atom staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
+   * @param validatorAddress validator address to delegate to
    * @param amountUatom how many tokens to stake in UATOM
-   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
+    validatorAddress: string,
     amountUatom: string,
-    options?: AtomStakeOptions,
   ): Promise<AtomTx> {
     try {
-      const validatorAddress = options?.validator_address ? options.validator_address :
-        this.testnet ?
-          ADDRESSES.atom.testnet.validatorAddress :
-          ADDRESSES.atom.mainnet.validatorAddress;
-
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
@@ -197,8 +187,8 @@ export class AtomService extends Service {
     const signedTx = await client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
     return {
       data: {
-        signed_tx_serialized: Buffer.from(TxRaw.encode(signedTx).finish()).toString('hex')
-      }
+        signed_tx_serialized: Buffer.from(TxRaw.encode(signedTx).finish()).toString('hex'),
+      },
     };
   }
 
@@ -213,8 +203,8 @@ export class AtomService extends Service {
       const res = await client.broadcastTx(Uint8Array.from(Buffer.from(signedTx.data.signed_tx_serialized, 'hex')));
       return {
         data: {
-          tx_hash: res.transactionHash
-        }
+          tx_hash: res.transactionHash,
+        },
       };
     } catch (e: any) {
       throw new Error(e);
@@ -229,12 +219,12 @@ export class AtomService extends Service {
     try {
       const client = await this.getClient();
       const tx = await client.getTx(transactionHash);
-      if(!tx) return null;
+      if (!tx) return null;
       return {
         data: {
           status: tx.code === 0 ? 'success' : 'error',
           receipt: tx,
-        }
+        },
       };
     } catch (e: any) {
       throw new Error(e);

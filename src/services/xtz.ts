@@ -4,7 +4,6 @@ import {
   XtzNetworkStats,
   XtzRewards,
   XtzSignedTx,
-  XtzStakeOptions,
   XtzStakes,
   XtzTx,
   XtzTxHash,
@@ -22,12 +21,12 @@ export class XtzService extends Service {
    * Craft Tezos delegation transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress wallet address delegating
-   * @param options
+   * @param bakerAddress baker address that you wish to delegate to
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    options?: XtzStakeOptions,
+    bakerAddress: string,
   ): Promise<XtzTx> {
     try {
       const { data } = await api.post<XtzTx>(
@@ -35,7 +34,9 @@ export class XtzService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          options: options,
+          options: {
+            baker_address: bakerAddress,
+          },
         });
       return data;
     } catch (err: any) {

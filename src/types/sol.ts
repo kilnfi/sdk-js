@@ -61,11 +61,6 @@ export type SolNetworkStats = {
   };
 };
 
-export type SolStakeOptions = {
-  voteAccountAddress?: string;
-  memo?: string;
-};
-
 export type SolTxStatus = {
   data: {
     status: 'success' | 'error';

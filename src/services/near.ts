@@ -2,10 +2,9 @@ import { connect, Near, transactions, utils } from 'near-api-js';
 import BN from 'bn.js';
 import { sha256 } from 'js-sha256';
 import { Service } from './service';
-import { NearStakeOptions, NearTxStatus } from '../types/near';
+import { NearTxStatus } from '../types/near';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
-import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 
@@ -28,17 +27,16 @@ export class NearService extends Service {
    * Craft near stake transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletId near wallet id
+   * @param stakePoolId stake pool id
    * @param amountNear amount in near to stake
-   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletId: string,
+    stakePoolId: string,
     amountNear: number,
-    options?: NearStakeOptions,
   ): Promise<Transaction> {
 
-    const stakePoolId = options?.stakePoolId ? options.stakePoolId : this.testnet ? ADDRESSES.near.testnet.poolId : ADDRESSES.near.mainnet.poolId;
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
     const accessKeys = await account.getAccessKeys();
@@ -238,11 +236,12 @@ export class NearService extends Service {
   /**
    * Get transaction status
    * @param transactionHash: transaction hash
+   * @param poolId: pool id
    */
-  async getTxStatus(transactionHash: string): Promise<NearTxStatus> {
+  async getTxStatus(transactionHash: string, poolId: string): Promise<NearTxStatus> {
     try {
       const connection = await this.getConnection();
-      const receipt = await connection.connection.provider.txStatusReceipts(transactionHash, this.testnet ? ADDRESSES.near.testnet.poolId : ADDRESSES.near.mainnet.poolId);
+      const receipt = await connection.connection.provider.txStatusReceipts(transactionHash, poolId);
       const status = Object.keys(receipt.status).includes('SuccessValue') ? 'success' : 'error';
       return {
         status: status,

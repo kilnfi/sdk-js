@@ -23,6 +23,7 @@ const f = async () => {
     const tx = await k.near.craftStakeTx(
       '771254de-ac5a-4911-afdf-1d5b7e802dc9',
       '373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e',
+      'kiln.poolv1.near',
       0.1
     );
 
