@@ -33,6 +33,11 @@ const f = async () => {
     //   'kiln.pool.f863973.m0',
     //   amountYocto,
     // );
+    // const tx = await k.near.craftWithdrawTx(
+    //   '373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e',
+    //   'kiln.pool.f863973.m0',
+    //   amountYocto,
+    // );
     // console.log('signing...');
     // const signedTx = await k.near.sign(vault, tx);
     // console.log('broadcasting...');
@@ -40,6 +45,11 @@ const f = async () => {
     // console.log(hash);
     // const tx = await k.near.getTxStatus('GXVzCja4BpAaHFRGPkQvR3p7pix2CzAyu3DM2FvdBrNb', 'kiln.pool.f863973.m0');
     // console.log(tx);
+    // const stakes = await k.near.getStakesByAccounts(['5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8']);
+    // const stakes = await k.near.getStakesByStakeAccounts(['kiln.pool.f863973.m0_373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e']);
+    // const stakes = await k.near.getStakesByWallets(['373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e']);
+    // console.log(stakes);
+    
   } catch (err) {
     console.log(err);
   }

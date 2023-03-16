@@ -25,3 +25,22 @@ export type NearTxStatus = {
     receipt: FinalExecutionOutcome;
   }
 }
+
+export type NearStake = {
+  stake_account: string;
+  account: string;
+  validator: string;
+  balance: string;
+  rewards: string;
+  delegated_at: string;
+  delegated_epoch: number;
+  delegated_block: number;
+  activated_at?: string;
+  activated_epoch?: number;
+  net_apy: number;
+  updated_at: string;
+};
+
+export type NearStakes = {
+  data: NearStake[];
+};

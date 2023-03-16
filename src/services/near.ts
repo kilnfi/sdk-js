@@ -2,11 +2,18 @@ import { connect, Near, transactions, utils } from 'near-api-js';
 import BN from 'bn.js';
 import { sha256 } from 'js-sha256';
 import { Service } from './service';
-import { NearSignedTx, NearTx, NearTxHash, NearTxStatus } from '../types/near';
+import {
+  NearSignedTx,
+  NearStakes,
+  NearTx,
+  NearTxHash,
+  NearTxStatus,
+} from '../types/near';
 import { PublicKey } from 'near-api-js/lib/utils';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import api from '../api';
+import { AdaStakes } from '../types/ada';
 
 export class NearService extends Service {
 
@@ -282,6 +289,57 @@ export class NearService extends Service {
       };
     } catch (e: any) {
       throw new Error(e);
+    }
+  }
+
+  /**
+   * Retrieve stakes of given kiln accounts
+   * @param accountIds: kiln account ids of which you wish to retrieve stakes
+   * @returns {NearStakes} Near Stakes
+   */
+  async getStakesByAccounts(
+    accountIds: string[],
+  ): Promise<NearStakes> {
+    try {
+      const { data } = await api.get<NearStakes>(
+        `/v1/near/stakes?accounts=${accountIds.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve stakes of given stake accounts
+   * @param stakeAccounts list of stake accounts {poolId_walletId}
+   * @returns {NearStakes} Near Stakes
+   */
+  async getStakesByStakeAccounts(
+    stakeAccounts: string[],
+  ): Promise<NearStakes> {
+    try {
+      const { data } = await api.get<NearStakes>(
+        `/v1/near/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve stakes of given wallets
+   * @param wallets: wallet addresses of which you wish to retrieve stakes
+   * @returns {NearStakes} Near Stakes
+   */
+  async getStakesByWallets(
+    wallets: string[],
+  ): Promise<NearStakes> {
+    try {
+      const { data } = await api.get<NearStakes>(
+        `/v1/near/stakes?wallets=${wallets.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
   }
 }
