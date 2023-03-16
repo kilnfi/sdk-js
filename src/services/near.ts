@@ -3,6 +3,7 @@ import BN from 'bn.js';
 import { sha256 } from 'js-sha256';
 import { Service } from './service';
 import {
+  NearRewards,
   NearSignedTx,
   NearStakes,
   NearTx,
@@ -337,6 +338,75 @@ export class NearService extends Service {
     try {
       const { data } = await api.get<NearStakes>(
         `/v1/near/stakes?wallets=${wallets.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve rewards history of given kiln accounts
+   * @param accountIds: kiln account ids of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {NearStakes} Near Stakes
+   */
+  async getRewardsByAccounts(
+    accountIds: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<NearRewards> {
+    try {
+      const { data } = await api.get<NearRewards>(
+        `/v1/near/rewards?accounts=${accountIds.join(',')}${
+          startDate ? `&start_date=${startDate}` : ''
+        }${endDate ? `&end_day=${endDate}` : ''}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve rewards history of given stake accounts
+   * @param stakeAccounts list of stake accounts {poolId_walletId}
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {NearRewards} Near Rewards
+   */
+  async getRewardsByStakeAccounts(
+    stakeAccounts: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<NearRewards> {
+    try {
+      const { data } = await api.get<NearRewards>(
+        `/v1/near/rewards?stake_accounts=${stakeAccounts.join(',')}${
+          startDate ? `&start_date=${startDate}` : ''
+        }${endDate ? `&end_day=${endDate}` : ''}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve rewards history of given wallets
+   * @param wallets: wallet addresses of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {NearRewards} Near Rewards
+   */
+  async getRewardsByWallets(
+    wallets: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<NearRewards> {
+    try {
+      const { data } = await api.get<NearRewards>(
+        `/v1/near/rewards?wallets=${wallets.join(',')}${
+          startDate ? `&start_date=${startDate}` : ''
+        }${endDate ? `&end_day=${endDate}` : ''}`);
       return data;
     } catch (err: any) {
       throw new Error(err);

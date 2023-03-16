@@ -49,7 +49,8 @@ const f = async () => {
     // const stakes = await k.near.getStakesByStakeAccounts(['kiln.pool.f863973.m0_373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e']);
     // const stakes = await k.near.getStakesByWallets(['373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e']);
     // console.log(stakes);
-    
+    const rewards = await k.near.getRewardsByAccounts(['5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8']);
+    console.log(rewards);
   } catch (err) {
     console.log(err);
   }

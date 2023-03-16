@@ -44,3 +44,14 @@ export type NearStake = {
 export type NearStakes = {
   data: NearStake[];
 };
+
+export type NearReward = {
+  epoch?: number;
+  epoch_ts?: string;
+  date?: string;
+  rewards: string;
+};
+
+export type NearRewards = {
+  data: NearReward[];
+};
