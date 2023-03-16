@@ -2,15 +2,15 @@ import { Service } from './service';
 import { ApiPromise, HttpProvider } from '@polkadot/api';
 import {
   DotRewardDestination,
+  DotSignedTx,
   DotStakeOptions,
   DotTx,
+  DotTxHash,
   DotTxStatus,
-  SubmittedDotTx,
 } from '../types/dot';
 import { DotFbSigner } from '../integrations/dot_fb_signer';
 import { Signer } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 
@@ -32,6 +32,25 @@ export class DotService extends Service {
       noInitWarn: true,
       initWasm: false,
     });
+  }
+
+  /**
+   * Convert WND to PLANCK
+   * WND is the testnet token, and conversion WND <> PLANCK is not the same as DOT <> PLANCK 🙃
+   * To be used in testnet (Westend)
+   * @param amountWnd
+   */
+  wndToPlanck(amountWnd: string): string {
+    return (parseFloat(amountWnd) * 1000000000000).toFixed();
+  }
+
+  /**
+   * Convert DOT to PLANCK
+   * To be used in mainnet
+   * @param amountDot
+   */
+  dotToPlanck(amountDot: string): string {
+    return (parseFloat(amountDot) * 10000000000).toFixed();
   }
 
   /**
@@ -207,49 +226,55 @@ export class DotService extends Service {
    * @param transaction
    * @param note
    */
-  async sign(integration: Integration, transaction: DotTx, note?: string): Promise<SubmittableExtrinsic> {
+  async sign(integration: Integration, transaction: DotTx, note?: string): Promise<DotSignedTx> {
     const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
     const signer = this.getSigner(integration, fbNote);
     const options: Partial<SignerOptions> = {
       era: 0,
       signer: signer,
     };
-    return await transaction.submittableExtrinsic.signAsync(transaction.from, options);
+    const extrinsic = await transaction.submittableExtrinsic.signAsync(transaction.from, options);
+    return {
+      data: {
+        extrinsic,
+      },
+    };
   }
 
   /**
    * Broadcast signed transaction
-   * @param transaction
+   * @param signedTx
    */
-  async broadcast(transaction: SubmittableExtrinsic): Promise<SubmittedDotTx> {
-    const submittedExtrinsic = await transaction.send();
-    const client = await this.getClient();
-    const currentBlockHash = await client.rpc.chain.getBlockHash();
+  async broadcast(signedTx: DotSignedTx): Promise<DotTxHash> {
+    const submittedExtrinsic = await signedTx.data.extrinsic.send();
     return {
-      blockHash: currentBlockHash.toString(),
-      hash: submittedExtrinsic.toString(),
+      data: {
+        tx_hash: submittedExtrinsic.toString(),
+      },
     };
   }
 
   /**
    * Get transaction status
-   * @param transaction submitted dot transaction
+   * @param txHash transaction hash
+   * @param blockHash block hasj in which the transaction was included
    */
   async getTxStatus(
-    transaction: SubmittedDotTx,
+    txHash: string,
+    blockHash: string,
   ): Promise<DotTxStatus> {
     const client = await this.getClient();
     // Get block
-    const block = await client.rpc.chain.getBlock(transaction.blockHash);
+    const block = await client.rpc.chain.getBlock(blockHash);
     if (!block) {
-      throw new Error(`Could find block ${transaction.blockHash}`);
+      throw new Error(`Could find block ${blockHash}`);
     }
 
     // Get extrinsic in block
-    const extrinsic = block.block.extrinsics.find(ext => ext.hash.toString() === transaction.hash);
-    const extrinsicIndex = block.block.extrinsics.findIndex(ext => ext.hash.toString() === transaction.hash);
+    const extrinsic = block.block.extrinsics.find(ext => ext.hash.toString() === txHash);
+    const extrinsicIndex = block.block.extrinsics.findIndex(ext => ext.hash.toString() === txHash);
     if (!extrinsic) {
-      throw new Error(`Could find extrinsic ${transaction.hash} in block ${transaction.blockHash}`);
+      throw new Error(`Could find extrinsic ${txHash} in block ${blockHash}`);
     }
 
     // Get block events
@@ -289,9 +314,11 @@ export class DotService extends Service {
     }
 
     return {
-      status,
-      extrinsic,
-      error,
+      data: {
+        status,
+        extrinsic,
+        error,
+      },
     };
   }
 

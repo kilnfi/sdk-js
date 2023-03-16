@@ -23,6 +23,7 @@ const f = async () => {
     // const tx = await k.ada.craftStakeTx(
     //   '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
     //   'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
+    //   'pool1u4x4ly6qyx9fs9k2lt7f9hpa2gftd52fee67jcmuhnt7qqae3x0'
     // );
     // const tx = await k.ada.craftWithdrawRewardsTx(
     //   'addr_test1qpy358g8glafrucevf0rjpmzx2k5esn5uvjh7dzuakpdhv4g2egyt3y3qw6jrguz0lmyhxygjdg2ytaf5z6ueaety7dsmpcee5',
