@@ -360,7 +360,7 @@ export class NearService extends Service {
       const { data } = await api.get<NearRewards>(
         `/v1/near/rewards?accounts=${accountIds.join(',')}${
           startDate ? `&start_date=${startDate}` : ''
-        }${endDate ? `&end_day=${endDate}` : ''}`);
+        }${endDate ? `&end_date=${endDate}` : ''}`);
       return data;
     } catch (err: any) {
       throw new Error(err);
@@ -383,7 +383,7 @@ export class NearService extends Service {
       const { data } = await api.get<NearRewards>(
         `/v1/near/rewards?stake_accounts=${stakeAccounts.join(',')}${
           startDate ? `&start_date=${startDate}` : ''
-        }${endDate ? `&end_day=${endDate}` : ''}`);
+        }${endDate ? `&end_date=${endDate}` : ''}`);
       return data;
     } catch (err: any) {
       throw new Error(err);
@@ -406,7 +406,7 @@ export class NearService extends Service {
       const { data } = await api.get<NearRewards>(
         `/v1/near/rewards?wallets=${wallets.join(',')}${
           startDate ? `&start_date=${startDate}` : ''
-        }${endDate ? `&end_day=${endDate}` : ''}`);
+        }${endDate ? `&end_date=${endDate}` : ''}`);
       return data;
     } catch (err: any) {
       throw new Error(err);

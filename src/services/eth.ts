@@ -177,7 +177,7 @@ export class EthService extends Service {
     try {
       const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<EthRewards>(query);
       return data;
     } catch (err: any) {

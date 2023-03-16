@@ -239,7 +239,7 @@ export class AdaService extends Service {
     try {
       const query = `/v1/ada/rewards?accounts=${accountIds.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
       return data;
     } catch (err: any) {
@@ -262,7 +262,7 @@ export class AdaService extends Service {
     try {
       const query = `/v1/ada/rewards?stake_addresses=${stakeAddresses.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
       return data;
     } catch (err: any) {
@@ -285,7 +285,7 @@ export class AdaService extends Service {
     try {
       const query = `/v1/ada/rewards?wallets=${wallets.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
       return data;
     } catch (err: any) {
