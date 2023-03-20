@@ -243,7 +243,7 @@ export class MaticService extends Service {
   }
 
   /**
-   * Utility function to convert MATIC to WEI
+   * Convert MATIC to WEI
    * @param matic
    */
   maticToWei(matic: string): string {

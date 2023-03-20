@@ -35,8 +35,7 @@ export class DotService extends Service {
   }
 
   /**
-   * Convert WND to PLANCK
-   * WND is the testnet token, and conversion WND <> PLANCK is not the same as DOT <> PLANCK 🙃
+   * Convert WND (testnet token) to PLANCK
    * To be used in testnet (Westend)
    * @param amountWnd
    */

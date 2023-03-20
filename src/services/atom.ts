@@ -38,6 +38,10 @@ export class AtomService extends Service {
     return await SigningStargateClient.connectWithSigner(this.rpc, signer);
   }
 
+  /**
+   * Convert ATOM to UATOM
+   * @param amountAtom
+   */
   atomToUatom(amountAtom: string): string {
     return (parseFloat(amountAtom) * 10 ** 6).toFixed();
   }

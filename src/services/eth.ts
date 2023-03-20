@@ -260,7 +260,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Utility function to convert ETH to WEI
+   * Convert ETH to WEI
    * @param eth
    */
   ethToWei(eth: string): string {

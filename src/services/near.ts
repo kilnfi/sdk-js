@@ -31,6 +31,10 @@ export class NearService extends Service {
     return await connect(connectionConfig);
   }
 
+  /**
+   * Convert NEAR to YOCTO
+   * @param amountNear
+   */
   nearToYocto(amountNear: string): string {
     return utils.format.parseNearAmount(amountNear) ?? '0';
   }

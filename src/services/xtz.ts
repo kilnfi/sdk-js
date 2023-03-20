@@ -222,7 +222,7 @@ export class XtzService extends Service {
   }
 
   /**
-   * Utility function to convert XTZ to mutez
+   * Convert XTZ to mutez
    * @param xtz
    */
   xtzToMutez(xtz: string): string {

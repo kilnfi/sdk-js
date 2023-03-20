@@ -357,7 +357,7 @@ export class SolService extends Service {
   }
 
   /**
-   * Utility function to convert SOL to lamports
+   * Convert SOL to Lamports
    * @param sol
    */
   solToLamports(sol: string): string {
