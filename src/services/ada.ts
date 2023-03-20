@@ -87,7 +87,7 @@ export class AdaService extends Service {
   }
 
   adaToLovelace(amountAda: string): string {
-    return (parseFloat(amountAda) * 1000000).toFixed();
+    return (parseFloat(amountAda) * 10 ** 6).toFixed();
   }
 
   /**

@@ -39,7 +39,7 @@ export class AtomService extends Service {
   }
 
   atomToUatom(amountAtom: string): string {
-    return (parseFloat(amountAtom) * 1000000).toFixed();
+    return (parseFloat(amountAtom) * 10 ** 6).toFixed();
   }
 
   /**
