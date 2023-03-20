@@ -221,18 +221,18 @@ export class DotService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param transaction
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, transaction: DotTx, note?: string): Promise<DotSignedTx> {
+  async sign(integration: Integration, tx: DotTx, note?: string): Promise<DotSignedTx> {
     const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
     const signer = this.getSigner(integration, fbNote);
     const options: Partial<SignerOptions> = {
       era: 0,
       signer: signer,
     };
-    const extrinsic = await transaction.submittableExtrinsic.signAsync(transaction.from, options);
+    const extrinsic = await tx.submittableExtrinsic.signAsync(tx.from, options);
     return {
       data: {
         extrinsic,

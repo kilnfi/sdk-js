@@ -96,9 +96,9 @@ export class AdaService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: AdaTx, note?: string): Promise<AdaSignedTx> {
     try {

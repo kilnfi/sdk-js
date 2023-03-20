@@ -217,14 +217,14 @@ export class NearService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param transaction
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, transaction: NearTx, note?: string): Promise<NearSignedTx> {
+  async sign(integration: Integration, tx: NearTx, note?: string): Promise<NearSignedTx> {
     const serializedTx = utils.serialize.serialize(
       transactions.SCHEMA,
-      transaction.data.tx,
+      tx.data.tx,
     );
     const serializedTxArray = new Uint8Array(sha256.array(serializedTx));
     const serializedTxHash = Buffer.from(serializedTxArray).toString('hex');
@@ -243,17 +243,17 @@ export class NearService extends Service {
     const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'NEAR_TEST' : 'NEAR', fbNote);
     const signature = signatures.signedMessages![0];
 
-    const tx = new transactions.SignedTransaction({
-      transaction: transaction.data.tx,
+    const signedTx = new transactions.SignedTransaction({
+      transaction: tx.data.tx,
       signature: new transactions.Signature({
-        keyType: transaction.data.tx.publicKey.keyType,
+        keyType: tx.data.tx.publicKey.keyType,
         data: Uint8Array.from(Buffer.from(signature.signature.fullSig, 'hex')),
       }),
     });
 
     return {
       data: {
-        tx,
+        tx: signedTx,
       },
     };
   }

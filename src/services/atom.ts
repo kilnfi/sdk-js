@@ -180,15 +180,15 @@ export class AtomService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param transaction
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, transaction: AtomTx, note?: string): Promise<AtomSignedTx> {
+  async sign(integration: Integration, tx: AtomTx, note?: string): Promise<AtomSignedTx> {
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const signer = this.getSigner(integration, fbNote);
     const client = await this.getSigningClient(signer);
-    const signedTx = await client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
+    const signedTx = await client.sign(tx.address, tx.messages, tx.fee, tx.memo ?? '');
     return {
       data: {
         signed_tx_serialized: Buffer.from(TxRaw.encode(signedTx).finish()).toString('hex'),

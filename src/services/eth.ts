@@ -46,9 +46,9 @@ export class EthService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: EthTx, note?: string): Promise<EthSignedTx> {
     try {
