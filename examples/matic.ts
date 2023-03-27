@@ -25,7 +25,7 @@ const f = async () => {
     // const tx = await k.matic.craftApproveTx(
     //   '0x9ce658155a6f05fe4aef83b7fa8f431d5e8ccb55',
     //   '0x00200eA4Ee292E253E6Ca07dBA5EdC07c8Aa37A3',
-    //   amountWei,
+    //   0.1,
     // );
     const tx = await k.matic.craftBuyVoucherTx(
       '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
