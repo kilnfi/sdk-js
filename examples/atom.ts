@@ -19,11 +19,11 @@ const f = async () => {
 
   try {
     console.log('crafting...');
-    const amountUatom = k.atom.atomToUatom('0.5');
     const tx = await k.atom.craftStakeTx(
       '376acfff-e35d-4b7c-90da-c6acb8ea7197',
       'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',
-      amountUatom,
+      'cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2',
+      0.5,
     );
     // const tx = await k.atom.craftWithdrawRewardsTx(
     //   'cosmos19c9fdh488vqjclltwp68jm50ydwyh36jqeatev',

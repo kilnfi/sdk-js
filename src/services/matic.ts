@@ -20,12 +20,12 @@ export class MaticService extends Service {
    * If no amount is provided, an infinite amount will be approved
    * @param walletAddress wallet address signing the transaction
    * @param contractAddressToApprove contract address that you allow to spend the token
-   * @param amountWei how many tokens to approve the spending, if not specified an infinite amount will be approved
+   * @param amountMatic how many tokens to approve the spending, if not specified an infinite amount will be approved
    */
   async craftApproveTx(
     walletAddress: string,
     contractAddressToApprove: string,
-    amountWei?: string,
+    amountMatic?: number,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -33,7 +33,7 @@ export class MaticService extends Service {
         {
           wallet: walletAddress,
           contract: contractAddressToApprove,
-          amount_wei: amountWei,
+          amount_wei: amountMatic ? this.maticToWei(amountMatic?.toString()) : undefined,
         });
       return data;
     } catch (err: any) {
@@ -47,13 +47,13 @@ export class MaticService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
-   * @param amountWei how many tokens to stake in WEI
+   * @param amountMatic how many tokens to stake in MATIC
    */
   async craftBuyVoucherTx(
     accountId: string,
     walletAddress: string,
     validatorShareProxyAddress: string,
-    amountWei: string,
+    amountMatic: number,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -61,10 +61,8 @@ export class MaticService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          amount_wei: amountWei,
-          options: {
-            validator_share_proxy_address: validatorShareProxyAddress,
-          },
+          amount_wei: this.maticToWei(amountMatic.toString()),
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -77,22 +75,20 @@ export class MaticService extends Service {
    * Note there that your tokens will be unbonding and locked for 21 days after this transaction
    * @param walletAddress address delegating
    * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
-   * @param amountWei how many tokens to stake in WEI
+   * @param amountMatic how many tokens to unbond in MATIC
    */
   async craftSellVoucherTx(
     walletAddress: string,
     validatorShareProxyAddress: string,
-    amountWei: string,
+    amountMatic: number,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/sell-voucher`,
         {
           wallet: walletAddress,
-          amount_wei: amountWei,
-          options: {
-            validator_share_proxy_address: validatorShareProxyAddress,
-          },
+          amount_wei: this.maticToWei(amountMatic.toString()),
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -115,9 +111,7 @@ export class MaticService extends Service {
         `/v1/matic/transaction/unstake-claim-tokens`,
         {
           wallet: walletAddress,
-          options: {
-            validator_share_proxy_address: validatorShareProxyAddress,
-          },
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -140,9 +134,7 @@ export class MaticService extends Service {
         `/v1/matic/transaction/withdraw-rewards`,
         {
           wallet: walletAddress,
-          options: {
-            validator_share_proxy_address: validatorShareProxyAddress,
-          },
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -165,9 +157,7 @@ export class MaticService extends Service {
         `/v1/matic/transaction/restake-rewards`,
         {
           wallet: walletAddress,
-          options: {
-            validator_share_proxy_address: validatorShareProxyAddress,
-          },
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {

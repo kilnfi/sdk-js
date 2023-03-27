@@ -20,13 +20,12 @@ const f = async () => {
 
   try {
     console.log('crafting...');
-    const amountYocto = k.near.nearToYocto('0.5');
-    // const tx = await k.near.craftStakeTx(
-    //   '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
-    //   '373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e',
-    //   'kiln.pool.f863973.m0',
-    //   amountYocto,
-    // );
+    const tx = await k.near.craftStakeTx(
+      '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
+      '373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e',
+      'kiln.pool.f863973.m0',
+      0.1,
+    );
 
     // const tx = await k.near.craftUnstakeTx(
     //   '373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e',

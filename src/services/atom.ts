@@ -51,19 +51,19 @@ export class AtomService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param validatorAddress validator address to delegate to
-   * @param amountUatom how many tokens to stake in UATOM
+   * @param amountAtom how many tokens to stake in ATOM
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     validatorAddress: string,
-    amountUatom: string,
+    amountAtom: number,
   ): Promise<AtomTx> {
     try {
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
-        amount: coin(amountUatom, 'uatom'),
+        amount: coin(this.atomToUatom(amountAtom.toString()), 'uatom'),
       });
 
       const delegateMsg: MsgDelegateEncodeObject = {
@@ -130,16 +130,16 @@ export class AtomService extends Service {
    * Craft atom unstaking transaction
    * @param walletAddress wallet address from which the delegation has been made
    * @param validatorAddress validator address to which the delegation has been made
-   * @param amountUatom how many tokens to undelegate in UATOM
+   * @param amountAtom how many tokens to undelegate in ATOM
    */
   async craftUnstakeTx(
     walletAddress: string,
     validatorAddress: string,
-    amountUatom?: string,
+    amountAtom?: number,
   ): Promise<AtomTx> {
     try {
       let amountToWithdraw: Coin;
-      if (!amountUatom) {
+      if (!amountAtom) {
         const client = await this.getClient();
         const delegation = await client.getDelegation(walletAddress, validatorAddress);
         if (!delegation) {
@@ -147,7 +147,7 @@ export class AtomService extends Service {
         }
         amountToWithdraw = delegation;
       } else {
-        amountToWithdraw = coin(amountUatom, 'uatom');
+        amountToWithdraw = coin(this.atomToUatom(amountAtom.toString()), 'uatom');
       }
 
       const msg = MsgUndelegate.fromPartial({

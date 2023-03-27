@@ -35,9 +35,7 @@ export class AdaService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          options: {
-            pool_id: poolId,
-          },
+          pool_id: poolId,
         });
       return data;
     } catch (err: any) {

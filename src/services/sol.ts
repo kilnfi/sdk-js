@@ -24,13 +24,13 @@ export class SolService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
    * @param voteAccountAddress vote account address of the validator that you wish to delegate to
-   * @param amountLamports how much to stake in lamports (min 0.01 SOL)
+   * @param amountSol how much to stake in SOL (min 0.01 SOL)
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     voteAccountAddress: string,
-    amountLamports: string,
+    amountSol: number,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -38,10 +38,8 @@ export class SolService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          amount_lamports: amountLamports,
-          options: {
-            vote_account_address: voteAccountAddress,
-          },
+          amount_lamports: this.solToLamports(amountSol.toString()),
+          vote_account_address: voteAccountAddress,
         });
       return data;
     } catch (err: any) {
@@ -75,12 +73,12 @@ export class SolService extends Service {
    * Craft Solana withdraw stake transaction
    * @param stakeAccountAddress stake account address to deactivate
    * @param walletAddress wallet that has authority over the stake account
-   * @param amountLamports: amount to withdraw in lamports, if not specified the whole balance will be withdrawn
+   * @param amountSol: amount to withdraw in SOL, if not specified the whole balance will be withdrawn
    */
   async craftWithdrawStakeTx(
     stakeAccountAddress: string,
     walletAddress: string,
-    amountLamports?: string,
+    amountSol?: number,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -88,7 +86,7 @@ export class SolService extends Service {
         {
           stake_account: stakeAccountAddress,
           wallet: walletAddress,
-          amount_lamports: amountLamports,
+          amount_lamports: amountSol ? this.solToLamports(amountSol.toString()) : undefined,
         });
       return data;
     } catch (err: any) {
@@ -127,13 +125,13 @@ export class SolService extends Service {
    * @param accountId kiln account id to associate the new stake account with
    * @param stakeAccountAddress stake account to split
    * @param walletAddress that has authority over the stake account to split
-   * @param amountLamports amount in lamports to put in the new stake account
+   * @param amountSol amount in SOL to put in the new stake account
    */
   async craftSplitStakeTx(
     accountId: string,
     stakeAccountAddress: string,
     walletAddress: string,
-    amountLamports: string,
+    amountSol: number,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -142,7 +140,7 @@ export class SolService extends Service {
           account_id: accountId,
           stake_account: stakeAccountAddress,
           wallet: walletAddress,
-          amount_lamports: amountLamports,
+          amount_lamports: this.solToLamports(amountSol.toString()),
         });
       return data;
     } catch (err: any) {

@@ -20,12 +20,11 @@ const f = async () => {
 
   try {
     console.log('crafting tx...');
-    const amount = k.sol.solToLamports('0.1');
     const tx = await k.sol.craftStakeTx(
       '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
       '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
       'FwR3PbjS5iyqzLiLugrBqKSa5EKZ4vK9SKs7eQXtT59f',
-      amount,
+      0.1,
     );
     // const tx = await k.sol.craftDeactivateStakeTx(
     //   '3M7sFDMdUxfNNSmKk2ZmDKgKJFzuLvxpuXKDTLRGXpcK',

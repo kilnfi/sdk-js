@@ -20,12 +20,11 @@ const f = async () => {
 
   try {
     console.log('crafting...');
-    const amountPlanck = k.dot.wndToPlanck('0.5');
-    // const tx = await k.dot.craftBondTx(
-    //   '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
-    //   '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
-    //   amountPlanck,
-    // );
+    const tx = await k.dot.craftBondTx(
+      '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
+      '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
+      0.5,
+    );
     // const tx = await k.dot.craftBondExtraTx(
     //   '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
     //   amountPlanck,
@@ -35,10 +34,10 @@ const f = async () => {
     //   amountPlanck,
     // );
 
-    const tx = await k.dot.craftNominateTx(
-      '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
-      ['5GR6UNoUW3VsXTqwDuMzRpZpeA7pmH3VtZNCaSGp2RGz8p6g']
-    );
+    // const tx = await k.dot.craftNominateTx(
+    //   '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',
+    //   ['5GR6UNoUW3VsXTqwDuMzRpZpeA7pmH3VtZNCaSGp2RGz8p6g']
+    // );
 
     // const tx = await k.dot.craftUnbondTx(
     //   '5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj',

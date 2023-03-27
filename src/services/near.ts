@@ -44,13 +44,13 @@ export class NearService extends Service {
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletId near wallet id
    * @param stakePoolId stake pool id
-   * @param amountYocto amount in yocto to stake
+   * @param amountNear amount to stake in NEAR
    */
   async craftStakeTx(
     accountId: string,
     walletId: string,
     stakePoolId: string,
-    amountYocto: string,
+    amountNear: number,
   ): Promise<NearTx> {
 
     const connection = await this.getConnection();
@@ -69,7 +69,7 @@ export class NearService extends Service {
     if (!parsedGasAmount) {
       throw new Error('Could not parse gas amount');
     }
-    const bnAmount = new BN(amountYocto);
+    const bnAmount = new BN(this.nearToYocto(amountNear.toString()));
     const bnMaxGasFees = new BN(parsedGasAmount);
     const actions = [transactions.functionCall('deposit_and_stake', {}, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
@@ -107,12 +107,12 @@ export class NearService extends Service {
    * Craft near unstake transaction, unstaking takes 2-3 epochs (~48 hours) and needs to be done before a staked amount can be withdrawn
    * @param walletId near wallet id
    * @param stakePoolId stake pool id
-   * @param amountYocto amount to unstake in yocto
+   * @param amountNear amount to unstake in NEAR
    */
   async craftUnstakeTx(
     walletId: string,
     stakePoolId: string,
-    amountYocto?: string,
+    amountNear?: number,
   ): Promise<NearTx> {
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
@@ -124,9 +124,9 @@ export class NearService extends Service {
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
     let params = {};
-    if (amountYocto) {
+    if (amountNear) {
       params = {
-        amount: amountYocto,
+        amount: this.nearToYocto(amountNear.toString()),
       };
     }
     // Max gas fee to use in NEAR (300 Tgas)
@@ -137,7 +137,7 @@ export class NearService extends Service {
     }
     const bnAmount = new BN('0');
     const bnMaxGasFees = new BN(parsedGasAmount);
-    const actions = [transactions.functionCall(amountYocto ? 'unstake' : 'unstake_all', params, bnMaxGasFees, bnAmount)];
+    const actions = [transactions.functionCall(amountNear ? 'unstake' : 'unstake_all', params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
       '',
@@ -163,12 +163,12 @@ export class NearService extends Service {
    * Craft near withdraw transaction, withdrawing funds from a pool can only be done after previously unstaking funds
    * @param walletId near wallet id
    * @param stakePoolId stake pool id
-   * @param amountYocto amount to withdraw in yocto
+   * @param amountNear amount to withdraw in NEAR
    */
   async craftWithdrawTx(
     walletId: string,
     stakePoolId: string,
-    amountYocto?: string,
+    amountNear?: number,
   ): Promise<NearTx> {
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
@@ -180,9 +180,9 @@ export class NearService extends Service {
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
     let params = {};
-    if (amountYocto) {
+    if (amountNear) {
       params = {
-        amount: amountYocto,
+        amount: this.nearToYocto(amountNear.toString()),
       };
     }
     // Max gas fee to use in NEAR (300 Tgas)
@@ -193,7 +193,7 @@ export class NearService extends Service {
     }
     const bnAmount = new BN('0');
     const bnMaxGasFees = new BN(parsedGasAmount);
-    const actions = [transactions.functionCall(amountYocto ? 'withdraw' : 'withdraw_all', params, bnMaxGasFees, bnAmount)];
+    const actions = [transactions.functionCall(amountNear ? 'withdraw' : 'withdraw_all', params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
       '',

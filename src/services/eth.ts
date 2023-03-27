@@ -23,12 +23,12 @@ export class EthService extends Service {
    * Spin up Ethereum validators and craft a staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amountWei how many tokens to stake in WEI (must be a multiple of 32ETH, eg 32000000000000000000)
+   * @param amountEth how many tokens to stake in ETH (must be a multiple of 32)
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amountWei: string,
+    amountEth: number,
   ): Promise<EthTx> {
     try {
       const { data } = await api.post<EthTx>(
@@ -36,7 +36,7 @@ export class EthService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          amount_wei: amountWei,
+          amount_wei: this.ethToWei(amountEth.toString()),
         });
       return data;
     } catch (err: any) {

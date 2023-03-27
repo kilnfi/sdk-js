@@ -34,9 +34,7 @@ export class XtzService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          options: {
-            baker_address: bakerAddress,
-          },
+          baker_address: bakerAddress,
         });
       return data;
     } catch (err: any) {

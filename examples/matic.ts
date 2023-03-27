@@ -21,7 +21,6 @@ const f = async () => {
 
 
   try {
-    const amountWei = k.matic.maticToWei('0.2');
     console.log('crafting...');
     // const tx = await k.matic.craftApproveTx(
     //   '0x9ce658155a6f05fe4aef83b7fa8f431d5e8ccb55',
@@ -32,7 +31,7 @@ const f = async () => {
       '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
       '0x9ce658155a6f05fe4aef83b7fa8f431d5e8ccb55',
       '0xc8A5dF49EF9D12B41Ecd9DA0DA864e87FD1e1257',
-      amountWei,
+      0.1,
     );
     // const tx = await k.matic.craftSellVoucherTx(
     //   '0x9ce658155a6f05fe4aef83b7fa8f431d5e8ccb55',

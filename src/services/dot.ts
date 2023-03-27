@@ -56,13 +56,13 @@ export class DotService extends Service {
    * Craft dot bonding transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param stashAccount stash account address (your most secure cold wallet)
-   * @param amountPlanck amount to bond in planck
+   * @param amountDot amount to bond in DOT
    * @param options
    */
   async craftBondTx(
     accountId: string,
     stashAccount: string,
-    amountPlanck: string,
+    amountDot: number,
     options?: DotStakeOptions,
   ): Promise<DotTx> {
     const client = await this.getClient();
@@ -72,6 +72,7 @@ export class DotService extends Service {
     // although it is possible for the controller account to be the same as the stash account
     const controllerAccount = options?.controllerAccount ?? stashAccount;
     const rewardsDestination = options?.rewardDestination ?? 'Staked';
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.staking.bond(controllerAccount, amountPlanck, rewardsDestination);
     return {
       from: stashAccount,
@@ -82,13 +83,14 @@ export class DotService extends Service {
   /**
    * Craft dot bonding extra token transaction (to be used if you already bonded tokens)
    * @param stashAccount stash account address
-   * @param amountPlanck amount to bond extra in planck
+   * @param amountDot amount to bond extra in DOT
    */
   async craftBondExtraTx(
     stashAccount: string,
-    amountPlanck: string,
+    amountDot: number,
   ): Promise<DotTx> {
     const client = await this.getClient();
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.staking.bondExtra(amountPlanck);
     return {
       from: stashAccount,
@@ -99,13 +101,14 @@ export class DotService extends Service {
   /**
    * Craft dot rebond transaction (to be used to rebond unbonding token)
    * @param controllerAccount stash account address
-   * @param amountPlanck amount to rebond in planck
+   * @param amountDot amount to rebond in DOT
    */
   async craftRebondTx(
     controllerAccount: string,
-    amountPlanck: string,
+    amountDot: number,
   ): Promise<DotTx> {
     const client = await this.getClient();
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.staking.rebond(amountPlanck);
     return {
       from: controllerAccount,
@@ -133,13 +136,14 @@ export class DotService extends Service {
   /**
    * Craft dot unbonding transaction, there is an unbonding period before your tokens can be withdrawn
    * @param controllerAccount controller account address
-   * @param amountPlanck amount to unrebond in planck
+   * @param amountDot amount to unrebond in DOT
    */
   async craftUnbondTx(
     controllerAccount: string,
-    amountPlanck: string,
+    amountDot: number,
   ): Promise<DotTx> {
     const client = await this.getClient();
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.staking.unbond(amountPlanck);
     return {
       from: controllerAccount,
