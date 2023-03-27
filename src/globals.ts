@@ -12,7 +12,7 @@ export const ADDRESSES = {
       poolId: 'kiln.pool.f863973.m0'
     },
     mainnet: {
-      poolId: 'kiln.poolv1.near'
+      poolId: 'kiln-1.poolv1.near'
     }
   },
   dot: {
