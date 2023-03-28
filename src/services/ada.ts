@@ -46,18 +46,18 @@ export class AdaService extends Service {
   /**
    * Craft ada withdraw rewards transaction
    * @param walletAddress wallet delegating that will receive the rewards
-   * @param amountLovelace amount of rewards to withdraw in lovelace, if not provided all rewards are withdrawn
+   * @param amountAda amount of rewards to withdraw in ADA, if not provided all rewards are withdrawn
    */
   async craftWithdrawRewardsTx(
     walletAddress: string,
-    amountLovelace?: string,
+    amountAda?: number,
   ): Promise<AdaTx> {
     try {
       const { data } = await api.post<AdaTx>(
         `/v1/ada/transaction/withdraw-rewards`,
         {
           wallet: walletAddress,
-          amount_lovelace: amountLovelace,
+          amount_lovelace: amountAda ? this.adaToLovelace(amountAda.toString()) : undefined,
         });
       return data;
     } catch (err: any) {
