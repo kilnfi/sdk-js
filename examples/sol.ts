@@ -1,4 +1,5 @@
 import { Kiln } from "../src/kiln";
+import { Integration } from '../lib/types/integrations';
 const fs = require('fs');
 
 const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
@@ -6,25 +7,24 @@ const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 const f = async () => {
   const k = new Kiln({
     testnet: true,
-    apiToken: 'kiln_Q3VFTHU0WW85Q2Z1dXJqMUFYSmtFYnFIZElpM3dwbFE6WWhxNGlobEJEbzktMm1zUm4tdUJhUDdPZml0NTdxdTIxVEVYczZlaDVQVTlEVk9TM1B5N0J6UV9xSFJVRzJKTg',
-    integrations: [
-      {
-        name: 'vault1',
-        provider: 'fireblocks',
-        fireblocksApiKey: '53aee35e-04b7-9314-8f28-135a66c8af2c',
-        fireblocksSecretKey: apiSecret,
-        vaultAccountId: '7'
-      }
-    ],
+    apiToken: 'kiln_dTkxUTFRdHBMZm9vNFFycFhDSTZCdlJsbjJZang5VnY6cS01ZkhkV3ZrZnZ5cjVZQXk1czl1M29SeXBoeEV0U01wczVpWm1zNTlXSkdjLUkyR1ZIeWpyc291a3pWbEl0MQ',
   });
+  
+  const vault: Integration = {
+    name: 'vault-1',
+    provider: 'fireblocks',
+    fireblocksApiKey: '53aee35e-04b7-9314-8f28-135a66c8af2c',
+    fireblocksSecretKey: apiSecret,
+    vaultId: 7
+  };
 
   try {
     console.log('crafting tx...');
-    const amount = k.sol.solToLamports('0.1');
     const tx = await k.sol.craftStakeTx(
-      'd3f1b917-72b1-4982-a4dd-93fce579a708',
+      '5dcd8897-4fe7-401a-9ad8-3a15dae1fbe8',
       '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
-      amount,
+      'FwR3PbjS5iyqzLiLugrBqKSa5EKZ4vK9SKs7eQXtT59f',
+      0.1,
     );
     // const tx = await k.sol.craftDeactivateStakeTx(
     //   '3M7sFDMdUxfNNSmKk2ZmDKgKJFzuLvxpuXKDTLRGXpcK',
@@ -45,10 +45,8 @@ const f = async () => {
     //   '4icse2mPXNgyxxn11tVM7sTnSqDqwJSEzdnaCQnRzvA9',
     //   '200000000'
     // );
-    console.log('tx crafted');
     console.log('signing tx...');
-    const txSigned = await k.sol.sign('vault1', tx);
-    console.log('tx signed');
+    const txSigned = await k.sol.sign(vault, tx);
     console.log('broadcasting tx...');
     const txHash = await k.sol.broadcast(txSigned);
     console.log(txHash);

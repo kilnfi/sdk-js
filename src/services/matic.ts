@@ -3,15 +3,16 @@ import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
 import {
-  MaticSignedTx, MaticStakeTxOptions,
+  MaticSignedTx,
   MaticTx,
   MaticTxHash,
   MaticTxStatus,
 } from '../types/matic';
+import { Integration } from '../types/integrations';
 
 export class MaticService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
@@ -19,12 +20,12 @@ export class MaticService extends Service {
    * If no amount is provided, an infinite amount will be approved
    * @param walletAddress wallet address signing the transaction
    * @param contractAddressToApprove contract address that you allow to spend the token
-   * @param amountWei how many tokens to approve the spending, if not specified an infinite amount will be approved
+   * @param amountMatic how many tokens to approve the spending, if not specified an infinite amount will be approved
    */
   async craftApproveTx(
     walletAddress: string,
     contractAddressToApprove: string,
-    amountWei?: string,
+    amountMatic?: number,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -32,7 +33,7 @@ export class MaticService extends Service {
         {
           wallet: walletAddress,
           contract: contractAddressToApprove,
-          amount_wei: amountWei,
+          amount_wei: amountMatic ? this.maticToWei(amountMatic?.toString()) : undefined,
         });
       return data;
     } catch (err: any) {
@@ -41,18 +42,18 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft a buyVoucher transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft a buyVoucher transaction to a ValidatorShare proxy contract
    * It also links the stake to the account id given
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amountWei how many tokens to stake in WEI
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
+   * @param amountMatic how many tokens to stake in MATIC
    */
   async craftBuyVoucherTx(
     accountId: string,
     walletAddress: string,
-    amountWei: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
+    amountMatic: number,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
@@ -60,8 +61,8 @@ export class MaticService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          amount_wei: amountWei,
-          options: options,
+          amount_wei: this.maticToWei(amountMatic.toString()),
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -70,24 +71,24 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft a sellVoucher transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft a sellVoucher transaction to a ValidatorShare proxy contract
    * Note there that your tokens will be unbonding and locked for 21 days after this transaction
    * @param walletAddress address delegating
-   * @param amountWei how many tokens to stake in WEI
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
+   * @param amountMatic how many tokens to unbond in MATIC
    */
   async craftSellVoucherTx(
     walletAddress: string,
-    amountWei: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
+    amountMatic: number,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/sell-voucher`,
         {
           wallet: walletAddress,
-          amount_wei: amountWei,
-          options: options,
+          amount_wei: this.maticToWei(amountMatic.toString()),
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -96,21 +97,21 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an unstakeClaimTokens transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft an unstakeClaimTokens transaction to a ValidatorShare proxy contract
    * Note that your tokens must be unbonded before you can claim them
    * @param walletAddress address delegating
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
   async craftUnstakeClaimTokensTx(
     walletAddress: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/unstake-claim-tokens`,
         {
           wallet: walletAddress,
-          options: options,
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -119,21 +120,21 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an withdrawRewards transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft an withdrawRewards transaction to a ValidatorShare proxy contract
    * All rewards earned are transferred to the delegator's wallet
    * @param walletAddress address delegating
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
   async craftWithdrawRewardsTx(
     walletAddress: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/withdraw-rewards`,
         {
           wallet: walletAddress,
-          options: options,
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -142,21 +143,21 @@ export class MaticService extends Service {
   }
 
   /**
-   * Craft an withdrawRewards transaction to Kiln's ValidatorShare proxy contract or the one provided
+   * Craft an withdrawRewards transaction to a ValidatorShare proxy contract
    * All rewards earned are then re-delegated
    * @param walletAddress address delegating
-   * @param options options to pass a custom ValidatorShare proxy contract address
+   * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
   async craftRestakeRewardsTx(
     walletAddress: string,
-    options?: MaticStakeTxOptions,
+    validatorShareProxyAddress: string,
   ): Promise<MaticTx> {
     try {
       const { data } = await api.post<MaticTx>(
         `/v1/matic/transaction/restake-rewards`,
         {
           wallet: walletAddress,
-          options: options,
+          validator_share_proxy_address: validatorShareProxyAddress,
         });
       return data;
     } catch (err: any) {
@@ -166,20 +167,11 @@ export class MaticService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, tx: MaticTx, note?: string): Promise<MaticSignedTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-
+  async sign(integration: Integration, tx: MaticTx, note?: string): Promise<MaticSignedTx> {
     try {
       const payload = {
         rawMessageData: {
@@ -191,7 +183,9 @@ export class MaticService extends Service {
         },
       };
 
-      const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'MATIC tx from @kilnfi/sdk';
+      const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
       const { data } = await api.post<MaticSignedTx>(
         `/v1/matic/transaction/prepare`,
         {
@@ -239,7 +233,7 @@ export class MaticService extends Service {
   }
 
   /**
-   * Utility function to convert MATIC to WEI
+   * Convert MATIC to WEI
    * @param matic
    */
   maticToWei(matic: string): string {

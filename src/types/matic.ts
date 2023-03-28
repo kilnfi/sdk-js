@@ -1,9 +1,5 @@
 import { TransactionReceipt } from 'web3-core';
 
-export type MaticStakeTxOptions = {
-  validator_share_proxy_address: string;
-}
-
 export type MaticTx = {
   data: {
     unsigned_tx_hash: string;

@@ -8,11 +8,21 @@ export type AtomTx = {
   memo?: string;
 };
 
-export type AtomStakeOptions = {
-  validatorAddress?: string;
+export type AtomSignedTx = {
+  data: {
+    signed_tx_serialized: string;
+  };
+};
+
+export type AtomTxHash = {
+  data: {
+    tx_hash: string;
+  };
 };
 
 export type AtomTxStatus = {
-  status: 'success' | 'error',
-  receipt: IndexedTx,
+  data: {
+    status: 'success' | 'error',
+    receipt: IndexedTx,
+  }
 }

@@ -4,7 +4,6 @@ import {
   AdaRewards,
   AdaSignedMessage,
   AdaSignedTx,
-  AdaStakeOptions,
   AdaStakes,
   AdaTx,
   AdaTxHash,
@@ -12,22 +11,23 @@ import {
 } from '../types/ada';
 import api from '../api';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 export class AdaService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
    * Craft ada delegate transaction, all the wallet's balance will be delegated to the pool
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param options
+   * @param poolId pool id (bech32) to delegate to, eg. KILN0 - pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    options?: AdaStakeOptions,
+    poolId: string,
   ): Promise<AdaTx> {
     try {
       const { data } = await api.post<AdaTx>(
@@ -35,7 +35,7 @@ export class AdaService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          options: options,
+          pool_id: poolId,
         });
       return data;
     } catch (err: any) {
@@ -84,31 +84,23 @@ export class AdaService extends Service {
     }
   }
 
+  /**
+   * Convert ADA to Lovelace
+   * @param amountAda
+   */
   adaToLovelace(amountAda: string): string {
-    return (parseFloat(amountAda) * 1000000).toFixed();
+    return (parseFloat(amountAda) * 10 ** 6).toFixed();
   }
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, tx: AdaTx): Promise<AdaSignedTx> {
+  async sign(integration: Integration, tx: AdaTx, note?: string): Promise<AdaSignedTx> {
     try {
-      const currentIntegration = this.integrations?.find(int => int.name === integration);
-      if (!currentIntegration) {
-        throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-      }
-
-      // We only support fireblocks integration for now
-      if (currentIntegration.provider !== 'fireblocks') {
-        throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
-      }
-
-      if (!this.fbSigner) {
-        throw new Error(`Could not retrieve fireblocks signer.`);
-      }
-
+      const fbSigner = this.getFbSigner(integration);
       const payload = {
         rawMessageData: {
           messages: [
@@ -126,7 +118,8 @@ export class AdaService extends Service {
         },
       };
 
-      const fbTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA');
+      const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
+      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA', fbNote);
 
       if (!fbTx.signedMessages) {
         throw new Error(`Could not sign the transaction.`);
@@ -248,7 +241,7 @@ export class AdaService extends Service {
     try {
       const query = `/v1/ada/rewards?accounts=${accountIds.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
       return data;
     } catch (err: any) {
@@ -271,7 +264,7 @@ export class AdaService extends Service {
     try {
       const query = `/v1/ada/rewards?stake_addresses=${stakeAddresses.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
       return data;
     } catch (err: any) {
@@ -294,7 +287,7 @@ export class AdaService extends Service {
     try {
       const query = `/v1/ada/rewards?wallets=${wallets.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<AdaRewards>(query);
       return data;
     } catch (err: any) {

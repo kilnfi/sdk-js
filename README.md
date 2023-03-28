@@ -1,16 +1,20 @@
 ## Description
 
-Kiln JS SDK makes it easy to interact with the Kiln platform. It provides a simple way of crafting staking transactions as well getting real time rewards data.
+Kiln JS SDK makes it easy to interact with the Kiln staking platform.
 
-Check out the full documentation [here](https://docs.kiln.fi/v1/connect/overview).
+It provides a simple way of crafting staking transactions as well getting real time and historical data about your stakes.
+
+Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 
 ## Supported protocols
-- ETH
-- SOL
-- ATOM
 - ADA
-- NEAR
+- ATOM
 - DOT
+- ETH
+- MATIC
+- NEAR
+- SOL
+- XTZ
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation
@@ -36,7 +40,8 @@ const k = new Kiln({
 
 ## Craft 32 ETH staking transaction, sign it with fireblocks and broadcast it
 ```typescript
-import { Kiln } from "../src/kiln";
+import { Kiln } from "@kilnfi/sdk";
+import { Integration } from "@kilnfi/sdk/lib/types/integrations";
 const fs = require('fs');
 
 const apiSecret = fs.readFileSync(__dirname + '/path_to_fireblocks_secret', 'utf8');
@@ -44,30 +49,29 @@ const apiSecret = fs.readFileSync(__dirname + '/path_to_fireblocks_secret', 'utf
 const k = new Kiln({
   testnet: true,
   apiToken: 'kiln_xxx',
-  integrations: [
-    {
-      name: 'vault1',
-      provider: 'fireblocks',
-      fireblocksApiKey: 'fireblocks_api_key',
-      fireblocksSecretKey: apiSecret,
-      vaultAccountId: 'vault_account_id'
-    }
-  ],
 });
+
+const vault: Integration = {
+  provider: 'fireblocks',
+  fireblocksApiKey: 'YOUR_API_USER_KEY', // your fireblocks API user key
+  fireblocksSecretKey: apiSecret, // your fireblocks private key (generated with your CSR file and your API user)
+  vaultId: 7 // your fireblocks vault id
+};
 
 try {
   // Craft 32 ETH staking transaction
+  const amountWei = k.eth.ethToWei('32');
   const tx = await k.eth.craftStakeTx(
     'kiln_account_id',
     'withdrawal_address',
-    32
+    amountWei
   );
   
-  // Sign it with fireblocks vault 'vault1'
-  const txSigned = await k.eth.sign('vault1', tx);
+  // Sign it with your fireblock vault
+  const txSigned = await k.eth.sign(vault, tx);
   
   // Broadcast it
-  const receipt = await k.eth.broadcast(txSigned);
+  const hash = await k.eth.broadcast(txSigned);
   
 } catch (err) {
   // handle errors

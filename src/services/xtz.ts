@@ -4,29 +4,29 @@ import {
   XtzNetworkStats,
   XtzRewards,
   XtzSignedTx,
-  XtzStakeOptions,
   XtzStakes,
   XtzTx,
   XtzTxHash,
   XtzTxStatus,
 } from '../types/xtz';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 export class XtzService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
    * Craft Tezos delegation transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress wallet address delegating
-   * @param options
+   * @param bakerAddress baker address that you wish to delegate to
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    options?: XtzStakeOptions,
+    bakerAddress: string,
   ): Promise<XtzTx> {
     try {
       const { data } = await api.post<XtzTx>(
@@ -34,7 +34,7 @@ export class XtzService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          options: options,
+          baker_address: bakerAddress,
         });
       return data;
     } catch (err: any) {
@@ -63,19 +63,11 @@ export class XtzService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, tx: XtzTx, note?: string): Promise<XtzSignedTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
+  async sign(integration: Integration, tx: XtzTx, note?: string): Promise<XtzSignedTx> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -86,7 +78,9 @@ export class XtzService extends Service {
       },
     };
 
-    const signedTx = await this.fbSigner.signWithFB(payload, this.testnet ? 'XTZ_TEST' : 'XTZ', note);
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
+    const signedTx = await fbSigner.signWithFB(payload, this.testnet ? 'XTZ_TEST' : 'XTZ', fbNote);
     const signature: string = signedTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<XtzSignedTx>(
       `/v1/xtz/transaction/prepare`,
@@ -226,7 +220,7 @@ export class XtzService extends Service {
   }
 
   /**
-   * Utility function to convert XTZ to mutez
+   * Convert XTZ to mutez
    * @param xtz
    */
   xtzToMutez(xtz: string): string {

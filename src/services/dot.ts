@@ -2,20 +2,17 @@ import { Service } from './service';
 import { ApiPromise, HttpProvider } from '@polkadot/api';
 import {
   DotRewardDestination,
+  DotSignedTx,
   DotStakeOptions,
   DotTx,
+  DotTxHash,
   DotTxStatus,
-  SubmittedDotTx,
 } from '../types/dot';
 import { DotFbSigner } from '../integrations/dot_fb_signer';
 import { Signer } from '@polkadot/api/types';
 import { SignerOptions } from '@polkadot/api/submittable/types';
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
-
-const DOT_TO_PLANCK = 1000000000000;
-
+import { Integration } from '../types/integrations';
 
 /**
  * Staking docs: https://paritytech.github.io/substrate/master/pallet_staking/struct.Pallet.html
@@ -23,10 +20,9 @@ const DOT_TO_PLANCK = 1000000000000;
 export class DotService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
-    const kilnRpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
-    this.rpc = kilnRpc;
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
+    this.rpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
   }
 
   private async getClient(): Promise<ApiPromise> {
@@ -39,10 +35,28 @@ export class DotService extends Service {
   }
 
   /**
+   * Convert WND (testnet token) to PLANCK
+   * To be used in testnet (Westend)
+   * @param amountWnd
+   */
+  wndToPlanck(amountWnd: string): string {
+    return (parseFloat(amountWnd) * 10 ** 12).toFixed();
+  }
+
+  /**
+   * Convert DOT to PLANCK
+   * To be used in mainnet
+   * @param amountDot
+   */
+  dotToPlanck(amountDot: string): string {
+    return (parseFloat(amountDot) * 10 ** 10).toFixed();
+  }
+
+  /**
    * Craft dot bonding transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param stashAccount stash account address (your most secure cold wallet)
-   * @param amountDot how many tokens to bond in DOT
+   * @param amountDot amount to bond in DOT
    * @param options
    */
   async craftBondTx(
@@ -51,20 +65,15 @@ export class DotService extends Service {
     amountDot: number,
     options?: DotStakeOptions,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
 
     // The controller account is responsible for managing the stake,
     // it is recommended to have a separate wallet for it and keep the stash account as a cold offline wallet,
     // although it is possible for the controller account to be the same as the stash account
     const controllerAccount = options?.controllerAccount ?? stashAccount;
     const rewardsDestination = options?.rewardDestination ?? 'Staked';
-    const extrinsic = await client.tx.staking.bond(controllerAccount, amount, rewardsDestination);
-
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const extrinsic = await client.tx.staking.bond(controllerAccount, amountPlanck, rewardsDestination);
     return {
       from: stashAccount,
       submittableExtrinsic: extrinsic,
@@ -74,20 +83,15 @@ export class DotService extends Service {
   /**
    * Craft dot bonding extra token transaction (to be used if you already bonded tokens)
    * @param stashAccount stash account address
-   * @param amountDot how many tokens to bond in DOT
+   * @param amountDot amount to bond extra in DOT
    */
   async craftBondExtraTx(
     stashAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const extrinsic = await client.tx.staking.bondExtra(amount);
-
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const extrinsic = await client.tx.staking.bondExtra(amountPlanck);
     return {
       from: stashAccount,
       submittableExtrinsic: extrinsic,
@@ -97,20 +101,15 @@ export class DotService extends Service {
   /**
    * Craft dot rebond transaction (to be used to rebond unbonding token)
    * @param controllerAccount stash account address
-   * @param amountDot how many tokens to bond in DOT
+   * @param amountDot amount to rebond in DOT
    */
   async craftRebondTx(
     controllerAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const extrinsic = await client.tx.staking.rebond(amount);
-
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const extrinsic = await client.tx.staking.rebond(amountPlanck);
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -120,17 +119,14 @@ export class DotService extends Service {
   /**
    * Craft dot nominate transaction
    * @param controllerAccount controller account address
-   * @param validatorAddresses validator addresses to nominate to, if not provided, will nominate to Kiln's validator
+   * @param validatorAddresses validator addresses to nominate to
    */
   async craftNominateTx(
     controllerAccount: string,
-    validatorAddresses?: string[],
+    validatorAddresses: string[],
   ): Promise<DotTx> {
-
-    const validators: string[] = validatorAddresses ?? this.testnet ? [ADDRESSES.dot.testnet.validatorAddress] : [ADDRESSES.dot.mainnet.validatorAddress];
     const client = await this.getClient();
-    const extrinsic = await client.tx.staking.nominate(validators);
-
+    const extrinsic = await client.tx.staking.nominate(validatorAddresses);
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -140,20 +136,15 @@ export class DotService extends Service {
   /**
    * Craft dot unbonding transaction, there is an unbonding period before your tokens can be withdrawn
    * @param controllerAccount controller account address
-   * @param amountDot how many tokens to unbond in DOT
+   * @param amountDot amount to unrebond in DOT
    */
   async craftUnbondTx(
     controllerAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
-    if (amountDot < 0.01) {
-      throw new Error('Dot stake must be at least 0.01 DOT');
-    }
-
     const client = await this.getClient();
-    const amount = (amountDot * DOT_TO_PLANCK).toString();
-    const extrinsic = await client.tx.staking.unbond(amount);
-
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const extrinsic = await client.tx.staking.unbond(amountPlanck);
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -170,7 +161,6 @@ export class DotService extends Service {
     const client = await this.getClient();
     const spanCount = await client.query.staking.slashingSpans(controllerAccount);
     const extrinsic = await client.tx.staking.withdrawUnbonded(spanCount.toHex());
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -189,7 +179,6 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.chill();
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -207,7 +196,6 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.setController(controllerAccount);
-
     return {
       from: stashAccount,
       submittableExtrinsic: extrinsic,
@@ -229,7 +217,6 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const client = await this.getClient();
     const extrinsic = await client.tx.staking.setPayee(rewardsDestination);
-
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -238,51 +225,59 @@ export class DotService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param transaction
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, transaction: DotTx): Promise<SubmittableExtrinsic> {
-    const signer = this.getSigner(integration);
+  async sign(integration: Integration, tx: DotTx, note?: string): Promise<DotSignedTx> {
+    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
+    const signer = this.getSigner(integration, fbNote);
     const options: Partial<SignerOptions> = {
       era: 0,
       signer: signer,
     };
-    return await transaction.submittableExtrinsic.signAsync(transaction.from, options);
+    const extrinsic = await tx.submittableExtrinsic.signAsync(tx.from, options);
+    return {
+      data: {
+        extrinsic,
+      },
+    };
   }
 
   /**
    * Broadcast signed transaction
-   * @param transaction
+   * @param signedTx
    */
-  async broadcast(transaction: SubmittableExtrinsic): Promise<SubmittedDotTx> {
-    const submittedExtrinsic = await transaction.send();
-    const client = await this.getClient();
-    const currentBlockHash = await client.rpc.chain.getBlockHash();
+  async broadcast(signedTx: DotSignedTx): Promise<DotTxHash> {
+    const submittedExtrinsic = await signedTx.data.extrinsic.send();
     return {
-      blockHash: currentBlockHash.toString(),
-      hash: submittedExtrinsic.toString(),
+      data: {
+        tx_hash: submittedExtrinsic.toString(),
+      },
     };
   }
 
   /**
    * Get transaction status
-   * @param transaction submitted dot transaction
+   * @param txHash transaction hash
+   * @param blockHash block hasj in which the transaction was included
    */
   async getTxStatus(
-    transaction: SubmittedDotTx,
+    txHash: string,
+    blockHash: string,
   ): Promise<DotTxStatus> {
     const client = await this.getClient();
     // Get block
-    const block = await client.rpc.chain.getBlock(transaction.blockHash);
+    const block = await client.rpc.chain.getBlock(blockHash);
     if (!block) {
-      throw new Error(`Could find block ${transaction.blockHash}`);
+      throw new Error(`Could find block ${blockHash}`);
     }
 
     // Get extrinsic in block
-    const extrinsic = block.block.extrinsics.find(ext => ext.hash.toString() === transaction.hash);
-    const extrinsicIndex = block.block.extrinsics.findIndex(ext => ext.hash.toString() === transaction.hash);
+    const extrinsic = block.block.extrinsics.find(ext => ext.hash.toString() === txHash);
+    const extrinsicIndex = block.block.extrinsics.findIndex(ext => ext.hash.toString() === txHash);
     if (!extrinsic) {
-      throw new Error(`Could find extrinsic ${transaction.hash} in block ${transaction.blockHash}`);
+      throw new Error(`Could find extrinsic ${txHash} in block ${blockHash}`);
     }
 
     // Get block events
@@ -322,32 +317,22 @@ export class DotService extends Service {
     }
 
     return {
-      status,
-      extrinsic,
-      error,
+      data: {
+        status,
+        extrinsic,
+        error,
+      },
     };
   }
 
   /**
    * Get correct signer given integration. (only support fireblocks provider for now)
    * @param integration
+   * @param note
    * @private
    */
-  private getSigner(integration: string): Signer {
-    const currentIntegration = this.integrations?.find(int => int.name === integration);
-    if (!currentIntegration) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    // We only support fireblocks integration for now
-    if (currentIntegration.provider !== 'fireblocks') {
-      throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
-    }
-
-    if (!this.fbSdk) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-    return new DotFbSigner(this.fbSdk, currentIntegration.vaultAccountId, this.testnet ? 'WND' : 'DOT');
+  private getSigner(integration: Integration, note?: string): Signer {
+    const fbSdk = this.getFbSdk(integration);
+    return new DotFbSigner(fbSdk, integration.vaultId, this.testnet ? 'WND' : 'DOT', note);
   }
 }

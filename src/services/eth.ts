@@ -12,22 +12,23 @@ import {
 import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 export class EthService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
    * Spin up Ethereum validators and craft a staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
-   * @param amountWei how many tokens to stake in WEI (must be a multiple of 32ETH, eg 32000000000000000000)
+   * @param amountEth how many tokens to stake in ETH (must be a multiple of 32)
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amountWei: string,
+    amountEth: number,
   ): Promise<EthTx> {
     try {
       const { data } = await api.post<EthTx>(
@@ -35,7 +36,7 @@ export class EthService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          amount_wei: amountWei,
+          amount_wei: this.ethToWei(amountEth.toString()),
         });
       return data;
     } catch (err: any) {
@@ -45,20 +46,11 @@ export class EthService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, tx: EthTx, note?: string): Promise<EthSignedTx> {
-    if (!this.integrations?.find(int => int.name === integration)) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    if (!this.fbSigner) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-
+  async sign(integration: Integration, tx: EthTx, note?: string): Promise<EthSignedTx> {
     try {
       const payload = {
         rawMessageData: {
@@ -70,7 +62,9 @@ export class EthService extends Service {
         },
       };
 
-      const signatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', note);
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
+      const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
       const { data } = await api.post<EthSignedTx>(
         `/v1/eth/transaction/prepare`,
         {
@@ -183,7 +177,7 @@ export class EthService extends Service {
     try {
       const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
         startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_day=${endDate}` : ''}`;
+      }${endDate ? `&end_date=${endDate}` : ''}`;
       const { data } = await api.get<EthRewards>(query);
       return data;
     } catch (err: any) {
@@ -266,7 +260,7 @@ export class EthService extends Service {
   }
 
   /**
-   * Utility function to convert ETH to WEI
+   * Convert ETH to WEI
    * @param eth
    */
   ethToWei(eth: string): string {

@@ -14,10 +14,12 @@ type AssetId = 'WND' | 'DOT';
 
 export class DotFbSigner extends FbSigner implements Signer {
   protected assetId: AssetId;
+  protected note?: string;
 
-  constructor(fireblocks: FireblocksSDK, vaultAccountId: string, assetId: AssetId) {
-    super(fireblocks, vaultAccountId);
+  constructor(fireblocks: FireblocksSDK, vaultId: number, assetId: AssetId, note?: string) {
+    super(fireblocks, vaultId);
     this.assetId = assetId;
+    this.note = note;
   };
 
   public async signRaw({ data }: SignerPayloadRaw): Promise<SignerResult> {
@@ -33,11 +35,11 @@ export class DotFbSigner extends FbSigner implements Signer {
       operation: TransactionOperation.RAW,
       source: {
         type: PeerType.VAULT_ACCOUNT,
-        id: this.vaultAccountId
+        id: this.vaultId.toString()
       },
       assetId: this.assetId,
       extraParameters: { rawMessageData },
-      note: "DOT transaction"
+      note: this.note,
     };
 
     const fbTx = await this.fireblocks.createTransaction(tx);

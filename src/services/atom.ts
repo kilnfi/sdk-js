@@ -3,11 +3,12 @@ import {
   coin,
   MsgDelegateEncodeObject,
   MsgUndelegateEncodeObject,
+  MsgWithdrawDelegatorRewardEncodeObject,
   SigningStargateClient,
   StargateClient,
   StdFee,
 } from '@cosmjs/stargate';
-import { AtomStakeOptions, AtomTx, AtomTxStatus } from '../types/atom';
+import { AtomSignedTx, AtomTx, AtomTxHash, AtomTxStatus } from '../types/atom';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { Coin, OfflineSigner } from '@cosmjs/proto-signing';
 import {
@@ -15,18 +16,18 @@ import {
   MsgUndelegate,
 } from 'cosmjs-types/cosmos/staking/v1beta1/tx';
 import { AtomFbSigner } from '../integrations/atom_fb_signer';
-import { ADDRESSES } from '../globals';
 import { ServiceProps } from '../types/service';
-
-const UATOM_TO_ATOM = 1000000;
+import { Integration } from '../types/integrations';
+import {
+  MsgWithdrawDelegatorReward,
+} from 'cosmjs-types/cosmos/distribution/v1beta1/tx';
 
 export class AtomService extends Service {
   private rpc: string;
 
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
-    const kilnRpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
-    this.rpc = kilnRpc;
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
+    this.rpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
   }
 
   private async getClient(): Promise<StargateClient> {
@@ -38,32 +39,31 @@ export class AtomService extends Service {
   }
 
   /**
+   * Convert ATOM to UATOM
+   * @param amountAtom
+   */
+  atomToUatom(amountAtom: string): string {
+    return (parseFloat(amountAtom) * 10 ** 6).toFixed();
+  }
+
+  /**
    * Craft atom staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
+   * @param validatorAddress validator address to delegate to
    * @param amountAtom how many tokens to stake in ATOM
-   * @param options
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
+    validatorAddress: string,
     amountAtom: number,
-    options?: AtomStakeOptions,
   ): Promise<AtomTx> {
-    if (amountAtom < 0.01) {
-      throw new Error('Atom stake must be at least 0.01 ATOM');
-    }
-
     try {
-      const validatorAddress = options?.validatorAddress ? options.validatorAddress :
-        this.testnet ?
-          ADDRESSES.atom.testnet.validatorAddress :
-          ADDRESSES.atom.mainnet.validatorAddress;
-
       const msg = MsgDelegate.fromPartial({
         delegatorAddress: walletAddress,
         validatorAddress: validatorAddress,
-        amount: coin((amountAtom * UATOM_TO_ATOM).toString(), 'uatom'),
+        amount: coin(this.atomToUatom(amountAtom.toString()), 'uatom'),
       });
 
       const delegateMsg: MsgDelegateEncodeObject = {
@@ -90,10 +90,47 @@ export class AtomService extends Service {
   }
 
   /**
-   * Craft atom unstaking staking transaction
+   * Craft atom withdraw rewards transaction
    * @param walletAddress wallet address from which the delegation has been made
    * @param validatorAddress validator address to which the delegation has been made
-   * @param amountAtom how many tokens to un undelegate in ATOM
+   */
+  async craftWithdrawRewardsTx(
+    walletAddress: string,
+    validatorAddress: string,
+  ): Promise<AtomTx> {
+    try {
+      const msg = MsgWithdrawDelegatorReward.fromPartial({
+        delegatorAddress: walletAddress,
+        validatorAddress: validatorAddress,
+      });
+
+      const msgEncoded: MsgWithdrawDelegatorRewardEncodeObject = {
+        typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+        value: msg,
+      };
+
+      const feeAmount = coin(5000, 'uatom');
+      const fee: StdFee = {
+        amount: [feeAmount],
+        gas: '300000',
+      };
+
+      return {
+        address: walletAddress,
+        messages: [msgEncoded],
+        fee: fee,
+      };
+
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Craft atom unstaking transaction
+   * @param walletAddress wallet address from which the delegation has been made
+   * @param validatorAddress validator address to which the delegation has been made
+   * @param amountAtom how many tokens to undelegate in ATOM
    */
   async craftUnstakeTx(
     walletAddress: string,
@@ -110,7 +147,7 @@ export class AtomService extends Service {
         }
         amountToWithdraw = delegation;
       } else {
-        amountToWithdraw = coin((amountAtom * UATOM_TO_ATOM).toString(), 'uatom');
+        amountToWithdraw = coin(this.atomToUatom(amountAtom.toString()), 'uatom');
       }
 
       const msg = MsgUndelegate.fromPartial({
@@ -143,25 +180,36 @@ export class AtomService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param transaction
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, transaction: AtomTx): Promise<TxRaw> {
-    const signer = this.getSigner(integration);
+  async sign(integration: Integration, tx: AtomTx, note?: string): Promise<AtomSignedTx> {
+    const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
+    const signer = this.getSigner(integration, fbNote);
     const client = await this.getSigningClient(signer);
-    return client.sign(transaction.address, transaction.messages, transaction.fee, transaction.memo ?? '');
+    const signedTx = await client.sign(tx.address, tx.messages, tx.fee, tx.memo ?? '');
+    return {
+      data: {
+        signed_tx_serialized: Buffer.from(TxRaw.encode(signedTx).finish()).toString('hex'),
+      },
+    };
   }
 
 
   /**
    * Broadcast transaction to the network
-   * @param transaction
+   * @param signedTx
    */
-  async broadcast(transaction: TxRaw): Promise<string | undefined> {
+  async broadcast(signedTx: AtomSignedTx): Promise<AtomTxHash> {
     try {
       const client = await this.getClient();
-      const res = await client.broadcastTx(TxRaw.encode(transaction).finish());
-      return res.transactionHash;
+      const res = await client.broadcastTx(Uint8Array.from(Buffer.from(signedTx.data.signed_tx_serialized, 'hex')));
+      return {
+        data: {
+          tx_hash: res.transactionHash,
+        },
+      };
     } catch (e: any) {
       throw new Error(e);
     }
@@ -175,10 +223,13 @@ export class AtomService extends Service {
     try {
       const client = await this.getClient();
       const tx = await client.getTx(transactionHash);
-      return tx ? {
-        status: tx.code === 0 ? 'success' : 'error',
-        receipt: tx,
-      } : null;
+      if (!tx) return null;
+      return {
+        data: {
+          status: tx.code === 0 ? 'success' : 'error',
+          receipt: tx,
+        },
+      };
     } catch (e: any) {
       throw new Error(e);
     }
@@ -187,23 +238,11 @@ export class AtomService extends Service {
   /**
    * Get correct signer given integration. (only support fireblocks provider for now)
    * @param integration
+   * @param note
    * @private
    */
-  private getSigner(integration: string): OfflineSigner {
-    const currentIntegration = this.integrations?.find(int => int.name === integration);
-    if (!currentIntegration) {
-      throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-    }
-
-    // We only support fireblocks integration for now
-    if (currentIntegration.provider !== 'fireblocks') {
-      throw new Error(`Unsupported integration provider: ${currentIntegration.provider}`);
-    }
-
-    if (!this.fbSdk) {
-      throw new Error(`Could not retrieve fireblocks signer.`);
-    }
-
-    return new AtomFbSigner(this.fbSdk, currentIntegration.vaultAccountId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS');
+  private getSigner(integration: Integration, note?: string): OfflineSigner {
+    const fbSdk = this.getFbSdk(integration);
+    return new AtomFbSigner(fbSdk, integration.vaultId, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', note);
   }
 }

@@ -1,9 +1,5 @@
 import { OperationEntry } from '@taquito/rpc';
 
-export type XtzStakeOptions = {
-  baker_address: string;
-};
-
 export type XtzTx = {
   data: {
     unsigned_tx_hash: string;

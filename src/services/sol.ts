@@ -4,7 +4,6 @@ import {
   SolNetworkStats,
   SolRewards,
   SolSignedTx,
-  SolStakeOptions,
   SolStakes,
   SolTx,
   SolTxHash,
@@ -12,25 +11,26 @@ import {
 } from '../types/sol';
 import { Service } from './service';
 import { ServiceProps } from '../types/service';
+import { Integration } from '../types/integrations';
 
 
 export class SolService extends Service {
-  constructor({ testnet, integrations }: ServiceProps) {
-    super({ testnet, integrations });
+  constructor({ testnet }: ServiceProps) {
+    super({ testnet });
   }
 
   /**
    * Craft Solana staking transaction
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param amountLamports how much to stake in lamports (min 0.01 SOL)
-   * @param options
+   * @param voteAccountAddress vote account address of the validator that you wish to delegate to
+   * @param amountSol how much to stake in SOL (min 0.01 SOL)
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
-    amountLamports: string,
-    options?: SolStakeOptions,
+    voteAccountAddress: string,
+    amountSol: number,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -38,8 +38,8 @@ export class SolService extends Service {
         {
           account_id: accountId,
           wallet: walletAddress,
-          amount_lamports: amountLamports,
-          options: options,
+          amount_lamports: this.solToLamports(amountSol.toString()),
+          vote_account_address: voteAccountAddress,
         });
       return data;
     } catch (err: any) {
@@ -73,12 +73,12 @@ export class SolService extends Service {
    * Craft Solana withdraw stake transaction
    * @param stakeAccountAddress stake account address to deactivate
    * @param walletAddress wallet that has authority over the stake account
-   * @param amountLamports: amount to withdraw in lamports, if not specified the whole balance will be withdrawn
+   * @param amountSol: amount to withdraw in SOL, if not specified the whole balance will be withdrawn
    */
   async craftWithdrawStakeTx(
     stakeAccountAddress: string,
     walletAddress: string,
-    amountLamports?: string,
+    amountSol?: number,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -86,7 +86,7 @@ export class SolService extends Service {
         {
           stake_account: stakeAccountAddress,
           wallet: walletAddress,
-          amount_lamports: amountLamports,
+          amount_lamports: amountSol ? this.solToLamports(amountSol.toString()) : undefined,
         });
       return data;
     } catch (err: any) {
@@ -125,13 +125,13 @@ export class SolService extends Service {
    * @param accountId kiln account id to associate the new stake account with
    * @param stakeAccountAddress stake account to split
    * @param walletAddress that has authority over the stake account to split
-   * @param amountLamports amount in lamports to put in the new stake account
+   * @param amountSol amount in SOL to put in the new stake account
    */
   async craftSplitStakeTx(
     accountId: string,
     stakeAccountAddress: string,
     walletAddress: string,
-    amountLamports: string,
+    amountSol: number,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -140,7 +140,7 @@ export class SolService extends Service {
           account_id: accountId,
           stake_account: stakeAccountAddress,
           wallet: walletAddress,
-          amount_lamports: amountLamports,
+          amount_lamports: this.solToLamports(amountSol.toString()),
         });
       return data;
     } catch (err: any) {
@@ -150,20 +150,12 @@ export class SolService extends Service {
 
   /**
    * Sign transaction with given integration
-   * @param integration
-   * @param tx
-   * @param note
+   * @param integration custody solution to sign with
+   * @param tx raw ada transaction
+   * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: string, tx: SolTx, note?: string): Promise<SolSignedTx> {
+  async sign(integration: Integration, tx: SolTx, note?: string): Promise<SolSignedTx> {
     try {
-      if (!this.integrations?.find(int => int.name === integration)) {
-        throw new Error(`Unknown integration, please provide an integration name that matches one of the integrations provided in the config.`);
-      }
-
-      if (!this.fbSigner) {
-        throw new Error(`Could not retrieve fireblocks signer.`);
-      }
-
       const payload = {
         rawMessageData: {
           messages: [
@@ -174,7 +166,9 @@ export class SolService extends Service {
         },
       };
 
-      const fbSignatures = await this.fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', note);
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
+      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
       const signatures: string[] = [];
       fbSignatures.signedMessages?.forEach((signedMessage: any) => {
         if (signedMessage.derivationPath[3] == 0) {
@@ -361,7 +355,7 @@ export class SolService extends Service {
   }
 
   /**
-   * Utility function to convert SOL to lamports
+   * Convert SOL to Lamports
    * @param sol
    */
   solToLamports(sol: string): string {

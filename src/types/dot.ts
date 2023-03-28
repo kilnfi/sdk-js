@@ -19,13 +19,22 @@ export type DotTx = {
   submittableExtrinsic: SubmittableExtrinsic;
 }
 
-export type SubmittedDotTx = {
-  blockHash: string;
-  hash: string;
+export type DotSignedTx = {
+  data: {
+    extrinsic: SubmittableExtrinsic;
+  }
+}
+
+export type DotTxHash = {
+  data: {
+    tx_hash: string;
+  }
 }
 
 export type DotTxStatus = {
-  status: 'success' | 'error',
-  extrinsic: GenericExtrinsic,
-  error: string | null;
+  data: {
+    status: 'success' | 'error',
+    extrinsic: GenericExtrinsic,
+    error: string | null;
+  }
 }

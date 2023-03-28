@@ -3,10 +3,6 @@ import {
   TransactionInputsJSON,
 } from '@emurgo/cardano-serialization-lib-nodejs';
 
-export type AdaStakeOptions = {
-  poolId: string;
-};
-
 export type AdaTxStatus = {
   data: {
     status: 'success' | 'pending_confirmation';
