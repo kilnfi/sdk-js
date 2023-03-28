@@ -60,11 +60,10 @@ const vault: Integration = {
 
 try {
   // Craft 32 ETH staking transaction
-  const amountWei = k.eth.ethToWei('32');
   const tx = await k.eth.craftStakeTx(
     'kiln_account_id',
     'withdrawal_address',
-    amountWei
+    32
   );
   
   // Sign it with your fireblock vault
