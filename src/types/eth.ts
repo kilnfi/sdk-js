@@ -60,6 +60,14 @@ export type EthTx = {
   data: {
     unsigned_tx_hash: string;
     unsigned_tx_serialized: string;
+    to: string;
+    contract_call_data: string;
+    amount_wei: string;
+    nonce: number;
+    gas_limit: number;
+    max_priority_fee_per_gas_wei: string;
+    max_fee_per_gas_wei: string;
+    chain_id: number;
   }
 };
 

@@ -13,6 +13,7 @@ import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
+import { TransactionResponse } from 'fireblocks-sdk';
 
 export class EthService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -47,7 +48,7 @@ export class EthService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
-   * @param tx raw ada transaction
+   * @param tx ETH transaction
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: EthTx, note?: string): Promise<EthSignedTx> {
@@ -63,8 +64,13 @@ export class EthService extends Service {
       };
 
       const fbSigner = this.getFbSigner(integration);
+      const assetId = this.testnet ? 'ETH_TEST3' : 'ETH';
       const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
-      const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
+      const signatures = await fbSigner.signWithFB(
+        payload,
+        assetId,
+        fbNote,
+      );
       const { data } = await api.post<EthSignedTx>(
         `/v1/eth/transaction/prepare`,
         {
@@ -79,6 +85,35 @@ export class EthService extends Service {
     }
   }
 
+  /**
+   * Sign transaction with given integration using Fireblocks contract call feature
+   * @param integration custody solution to sign with
+   * @param tx ETH transaction
+   * @param note note to identify the transaction in your custody solution
+   */
+  async signAndBroadcast(integration: Integration, tx: EthTx,  note?: string): Promise<TransactionResponse> {
+    if(!integration.fireblocksDestinationId) {
+      throw new Error('Fireblocks destination id is missing in integration');
+    }
+    try {
+      const payload = {
+        contractCallData: tx.data.contract_call_data,
+      };
+
+      const fbSigner = this.getFbSigner(integration);
+      const assetId = this.testnet ? 'ETH_TEST3' : 'ETH';
+      const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
+      return  await fbSigner.signAndBroadcastWithFB(
+        payload,
+        assetId,
+        tx,
+        integration.fireblocksDestinationId,
+        fbNote,
+      );
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
 
   /**
    * Broadcast transaction to the network
