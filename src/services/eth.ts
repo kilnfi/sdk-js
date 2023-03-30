@@ -89,10 +89,12 @@ export class EthService extends Service {
    * Sign transaction with given integration using Fireblocks contract call feature
    * @param integration custody solution to sign with
    * @param tx ETH transaction
-   * @param fireblocksDestinationId Fireblocks destination id, this corresponds to the Fireblocks whitelisted contract address id
    * @param note note to identify the transaction in your custody solution
    */
-  async signAndBroadcast(integration: Integration, tx: EthTx, fireblocksDestinationId: string,  note?: string): Promise<TransactionResponse> {
+  async signAndBroadcast(integration: Integration, tx: EthTx,  note?: string): Promise<TransactionResponse> {
+    if(!integration.fireblocksDestinationId) {
+      throw new Error('Fireblocks destination id is missing in integration');
+    }
     try {
       const payload = {
         contractCallData: tx.data.contract_call_data,
@@ -105,7 +107,7 @@ export class EthService extends Service {
         payload,
         assetId,
         tx,
-        fireblocksDestinationId,
+        integration.fireblocksDestinationId,
         fbNote,
       );
     } catch (err: any) {

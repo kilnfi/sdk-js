@@ -6,6 +6,7 @@ export type FireblocksIntegration = {
   fireblocksSecretKey: string;
   vaultId: number;
   name?: string;
+  fireblocksDestinationId?: string
 };
 
 export type Integration = FireblocksIntegration;
