@@ -1,4 +1,5 @@
 import api from './api';
+import { KILN_VALIDATORS as v } from "./validators";
 import { EthService } from './services/eth';
 import { SolService } from './services/sol';
 import { AtomService } from './services/atom';
@@ -13,6 +14,8 @@ type Config = {
   apiToken: string;
   testnet?: boolean;
 };
+
+export const KILN_VALIDATORS = v;
 
 export class Kiln {
   eth: EthService;
