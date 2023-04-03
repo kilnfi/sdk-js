@@ -25,9 +25,10 @@ export type DotSignedTx = {
   }
 }
 
-export type DotTxHash = {
+export type DotBroadcastedTx = {
   data: {
     tx_hash: string;
+    block_hash: string;
   }
 }
 

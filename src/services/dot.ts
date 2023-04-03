@@ -1,11 +1,11 @@
 import { Service } from './service';
-import { ApiPromise, HttpProvider } from '@polkadot/api';
+import { ApiPromise, HttpProvider, WsProvider } from '@polkadot/api';
 import {
   DotRewardDestination,
   DotSignedTx,
   DotStakeOptions,
   DotTx,
-  DotTxHash,
+  DotBroadcastedTx,
   DotTxStatus,
 } from '../types/dot';
 import { DotFbSigner } from '../integrations/dot_fb_signer';
@@ -19,10 +19,17 @@ import { Integration } from '../types/integrations';
  */
 export class DotService extends Service {
   private rpc: string;
+  private api: Promise<ApiPromise>;
 
   constructor({ testnet }: ServiceProps) {
     super({ testnet });
-    this.rpc = this.testnet ? 'https://westend-rpc.polkadot.io' : 'https://rpc.polkadot.io';
+    this.rpc = this.testnet ? 'wss://westend-rpc.polkadot.io' : 'wss://rpc.polkadot.io';
+    const provider = new WsProvider(this.rpc);
+    this.api = ApiPromise.create({
+      provider,
+      noInitWarn: true,
+      initWasm: false,
+    });
   }
 
   private async getClient(): Promise<ApiPromise> {
@@ -32,6 +39,17 @@ export class DotService extends Service {
       noInitWarn: true,
       initWasm: false,
     });
+  }
+
+  private async getWsClient(): Promise<ApiPromise> {
+    const provider = new WsProvider(this.rpc);
+    const api = await ApiPromise.create({
+      provider,
+      noInitWarn: true,
+      initWasm: false,
+    });
+    await api.isReady;
+    return api;
   }
 
   /**
@@ -89,7 +107,7 @@ export class DotService extends Service {
     stashAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
-    const client = await this.getClient();
+    const client = await this.getWsClient();
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.staking.bondExtra(amountPlanck);
     return {
@@ -110,6 +128,7 @@ export class DotService extends Service {
     const client = await this.getClient();
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.staking.rebond(amountPlanck);
+    extrinsic.hash.toString();
     return {
       from: controllerAccount,
       submittableExtrinsic: extrinsic,
@@ -248,11 +267,25 @@ export class DotService extends Service {
    * Broadcast signed transaction
    * @param signedTx
    */
-  async broadcast(signedTx: DotSignedTx): Promise<DotTxHash> {
-    const submittedExtrinsic = await signedTx.data.extrinsic.send();
+  async broadcast(signedTx: DotSignedTx): Promise<DotBroadcastedTx> {
+    let blockHash = '';
+    let txHash = '';
+    const unsub = await signedTx.data.extrinsic.send(({ status  }) => {
+      if (status.isFinalized) {
+        blockHash = status.asFinalized.toString();
+        txHash = signedTx.data.extrinsic.hash.toString();
+        unsub();
+      }
+    });
+
+    // Wait for tx to be included in a block
+    while (blockHash == '' || txHash == '') {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
     return {
       data: {
-        tx_hash: submittedExtrinsic.toString(),
+        tx_hash: txHash,
+        block_hash: blockHash,
       },
     };
   }
