@@ -15,7 +15,8 @@ import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 
 /**
- * Staking docs: https://paritytech.github.io/substrate/master/pallet_staking/struct.Pallet.html
+ * Staking docs: https://polkadot.js.org/docs/substrate/extrinsics#staking
+ * Nomination pools docs: https://polkadot.js.org/docs/substrate/extrinsics#nominationpools
  */
 export class DotService extends Service {
   private rpc: string;
@@ -219,6 +220,126 @@ export class DotService extends Service {
     const extrinsic = await client.tx.staking.setPayee(rewardsDestination);
     return {
       from: controllerAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft dot join pool transaction
+   * The amount to bond is transferred from the member to the pools account and immediately increases the pools bond.
+   * @param memberAccount
+   * @param amountDot
+   * @param poolId
+   */
+  async craftJoinPoolTx(
+    memberAccount: string,
+    amountDot: number,
+    poolId: string,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const extrinsic = await client.tx.nominationPools.join(amountPlanck, poolId);
+    return {
+      from: memberAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft a pool bond extra transaction
+   * Bond extra more funds from origin into the pool to which they already belong.
+   * Bonding extra funds implies an automatic payout of all pending rewards as well.
+   * @param memberAccount
+   * @param amountDot
+   */
+  async craftBondExtraToPoolTx(
+    memberAccount: string,
+    amountDot: number,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    let params = {
+      'FreeBalance': amountPlanck,
+    };
+    const extrinsic = await client.tx.nominationPools.bondExtra(params);
+    return {
+      from: memberAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft a pool bond extra transaction to bond available rewards into the pool to which they already belong.
+   * @param memberAccount
+   */
+  async craftBondRewardsToPoolTx(
+    memberAccount: string,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    let params = {
+      'Rewards': '',
+    };
+    const extrinsic = await client.tx.nominationPools.bondExtra(params);
+    return {
+      from: memberAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft a pool claim payout transaction
+   * A bonded member can use this to claim their payout based on the rewards that
+   * the pool has accumulated since their last claimed payout (OR since joining
+   * if this is their first time claiming rewards).
+   * The payout will be transferred to the member's account.
+   * The member will earn rewards pro rata based on the members stake vs the sum of the members in the pools stake. Rewards do not "expire".
+   * @param memberAccount
+   */
+  async craftClaimPayoutFromPoolTx(
+    memberAccount: string,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    const extrinsic = await client.tx.nominationPools.claimPayout();
+    return {
+      from: memberAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft a pool unbond transaction
+   * Unbond amount funds from the pool.
+   * It implicitly collects the rewards one last time, since not doing so would mean some rewards would be forfeited.
+   * Warning: you cannot rebond during the unbonding period with a nomination pool. If you change your mind, you must wait for the unbonding period to end before you can join a nomination pool again.
+   * @param memberAccount
+   * @param amountDot
+   */
+  async craftUnbondFromPoolTx(
+    memberAccount: string,
+    amountDot: number,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const extrinsic = await client.tx.nominationPools.unbond(memberAccount, amountPlanck);
+    return {
+      from: memberAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft a pool withdraw unbonded transaction
+   * Withdraw unbonded funds from member_account. If no bonded funds can be unbonded, an error is returned.
+   * @param memberAccount
+   */
+  async craftWithdrawUnbondedFromPoolTx(
+    memberAccount: string,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    const spanCount = await client.query.staking.slashingSpans(memberAccount);
+    const extrinsic = await client.tx.nominationPools.withdrawUnbonded(memberAccount, spanCount.toHex());
+    return {
+      from: memberAccount,
       submittableExtrinsic: extrinsic,
     };
   }
