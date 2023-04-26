@@ -19,6 +19,7 @@ export const KILN_VALIDATORS =  {
   DOT: {
     mainnet: {
       KILN: '1497QNdycmxqMi3VJDxZDhaJh4s9tytr5RFWyrLcNse2xqPD',
+      KILN_NOMINATION_POOL_ID: '118'
     }
   },
   MATIC: {
