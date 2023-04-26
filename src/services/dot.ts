@@ -252,7 +252,7 @@ export class DotService extends Service {
    * @param memberAccount
    * @param amountDot
    */
-  async craftPoolBondExtraTx(
+  async craftBondExtraToPoolTx(
     memberAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
@@ -272,7 +272,7 @@ export class DotService extends Service {
    * Craft a pool bond extra transaction to bond available rewards into the pool to which they already belong.
    * @param memberAccount
    */
-  async craftPoolBondRewardsTx(
+  async craftBondRewardsToPoolTx(
     memberAccount: string,
   ): Promise<DotTx> {
     const client = await this.getClient();
@@ -295,7 +295,7 @@ export class DotService extends Service {
    * The member will earn rewards pro rata based on the members stake vs the sum of the members in the pools stake. Rewards do not "expire".
    * @param memberAccount
    */
-  async craftPoolClaimPayoutTx(
+  async craftClaimPayoutFromPoolTx(
     memberAccount: string,
   ): Promise<DotTx> {
     const client = await this.getClient();
@@ -314,7 +314,7 @@ export class DotService extends Service {
    * @param memberAccount
    * @param amountDot
    */
-  async craftPoolUnbondTx(
+  async craftUnbondFromPoolTx(
     memberAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
@@ -332,7 +332,7 @@ export class DotService extends Service {
    * Withdraw unbonded funds from member_account. If no bonded funds can be unbonded, an error is returned.
    * @param memberAccount
    */
-  async craftPoolWithdrawUnbondedTx(
+  async craftWithdrawUnbondedFromPoolTx(
     memberAccount: string,
   ): Promise<DotTx> {
     const client = await this.getClient();
