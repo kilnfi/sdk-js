@@ -310,6 +310,7 @@ export class DotService extends Service {
    * Craft a pool unbond transaction
    * Unbond amount funds from the pool.
    * It implicitly collects the rewards one last time, since not doing so would mean some rewards would be forfeited.
+   * Warning: you cannot rebond during the unbonding period with a nomination pool. If you change your mind, you must wait for the unbonding period to end before you can join a nomination pool again.
    * @param memberAccount
    * @param amountDot
    */
@@ -320,6 +321,23 @@ export class DotService extends Service {
     const client = await this.getClient();
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
     const extrinsic = await client.tx.nominationPools.unbond(memberAccount, amountPlanck);
+    return {
+      from: memberAccount,
+      submittableExtrinsic: extrinsic,
+    };
+  }
+
+  /**
+   * Craft a pool withdraw unbonded transaction
+   * Withdraw unbonded funds from member_account. If no bonded funds can be unbonded, an error is returned.
+   * @param memberAccount
+   */
+  async craftPoolWithdrawUnbondedTx(
+    memberAccount: string,
+  ): Promise<DotTx> {
+    const client = await this.getClient();
+    const spanCount = await client.query.staking.slashingSpans(memberAccount);
+    const extrinsic = await client.tx.nominationPools.withdrawUnbonded(memberAccount, spanCount.toHex());
     return {
       from: memberAccount,
       submittableExtrinsic: extrinsic,
