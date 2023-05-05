@@ -25,12 +25,14 @@ export class SolService extends Service {
    * @param walletAddress used to create the stake account and retrieve rewards in the future
    * @param voteAccountAddress vote account address of the validator that you wish to delegate to
    * @param amountSol how much to stake in SOL (min 0.01 SOL)
+   * @param memo custom memo message to include in the transaction
    */
   async craftStakeTx(
     accountId: string,
     walletAddress: string,
     voteAccountAddress: string,
     amountSol: number,
+    memo?: string,
   ): Promise<SolTx> {
     try {
       const { data } = await api.post<SolTx>(
@@ -40,6 +42,7 @@ export class SolService extends Service {
           wallet: walletAddress,
           amount_lamports: this.solToLamports(amountSol.toString()),
           vote_account_address: voteAccountAddress,
+          memo,
         });
       return data;
     } catch (err: any) {
