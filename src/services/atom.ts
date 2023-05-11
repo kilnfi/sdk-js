@@ -27,7 +27,7 @@ export class AtomService extends Service {
 
   constructor({ testnet }: ServiceProps) {
     super({ testnet });
-    this.rpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://rpc.atomscan.com';
+    this.rpc = this.testnet ? 'https://rpc.sentry-02.theta-testnet.polypore.xyz' : 'https://cosmos-rpc.polkachu.com';
   }
 
   private async getClient(): Promise<StargateClient> {
