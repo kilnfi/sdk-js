@@ -1,6 +1,13 @@
 import { Service } from './service';
 
-import { AtomSignedTx, AtomTx, AtomTxHash, AtomTxStatus } from '../types/atom';
+import {
+  AtomRewards,
+  AtomSignedTx,
+  AtomStakes,
+  AtomTx,
+  AtomTxHash,
+  AtomTxStatus,
+} from '../types/atom';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import api from '../api';
@@ -97,7 +104,7 @@ export class AtomService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
-   * @param tx raw ada transaction
+   * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: AtomTx, note?: string): Promise<AtomSignedTx> {
@@ -154,6 +161,90 @@ export class AtomService extends Service {
       return data;
     } catch (e: any) {
       throw new Error(e);
+    }
+  }
+
+  /**
+   * Retrieve stakes of given kiln accounts
+   * @param accountIds: kiln account ids of which you wish to retrieve stakes
+   * @returns {AtomStakes} Atom Stakes
+   */
+  async getStakesByAccounts(
+    accountIds: string[],
+  ): Promise<AtomStakes> {
+    try {
+      const { data } = await api.get<AtomStakes>(
+        `/v1/atom/stakes?accounts=${accountIds.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve stakes of given stake accounts
+   * @param delegators: delegator addresses of which you wish to retrieve stakes
+   * @param validators: validator addresses of which you wish to retrieve stakes
+   * @returns {AtomStakes} Atom Stakes
+   */
+  async getStakesByDelegatorsAndValidators(
+    delegators: string[],
+    validators: string[],
+  ): Promise<AtomStakes> {
+    try {
+      const { data } = await api.get<AtomStakes>(
+        `/v1/atom/stakes?delegators=${delegators.join(',')}&validators=${validators.join(',')}`);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve rewards for given accounts
+   * @param accountIds kiln account ids of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {AtomRewards} Atom rewards
+   */
+  async getRewardsByAccounts(
+    accountIds: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<AtomRewards> {
+    try {
+      const query = `/v1/atom/rewards?accounts=${accountIds.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<AtomRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Retrieve rewards for given stake accounts
+   * @param delegators: delegator addresses of which you wish to retrieve rewards
+   * @param validators: validator addresses of which you wish to retrieve rewards
+   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @returns {AtomRewards} Atom rewards
+   */
+  async getRewardsByDelegatorsAndValidators(
+    delegators: string[],
+    validators: string[],
+    startDate?: string,
+    endDate?: string,
+  ): Promise<AtomRewards> {
+    try {
+      const query = `/v1/atom/rewards?delegators=${delegators.join(',')}&validators=${validators.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`;
+      const { data } = await api.get<AtomRewards>(query);
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
     }
   }
 }

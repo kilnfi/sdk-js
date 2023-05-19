@@ -218,7 +218,7 @@ export class NearService extends Service {
   /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
-   * @param tx raw ada transaction
+   * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: NearTx, note?: string): Promise<NearSignedTx> {
