@@ -2,11 +2,15 @@ import { IndexedTx, StdFee } from "@cosmjs/stargate";
 import { EncodeObject } from "@cosmjs/proto-signing";
 
 export type AtomTx = {
-  address: string;
-  messages: EncodeObject[];
-  fee: StdFee;
-  memo?: string;
-};
+  data: {
+    unsigned_tx_hash: string;
+    tx_body: string;
+    tx_auth_info: string;
+    pubkey: string;
+    message: EncodeObject;
+    fee: StdFee;
+  }
+}
 
 export type AtomSignedTx = {
   data: {
@@ -23,6 +27,6 @@ export type AtomTxHash = {
 export type AtomTxStatus = {
   data: {
     status: 'success' | 'error',
-    receipt: IndexedTx,
+    receipt: IndexedTx | null,
   }
 }
