@@ -46,6 +46,28 @@ export class EthService extends Service {
   }
 
   /**
+   * Request the exit of validators
+   * @param walletAddress wallet address used to send the tx
+   * @param validatorAddresses list of validator addresses to exit
+   */
+  async craftExitRequestTx(
+    walletAddress: string,
+    validatorAddresses: string[],
+  ): Promise<EthTx> {
+    try {
+      const { data } = await api.post<EthTx>(
+        `/v1/eth/transaction/exit-request`,
+        {
+          wallet: walletAddress,
+          validators: validatorAddresses,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
    * @param tx ETH transaction
