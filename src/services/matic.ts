@@ -9,6 +9,7 @@ import {
   MaticTxStatus,
 } from '../types/matic';
 import { Integration } from '../types/integrations';
+import { TransactionResponse } from "fireblocks-sdk";
 
 export class MaticService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -195,6 +196,36 @@ export class MaticService extends Service {
           v: signatures?.signedMessages?.[0].signature.v ?? 0,
         });
       return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
+   * Sign transaction with given integration
+   * @param integration custody solution to sign with
+   * @param tx raw transaction
+   * @param note note to identify the transaction in your custody solution
+   */
+  async signAndBroadcast(integration: Integration, tx: MaticTx, note?: string): Promise<TransactionResponse> {
+    if(!integration.fireblocksDestinationId) {
+      throw new Error('Fireblocks destination id is missing in integration');
+    }
+    try {
+      const payload = {
+        contractCallData: tx.data.contract_call_data,
+      };
+
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'MATIC tx from @kilnfi/sdk';
+      const assetId = this.testnet ? 'ETH_TEST3' : 'ETH';
+      return  await fbSigner.signAndBroadcastWithFB(
+        payload,
+        assetId,
+        tx,
+        integration.fireblocksDestinationId,
+        fbNote,
+      );
     } catch (err: any) {
       throw new Error(err);
     }
