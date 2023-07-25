@@ -10,6 +10,7 @@ import {
 
 import { utils } from 'ethers';
 import { EthTx } from '../types/eth';
+import { MaticTx } from "../types/matic";
 
 type AssetId =
   'SOL_TEST'
@@ -89,12 +90,13 @@ export class FbSigner {
    * @param payloadToSign: transaction data in hexadecimal
    * @param assetId: fireblocks asset id
    * @param note: optional fireblocks custom note
-   * @param ethTx Ethereum transaction
+   * @param tx Ethereum transaction
    * @param destinationId Fireblocks destination id, this corresponds to the Fireblocks whitelisted contract address id
+   * @param sendAmount send the amount in tx to smart contract
    */
-  public async signAndBroadcastWithFB(payloadToSign: any, assetId: AssetId, ethTx: EthTx, destinationId: string, note?: string): Promise<TransactionResponse> {
+  public async signAndBroadcastWithFB(payloadToSign: any, assetId: AssetId, tx: EthTx | MaticTx, destinationId: string, sendAmount: boolean = true, note?: string): Promise<TransactionResponse> {
     try {
-      const tx: TransactionArguments = {
+      const txArgs: TransactionArguments = {
         assetId: assetId,
         operation: TransactionOperation.CONTRACT_CALL,
         source: {
@@ -105,14 +107,14 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount: utils.formatEther(ethTx.data.amount_wei),
+        amount: tx.data.amount_wei && sendAmount ? utils.formatEther(tx.data.amount_wei) : "0",
         note,
         extraParameters: payloadToSign,
-        gasLimit: ethTx.data.gas_limit,
-        priorityFee: utils.formatUnits(ethTx.data.max_priority_fee_per_gas_wei, 'gwei'),
-        maxFee: utils.formatUnits(ethTx.data.max_fee_per_gas_wei, 'gwei'),
+        gasLimit: tx.data.gas_limit,
+        priorityFee: utils.formatUnits(tx.data.max_priority_fee_per_gas_wei, 'gwei'),
+        maxFee: utils.formatUnits(tx.data.max_fee_per_gas_wei, 'gwei'),
       };
-      const fbTx = await this.fireblocks.createTransaction(tx);
+      const fbTx = await this.fireblocks.createTransaction(txArgs);
       return (await this.waitForTxCompletion(fbTx));
     } catch (err: any) {
       throw new Error('Fireblocks signer (signAndBroadcastWithFB): ' + err);
