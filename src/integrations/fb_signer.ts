@@ -92,8 +92,9 @@ export class FbSigner {
    * @param note: optional fireblocks custom note
    * @param tx Ethereum transaction
    * @param destinationId Fireblocks destination id, this corresponds to the Fireblocks whitelisted contract address id
+   * @param sendAmount send the amount in tx to smart contract
    */
-  public async signAndBroadcastWithFB(payloadToSign: any, assetId: AssetId, tx: EthTx | MaticTx, destinationId: string, note?: string): Promise<TransactionResponse> {
+  public async signAndBroadcastWithFB(payloadToSign: any, assetId: AssetId, tx: EthTx | MaticTx, destinationId: string, sendAmount: boolean = true, note?: string): Promise<TransactionResponse> {
     try {
       const txArgs: TransactionArguments = {
         assetId: assetId,
@@ -106,7 +107,7 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount: tx.data.amount_wei ? utils.formatEther(tx.data.amount_wei) : "0",
+        amount: tx.data.amount_wei && sendAmount ? utils.formatEther(tx.data.amount_wei) : "0",
         note,
         extraParameters: payloadToSign,
         gasLimit: tx.data.gas_limit,

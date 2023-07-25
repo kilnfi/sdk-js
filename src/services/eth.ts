@@ -130,6 +130,7 @@ export class EthService extends Service {
         assetId,
         tx,
         integration.fireblocksDestinationId,
+        true,
         fbNote,
       );
     } catch (err: any) {

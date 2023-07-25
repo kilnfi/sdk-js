@@ -224,6 +224,7 @@ export class MaticService extends Service {
         assetId,
         tx,
         integration.fireblocksDestinationId,
+        false,
         fbNote,
       );
     } catch (err: any) {
