@@ -119,7 +119,7 @@ export class AtomService extends Service {
     };
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const signer = this.getFbSigner(integration);
-    const signedTx = await signer.signWithFB(payload, 'ATOM_COS', fbNote);
+    const signedTx = await signer.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', fbNote);
     const signature: string = signedTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<AtomSignedTx>(
       `/v1/atom/transaction/prepare`,
