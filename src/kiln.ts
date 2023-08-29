@@ -13,6 +13,7 @@ import { MaticService } from './services/matic';
 type Config = {
   apiToken: string;
   testnet?: boolean;
+  baseUrl?: string;
 };
 
 export const KILN_VALIDATORS = v;
@@ -28,10 +29,10 @@ export class Kiln {
   xtz: XtzService;
   matic: MaticService;
 
-  constructor({ testnet, apiToken }: Config) {
+  constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
     api.defaults.headers.common['Content-Type'] = 'application/json';
-    api.defaults.baseURL =
+    api.defaults.baseURL = baseUrl ? baseUrl :
       testnet === true
         ? 'https://api.testnet.kiln.fi'
         : 'https://api.kiln.fi';
