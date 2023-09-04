@@ -102,6 +102,34 @@ export class AtomService extends Service {
   }
 
   /**
+   * Craft atom redelegate transaction
+   * @param pubkey wallet pubkey, this is different from the wallet address
+   * @param validatorSourceAddress validator address of the current delegation
+   * @param validatorDestinationAddress validator address to which the delegation will be moved
+   * @param amountAtom how many tokens to redelegate in ATOM
+   */
+  async craftRedelegateTx(
+    pubkey: string,
+    validatorSourceAddress: string,
+    validatorDestinationAddress: string,
+    amountAtom?: number,
+  ): Promise<AtomTx> {
+    try {
+      const { data } = await api.post<AtomTx>(
+        `/v1/atom/transaction/redelegate`,
+        {
+          pubkey: pubkey,
+          validator_source: validatorSourceAddress,
+          validator_destination: validatorDestinationAddress,
+          amount_uatom: amountAtom ? this.atomToUatom(amountAtom.toString()) : undefined,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
    * @param tx raw transaction

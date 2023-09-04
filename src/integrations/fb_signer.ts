@@ -48,8 +48,6 @@ export class FbSigner {
         if (tx.status == TransactionStatus.BLOCKED || tx.status == TransactionStatus.FAILED || tx.status == TransactionStatus.REJECTED || tx.status == TransactionStatus.CANCELLED) {
           throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
         }
-        setTimeout(() => {
-        }, 4000);
         tx = await this.fireblocks.getTransactionById(fbTx.id);
       }
 
