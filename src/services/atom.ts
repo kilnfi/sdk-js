@@ -103,12 +103,14 @@ export class AtomService extends Service {
 
   /**
    * Craft atom redelegate transaction
+   * @param accountId id of the kiln account to use for the new stake
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorSourceAddress validator address of the current delegation
    * @param validatorDestinationAddress validator address to which the delegation will be moved
    * @param amountAtom how many tokens to redelegate in ATOM
    */
   async craftRedelegateTx(
+    accountId: string,
     pubkey: string,
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
@@ -118,6 +120,7 @@ export class AtomService extends Service {
       const { data } = await api.post<AtomTx>(
         `/v1/atom/transaction/redelegate`,
         {
+          account_id: accountId,
           pubkey: pubkey,
           validator_source: validatorSourceAddress,
           validator_destination: validatorDestinationAddress,
