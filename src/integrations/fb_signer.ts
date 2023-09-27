@@ -24,7 +24,9 @@ type AssetId =
   | 'NEAR_TEST'
   | 'NEAR'
   | 'XTZ_TEST'
-  | 'XTZ';
+  | 'XTZ'
+  | 'WND'
+  | 'DOT';
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
@@ -79,6 +81,7 @@ export class FbSigner {
       const fbTx = await this.fireblocks.createTransaction(tx);
       return (await this.waitForTxCompletion(fbTx));
     } catch (err: any) {
+      console.log(err);
       throw new Error('Fireblocks signer (signWithFB): ' + err);
     }
   }

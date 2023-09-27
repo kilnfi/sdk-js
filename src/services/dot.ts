@@ -1,18 +1,10 @@
-import { Service } from './service';
-import { ApiPromise, HttpProvider } from '@polkadot/api';
-import {
-  DotRewardDestination,
-  DotSignedTx,
-  DotStakeOptions,
-  DotTx,
-  DotTxHash,
-  DotTxStatus,
-} from '../types/dot';
-import { DotFbSigner } from '../integrations/dot_fb_signer';
-import { Signer } from '@polkadot/api/types';
-import { SignerOptions } from '@polkadot/api/submittable/types';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
+import { Service } from "./service";
+import { ApiPromise, HttpProvider } from "@polkadot/api";
+import { DotSignedTx, DotTx, DotTxHash } from "../types/dot";
+import { Signer } from "@polkadot/api/types";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
+import api from "../api";
 
 /**
  * Staking docs: https://polkadot.js.org/docs/substrate/extrinsics#staking
@@ -60,26 +52,26 @@ export class DotService extends Service {
    * @param amountDot amount to bond in DOT
    * @param options
    */
-  async craftBondTx(
-    accountId: string,
-    stashAccount: string,
-    amountDot: number,
-    options?: DotStakeOptions,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-
-    // The controller account is responsible for managing the stake,
-    // it is recommended to have a separate wallet for it and keep the stash account as a cold offline wallet,
-    // although it is possible for the controller account to be the same as the stash account
-    const controllerAccount = options?.controllerAccount ?? stashAccount;
-    const rewardsDestination = options?.rewardDestination ?? 'Staked';
-    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const extrinsic = await client.tx.staking.bond(controllerAccount, amountPlanck, rewardsDestination);
-    return {
-      from: stashAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
+  // async craftBondTx(
+  //   accountId: string,
+  //   stashAccount: string,
+  //   amountDot: number,
+  //   options?: DotStakeOptions,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //
+  //   // The controller account is responsible for managing the stake,
+  //   // it is recommended to have a separate wallet for it and keep the stash account as a cold offline wallet,
+  //   // although it is possible for the controller account to be the same as the stash account
+  //   const controllerAccount = options?.controllerAccount ?? stashAccount;
+  //   const rewardsDestination = options?.rewardDestination ?? 'Staked';
+  //   const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+  //   const extrinsic = await client.tx.staking.bond(controllerAccount, amountPlanck, rewardsDestination);
+  //   return {
+  //     from: stashAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
 
   /**
    * Craft dot bonding extra token transaction (to be used if you already bonded tokens)
@@ -89,14 +81,19 @@ export class DotService extends Service {
   async craftBondExtraTx(
     stashAccount: string,
     amountDot: number,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
+  ): Promise<any> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const extrinsic = await client.tx.staking.bondExtra(amountPlanck);
-    return {
-      from: stashAccount,
-      submittableExtrinsic: extrinsic,
-    };
+    try {
+      const { data } = await api.post<any>(
+        `/v1/dot/transaction/bond-extra`,
+        {
+          stash_account: stashAccount,
+          amount_planck: amountPlanck,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -104,245 +101,245 @@ export class DotService extends Service {
    * @param controllerAccount stash account address
    * @param amountDot amount to rebond in DOT
    */
-  async craftRebondTx(
-    controllerAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const extrinsic = await client.tx.staking.rebond(amountPlanck);
-    return {
-      from: controllerAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot nominate transaction
-   * @param controllerAccount controller account address
-   * @param validatorAddresses validator addresses to nominate to
-   */
-  async craftNominateTx(
-    controllerAccount: string,
-    validatorAddresses: string[],
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const extrinsic = await client.tx.staking.nominate(validatorAddresses);
-    return {
-      from: controllerAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot unbonding transaction, there is an unbonding period before your tokens can be withdrawn
-   * @param controllerAccount controller account address
-   * @param amountDot amount to unrebond in DOT
-   */
-  async craftUnbondTx(
-    controllerAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const extrinsic = await client.tx.staking.unbond(amountPlanck);
-    return {
-      from: controllerAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot withdraw unbonded token transaction
-   * @param controllerAccount controller account address
-   */
-  async craftWithdrawUnbondedTx(
-    controllerAccount: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const spanCount = await client.query.staking.slashingSpans(controllerAccount);
-    const extrinsic = await client.tx.staking.withdrawUnbonded(spanCount.toHex());
-    return {
-      from: controllerAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot chill transaction that chills the controller account associated
-   * to the given stash account, meaning that given account will not nominate
-   * any validator anymore, so you will stop earning rewards at the beginning
-   * of the next era.
-   * @param controllerAccount controller account address
-   */
-  async craftChillTx(
-    controllerAccount: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const extrinsic = await client.tx.staking.chill();
-    return {
-      from: controllerAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot set controller transaction that updates the controller for the given stash account
-   * @param stashAccount stash account address
-   * @param controllerAccount controller account address
-   */
-  async craftSetControllerTx(
-    stashAccount: string,
-    controllerAccount: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const extrinsic = await client.tx.staking.setController(controllerAccount);
-    return {
-      from: stashAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot set reward destination transaction that updates the destination rewards address for the given stash account
-   * @param controllerAccount controller account address
-   * @param rewardsDestination:
-   *  'Staked': rewards are paid into the stash account, increasing the amount at stake accordingly.
-   *  'Stash': rewards are paid into the stash account, not increasing the amount at stake.
-   *  'Controller': rewards are paid into the controller account
-   *  Custom account address: rewards are paid into the custom account address
-   */
-  async craftSetPayeeTx(
-    controllerAccount: string,
-    rewardsDestination: DotRewardDestination,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const extrinsic = await client.tx.staking.setPayee(rewardsDestination);
-    return {
-      from: controllerAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft dot join pool transaction
-   * The amount to bond is transferred from the member to the pools account and immediately increases the pools bond.
-   * @param memberAccount
-   * @param amountDot
-   * @param poolId
-   */
-  async craftJoinPoolTx(
-    memberAccount: string,
-    amountDot: number,
-    poolId: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const extrinsic = await client.tx.nominationPools.join(amountPlanck, poolId);
-    return {
-      from: memberAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft a pool bond extra transaction
-   * Bond extra more funds from origin into the pool to which they already belong.
-   * Bonding extra funds implies an automatic payout of all pending rewards as well.
-   * @param memberAccount
-   * @param amountDot
-   */
-  async craftBondExtraToPoolTx(
-    memberAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    let params = {
-      'FreeBalance': amountPlanck,
-    };
-    const extrinsic = await client.tx.nominationPools.bondExtra(params);
-    return {
-      from: memberAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft a pool bond extra transaction to bond available rewards into the pool to which they already belong.
-   * @param memberAccount
-   */
-  async craftBondRewardsToPoolTx(
-    memberAccount: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    let params = {
-      'Rewards': '',
-    };
-    const extrinsic = await client.tx.nominationPools.bondExtra(params);
-    return {
-      from: memberAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft a pool claim payout transaction
-   * A bonded member can use this to claim their payout based on the rewards that
-   * the pool has accumulated since their last claimed payout (OR since joining
-   * if this is their first time claiming rewards).
-   * The payout will be transferred to the member's account.
-   * The member will earn rewards pro rata based on the members stake vs the sum of the members in the pools stake. Rewards do not "expire".
-   * @param memberAccount
-   */
-  async craftClaimPayoutFromPoolTx(
-    memberAccount: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const extrinsic = await client.tx.nominationPools.claimPayout();
-    return {
-      from: memberAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft a pool unbond transaction
-   * Unbond amount funds from the pool.
-   * It implicitly collects the rewards one last time, since not doing so would mean some rewards would be forfeited.
-   * Warning: you cannot rebond during the unbonding period with a nomination pool. If you change your mind, you must wait for the unbonding period to end before you can join a nomination pool again.
-   * @param memberAccount
-   * @param amountDot
-   */
-  async craftUnbondFromPoolTx(
-    memberAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const extrinsic = await client.tx.nominationPools.unbond(memberAccount, amountPlanck);
-    return {
-      from: memberAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
-
-  /**
-   * Craft a pool withdraw unbonded transaction
-   * Withdraw unbonded funds from member_account. If no bonded funds can be unbonded, an error is returned.
-   * @param memberAccount
-   */
-  async craftWithdrawUnbondedFromPoolTx(
-    memberAccount: string,
-  ): Promise<DotTx> {
-    const client = await this.getClient();
-    const spanCount = await client.query.staking.slashingSpans(memberAccount);
-    const extrinsic = await client.tx.nominationPools.withdrawUnbonded(memberAccount, spanCount.toHex());
-    return {
-      from: memberAccount,
-      submittableExtrinsic: extrinsic,
-    };
-  }
+  // async craftRebondTx(
+  //   controllerAccount: string,
+  //   amountDot: number,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+  //   const extrinsic = await client.tx.staking.rebond(amountPlanck);
+  //   return {
+  //     from: controllerAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot nominate transaction
+  //  * @param controllerAccount controller account address
+  //  * @param validatorAddresses validator addresses to nominate to
+  //  */
+  // async craftNominateTx(
+  //   controllerAccount: string,
+  //   validatorAddresses: string[],
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const extrinsic = await client.tx.staking.nominate(validatorAddresses);
+  //   return {
+  //     from: controllerAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot unbonding transaction, there is an unbonding period before your tokens can be withdrawn
+  //  * @param controllerAccount controller account address
+  //  * @param amountDot amount to unrebond in DOT
+  //  */
+  // async craftUnbondTx(
+  //   controllerAccount: string,
+  //   amountDot: number,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+  //   const extrinsic = await client.tx.staking.unbond(amountPlanck);
+  //   return {
+  //     from: controllerAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot withdraw unbonded token transaction
+  //  * @param controllerAccount controller account address
+  //  */
+  // async craftWithdrawUnbondedTx(
+  //   controllerAccount: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const spanCount = await client.query.staking.slashingSpans(controllerAccount);
+  //   const extrinsic = await client.tx.staking.withdrawUnbonded(spanCount.toHex());
+  //   return {
+  //     from: controllerAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot chill transaction that chills the controller account associated
+  //  * to the given stash account, meaning that given account will not nominate
+  //  * any validator anymore, so you will stop earning rewards at the beginning
+  //  * of the next era.
+  //  * @param controllerAccount controller account address
+  //  */
+  // async craftChillTx(
+  //   controllerAccount: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const extrinsic = await client.tx.staking.chill();
+  //   return {
+  //     from: controllerAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot set controller transaction that updates the controller for the given stash account
+  //  * @param stashAccount stash account address
+  //  * @param controllerAccount controller account address
+  //  */
+  // async craftSetControllerTx(
+  //   stashAccount: string,
+  //   controllerAccount: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const extrinsic = await client.tx.staking.setController(controllerAccount);
+  //   return {
+  //     from: stashAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot set reward destination transaction that updates the destination rewards address for the given stash account
+  //  * @param controllerAccount controller account address
+  //  * @param rewardsDestination:
+  //  *  'Staked': rewards are paid into the stash account, increasing the amount at stake accordingly.
+  //  *  'Stash': rewards are paid into the stash account, not increasing the amount at stake.
+  //  *  'Controller': rewards are paid into the controller account
+  //  *  Custom account address: rewards are paid into the custom account address
+  //  */
+  // async craftSetPayeeTx(
+  //   controllerAccount: string,
+  //   rewardsDestination: DotRewardDestination,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const extrinsic = await client.tx.staking.setPayee(rewardsDestination);
+  //   return {
+  //     from: controllerAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft dot join pool transaction
+  //  * The amount to bond is transferred from the member to the pools account and immediately increases the pools bond.
+  //  * @param memberAccount
+  //  * @param amountDot
+  //  * @param poolId
+  //  */
+  // async craftJoinPoolTx(
+  //   memberAccount: string,
+  //   amountDot: number,
+  //   poolId: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+  //   const extrinsic = await client.tx.nominationPools.join(amountPlanck, poolId);
+  //   return {
+  //     from: memberAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft a pool bond extra transaction
+  //  * Bond extra more funds from origin into the pool to which they already belong.
+  //  * Bonding extra funds implies an automatic payout of all pending rewards as well.
+  //  * @param memberAccount
+  //  * @param amountDot
+  //  */
+  // async craftBondExtraToPoolTx(
+  //   memberAccount: string,
+  //   amountDot: number,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+  //   let params = {
+  //     'FreeBalance': amountPlanck,
+  //   };
+  //   const extrinsic = await client.tx.nominationPools.bondExtra(params);
+  //   return {
+  //     from: memberAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft a pool bond extra transaction to bond available rewards into the pool to which they already belong.
+  //  * @param memberAccount
+  //  */
+  // async craftBondRewardsToPoolTx(
+  //   memberAccount: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   let params = {
+  //     'Rewards': '',
+  //   };
+  //   const extrinsic = await client.tx.nominationPools.bondExtra(params);
+  //   return {
+  //     from: memberAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft a pool claim payout transaction
+  //  * A bonded member can use this to claim their payout based on the rewards that
+  //  * the pool has accumulated since their last claimed payout (OR since joining
+  //  * if this is their first time claiming rewards).
+  //  * The payout will be transferred to the member's account.
+  //  * The member will earn rewards pro rata based on the members stake vs the sum of the members in the pools stake. Rewards do not "expire".
+  //  * @param memberAccount
+  //  */
+  // async craftClaimPayoutFromPoolTx(
+  //   memberAccount: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const extrinsic = await client.tx.nominationPools.claimPayout();
+  //   return {
+  //     from: memberAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft a pool unbond transaction
+  //  * Unbond amount funds from the pool.
+  //  * It implicitly collects the rewards one last time, since not doing so would mean some rewards would be forfeited.
+  //  * Warning: you cannot rebond during the unbonding period with a nomination pool. If you change your mind, you must wait for the unbonding period to end before you can join a nomination pool again.
+  //  * @param memberAccount
+  //  * @param amountDot
+  //  */
+  // async craftUnbondFromPoolTx(
+  //   memberAccount: string,
+  //   amountDot: number,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+  //   const extrinsic = await client.tx.nominationPools.unbond(memberAccount, amountPlanck);
+  //   return {
+  //     from: memberAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
+  //
+  // /**
+  //  * Craft a pool withdraw unbonded transaction
+  //  * Withdraw unbonded funds from member_account. If no bonded funds can be unbonded, an error is returned.
+  //  * @param memberAccount
+  //  */
+  // async craftWithdrawUnbondedFromPoolTx(
+  //   memberAccount: string,
+  // ): Promise<DotTx> {
+  //   const client = await this.getClient();
+  //   const spanCount = await client.query.staking.slashingSpans(memberAccount);
+  //   const extrinsic = await client.tx.nominationPools.withdrawUnbonded(memberAccount, spanCount.toHex());
+  //   return {
+  //     from: memberAccount,
+  //     submittableExtrinsic: extrinsic,
+  //   };
+  // }
 
   /**
    * Sign transaction with given integration
@@ -351,18 +348,33 @@ export class DotService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: DotTx, note?: string): Promise<DotSignedTx> {
-    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
-    const signer = this.getSigner(integration, fbNote);
-    const options: Partial<SignerOptions> = {
-      era: 0,
-      signer: signer,
-    };
-    const extrinsic = await tx.submittableExtrinsic.signAsync(tx.from, options);
-    return {
-      data: {
-        extrinsic,
-      },
-    };
+    try {
+      const payload = {
+        rawMessageData: {
+          messages: [
+            {
+              content: tx.data.unsigned_tx_payload.substring(2),
+            },
+          ],
+        },
+      };
+
+      const fbSigner = this.getFbSigner(integration);
+      const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
+      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'WND' : 'DOT', fbNote);
+      const signature = `0x00${fbSignatures.signedMessages![0].signature.fullSig}`;
+
+      const { data } = await api.post<DotSignedTx>(
+        `/v1/dot/transaction/prepare`,
+        {
+          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+          address: fbSignatures.sourceAddress,
+          signature: signature,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -370,12 +382,16 @@ export class DotService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: DotSignedTx): Promise<DotTxHash> {
-    const submittedExtrinsic = await signedTx.data.extrinsic.send();
-    return {
-      data: {
-        tx_hash: submittedExtrinsic.toString(),
-      },
-    };
+    try {
+      const { data } = await api.post<DotTxHash>(
+        `/v1/dot/transaction/broadcast`,
+        {
+          tx_serialized: signedTx.data.signed_tx_serialized,
+        });
+      return data;
+    } catch (err: any) {
+      throw new Error(err);
+    }
   }
 
   /**
@@ -386,7 +402,7 @@ export class DotService extends Service {
   async getTxStatus(
     txHash: string,
     blockHash: string,
-  ): Promise<DotTxStatus> {
+  ): Promise<any> {
     const client = await this.getClient();
     // Get block
     const block = await client.rpc.chain.getBlock(blockHash);
@@ -444,16 +460,5 @@ export class DotService extends Service {
         error,
       },
     };
-  }
-
-  /**
-   * Get correct signer given integration. (only support fireblocks provider for now)
-   * @param integration
-   * @param note
-   * @private
-   */
-  private getSigner(integration: Integration, note?: string): Signer {
-    const fbSdk = this.getFbSdk(integration);
-    return new DotFbSigner(fbSdk, integration.vaultId, this.testnet ? 'WND' : 'DOT', note);
   }
 }

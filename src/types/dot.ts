@@ -1,5 +1,5 @@
-import { SubmittableExtrinsic } from '@polkadot/api/promise/types';
-import { GenericExtrinsic } from '@polkadot/types/extrinsic';
+import { GenericExtrinsic } from "@polkadot/types/extrinsic";
+import { DecodedSignedTx, DecodedSigningPayload } from "@substrate/txwrapper-polkadot";
 
 /**
  * 'Staked': Rewards are paid into the stash account, increasing the amount at stake accordingly.
@@ -15,15 +15,18 @@ export type DotStakeOptions = {
 };
 
 export type DotTx = {
-  from: string;
-  submittableExtrinsic: SubmittableExtrinsic;
-}
+  data: {
+    unsigned_tx_payload: string;
+    unsigned_tx_serialized: string;
+    unsigned_tx: DecodedSignedTx | DecodedSigningPayload;
+  };
+};
 
 export type DotSignedTx = {
   data: {
-    extrinsic: SubmittableExtrinsic;
-  }
-}
+    signed_tx_serialized: string;
+  };
+};
 
 export type DotTxHash = {
   data: {
