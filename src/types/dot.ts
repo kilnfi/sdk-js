@@ -1,5 +1,4 @@
-import { GenericExtrinsic } from "@polkadot/types/extrinsic";
-import { DecodedSignedTx, DecodedSigningPayload } from "@substrate/txwrapper-polkadot";
+import { DecodedSigningPayload } from "@substrate/txwrapper-polkadot";
 
 /**
  * 'Staked': Rewards are paid into the stash account, increasing the amount at stake accordingly.
@@ -9,16 +8,11 @@ import { DecodedSignedTx, DecodedSigningPayload } from "@substrate/txwrapper-pol
  */
 export type DotRewardDestination = 'Staked' | 'Stash' | 'Controller' | string;
 
-export type DotStakeOptions = {
-  controllerAccount?: string;
-  rewardDestination?: DotRewardDestination;
-};
-
 export type DotTx = {
   data: {
     unsigned_tx_payload: string;
     unsigned_tx_serialized: string;
-    unsigned_tx: DecodedSignedTx | DecodedSigningPayload;
+    unsigned_tx: DecodedSigningPayload;
   };
 };
 
@@ -32,12 +26,37 @@ export type DotTxHash = {
   data: {
     tx_hash: string;
   }
-}
+};
 
 export type DotTxStatus = {
+  code: number;
+  message: string;
+  generated_at: string;
   data: {
-    status: 'success' | 'error',
-    extrinsic: GenericExtrinsic,
-    error: string | null;
-  }
-}
+    block_timestamp: number;
+    block_num: number;
+    extrinsic_index: string;
+    call_module_function: string;
+    call_module: string;
+    account_id: string;
+    signature: string;
+    nonce: number;
+    extrinsic_hash: string;
+    success: boolean;
+    params: any[];
+    transfer: null;
+    event: any[];
+    event_count: number;
+    fee: string;
+    fee_used: string;
+    error: any;
+    finalized: true;
+    lifetime: any;
+    tip: string;
+    account_display: {
+      address: string;
+    };
+    block_hash: string;
+    pending: boolean;
+  };
+};

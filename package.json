@@ -30,7 +30,6 @@
     "@blockfrost/blockfrost-js": "^5.0.0",
     "@cosmjs/proto-signing": "^0.30.0",
     "@cosmjs/stargate": "^0.30.0",
-    "@polkadot/api": "^10.4.1",
     "@solana/web3.js": "^1.47.3",
     "@substrate/txwrapper-polkadot": "^7.0.1",
     "@taquito/rpc": "^16.0.1",
