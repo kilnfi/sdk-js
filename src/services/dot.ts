@@ -221,11 +221,13 @@ export class DotService extends Service {
   /**
    * Craft dot join pool transaction
    * The amount to bond is transferred from the member to the pools account and immediately increases the pools bond.
+   * @param accountId
    * @param memberAccount
    * @param amountDot
    * @param poolId
    */
   async craftJoinPoolTx(
+    accountId: string,
     memberAccount: string,
     amountDot: number,
     poolId: string,
@@ -235,6 +237,7 @@ export class DotService extends Service {
       const { data } = await api.post<DotTx>(
         `/v1/dot/transaction/join-pool`,
         {
+          account_id: accountId,
           member_account: memberAccount,
           amount_planck: amountPlanck,
           pool_id: poolId,
