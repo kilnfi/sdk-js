@@ -4,6 +4,7 @@ import { EncodeObject } from "@cosmjs/proto-signing";
 export type AtomTx = {
   data: {
     unsigned_tx_hash: string;
+    unsigned_tx_serialized: string;
     tx_body: string;
     tx_auth_info: string;
     pubkey: string;
