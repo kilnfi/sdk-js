@@ -86,7 +86,7 @@ export class EthService extends Service {
       };
 
       const fbSigner = this.getFbSigner(integration);
-      const assetId = this.testnet ? 'ETH_TEST3' : 'ETH';
+      const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
       const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
       const signatures = await fbSigner.signWithFB(
         payload,
@@ -123,7 +123,7 @@ export class EthService extends Service {
       };
 
       const fbSigner = this.getFbSigner(integration);
-      const assetId = this.testnet ? 'ETH_TEST3' : 'ETH';
+      const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
       const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
       return  await fbSigner.signAndBroadcastWithFB(
         payload,
