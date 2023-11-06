@@ -16,6 +16,7 @@ type AssetId =
   'SOL_TEST'
   | 'SOL'
   | 'ETH_TEST3'
+  | 'ETH_TEST6'
   | 'ETH'
   | 'ATOM_COS_TEST'
   | 'ATOM_COS'
