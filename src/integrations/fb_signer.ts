@@ -20,6 +20,8 @@ type AssetId =
   | 'ETH'
   | 'ATOM_COS_TEST'
   | 'ATOM_COS'
+  | 'OSMO_TEST'
+  | 'OSMO'
   | 'ADA_TEST'
   | 'ADA'
   | 'NEAR_TEST'

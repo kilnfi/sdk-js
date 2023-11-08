@@ -9,6 +9,7 @@ import { NearService } from './services/near';
 import { DotService } from './services/dot';
 import { XtzService } from './services/xtz';
 import { MaticService } from './services/matic';
+import { OsmoService } from './services/osmo';
 
 type Config = {
   apiToken: string;
@@ -28,6 +29,7 @@ export class Kiln {
   dot: DotService;
   xtz: XtzService;
   matic: MaticService;
+  osmo: OsmoService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -46,5 +48,6 @@ export class Kiln {
     this.dot = new DotService({ testnet });
     this.xtz = new XtzService({ testnet });
     this.matic = new MaticService({ testnet });
+    this.osmo = new OsmoService({ testnet });
   }
 }
