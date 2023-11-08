@@ -14,6 +14,9 @@ dependencies:
   '@cosmjs/stargate':
     specifier: ^0.30.0
     version: 0.30.1
+  '@emurgo/cardano-serialization-lib-nodejs':
+    specifier: ^11.5.0
+    version: 11.5.0
   '@solana/web3.js':
     specifier: ^1.47.3
     version: 1.78.5
@@ -23,9 +26,15 @@ dependencies:
   '@taquito/rpc':
     specifier: ^16.0.1
     version: 16.2.0
+  '@types/bn.js':
+    specifier: ^5.1.5
+    version: 5.1.5
   axios:
     specifier: ^0.23.0
     version: 0.23.0
+  bn.js:
+    specifier: ^5.2.1
+    version: 5.2.1
   ethers:
     specifier: ^5.6.4
     version: 5.7.2
@@ -931,7 +940,7 @@ packages:
       '@polkadot/x-global': 12.5.1
       '@polkadot/x-textdecoder': 12.5.1
       '@polkadot/x-textencoder': 12.5.1
-      '@types/bn.js': 5.1.1
+      '@types/bn.js': 5.1.5
       bn.js: 5.2.1
       tslib: 2.6.2
     dev: false
@@ -1349,8 +1358,8 @@ packages:
       - debug
     dev: true
 
-  /@types/bn.js@5.1.1:
-    resolution: {integrity: sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==}
+  /@types/bn.js@5.1.5:
+    resolution: {integrity: sha512-V46N0zwKRF5Q00AZ6hWtN0T8gGmDUaUzLWQvHFo5yThtVwK/VCenFY3wXVbOvNfajEpsTfQM4IN9k/d6gUVX3A==}
     dependencies:
       '@types/node': 20.6.1
     dev: false
@@ -4620,7 +4629,7 @@ packages:
     resolution: {integrity: sha512-qTn2UmtE8tvwMRsC5pXVdHxrQ4uZ6jiLgF5DRUVtdi7dPUmX18Dp9uxKfIfhGcA011EAn8P6+X7r3pvi2YRxBw==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@types/bn.js': 5.1.1
+      '@types/bn.js': 5.1.5
       '@types/node': 12.20.55
       bignumber.js: 9.1.2
       web3-core-helpers: 1.10.2
