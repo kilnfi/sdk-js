@@ -15,6 +15,7 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - NEAR
 - SOL
 - XTZ
+- OSMO
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation
@@ -26,7 +27,7 @@ npm install --save @kilnfi/sdk
 ```
 
 ## Setup
-In order to use this sdk, you will need a kiln api token.  
+In order to use this sdk, you will need a kiln api token.
 Please contact support@kiln.fi to get one.
 
 ```typescript
@@ -65,13 +66,13 @@ try {
     'withdrawal_address',
     32
   );
-  
+
   // Sign it with your fireblock vault
   const txSigned = await k.eth.sign(vault, tx);
-  
+
   // Broadcast it
   const hash = await k.eth.broadcast(txSigned);
-  
+
 } catch (err) {
   // handle errors
 }
@@ -82,7 +83,7 @@ try {
 try {
     // Get stakes by accounts
     const stakes = await k.eth.getAccountsRewards(['kiln-account-id']);
-    
+
     // Get stakes by wallets
     const stakesByWallet = await k.eth.getWalletRewards(['wallet-address']);
 
@@ -91,7 +92,7 @@ try {
 
     // Get network stats
     const stats = await k.eth.getNetworkStats();
-    
+
   } catch (err) {
     // handle errors
   }
