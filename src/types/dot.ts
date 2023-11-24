@@ -1,4 +1,5 @@
 import { DecodedSigningPayload } from "@substrate/txwrapper-polkadot";
+import { TransactionResponse } from "fireblocks-sdk";
 
 /**
  * 'Staked': Rewards are paid into the stash account, increasing the amount at stake accordingly.
@@ -18,6 +19,7 @@ export type DotTx = {
 
 export type DotSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };

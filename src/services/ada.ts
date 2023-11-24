@@ -138,6 +138,8 @@ export class AdaService extends Service {
           unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
           signed_messages: signedMessages,
         });
+
+      data.data.fireblocks_tx = fbTx;
       return data;
     } catch (err: any) {
       throw new Error(err);

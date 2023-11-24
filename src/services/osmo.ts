@@ -150,8 +150,8 @@ export class OsmoService extends Service {
     };
     const fbNote = note ? note : 'OSMO tx from @kilnfi/sdk';
     const signer = this.getFbSigner(integration);
-    const signedTx = await signer.signWithFB(payload, this.testnet ? 'OSMO_TEST' : 'OSMO', fbNote);
-    const signature: string = signedTx.signedMessages![0].signature.fullSig;
+    const fbTx = await signer.signWithFB(payload, this.testnet ? 'OSMO_TEST' : 'OSMO', fbNote);
+    const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<OsmoSignedTx>(
       `/v1/osmo/transaction/prepare`,
       {
@@ -160,6 +160,7 @@ export class OsmoService extends Service {
         tx_auth_info: tx.data.tx_auth_info,
         signature: signature,
       });
+    data.data.fireblocks_tx = fbTx;
     return data;
   }
 

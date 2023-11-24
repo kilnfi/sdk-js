@@ -382,8 +382,8 @@ export class DotService extends Service {
 
       const fbSigner = this.getFbSigner(integration);
       const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
-      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'WND' : 'DOT', fbNote);
-      const signature = `0x00${fbSignatures.signedMessages![0].signature.fullSig}`;
+      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'WND' : 'DOT', fbNote);
+      const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
 
       const { data } = await api.post<DotSignedTx>(
         `/v1/dot/transaction/prepare`,
@@ -391,6 +391,7 @@ export class DotService extends Service {
           unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
           signature: signature,
         });
+      data.data.fireblocks_tx = fbTx;
       return data;
     } catch (err: any) {
       throw new Error(err);
