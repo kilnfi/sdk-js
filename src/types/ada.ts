@@ -2,6 +2,7 @@ import { Responses } from '@blockfrost/blockfrost-js';
 import {
   TransactionInputsJSON,
 } from '@emurgo/cardano-serialization-lib-nodejs';
+import { TransactionResponse } from "fireblocks-sdk";
 
 export type AdaTxStatus = {
   data: {
@@ -43,6 +44,7 @@ export type AdaRewards = {
 
 export type AdaSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };

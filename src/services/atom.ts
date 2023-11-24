@@ -150,8 +150,8 @@ export class AtomService extends Service {
     };
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const signer = this.getFbSigner(integration);
-    const signedTx = await signer.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', fbNote);
-    const signature: string = signedTx.signedMessages![0].signature.fullSig;
+    const fbTx = await signer.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', fbNote);
+    const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<AtomSignedTx>(
       `/v1/atom/transaction/prepare`,
       {
@@ -160,6 +160,7 @@ export class AtomService extends Service {
         tx_auth_info: tx.data.tx_auth_info,
         signature: signature,
       });
+    data.data.fireblocks_tx = fbTx;
     return data;
   }
 

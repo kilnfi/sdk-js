@@ -1,4 +1,5 @@
 import { TransactionReceipt } from 'web3-core';
+import { TransactionResponse } from "fireblocks-sdk";
 
 export type EthStakes = {
   data: EthStake[]
@@ -102,6 +103,7 @@ export type EthTxStatus = {
 }
 export type EthSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };

@@ -1,4 +1,4 @@
-import { TransactionResponse } from '@solana/web3.js';
+import { TransactionResponse } from "fireblocks-sdk";
 
 export type SolTx = {
   data: {
@@ -9,6 +9,7 @@ export type SolTx = {
 
 export type SolSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };

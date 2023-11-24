@@ -12,7 +12,7 @@ export class Service {
 
   /**
    * Retrieve a fireblocks SDK from a Fireblocks integration
-   * @param integration: Fireblocks integration
+   * @param integration
    */
   getFbSdk(integration: FireblocksIntegration): FireblocksSDK {
     try {
@@ -24,7 +24,7 @@ export class Service {
 
   /**
    * Retrieve a fireblocks signer from a Fireblocks integration
-   * @param integration: Fireblocks integration
+   * @param integration
    */
   getFbSigner(integration: FireblocksIntegration): FbSigner {
     try {

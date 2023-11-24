@@ -186,15 +186,16 @@ export class MaticService extends Service {
 
       const fbSigner = this.getFbSigner(integration);
       const fbNote = note ? note : 'MATIC tx from @kilnfi/sdk';
-      const signatures = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
+      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
       const { data } = await api.post<MaticSignedTx>(
         `/v1/matic/transaction/prepare`,
         {
           unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-          r: `0x${signatures?.signedMessages?.[0].signature.r}`,
-          s: `0x${signatures?.signedMessages?.[0].signature.s}`,
-          v: signatures?.signedMessages?.[0].signature.v ?? 0,
+          r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+          s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+          v: fbTx?.signedMessages?.[0].signature.v ?? 0,
         });
+      data.data.fireblocks_tx = fbTx;
       return data;
     } catch (err: any) {
       throw new Error(err);

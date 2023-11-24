@@ -88,7 +88,7 @@ export class EthService extends Service {
       const fbSigner = this.getFbSigner(integration);
       const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
       const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
-      const signatures = await fbSigner.signWithFB(
+      const fbTx = await fbSigner.signWithFB(
         payload,
         assetId,
         fbNote,
@@ -97,10 +97,11 @@ export class EthService extends Service {
         `/v1/eth/transaction/prepare`,
         {
           unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-          r: `0x${signatures?.signedMessages?.[0].signature.r}`,
-          s: `0x${signatures?.signedMessages?.[0].signature.s}`,
-          v: signatures?.signedMessages?.[0].signature.v ?? 0,
+          r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+          s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+          v: fbTx?.signedMessages?.[0].signature.v ?? 0,
         });
+      data.data.fireblocks_tx = fbTx;
       return data;
     } catch (err: any) {
       throw new Error(err);

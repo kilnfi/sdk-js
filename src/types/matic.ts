@@ -1,4 +1,5 @@
 import { TransactionReceipt } from 'web3-core';
+import { TransactionResponse } from "fireblocks-sdk";
 
 export type MaticTx = {
   data: {
@@ -29,6 +30,7 @@ export type MaticTxStatus = {
 }
 export type MaticSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };

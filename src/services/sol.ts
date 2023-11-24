@@ -171,9 +171,9 @@ export class SolService extends Service {
 
       const fbSigner = this.getFbSigner(integration);
       const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
-      const fbSignatures = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
+      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
       const signatures: string[] = [];
-      fbSignatures.signedMessages?.forEach((signedMessage: any) => {
+      fbTx.signedMessages?.forEach((signedMessage: any) => {
         if (signedMessage.derivationPath[3] == 0) {
           signatures.push(signedMessage.signature.fullSig);
         }
@@ -185,6 +185,7 @@ export class SolService extends Service {
           unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
           signatures: signatures,
         });
+      data.data.fireblocks_tx = fbTx;
       return data;
     } catch (err: any) {
       throw new Error(err);

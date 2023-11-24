@@ -1,4 +1,5 @@
 import { OperationEntry } from '@taquito/rpc';
+import { TransactionResponse } from "fireblocks-sdk";
 
 export type XtzTx = {
   data: {
@@ -9,6 +10,7 @@ export type XtzTx = {
 
 export type XtzSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   }
 };

@@ -1,5 +1,6 @@
 import { IndexedTx, StdFee } from "@cosmjs/stargate";
 import { EncodeObject } from "@cosmjs/proto-signing";
+import { TransactionResponse } from "fireblocks-sdk";
 
 export type AtomTx = {
   data: {
@@ -15,6 +16,7 @@ export type AtomTx = {
 
 export type AtomSignedTx = {
   data: {
+    fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };
