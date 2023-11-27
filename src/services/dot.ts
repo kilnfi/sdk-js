@@ -3,6 +3,7 @@ import { DotRewardDestination, DotSignedTx, DotTx, DotTxHash, DotTxStatus } from
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import api from "../api";
+import { UnsignedTransaction } from "@substrate/txwrapper-polkadot";
 
 /**
  * Staking docs: https://polkadot.js.org/docs/substrate/extrinsics#staking
@@ -427,6 +428,20 @@ export class DotService extends Service {
       return data;
     } catch (err: any) {
       throw new Error(err);
+    }
+  }
+
+  /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<UnsignedTransaction> {
+    try {
+      const { data } = await api.get<UnsignedTransaction>(
+        `/v1/dot/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 }

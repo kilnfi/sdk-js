@@ -11,6 +11,7 @@ import {
 } from '../types/xtz';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
+import { ForgeParams } from "@taquito/local-forging";
 
 export class XtzService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -95,7 +96,7 @@ export class XtzService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param signedTx: serialized signed tx
+   * @param signedTx serialized signed tx
    */
   async broadcast(signedTx: XtzSignedTx): Promise<XtzTxHash> {
     try {
@@ -113,7 +114,7 @@ export class XtzService extends Service {
   /**
    * Get transaction status
    * @param blockNumber
-   * @param txHash: transaction hash
+   * @param txHash transaction hash
    */
   async getTxStatus(blockNumber: number, txHash: string): Promise<XtzTxStatus> {
     try {
@@ -126,8 +127,22 @@ export class XtzService extends Service {
   }
 
   /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<ForgeParams> {
+    try {
+      const { data } = await api.get<ForgeParams>(
+        `/v1/xtz/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Retrieve stakes of given kiln accounts
-   * @param accountIds: account ids of which you wish to retrieve rewards
+   * @param accountIds account ids of which you wish to retrieve rewards
    * @returns {XtzStakes} Tezos Stakes
    */
   async getStakesByAccounts(
@@ -162,9 +177,9 @@ export class XtzService extends Service {
 
   /**
    * Retrieve rewards by day of given kiln accounts
-   * @param accountIds: account ids of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param accountIds account ids of which you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {XtzRewards} Tezos rewards
    */
   async getRewardsByAccounts(
@@ -186,8 +201,8 @@ export class XtzService extends Service {
   /**
    * Retrieve rewards by day of given wallet addresses
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {XtzRewards} Tezos rewards
    */
   async getRewardsByWallets(
