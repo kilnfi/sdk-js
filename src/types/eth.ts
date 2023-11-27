@@ -1,5 +1,6 @@
 import { TransactionReceipt } from 'web3-core';
 import { TransactionResponse } from "fireblocks-sdk";
+import { TransactionSerializableLegacy } from "viem";
 
 export type EthStakes = {
   data: EthStake[]
@@ -106,4 +107,9 @@ export type EthSignedTx = {
     fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
+};
+
+export type EthDecodedTx = TransactionSerializableLegacy & {
+  functionName?: string;
+  args?: any[];
 };

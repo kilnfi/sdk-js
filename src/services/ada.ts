@@ -12,6 +12,7 @@ import {
 import api from '../api';
 import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
+import { TransactionJSON } from "@emurgo/cardano-serialization-lib-nodejs";
 
 export class AdaService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -165,7 +166,7 @@ export class AdaService extends Service {
 
   /**
    * Get transaction status
-   * @param txHash: transaction hash
+   * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<AdaTxStatus> {
     try {
@@ -178,8 +179,22 @@ export class AdaService extends Service {
   }
 
   /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<TransactionJSON> {
+    try {
+      const { data } = await api.get<TransactionJSON>(
+        `/v1/ada/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Retrieve stakes of given kiln accounts
-   * @param accountIds: kiln account ids of which you wish to retrieve stakes
+   * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {AdaStakes} Cardano Stakes
    */
   async getStakesByAccounts(
@@ -196,7 +211,7 @@ export class AdaService extends Service {
 
   /**
    * Retrieve stakes of given stake accounts
-   * @param stakeAddresses: stake addresses of which you wish to retrieve stakes
+   * @param stakeAddresses stake addresses of which you wish to retrieve stakes
    * @returns {AdaStakes} Cardano Stakes
    */
   async getStakesByStakeAddresses(
@@ -213,7 +228,7 @@ export class AdaService extends Service {
 
   /**
    * Retrieve stakes of given wallets
-   * @param wallets: wallet addresses of which you wish to retrieve stakes
+   * @param wallets wallet addresses of which you wish to retrieve stakes
    * @returns {AdaStakes} Cardano Stakes
    */
   async getStakesByWallets(
@@ -231,8 +246,8 @@ export class AdaService extends Service {
   /**
    * Retrieve rewards for given accounts
    * @param accountIds kiln account ids of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AdaRewards} Cardano rewards
    */
   async getRewardsByAccounts(
@@ -254,8 +269,8 @@ export class AdaService extends Service {
   /**
    * Retrieve rewards for given stake accounts
    * @param stakeAddresses stake addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AdaRewards} Cardano rewards
    */
   async getRewardsByStakeAddresses(
@@ -277,8 +292,8 @@ export class AdaService extends Service {
   /**
    * Retrieve rewards for given stake accounts
    * @param wallets wallet addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AdaRewards} Cardano rewards
    */
   async getRewardsByWallets(

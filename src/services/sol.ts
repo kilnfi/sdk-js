@@ -1,4 +1,4 @@
-import { LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { LAMPORTS_PER_SOL, Transaction } from '@solana/web3.js';
 import api from '../api';
 import {
   SolNetworkStats,
@@ -195,7 +195,7 @@ export class SolService extends Service {
 
   /**
    * Broadcast transaction to the network
-   * @param signedTx: serialized signed tx
+   * @param signedTx serialized signed tx
    */
   async broadcast(signedTx: SolSignedTx): Promise<SolTxHash> {
     try {
@@ -212,7 +212,7 @@ export class SolService extends Service {
 
   /**
    * Get transaction status
-   * @param txHash: transaction hash
+   * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<SolTxStatus> {
     try {
@@ -225,8 +225,22 @@ export class SolService extends Service {
   }
 
   /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<Transaction> {
+    try {
+      const { data } = await api.get<Transaction>(
+        `/v1/sol/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Retrieve stakes of given kiln accounts
-   * @param accountIds: kiln account ids of which you wish to retrieve stakes
+   * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {SolStakes} Solana Stakes
    */
   async getStakesByAccounts(
@@ -243,7 +257,7 @@ export class SolService extends Service {
 
   /**
    * Retrieve stakes of given stake accounts
-   * @param stakeAccounts: stake account addresses of which you wish to retrieve stakes
+   * @param stakeAccounts stake account addresses of which you wish to retrieve stakes
    * @returns {SolStakes} Solana Stakes
    */
   async getStakesByStakeAccounts(
@@ -260,7 +274,7 @@ export class SolService extends Service {
 
   /**
    * Retrieve stakes of given wallets
-   * @param wallets: wallet addresses of which you wish to retrieve stakes
+   * @param wallets wallet addresses of which you wish to retrieve stakes
    * @returns {SolStakes} Solana Stakes
    */
   async getStakesByWallets(
@@ -278,8 +292,8 @@ export class SolService extends Service {
   /**
    * Retrieve rewards for given accounts
    * @param accountIds kiln account ids of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
   async getRewardsByAccounts(
@@ -301,8 +315,8 @@ export class SolService extends Service {
   /**
    * Retrieve rewards for given stake accounts
    * @param stakeAccounts stake account addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
   async getRewardsByStakeAccounts(
@@ -324,8 +338,8 @@ export class SolService extends Service {
   /**
    * Retrieve rewards for given stake accounts
    * @param wallets wallet addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
   async getRewardsByWallets(

@@ -1,5 +1,6 @@
 import { TransactionReceipt } from 'web3-core';
 import { TransactionResponse } from "fireblocks-sdk";
+import { TransactionSerializableLegacy } from "viem";
 
 export type MaticTx = {
   data: {
@@ -33,4 +34,9 @@ export type MaticSignedTx = {
     fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
+};
+
+export type MaticDecodedTx = TransactionSerializableLegacy & {
+  functionName?: string;
+  args?: any[];
 };

@@ -279,8 +279,8 @@ export class NearService extends Service {
 
   /**
    * Get transaction status
-   * @param transactionHash: transaction hash
-   * @param poolId: pool id
+   * @param transactionHash transaction hash
+   * @param poolId pool id
    */
   async getTxStatus(transactionHash: string, poolId: string): Promise<NearTxStatus> {
     try {
@@ -299,8 +299,22 @@ export class NearService extends Service {
   }
 
   /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<transactions.Transaction> {
+    try {
+      const { data } = await api.get<transactions.Transaction>(
+        `/v1/near/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Retrieve stakes of given kiln accounts
-   * @param accountIds: kiln account ids of which you wish to retrieve stakes
+   * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {NearStakes} Near Stakes
    */
   async getStakesByAccounts(
@@ -334,7 +348,7 @@ export class NearService extends Service {
 
   /**
    * Retrieve stakes of given wallets
-   * @param wallets: wallet addresses of which you wish to retrieve stakes
+   * @param wallets wallet addresses of which you wish to retrieve stakes
    * @returns {NearStakes} Near Stakes
    */
   async getStakesByWallets(
@@ -351,9 +365,9 @@ export class NearService extends Service {
 
   /**
    * Retrieve rewards history of given kiln accounts
-   * @param accountIds: kiln account ids of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param accountIds kiln account ids of which you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {NearStakes} Near Stakes
    */
   async getRewardsByAccounts(
@@ -375,8 +389,8 @@ export class NearService extends Service {
   /**
    * Retrieve rewards history of given stake accounts
    * @param stakeAccounts list of stake accounts {poolId_walletId}
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {NearRewards} Near Rewards
    */
   async getRewardsByStakeAccounts(
@@ -397,9 +411,9 @@ export class NearService extends Service {
 
   /**
    * Retrieve rewards history of given wallets
-   * @param wallets: wallet addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param wallets wallet addresses of which you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {NearRewards} Near Rewards
    */
   async getRewardsByWallets(

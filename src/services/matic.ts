@@ -3,11 +3,12 @@ import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
 import {
+  MaticDecodedTx,
   MaticSignedTx,
   MaticTx,
   MaticTxHash,
   MaticTxStatus,
-} from '../types/matic';
+} from "../types/matic";
 import { Integration } from '../types/integrations';
 import { TransactionResponse } from "fireblocks-sdk";
 
@@ -253,7 +254,7 @@ export class MaticService extends Service {
 
   /**
    * Get transaction status
-   * @param txHash: transaction hash
+   * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<MaticTxStatus> {
     try {
@@ -262,6 +263,20 @@ export class MaticService extends Service {
       return data;
     } catch (err: any) {
       throw new Error(err);
+    }
+  }
+
+  /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<MaticDecodedTx> {
+    try {
+      const { data } = await api.get<MaticDecodedTx>(
+        `/v1/matic/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
     }
   }
 

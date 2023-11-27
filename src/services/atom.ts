@@ -1,16 +1,10 @@
-import { Service } from './service';
+import { Service } from "./service";
 
-import {
-  AtomRewards,
-  AtomSignedTx,
-  AtomStakes,
-  AtomTx,
-  AtomTxHash,
-  AtomTxStatus,
-} from '../types/atom';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
-import api from '../api';
+import { AtomRewards, AtomSignedTx, AtomStakes, AtomTx, AtomTxHash, AtomTxStatus } from "../types/atom";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
+import api from "../api";
+import { DecodedTxRaw } from "@cosmjs/proto-signing";
 
 export class AtomService extends Service {
 
@@ -197,8 +191,22 @@ export class AtomService extends Service {
   }
 
   /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
+    try {
+      const { data } = await api.get<DecodedTxRaw>(
+        `/v1/atom/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Retrieve stakes of given kiln accounts
-   * @param accountIds: kiln account ids of which you wish to retrieve stakes
+   * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {AtomStakes} Atom Stakes
    */
   async getStakesByAccounts(
@@ -215,8 +223,8 @@ export class AtomService extends Service {
 
   /**
    * Retrieve stakes of given stake accounts
-   * @param delegators: delegator addresses of which you wish to retrieve stakes
-   * @param validators: validator addresses of which you wish to retrieve stakes
+   * @param delegators delegator addresses of which you wish to retrieve stakes
+   * @param validators validator addresses of which you wish to retrieve stakes
    * @returns {AtomStakes} Atom Stakes
    */
   async getStakesByDelegatorsAndValidators(
@@ -235,8 +243,8 @@ export class AtomService extends Service {
   /**
    * Retrieve rewards for given accounts
    * @param accountIds kiln account ids of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AtomRewards} Atom rewards
    */
   async getRewardsByAccounts(
@@ -257,10 +265,10 @@ export class AtomService extends Service {
 
   /**
    * Retrieve rewards for given stake accounts
-   * @param delegators: delegator addresses of which you wish to retrieve rewards
-   * @param validators: validator addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param delegators delegator addresses of which you wish to retrieve rewards
+   * @param validators validator addresses of which you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AtomRewards} Atom rewards
    */
   async getRewardsByDelegatorsAndValidators(

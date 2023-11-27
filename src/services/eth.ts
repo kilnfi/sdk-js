@@ -1,5 +1,6 @@
 import api from '../api';
 import {
+  EthDecodedTx,
   EthKilnStats,
   EthNetworkStats,
   EthRewards,
@@ -8,7 +9,7 @@ import {
   EthTx,
   EthTxHash,
   EthTxStatus,
-} from '../types/eth';
+} from "../types/eth";
 import { Service } from './service';
 import { utils } from 'ethers';
 import { ServiceProps } from '../types/service';
@@ -158,7 +159,7 @@ export class EthService extends Service {
 
   /**
    * Get transaction status
-   * @param txHash: transaction hash
+   * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<EthTxStatus> {
     try {
@@ -171,8 +172,22 @@ export class EthService extends Service {
   }
 
   /**
+   * Decode transaction
+   * @param txSerialized transaction serialized
+   */
+  async decodeTx(txSerialized: string): Promise<EthDecodedTx> {
+    try {
+      const { data } = await api.get<EthDecodedTx>(
+        `/v1/eth/transaction/decode?tx_serialized=${txSerialized}`);
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  /**
    * Retrieve stakes of given kiln accounts
-   * @param accountIds: account ids of which you wish to retrieve rewards
+   * @param accountIds account ids of which you wish to retrieve rewards
    * @returns {EthStakes} Ethereum Stakes
    */
   async getStakesByAccounts(
@@ -223,9 +238,9 @@ export class EthService extends Service {
 
   /**
    * Retrieve rewards by day of given kiln accounts
-   * @param accountIds: account ids of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param accountIds account ids of which you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {EthRewards} Ethereum rewards
    */
   async getRewardsByAccounts(
@@ -247,8 +262,8 @@ export class EthService extends Service {
   /**
    * Retrieve rewards by day of given wallet addresses
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {EthRewards} Ethereum rewards
    */
   async getRewardsByWallets(
@@ -270,8 +285,8 @@ export class EthService extends Service {
   /**
    * Retrieve rewards by day on given validator addresses
    * @param validatorAddresses validator addresses of which you wish to retrieve rewards
-   * @param startDate: optional date YYYY-MM-DD from which you wish to retrieve rewards
-   * @param endDate: optional date YYYY-MM-DD until you wish to retrieve rewards
+   * @param startDate optional date YYYY-MM-DD from which you wish to retrieve rewards
+   * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {EthRewards} Ethereum rewards
    */
   async getRewardsByValidators(
