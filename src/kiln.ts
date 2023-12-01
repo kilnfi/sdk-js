@@ -10,6 +10,7 @@ import { DotService } from './services/dot';
 import { XtzService } from './services/xtz';
 import { MaticService } from './services/matic';
 import { OsmoService } from './services/osmo';
+import { FireblocksService } from "./services/fireblocks";
 
 type Config = {
   apiToken: string;
@@ -20,9 +21,10 @@ type Config = {
 export const KILN_VALIDATORS = v;
 
 export class Kiln {
+  fireblocks: FireblocksService;
+  accounts: AccountService;
   eth: EthService;
   sol: SolService;
-  accounts: AccountService;
   atom: AtomService;
   ada: AdaService;
   near: NearService;
@@ -39,6 +41,7 @@ export class Kiln {
         ? 'https://api.testnet.kiln.fi'
         : 'https://api.kiln.fi';
 
+    this.fireblocks = new FireblocksService({ testnet });
     this.accounts = new AccountService({ testnet });
     this.eth = new EthService({ testnet });
     this.sol = new SolService({ testnet });
