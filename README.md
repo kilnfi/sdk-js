@@ -16,6 +16,7 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - SOL
 - XTZ
 - OSMO
+- DYDX
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation

@@ -11,6 +11,7 @@ import { XtzService } from './services/xtz';
 import { MaticService } from './services/matic';
 import { OsmoService } from './services/osmo';
 import { FireblocksService } from "./services/fireblocks";
+import { DydxService } from "./services/dydx";
 
 type Config = {
   apiToken: string;
@@ -32,6 +33,7 @@ export class Kiln {
   xtz: XtzService;
   matic: MaticService;
   osmo: OsmoService;
+  dydx: DydxService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -52,5 +54,6 @@ export class Kiln {
     this.xtz = new XtzService({ testnet });
     this.matic = new MaticService({ testnet });
     this.osmo = new OsmoService({ testnet });
+    this.dydx = new DydxService({ testnet });
   }
 }
