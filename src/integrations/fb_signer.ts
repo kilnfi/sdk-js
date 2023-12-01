@@ -29,7 +29,10 @@ type AssetId =
   | 'XTZ_TEST'
   | 'XTZ'
   | 'WND'
-  | 'DOT';
+  | 'DOT'
+  | 'DV4TNT_TEST'
+  | 'DYDX_DYDX'
+  ;
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;

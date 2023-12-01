@@ -10,6 +10,8 @@ import { DotService } from './services/dot';
 import { XtzService } from './services/xtz';
 import { MaticService } from './services/matic';
 import { OsmoService } from './services/osmo';
+import { FireblocksService } from "./services/fireblocks";
+import { DydxService } from "./services/dydx";
 
 type Config = {
   apiToken: string;
@@ -20,9 +22,10 @@ type Config = {
 export const KILN_VALIDATORS = v;
 
 export class Kiln {
+  fireblocks: FireblocksService;
+  accounts: AccountService;
   eth: EthService;
   sol: SolService;
-  accounts: AccountService;
   atom: AtomService;
   ada: AdaService;
   near: NearService;
@@ -30,6 +33,7 @@ export class Kiln {
   xtz: XtzService;
   matic: MaticService;
   osmo: OsmoService;
+  dydx: DydxService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -39,6 +43,7 @@ export class Kiln {
         ? 'https://api.testnet.kiln.fi'
         : 'https://api.kiln.fi';
 
+    this.fireblocks = new FireblocksService({ testnet });
     this.accounts = new AccountService({ testnet });
     this.eth = new EthService({ testnet });
     this.sol = new SolService({ testnet });
@@ -49,5 +54,6 @@ export class Kiln {
     this.xtz = new XtzService({ testnet });
     this.matic = new MaticService({ testnet });
     this.osmo = new OsmoService({ testnet });
+    this.dydx = new DydxService({ testnet });
   }
 }
