@@ -34,20 +34,18 @@ export class SolService extends Service {
     amountSol: number,
     memo?: string,
   ): Promise<SolTx> {
-    try {
-      const { data } = await api.post<SolTx>(
-        `/v1/sol/transaction/stake`,
-        {
-          account_id: accountId,
-          wallet: walletAddress,
-          amount_lamports: this.solToLamports(amountSol.toString()),
-          vote_account_address: voteAccountAddress,
-          memo,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<SolTx>(
+      `/v1/sol/transaction/stake`,
+      {
+        account_id: accountId,
+        wallet: walletAddress,
+        amount_lamports: this.solToLamports(amountSol.toString()),
+        vote_account_address: voteAccountAddress,
+        memo,
+      });
+    return data;
+    
   }
 
   /**
@@ -59,17 +57,15 @@ export class SolService extends Service {
     stakeAccountAddress: string,
     walletAddress: string,
   ): Promise<SolTx> {
-    try {
-      const { data } = await api.post<SolTx>(
-        `/v1/sol/transaction/deactivate-stake`,
-        {
-          stake_account: stakeAccountAddress,
-          wallet: walletAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<SolTx>(
+      `/v1/sol/transaction/deactivate-stake`,
+      {
+        stake_account: stakeAccountAddress,
+        wallet: walletAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -83,18 +79,16 @@ export class SolService extends Service {
     walletAddress: string,
     amountSol?: number,
   ): Promise<SolTx> {
-    try {
-      const { data } = await api.post<SolTx>(
-        `/v1/sol/transaction/withdraw-stake`,
-        {
-          stake_account: stakeAccountAddress,
-          wallet: walletAddress,
-          amount_lamports: amountSol ? this.solToLamports(amountSol.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<SolTx>(
+      `/v1/sol/transaction/withdraw-stake`,
+      {
+        stake_account: stakeAccountAddress,
+        wallet: walletAddress,
+        amount_lamports: amountSol ? this.solToLamports(amountSol.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -109,18 +103,16 @@ export class SolService extends Service {
     stakeAccountDestinationAddress: string,
     walletAddress: string,
   ): Promise<SolTx> {
-    try {
-      const { data } = await api.post<SolTx>(
-        `/v1/sol/transaction/merge-stakes`,
-        {
-          stake_account_source: stakeAccountSourceAddress,
-          stake_account_destination: stakeAccountDestinationAddress,
-          wallet: walletAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<SolTx>(
+      `/v1/sol/transaction/merge-stakes`,
+      {
+        stake_account_source: stakeAccountSourceAddress,
+        stake_account_destination: stakeAccountDestinationAddress,
+        wallet: walletAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -136,19 +128,17 @@ export class SolService extends Service {
     walletAddress: string,
     amountSol: number,
   ): Promise<SolTx> {
-    try {
-      const { data } = await api.post<SolTx>(
-        `/v1/sol/transaction/split-stake`,
-        {
-          account_id: accountId,
-          stake_account: stakeAccountAddress,
-          wallet: walletAddress,
-          amount_lamports: this.solToLamports(amountSol.toString()),
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<SolTx>(
+      `/v1/sol/transaction/split-stake`,
+      {
+        account_id: accountId,
+        stake_account: stakeAccountAddress,
+        wallet: walletAddress,
+        amount_lamports: this.solToLamports(amountSol.toString()),
+      });
+    return data;
+    
   }
 
   /**
@@ -158,38 +148,36 @@ export class SolService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: SolTx, note?: string): Promise<SolSignedTx> {
-    try {
-      const payload = {
-        rawMessageData: {
-          messages: [
-            {
-              'content': tx.data.unsigned_tx_hash,
-            },
-          ],
-        },
-      };
 
-      const fbSigner = this.getFbSigner(integration);
-      const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
-      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
-      const signatures: string[] = [];
-      fbTx.signedMessages?.forEach((signedMessage: any) => {
-        if (signedMessage.derivationPath[3] == 0) {
-          signatures.push(signedMessage.signature.fullSig);
-        }
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            'content': tx.data.unsigned_tx_hash,
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
+    const signatures: string[] = [];
+    fbTx.signedMessages?.forEach((signedMessage: any) => {
+      if (signedMessage.derivationPath[3] == 0) {
+        signatures.push(signedMessage.signature.fullSig);
+      }
+    });
+
+    const { data } = await api.post<SolSignedTx>(
+      `/v1/sol/transaction/prepare`,
+      {
+        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+        signatures: signatures,
       });
-
-      const { data } = await api.post<SolSignedTx>(
-        `/v1/sol/transaction/prepare`,
-        {
-          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-          signatures: signatures,
-        });
-      data.data.fireblocks_tx = fbTx;
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    data.data.fireblocks_tx = fbTx;
+    return data;
+    
   }
 
 
@@ -198,16 +186,14 @@ export class SolService extends Service {
    * @param signedTx serialized signed tx
    */
   async broadcast(signedTx: SolSignedTx): Promise<SolTxHash> {
-    try {
-      const { data } = await api.post<SolTxHash>(
-        `/v1/sol/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<SolTxHash>(
+      `/v1/sol/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+    
   }
 
   /**
@@ -215,13 +201,11 @@ export class SolService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<SolTxStatus> {
-    try {
-      const { data } = await api.get<SolTxStatus>(
-        `/v1/sol/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.get<SolTxStatus>(
+      `/v1/sol/transaction/status?tx_hash=${txHash}`);
+    return data;
+
   }
 
   /**
@@ -229,13 +213,11 @@ export class SolService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<Transaction> {
-    try {
-      const { data } = await api.get<Transaction>(
-        `/v1/sol/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<Transaction>(
+      `/v1/sol/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 
   /**
@@ -246,13 +228,11 @@ export class SolService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<SolStakes> {
-    try {
-      const { data } = await api.get<SolStakes>(
-        `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<SolStakes>(
+      `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -263,13 +243,11 @@ export class SolService extends Service {
   async getStakesByStakeAccounts(
     stakeAccounts: string[],
   ): Promise<SolStakes> {
-    try {
-      const { data } = await api.get<SolStakes>(
-        `/v1/sol/stakes?stake_accounts=${stakeAccounts.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<SolStakes>(
+      `/v1/sol/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -280,13 +258,11 @@ export class SolService extends Service {
   async getStakesByWallets(
     wallets: string[],
   ): Promise<SolStakes> {
-    try {
-      const { data } = await api.get<SolStakes>(
-        `/v1/sol/stakes?wallets=${wallets.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<SolStakes>(
+      `/v1/sol/stakes?wallets=${wallets.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -301,15 +277,13 @@ export class SolService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<SolRewards> {
-    try {
-      const query = `/v1/sol/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<SolRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/sol/rewards?accounts=${accountIds.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<SolRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -324,15 +298,13 @@ export class SolService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<SolRewards> {
-    try {
-      const query = `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<SolRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<SolRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -347,29 +319,25 @@ export class SolService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<SolRewards> {
-    try {
-      const query = `/v1/sol/rewards?wallets=${wallets.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<SolRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/sol/rewards?wallets=${wallets.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<SolRewards>(query);
+    return data;
+    
   }
 
   /**
    * Retrieve SOL network stats
    */
   async getNetworkStats(): Promise<SolNetworkStats> {
-    try {
-      const { data } = await api.get<SolNetworkStats>(
-        `/v1/sol/network-stats`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<SolNetworkStats>(
+      `/v1/sol/network-stats`,
+    );
+    return data;
+    
   }
 
   /**

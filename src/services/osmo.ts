@@ -37,19 +37,17 @@ export class OsmoService extends Service {
     validatorAddress: string,
     amountOsmo: number,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/osmo/transaction/stake`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_uosmo: this.osmoToUosmo(amountOsmo.toString()),
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/osmo/transaction/stake`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_uosmo: this.osmoToUosmo(amountOsmo.toString()),
+      });
+    return data;
+    
   }
 
   /**
@@ -61,17 +59,15 @@ export class OsmoService extends Service {
     pubkey: string,
     validatorAddress: string,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/osmo/transaction/withdraw-rewards`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/osmo/transaction/withdraw-rewards`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -85,18 +81,16 @@ export class OsmoService extends Service {
     validatorAddress: string,
     amountOsmo?: number,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/osmo/transaction/unstake`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/osmo/transaction/unstake`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -114,20 +108,18 @@ export class OsmoService extends Service {
     validatorDestinationAddress: string,
     amountOsmo?: number,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/osmo/transaction/redelegate`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator_source: validatorSourceAddress,
-          validator_destination: validatorDestinationAddress,
-          amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/osmo/transaction/redelegate`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator_source: validatorSourceAddress,
+        validator_destination: validatorDestinationAddress,
+        amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -168,16 +160,14 @@ export class OsmoService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
-    try {
-      const { data } = await api.post<CosmosTxHash>(
-        `/v1/osmo/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.post<CosmosTxHash>(
+      `/v1/osmo/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+
   }
 
   /**
@@ -185,13 +175,11 @@ export class OsmoService extends Service {
    * @param txHash
    */
   async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
-    try {
-      const { data } = await api.get<CosmosTxStatus>(
-        `/v1/osmo/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.get<CosmosTxStatus>(
+      `/v1/osmo/transaction/status?tx_hash=${txHash}`);
+    return data;
+
   }
 
   /**
@@ -199,13 +187,11 @@ export class OsmoService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-    try {
-      const { data } = await api.get<DecodedTxRaw>(
-        `/v1/osmo/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<DecodedTxRaw>(
+      `/v1/osmo/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 
   /**
@@ -216,13 +202,11 @@ export class OsmoService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<OsmoStakes> {
-    try {
-      const { data } = await api.get<OsmoStakes>(
-        `/v1/osmo/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<OsmoStakes>(
+      `/v1/osmo/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -235,13 +219,11 @@ export class OsmoService extends Service {
     delegators: string[],
     validators: string[],
   ): Promise<OsmoStakes> {
-    try {
-      const { data } = await api.get<OsmoStakes>(
-        `/v1/osmo/stakes?delegators=${delegators.join(',')}&validators=${validators.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<OsmoStakes>(
+      `/v1/osmo/stakes?delegators=${delegators.join(',')}&validators=${validators.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -256,15 +238,13 @@ export class OsmoService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<OsmoRewards> {
-    try {
-      const query = `/v1/osmo/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<OsmoRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/osmo/rewards?accounts=${accountIds.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<OsmoRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -281,14 +261,12 @@ export class OsmoService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<OsmoRewards> {
-    try {
-      const query = `/v1/osmo/rewards?delegators=${delegators.join(',')}&validators=${validators.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<OsmoRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/osmo/rewards?delegators=${delegators.join(',')}&validators=${validators.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<OsmoRewards>(query);
+    return data;
+    
   }
 }

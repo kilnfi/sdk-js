@@ -46,19 +46,17 @@ export class DotService extends Service {
     rewardDestination: DotRewardDestination,
   ): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/bond`,
-        {
-          account_id: accountId,
-          stash_account: stashAccount,
-          amount_planck: amountPlanck,
-          reward_destination: rewardDestination,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/bond`,
+      {
+        account_id: accountId,
+        stash_account: stashAccount,
+        amount_planck: amountPlanck,
+        reward_destination: rewardDestination,
+      });
+    return data;
+    
   }
 
   /**
@@ -71,17 +69,15 @@ export class DotService extends Service {
     amountDot: number,
   ): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/bond-extra`,
-        {
-          stash_account: stashAccount,
-          amount_planck: amountPlanck,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/bond-extra`,
+      {
+        stash_account: stashAccount,
+        amount_planck: amountPlanck,
+      });
+    return data;
+    
   }
 
   /**
@@ -94,17 +90,15 @@ export class DotService extends Service {
     amountDot: number,
   ): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/rebond`,
-        {
-          stash_account: stashAccount,
-          amount_planck: amountPlanck,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/rebond`,
+      {
+        stash_account: stashAccount,
+        amount_planck: amountPlanck,
+      });
+    return data;
+    
   }
 
   /**
@@ -116,17 +110,15 @@ export class DotService extends Service {
     stashAccount: string,
     validatorAddresses: string[],
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/nominate`,
-        {
-          stash_account: stashAccount,
-          validator_addresses: validatorAddresses,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/nominate`,
+      {
+        stash_account: stashAccount,
+        validator_addresses: validatorAddresses,
+      });
+    return data;
+    
   }
 
   /**
@@ -139,17 +131,15 @@ export class DotService extends Service {
     amountDot: number,
   ): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/unbond`,
-        {
-          stash_account: stashAccount,
-          amount_planck: amountPlanck,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/unbond`,
+      {
+        stash_account: stashAccount,
+        amount_planck: amountPlanck,
+      });
+    return data;
+    
   }
 
   /**
@@ -159,16 +149,14 @@ export class DotService extends Service {
   async craftWithdrawUnbondedTx(
     stashAccount: string,
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/withdraw-unbonded`,
-        {
-          stash_account: stashAccount,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/withdraw-unbonded`,
+      {
+        stash_account: stashAccount,
+      });
+    return data;
+    
   }
 
   /**
@@ -181,16 +169,14 @@ export class DotService extends Service {
   async craftChillTx(
     stashAccount: string,
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/chill`,
-        {
-          stash_account: stashAccount,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/chill`,
+      {
+        stash_account: stashAccount,
+      });
+    return data;
+    
   }
 
   /**
@@ -206,17 +192,15 @@ export class DotService extends Service {
     stashAccount: string,
     rewardsDestination: DotRewardDestination,
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/set-payee`,
-        {
-          stash_account: stashAccount,
-          reward_destination: rewardsDestination,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/set-payee`,
+      {
+        stash_account: stashAccount,
+        reward_destination: rewardsDestination,
+      });
+    return data;
+    
   }
 
   /**
@@ -233,20 +217,18 @@ export class DotService extends Service {
     amountDot: number,
     poolId: string,
   ): Promise<DotTx> {
-    try {
-      const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/join-pool`,
-        {
-          account_id: accountId,
-          member_account: memberAccount,
-          amount_planck: amountPlanck,
-          pool_id: poolId,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/join-pool`,
+      {
+        account_id: accountId,
+        member_account: memberAccount,
+        amount_planck: amountPlanck,
+        pool_id: poolId,
+      });
+    return data;
+    
   }
 
   /**
@@ -260,18 +242,16 @@ export class DotService extends Service {
     memberAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
-    try {
-      const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/bond-extra-pool`,
-        {
-          member_account: memberAccount,
-          amount_planck: amountPlanck,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/bond-extra-pool`,
+      {
+        member_account: memberAccount,
+        amount_planck: amountPlanck,
+      });
+    return data;
+    
   }
 
   /**
@@ -281,16 +261,14 @@ export class DotService extends Service {
   async craftBondRewardsToPoolTx(
     memberAccount: string,
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/bond-rewards-pool`,
-        {
-          member_account: memberAccount,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/bond-rewards-pool`,
+      {
+        member_account: memberAccount,
+      });
+    return data;
+    
   }
 
   /**
@@ -305,16 +283,14 @@ export class DotService extends Service {
   async craftClaimPayoutFromPoolTx(
     memberAccount: string,
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/claim-payout-pool`,
-        {
-          member_account: memberAccount,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/claim-payout-pool`,
+      {
+        member_account: memberAccount,
+      });
+    return data;
+    
   }
 
   /**
@@ -329,18 +305,16 @@ export class DotService extends Service {
     memberAccount: string,
     amountDot: number,
   ): Promise<DotTx> {
-    try {
-      const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/unbond-pool`,
-        {
-          member_account: memberAccount,
-          amount_planck: amountPlanck,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/unbond-pool`,
+      {
+        member_account: memberAccount,
+        amount_planck: amountPlanck,
+      });
+    return data;
+    
   }
 
   /**
@@ -351,16 +325,14 @@ export class DotService extends Service {
   async craftWithdrawUnbondedFromPoolTx(
     memberAccount: string,
   ): Promise<DotTx> {
-    try {
-      const { data } = await api.post<DotTx>(
-        `/v1/dot/transaction/withdraw-unbonded-pool`,
-        {
-          member_account: memberAccount,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTx>(
+      `/v1/dot/transaction/withdraw-unbonded-pool`,
+      {
+        member_account: memberAccount,
+      });
+    return data;
+    
   }
 
   /**
@@ -370,33 +342,31 @@ export class DotService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: DotTx, note?: string): Promise<DotSignedTx> {
-    try {
-      const payload = {
-        rawMessageData: {
-          messages: [
-            {
-              content: tx.data.unsigned_tx_payload.substring(2),
-            },
-          ],
-        },
-      };
 
-      const fbSigner = this.getFbSigner(integration);
-      const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
-      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'WND' : 'DOT', fbNote);
-      const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.data.unsigned_tx_payload.substring(2),
+          },
+        ],
+      },
+    };
 
-      const { data } = await api.post<DotSignedTx>(
-        `/v1/dot/transaction/prepare`,
-        {
-          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-          signature: signature,
-        });
-      data.data.fireblocks_tx = fbTx;
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'WND' : 'DOT', fbNote);
+    const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
+
+    const { data } = await api.post<DotSignedTx>(
+      `/v1/dot/transaction/prepare`,
+      {
+        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+        signature: signature,
+      });
+    data.data.fireblocks_tx = fbTx;
+    return data;
+    
   }
 
   /**
@@ -404,16 +374,14 @@ export class DotService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: DotSignedTx): Promise<DotTxHash> {
-    try {
-      const { data } = await api.post<DotTxHash>(
-        `/v1/dot/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<DotTxHash>(
+      `/v1/dot/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+    
   }
 
   /**
@@ -423,12 +391,10 @@ export class DotService extends Service {
   async getTxStatus(
     txHash: string,
   ): Promise<DotTxStatus> {
-    try {
-      const { data } = await api.get<DotTxStatus>(`/v1/dot/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<DotTxStatus>(`/v1/dot/transaction/status?tx_hash=${txHash}`);
+    return data;
+    
   }
 
   /**
@@ -436,12 +402,10 @@ export class DotService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<UnsignedTransaction> {
-    try {
-      const { data } = await api.get<UnsignedTransaction>(
-        `/v1/dot/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<UnsignedTransaction>(
+      `/v1/dot/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 }

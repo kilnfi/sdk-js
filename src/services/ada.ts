@@ -30,18 +30,14 @@ export class AdaService extends Service {
     walletAddress: string,
     poolId: string,
   ): Promise<AdaTx> {
-    try {
-      const { data } = await api.post<AdaTx>(
-        `/v1/ada/transaction/stake`,
-        {
-          account_id: accountId,
-          wallet: walletAddress,
-          pool_id: poolId,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { data } = await api.post<AdaTx>(
+      `/v1/ada/transaction/stake`,
+      {
+        account_id: accountId,
+        wallet: walletAddress,
+        pool_id: poolId,
+      });
+    return data;
   }
 
   /**
@@ -53,17 +49,13 @@ export class AdaService extends Service {
     walletAddress: string,
     amountAda?: number,
   ): Promise<AdaTx> {
-    try {
-      const { data } = await api.post<AdaTx>(
-        `/v1/ada/transaction/withdraw-rewards`,
-        {
-          wallet: walletAddress,
-          amount_lovelace: amountAda ? this.adaToLovelace(amountAda.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { data } = await api.post<AdaTx>(
+      `/v1/ada/transaction/withdraw-rewards`,
+      {
+        wallet: walletAddress,
+        amount_lovelace: amountAda ? this.adaToLovelace(amountAda.toString()) : undefined,
+      });
+    return data;
   }
 
   /**
@@ -73,16 +65,12 @@ export class AdaService extends Service {
   async craftUnstakeTx(
     walletAddress: string,
   ): Promise<AdaTx> {
-    try {
-      const { data } = await api.post<AdaTx>(
-        `/v1/ada/transaction/unstake`,
-        {
-          wallet: walletAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { data } = await api.post<AdaTx>(
+      `/v1/ada/transaction/unstake`,
+      {
+        wallet: walletAddress,
+      });
+    return data;
   }
 
   /**
@@ -100,51 +88,47 @@ export class AdaService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: AdaTx, note?: string): Promise<AdaSignedTx> {
-    try {
-      const fbSigner = this.getFbSigner(integration);
-      const payload = {
-        rawMessageData: {
-          messages: [
-            {
-              'content': tx.data.unsigned_tx_hash,
-            },
-            {
-              'content': tx.data.unsigned_tx_hash,
-              'bip44change': 2,
-            },
-          ],
-        },
-        inputsSelection: {
-          inputsToSpend: tx.data.inputs,
-        },
+    const fbSigner = this.getFbSigner(integration);
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            'content': tx.data.unsigned_tx_hash,
+          },
+          {
+            'content': tx.data.unsigned_tx_hash,
+            'bip44change': 2,
+          },
+        ],
+      },
+      inputsSelection: {
+        inputsToSpend: tx.data.inputs,
+      },
+    };
+
+    const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA', fbNote);
+
+    if (!fbTx.signedMessages) {
+      throw new Error(`Could not sign the transaction.`);
+    }
+
+    const signedMessages: AdaSignedMessage[] = fbTx.signedMessages.map((message) => {
+      return {
+        pubkey: message.publicKey,
+        signature: message.signature.fullSig,
       };
+    });
 
-      const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
-      const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA', fbNote);
-
-      if (!fbTx.signedMessages) {
-        throw new Error(`Could not sign the transaction.`);
-      }
-
-      const signedMessages: AdaSignedMessage[] = fbTx.signedMessages.map((message) => {
-        return {
-          pubkey: message.publicKey,
-          signature: message.signature.fullSig,
-        };
+    const { data } = await api.post<AdaSignedTx>(
+      `/v1/ada/transaction/prepare`,
+      {
+        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+        signed_messages: signedMessages,
       });
 
-      const { data } = await api.post<AdaSignedTx>(
-        `/v1/ada/transaction/prepare`,
-        {
-          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-          signed_messages: signedMessages,
-        });
-
-      data.data.fireblocks_tx = fbTx;
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    data.data.fireblocks_tx = fbTx;
+    return data;
   }
 
   /**
@@ -152,16 +136,12 @@ export class AdaService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: AdaSignedTx): Promise<AdaTxHash> {
-    try {
-      const { data } = await api.post<AdaTxHash>(
-        `/v1/ada/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const { data } = await api.post<AdaTxHash>(
+      `/v1/ada/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
   }
 
   /**
@@ -169,13 +149,9 @@ export class AdaService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<AdaTxStatus> {
-    try {
-      const { data } = await api.get<AdaTxStatus>(
-        `/v1/ada/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const { data } = await api.get<AdaTxStatus>(
+      `/v1/ada/transaction/status?tx_hash=${txHash}`);
+    return data;
   }
 
   /**
@@ -183,13 +159,9 @@ export class AdaService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<TransactionJSON> {
-    try {
-      const { data } = await api.get<TransactionJSON>(
-        `/v1/ada/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const { data } = await api.get<TransactionJSON>(
+      `/v1/ada/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
   }
 
   /**
@@ -200,13 +172,9 @@ export class AdaService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<AdaStakes> {
-    try {
-      const { data } = await api.get<AdaStakes>(
-        `/v1/ada/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { data } = await api.get<AdaStakes>(
+      `/v1/ada/stakes?accounts=${accountIds.join(',')}`);
+    return data;
   }
 
   /**
@@ -217,13 +185,9 @@ export class AdaService extends Service {
   async getStakesByStakeAddresses(
     stakeAddresses: string[],
   ): Promise<AdaStakes> {
-    try {
-      const { data } = await api.get<AdaStakes>(
-        `/v1/ada/stakes?stake_addresses=${stakeAddresses.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { data } = await api.get<AdaStakes>(
+      `/v1/ada/stakes?stake_addresses=${stakeAddresses.join(',')}`);
+    return data;
   }
 
   /**
@@ -234,13 +198,9 @@ export class AdaService extends Service {
   async getStakesByWallets(
     wallets: string[],
   ): Promise<AdaStakes> {
-    try {
-      const { data } = await api.get<AdaStakes>(
-        `/v1/ada/stakes?wallets=${wallets.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const { data } = await api.get<AdaStakes>(
+      `/v1/ada/stakes?wallets=${wallets.join(',')}`);
+    return data;
   }
 
   /**
@@ -255,15 +215,13 @@ export class AdaService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<AdaRewards> {
-    try {
-      const query = `/v1/ada/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<AdaRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/ada/rewards?accounts=${accountIds.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<AdaRewards>(query);
+    return data;
+
   }
 
   /**
@@ -278,15 +236,13 @@ export class AdaService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<AdaRewards> {
-    try {
-      const query = `/v1/ada/rewards?stake_addresses=${stakeAddresses.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<AdaRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/ada/rewards?stake_addresses=${stakeAddresses.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<AdaRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -301,28 +257,24 @@ export class AdaService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<AdaRewards> {
-    try {
-      const query = `/v1/ada/rewards?wallets=${wallets.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<AdaRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/ada/rewards?wallets=${wallets.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<AdaRewards>(query);
+    return data;
+    
   }
 
   /**
    * Retrieve ADA network stats
    */
   async getNetworkStats(): Promise<AdaNetworkStats> {
-    try {
-      const { data } = await api.get<AdaNetworkStats>(
-        `/v1/ada/network-stats`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<AdaNetworkStats>(
+      `/v1/ada/network-stats`,
+    );
+    return data;
+    
   }
 }

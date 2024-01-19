@@ -33,19 +33,17 @@ export class TiaService extends Service {
     validatorAddress: string,
     amountTia: number,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/tia/transaction/stake`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_utia: this.tiaToUtia(amountTia.toString()),
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/tia/transaction/stake`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_utia: this.tiaToUtia(amountTia.toString()),
+      });
+    return data;
+    
   }
 
   /**
@@ -57,17 +55,15 @@ export class TiaService extends Service {
     pubkey: string,
     validatorAddress: string,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/tia/transaction/withdraw-rewards`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/tia/transaction/withdraw-rewards`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -81,18 +77,16 @@ export class TiaService extends Service {
     validatorAddress: string,
     amountTia?: number,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/tia/transaction/unstake`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_utia: amountTia ? this.tiaToUtia(amountTia.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/tia/transaction/unstake`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_utia: amountTia ? this.tiaToUtia(amountTia.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -110,20 +104,18 @@ export class TiaService extends Service {
     validatorDestinationAddress: string,
     amountTia?: number,
   ): Promise<CosmosTx> {
-    try {
-      const { data } = await api.post<CosmosTx>(
-        `/v1/tia/transaction/redelegate`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator_source: validatorSourceAddress,
-          validator_destination: validatorDestinationAddress,
-          amount_utia: amountTia ? this.tiaToUtia(amountTia.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/tia/transaction/redelegate`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator_source: validatorSourceAddress,
+        validator_destination: validatorDestinationAddress,
+        amount_utia: amountTia ? this.tiaToUtia(amountTia.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -164,16 +156,14 @@ export class TiaService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
-    try {
-      const { data } = await api.post<CosmosTxHash>(
-        `/v1/tia/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.post<CosmosTxHash>(
+      `/v1/tia/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+
   }
 
   /**
@@ -181,13 +171,11 @@ export class TiaService extends Service {
    * @param txHash
    */
   async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
-    try {
-      const { data } = await api.get<CosmosTxStatus>(
-        `/v1/tia/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.get<CosmosTxStatus>(
+      `/v1/tia/transaction/status?tx_hash=${txHash}`);
+    return data;
+
   }
 
   /**
@@ -195,12 +183,10 @@ export class TiaService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-    try {
-      const { data } = await api.get<DecodedTxRaw>(
-        `/v1/tia/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<DecodedTxRaw>(
+      `/v1/tia/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 }
