@@ -32,18 +32,16 @@ export class EthService extends Service {
     walletAddress: string,
     amountEth: number,
   ): Promise<EthTx> {
-    try {
-      const { data } = await api.post<EthTx>(
-        `/v1/eth/transaction/stake`,
-        {
-          account_id: accountId,
-          wallet: walletAddress,
-          amount_wei: this.ethToWei(amountEth.toString()),
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<EthTx>(
+      `/v1/eth/transaction/stake`,
+      {
+        account_id: accountId,
+        wallet: walletAddress,
+        amount_wei: this.ethToWei(amountEth.toString()),
+      });
+    return data;
+    
   }
 
   /**
@@ -55,17 +53,15 @@ export class EthService extends Service {
     walletAddress: string,
     validatorAddresses: string[],
   ): Promise<EthTx> {
-    try {
-      const { data } = await api.post<EthTx>(
-        `/v1/eth/transaction/exit-request`,
-        {
-          wallet: walletAddress,
-          validators: validatorAddresses,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<EthTx>(
+      `/v1/eth/transaction/exit-request`,
+      {
+        wallet: walletAddress,
+        validators: validatorAddresses,
+      });
+    return data;
+    
   }
 
   /**
@@ -75,38 +71,36 @@ export class EthService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: EthTx, note?: string): Promise<EthSignedTx> {
-    try {
-      const payload = {
-        rawMessageData: {
-          messages: [
-            {
-              'content': tx.data.unsigned_tx_hash,
-            },
-          ],
-        },
-      };
 
-      const fbSigner = this.getFbSigner(integration);
-      const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
-      const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
-      const fbTx = await fbSigner.signWithFB(
-        payload,
-        assetId,
-        fbNote,
-      );
-      const { data } = await api.post<EthSignedTx>(
-        `/v1/eth/transaction/prepare`,
-        {
-          unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-          r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
-          s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
-          v: fbTx?.signedMessages?.[0].signature.v ?? 0,
-        });
-      data.data.fireblocks_tx = fbTx;
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            'content': tx.data.unsigned_tx_hash,
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
+    const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.signWithFB(
+      payload,
+      assetId,
+      fbNote,
+    );
+    const { data } = await api.post<EthSignedTx>(
+      `/v1/eth/transaction/prepare`,
+      {
+        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+        r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+        s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+        v: fbTx?.signedMessages?.[0].signature.v ?? 0,
+      });
+    data.data.fireblocks_tx = fbTx;
+    return data;
+    
   }
 
   /**
@@ -119,25 +113,23 @@ export class EthService extends Service {
     if(!integration.fireblocksDestinationId) {
       throw new Error('Fireblocks destination id is missing in integration');
     }
-    try {
-      const payload = {
-        contractCallData: tx.data.contract_call_data,
-      };
 
-      const fbSigner = this.getFbSigner(integration);
-      const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
-      const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
-      return  await fbSigner.signAndBroadcastWithFB(
-        payload,
-        assetId,
-        tx,
-        integration.fireblocksDestinationId,
-        true,
-        fbNote,
-      );
-    } catch (err: any) {
-      throw new Error(err);
-    }
+    const payload = {
+      contractCallData: tx.data.contract_call_data,
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const assetId = this.testnet ? 'ETH_TEST6' : 'ETH';
+    const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
+    return  await fbSigner.signAndBroadcastWithFB(
+      payload,
+      assetId,
+      tx,
+      integration.fireblocksDestinationId,
+      true,
+      fbNote,
+    );
+    
   }
 
   /**
@@ -145,16 +137,14 @@ export class EthService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: EthSignedTx): Promise<EthTxHash> {
-    try {
-      const { data } = await api.post<EthTxHash>(
-        `/v1/eth/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<EthTxHash>(
+      `/v1/eth/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+    
   }
 
   /**
@@ -162,13 +152,11 @@ export class EthService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<EthTxStatus> {
-    try {
-      const { data } = await api.get<EthTxStatus>(
-        `/v1/eth/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<EthTxStatus>(
+      `/v1/eth/transaction/status?tx_hash=${txHash}`);
+    return data;
+    
   }
 
   /**
@@ -176,13 +164,11 @@ export class EthService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<EthDecodedTx> {
-    try {
-      const { data } = await api.get<EthDecodedTx>(
-        `/v1/eth/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<EthDecodedTx>(
+      `/v1/eth/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 
   /**
@@ -193,13 +179,11 @@ export class EthService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<EthStakes> {
-    try {
-      const { data } = await api.get<EthStakes>(
-        `/v1/eth/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<EthStakes>(
+      `/v1/eth/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -210,14 +194,12 @@ export class EthService extends Service {
   async getStakesByWallets(
     walletAddresses: string[],
   ): Promise<EthStakes> {
-    try {
-      const { data } = await api.get<EthStakes>(
-        `/v1/eth/stakes?wallets=${walletAddresses.join(',')}`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<EthStakes>(
+      `/v1/eth/stakes?wallets=${walletAddresses.join(',')}`,
+    );
+    return data;
+    
   }
 
   /**
@@ -226,14 +208,12 @@ export class EthService extends Service {
    * @returns {EthStakes} Ethereum Stakes
    */
   async getStakesByValidators(validatorAddresses: string[]): Promise<EthStakes> {
-    try {
-      const { data } = await api.get<EthStakes>(
-        `/v1/eth/stakes?validators=${validatorAddresses.join(',')}`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<EthStakes>(
+      `/v1/eth/stakes?validators=${validatorAddresses.join(',')}`,
+    );
+    return data;
+    
   }
 
   /**
@@ -248,15 +228,13 @@ export class EthService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<EthRewards> {
-    try {
-      const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<EthRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/eth/rewards?accounts=${accountIds.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<EthRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -271,15 +249,13 @@ export class EthService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<EthRewards> {
-    try {
-      const query = `/v1/eth/rewards?wallets=${walletAddresses.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<EthRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/eth/rewards?wallets=${walletAddresses.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<EthRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -294,43 +270,37 @@ export class EthService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<EthRewards> {
-    try {
-      const query = `/v1/eth/rewards?validators=${validatorAddresses.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<EthRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/eth/rewards?validators=${validatorAddresses.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<EthRewards>(query);
+    return data;
+    
   }
 
   /**
    * Retrieve ETH network stats
    */
   async getNetworkStats(): Promise<EthNetworkStats> {
-    try {
-      const { data } = await api.get<EthNetworkStats>(
-        `/v1/eth/network-stats`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<EthNetworkStats>(
+      `/v1/eth/network-stats`,
+    );
+    return data;
+    
   }
 
   /**
    * Retrieve ETH kiln stats
    */
   async getKilnStats(): Promise<EthKilnStats> {
-    try {
-      const { data } = await api.get<EthKilnStats>(
-        `/v1/eth/kiln-stats`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<EthKilnStats>(
+      `/v1/eth/kiln-stats`,
+    );
+    return data;
+    
   }
 
   /**

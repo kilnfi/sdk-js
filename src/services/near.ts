@@ -264,17 +264,15 @@ export class NearService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: NearSignedTx): Promise<NearTxHash> {
-    try {
-      const connection = await this.getConnection();
-      const res = await connection.connection.provider.sendTransaction(signedTx.data.tx);
-      return {
-        data: {
-          tx_hash: res.transaction.hash,
-        },
-      };
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const connection = await this.getConnection();
+    const res = await connection.connection.provider.sendTransaction(signedTx.data.tx);
+    return {
+      data: {
+        tx_hash: res.transaction.hash,
+      },
+    };
+
   }
 
   /**
@@ -283,19 +281,17 @@ export class NearService extends Service {
    * @param poolId pool id
    */
   async getTxStatus(transactionHash: string, poolId: string): Promise<NearTxStatus> {
-    try {
-      const connection = await this.getConnection();
-      const receipt = await connection.connection.provider.txStatusReceipts(transactionHash, poolId);
-      const status = Object.keys(receipt.status).includes('SuccessValue') ? 'success' : 'error';
-      return {
-        data: {
-          status: status,
-          receipt: receipt,
-        },
-      };
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const connection = await this.getConnection();
+    const receipt = await connection.connection.provider.txStatusReceipts(transactionHash, poolId);
+    const status = Object.keys(receipt.status).includes('SuccessValue') ? 'success' : 'error';
+    return {
+      data: {
+        status: status,
+        receipt: receipt,
+      },
+    };
+
   }
 
   /**
@@ -303,13 +299,11 @@ export class NearService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<transactions.Transaction> {
-    try {
-      const { data } = await api.get<transactions.Transaction>(
-        `/v1/near/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<transactions.Transaction>(
+      `/v1/near/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 
   /**
@@ -320,13 +314,11 @@ export class NearService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<NearStakes> {
-    try {
-      const { data } = await api.get<NearStakes>(
-        `/v1/near/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearStakes>(
+      `/v1/near/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -337,13 +329,11 @@ export class NearService extends Service {
   async getStakesByStakeAccounts(
     stakeAccounts: string[],
   ): Promise<NearStakes> {
-    try {
-      const { data } = await api.get<NearStakes>(
-        `/v1/near/stakes?stake_accounts=${stakeAccounts.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearStakes>(
+      `/v1/near/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -354,13 +344,11 @@ export class NearService extends Service {
   async getStakesByWallets(
     wallets: string[],
   ): Promise<NearStakes> {
-    try {
-      const { data } = await api.get<NearStakes>(
-        `/v1/near/stakes?wallets=${wallets.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearStakes>(
+      `/v1/near/stakes?wallets=${wallets.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -375,15 +363,13 @@ export class NearService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<NearRewards> {
-    try {
-      const { data } = await api.get<NearRewards>(
-        `/v1/near/rewards?accounts=${accountIds.join(',')}${
-          startDate ? `&start_date=${startDate}` : ''
-        }${endDate ? `&end_date=${endDate}` : ''}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearRewards>(
+      `/v1/near/rewards?accounts=${accountIds.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`);
+    return data;
+    
   }
 
   /**
@@ -398,15 +384,13 @@ export class NearService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<NearRewards> {
-    try {
-      const { data } = await api.get<NearRewards>(
-        `/v1/near/rewards?stake_accounts=${stakeAccounts.join(',')}${
-          startDate ? `&start_date=${startDate}` : ''
-        }${endDate ? `&end_date=${endDate}` : ''}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearRewards>(
+      `/v1/near/rewards?stake_accounts=${stakeAccounts.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`);
+    return data;
+    
   }
 
   /**
@@ -421,28 +405,24 @@ export class NearService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<NearRewards> {
-    try {
-      const { data } = await api.get<NearRewards>(
-        `/v1/near/rewards?wallets=${wallets.join(',')}${
-          startDate ? `&start_date=${startDate}` : ''
-        }${endDate ? `&end_date=${endDate}` : ''}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearRewards>(
+      `/v1/near/rewards?wallets=${wallets.join(',')}${
+        startDate ? `&start_date=${startDate}` : ''
+      }${endDate ? `&end_date=${endDate}` : ''}`);
+    return data;
+    
   }
 
   /**
    * Retrieve NEAR network stats
    */
   async getNetworkStats(): Promise<NearNetworkStats> {
-    try {
-      const { data } = await api.get<NearNetworkStats>(
-        `/v1/near/network-stats`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<NearNetworkStats>(
+      `/v1/near/network-stats`,
+    );
+    return data;
+    
   }
 }

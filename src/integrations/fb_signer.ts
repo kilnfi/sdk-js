@@ -32,6 +32,7 @@ type AssetId =
   | 'DOT'
   | 'DV4TNT_TEST'
   | 'DYDX_DYDX'
+  | 'CELESTIA'
   ;
 
 export class FbSigner {

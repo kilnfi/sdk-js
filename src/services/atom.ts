@@ -1,10 +1,11 @@
 import { Service } from "./service";
 
-import { AtomRewards, AtomSignedTx, AtomStakes, AtomTx, AtomTxHash, AtomTxStatus } from "../types/atom";
+import { AtomRewards, AtomStakes } from "../types/atom";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
+import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class AtomService extends Service {
 
@@ -32,20 +33,18 @@ export class AtomService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountAtom: number,
-  ): Promise<AtomTx> {
-    try {
-      const { data } = await api.post<AtomTx>(
-        `/v1/atom/transaction/stake`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_uatom: this.atomToUatom(amountAtom.toString()),
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/atom/transaction/stake`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_uatom: this.atomToUatom(amountAtom.toString()),
+      });
+    return data;
+    
   }
 
   /**
@@ -56,18 +55,16 @@ export class AtomService extends Service {
   async craftWithdrawRewardsTx(
     pubkey: string,
     validatorAddress: string,
-  ): Promise<AtomTx> {
-    try {
-      const { data } = await api.post<AtomTx>(
-        `/v1/atom/transaction/withdraw-rewards`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/atom/transaction/withdraw-rewards`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -80,19 +77,17 @@ export class AtomService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountAtom?: number,
-  ): Promise<AtomTx> {
-    try {
-      const { data } = await api.post<AtomTx>(
-        `/v1/atom/transaction/unstake`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_uatom: amountAtom ? this.atomToUatom(amountAtom.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/atom/transaction/unstake`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_uatom: amountAtom ? this.atomToUatom(amountAtom.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -109,21 +104,19 @@ export class AtomService extends Service {
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
     amountAtom?: number,
-  ): Promise<AtomTx> {
-    try {
-      const { data } = await api.post<AtomTx>(
-        `/v1/atom/transaction/redelegate`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator_source: validatorSourceAddress,
-          validator_destination: validatorDestinationAddress,
-          amount_uatom: amountAtom ? this.atomToUatom(amountAtom.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/atom/transaction/redelegate`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator_source: validatorSourceAddress,
+        validator_destination: validatorDestinationAddress,
+        amount_uatom: amountAtom ? this.atomToUatom(amountAtom.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -132,7 +125,7 @@ export class AtomService extends Service {
    * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, tx: AtomTx, note?: string): Promise<AtomSignedTx> {
+  async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -146,7 +139,7 @@ export class AtomService extends Service {
     const signer = this.getFbSigner(integration);
     const fbTx = await signer.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<AtomSignedTx>(
+    const { data } = await api.post<CosmosSignedTx>(
       `/v1/atom/transaction/prepare`,
       {
         pubkey: tx.data.pubkey,
@@ -163,31 +156,27 @@ export class AtomService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: AtomSignedTx): Promise<AtomTxHash> {
-    try {
-      const { data } = await api.post<AtomTxHash>(
-        `/v1/atom/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+  async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
+
+    const { data } = await api.post<CosmosTxHash>(
+      `/v1/atom/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+
   }
 
   /**
    * Get transaction status
    * @param txHash
    */
-  async getTxStatus(txHash: string): Promise<AtomTxStatus> {
-    try {
-      const { data } = await api.get<AtomTxStatus>(
-        `/v1/atom/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+  async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
+
+    const { data } = await api.get<CosmosTxStatus>(
+      `/v1/atom/transaction/status?tx_hash=${txHash}`);
+    return data;
+
   }
 
   /**
@@ -195,13 +184,11 @@ export class AtomService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-    try {
-      const { data } = await api.get<DecodedTxRaw>(
-        `/v1/atom/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<DecodedTxRaw>(
+      `/v1/atom/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 
   /**
@@ -212,13 +199,11 @@ export class AtomService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<AtomStakes> {
-    try {
-      const { data } = await api.get<AtomStakes>(
-        `/v1/atom/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<AtomStakes>(
+      `/v1/atom/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -231,13 +216,11 @@ export class AtomService extends Service {
     delegators: string[],
     validators: string[],
   ): Promise<AtomStakes> {
-    try {
-      const { data } = await api.get<AtomStakes>(
-        `/v1/atom/stakes?delegators=${delegators.join(',')}&validators=${validators.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<AtomStakes>(
+      `/v1/atom/stakes?delegators=${delegators.join(',')}&validators=${validators.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -252,15 +235,13 @@ export class AtomService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<AtomRewards> {
-    try {
-      const query = `/v1/atom/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<AtomRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/atom/rewards?accounts=${accountIds.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<AtomRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -277,14 +258,12 @@ export class AtomService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<AtomRewards> {
-    try {
-      const query = `/v1/atom/rewards?delegators=${delegators.join(',')}&validators=${validators.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<AtomRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/atom/rewards?delegators=${delegators.join(',')}&validators=${validators.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<AtomRewards>(query);
+    return data;
+    
   }
 }

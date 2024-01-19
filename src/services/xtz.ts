@@ -29,18 +29,16 @@ export class XtzService extends Service {
     walletAddress: string,
     bakerAddress: string,
   ): Promise<XtzTx> {
-    try {
-      const { data } = await api.post<XtzTx>(
-        `/v1/xtz/transaction/stake`,
-        {
-          account_id: accountId,
-          wallet: walletAddress,
-          baker_address: bakerAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<XtzTx>(
+      `/v1/xtz/transaction/stake`,
+      {
+        account_id: accountId,
+        wallet: walletAddress,
+        baker_address: bakerAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -50,16 +48,14 @@ export class XtzService extends Service {
   async craftUnStakeTx(
     walletAddress: string,
   ): Promise<XtzTx> {
-    try {
-      const { data } = await api.post<XtzTx>(
-        `/v1/xtz/transaction/unstake`,
-        {
-          wallet: walletAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.post<XtzTx>(
+      `/v1/xtz/transaction/unstake`,
+      {
+        wallet: walletAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -99,16 +95,14 @@ export class XtzService extends Service {
    * @param signedTx serialized signed tx
    */
   async broadcast(signedTx: XtzSignedTx): Promise<XtzTxHash> {
-    try {
-      const { data } = await api.post<XtzTxHash>(
-        `/v1/xtz/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.post<XtzTxHash>(
+      `/v1/xtz/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+
   }
 
   /**
@@ -117,13 +111,11 @@ export class XtzService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(blockNumber: number, txHash: string): Promise<XtzTxStatus> {
-    try {
-      const { data } = await api.get<XtzTxStatus>(
-        `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${txHash}`);
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+
+    const { data } = await api.get<XtzTxStatus>(
+      `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${txHash}`);
+    return data;
+
   }
 
   /**
@@ -131,13 +123,11 @@ export class XtzService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<ForgeParams> {
-    try {
-      const { data } = await api.get<ForgeParams>(
-        `/v1/xtz/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<ForgeParams>(
+      `/v1/xtz/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 
   /**
@@ -148,13 +138,11 @@ export class XtzService extends Service {
   async getStakesByAccounts(
     accountIds: string[],
   ): Promise<XtzStakes> {
-    try {
-      const { data } = await api.get<XtzStakes>(
-        `/v1/xtz/stakes?accounts=${accountIds.join(',')}`);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<XtzStakes>(
+      `/v1/xtz/stakes?accounts=${accountIds.join(',')}`);
+    return data;
+    
   }
 
   /**
@@ -165,14 +153,12 @@ export class XtzService extends Service {
   async getStakesByWallets(
     walletAddresses: string[],
   ): Promise<XtzStakes> {
-    try {
-      const { data } = await api.get<XtzStakes>(
-        `/v1/xtz/stakes?wallets=${walletAddresses.join(',')}`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<XtzStakes>(
+      `/v1/xtz/stakes?wallets=${walletAddresses.join(',')}`,
+    );
+    return data;
+    
   }
 
   /**
@@ -187,15 +173,13 @@ export class XtzService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<XtzRewards> {
-    try {
-      const query = `/v1/xtz/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<XtzRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/xtz/rewards?accounts=${accountIds.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<XtzRewards>(query);
+    return data;
+    
   }
 
   /**
@@ -210,29 +194,25 @@ export class XtzService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<XtzRewards> {
-    try {
-      const query = `/v1/xtz/rewards?wallets=${walletAddresses.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`;
-      const { data } = await api.get<XtzRewards>(query);
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const query = `/v1/xtz/rewards?wallets=${walletAddresses.join(',')}${
+      startDate ? `&start_date=${startDate}` : ''
+    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const { data } = await api.get<XtzRewards>(query);
+    return data;
+    
   }
 
   /**
    * Retrieve XTZ network stats
    */
   async getNetworkStats(): Promise<XtzNetworkStats> {
-    try {
-      const { data } = await api.get<XtzNetworkStats>(
-        `/v1/xtz/network-stats`,
-      );
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+
+    const { data } = await api.get<XtzNetworkStats>(
+      `/v1/xtz/network-stats`,
+    );
+    return data;
+    
   }
 
   /**

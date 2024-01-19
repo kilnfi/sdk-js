@@ -4,7 +4,7 @@ import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import api from '../api';
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import { DydxSignedTx, DydxTxHash, DydxTxStatus, DydxTx } from "../types/dydx";
+import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class DydxService extends Service {
 
@@ -32,20 +32,18 @@ export class DydxService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountDydx: number,
-  ): Promise<DydxTx> {
-    try {
-      const { data } = await api.post<DydxTx>(
-        `/v1/dydx/transaction/stake`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_adydx: this.dydxToAdydx(amountDydx.toString()),
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/dydx/transaction/stake`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_adydx: this.dydxToAdydx(amountDydx.toString()),
+      });
+    return data;
+    
   }
 
   /**
@@ -56,18 +54,16 @@ export class DydxService extends Service {
   async craftWithdrawRewardsTx(
     pubkey: string,
     validatorAddress: string,
-  ): Promise<DydxTx> {
-    try {
-      const { data } = await api.post<DydxTx>(
-        `/v1/dydx/transaction/withdraw-rewards`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/dydx/transaction/withdraw-rewards`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+      });
+    return data;
+    
   }
 
   /**
@@ -80,19 +76,17 @@ export class DydxService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountDydx?: number,
-  ): Promise<DydxTx> {
-    try {
-      const { data } = await api.post<DydxTx>(
-        `/v1/dydx/transaction/unstake`,
-        {
-          pubkey: pubkey,
-          validator: validatorAddress,
-          amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/dydx/transaction/unstake`,
+      {
+        pubkey: pubkey,
+        validator: validatorAddress,
+        amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -109,21 +103,19 @@ export class DydxService extends Service {
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
     amountDydx?: number,
-  ): Promise<DydxTx> {
-    try {
-      const { data } = await api.post<DydxTx>(
-        `/v1/dydx/transaction/redelegate`,
-        {
-          account_id: accountId,
-          pubkey: pubkey,
-          validator_source: validatorSourceAddress,
-          validator_destination: validatorDestinationAddress,
-          amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
-        });
-      return data;
-    } catch (err: any) {
-      throw new Error(err);
-    }
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/dydx/transaction/redelegate`,
+      {
+        account_id: accountId,
+        pubkey: pubkey,
+        validator_source: validatorSourceAddress,
+        validator_destination: validatorDestinationAddress,
+        amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
+      });
+    return data;
+    
   }
 
   /**
@@ -132,7 +124,7 @@ export class DydxService extends Service {
    * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, tx: DydxTx, note?: string): Promise<DydxSignedTx> {
+  async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -146,7 +138,7 @@ export class DydxService extends Service {
     const signer = this.getFbSigner(integration);
     const fbTx = await signer.signWithFB(payload, this.testnet ? 'DV4TNT_TEST' : 'DYDX_DYDX', fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<DydxSignedTx>(
+    const { data } = await api.post<CosmosSignedTx>(
       `/v1/dydx/transaction/prepare`,
       {
         pubkey: tx.data.pubkey,
@@ -163,31 +155,27 @@ export class DydxService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: DydxSignedTx): Promise<DydxTxHash> {
-    try {
-      const { data } = await api.post<DydxTxHash>(
-        `/v1/dydx/transaction/broadcast`,
-        {
-          tx_serialized: signedTx.data.signed_tx_serialized,
-        });
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+  async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
+
+    const { data } = await api.post<CosmosTxHash>(
+      `/v1/dydx/transaction/broadcast`,
+      {
+        tx_serialized: signedTx.data.signed_tx_serialized,
+      });
+    return data;
+
   }
 
   /**
    * Get transaction status
    * @param txHash
    */
-  async getTxStatus(txHash: string): Promise<DydxTxStatus> {
-    try {
-      const { data } = await api.get<DydxTxStatus>(
-        `/v1/dydx/transaction/status?tx_hash=${txHash}`);
-      return data;
-    } catch (e: any) {
-      throw new Error(e);
-    }
+  async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
+
+    const { data } = await api.get<CosmosTxStatus>(
+      `/v1/dydx/transaction/status?tx_hash=${txHash}`);
+    return data;
+
   }
 
   /**
@@ -195,12 +183,10 @@ export class DydxService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-    try {
-      const { data } = await api.get<DecodedTxRaw>(
-        `/v1/dydx/transaction/decode?tx_serialized=${txSerialized}`);
-      return data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+
+    const { data } = await api.get<DecodedTxRaw>(
+      `/v1/dydx/transaction/decode?tx_serialized=${txSerialized}`);
+    return data;
+
   }
 }
