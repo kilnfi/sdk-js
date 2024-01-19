@@ -12,6 +12,7 @@ import { MaticService } from './services/matic';
 import { OsmoService } from './services/osmo';
 import { FireblocksService } from "./services/fireblocks";
 import { DydxService } from "./services/dydx";
+import { TiaService } from "./services/tia";
 
 type Config = {
   apiToken: string;
@@ -34,6 +35,7 @@ export class Kiln {
   matic: MaticService;
   osmo: OsmoService;
   dydx: DydxService;
+  tia: TiaService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -55,5 +57,6 @@ export class Kiln {
     this.matic = new MaticService({ testnet });
     this.osmo = new OsmoService({ testnet });
     this.dydx = new DydxService({ testnet });
+    this.tia = new TiaService({ testnet });
   }
 }

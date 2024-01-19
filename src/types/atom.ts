@@ -1,39 +1,3 @@
-import { IndexedTx, StdFee } from "@cosmjs/stargate";
-import { EncodeObject } from "@cosmjs/proto-signing";
-import { TransactionResponse } from "fireblocks-sdk";
-
-export type AtomTx = {
-  data: {
-    unsigned_tx_hash: string;
-    unsigned_tx_serialized: string;
-    tx_body: string;
-    tx_auth_info: string;
-    pubkey: string;
-    message: EncodeObject;
-    fee: StdFee;
-  }
-}
-
-export type AtomSignedTx = {
-  data: {
-    fireblocks_tx: TransactionResponse;
-    signed_tx_serialized: string;
-  };
-};
-
-export type AtomTxHash = {
-  data: {
-    tx_hash: string;
-  };
-};
-
-export type AtomTxStatus = {
-  data: {
-    status: 'success' | 'error',
-    receipt: IndexedTx | null,
-  }
-}
-
 export type AtomStake = {
   validator_address: string;
   delegator_address: string;

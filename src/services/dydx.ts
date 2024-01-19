@@ -4,7 +4,7 @@ import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import api from '../api';
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import { DydxSignedTx, DydxTxHash, DydxTxStatus, DydxTx } from "../types/dydx";
+import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class DydxService extends Service {
 
@@ -32,9 +32,9 @@ export class DydxService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountDydx: number,
-  ): Promise<DydxTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<DydxTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/dydx/transaction/stake`,
         {
           account_id: accountId,
@@ -56,9 +56,9 @@ export class DydxService extends Service {
   async craftWithdrawRewardsTx(
     pubkey: string,
     validatorAddress: string,
-  ): Promise<DydxTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<DydxTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/dydx/transaction/withdraw-rewards`,
         {
           pubkey: pubkey,
@@ -80,9 +80,9 @@ export class DydxService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountDydx?: number,
-  ): Promise<DydxTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<DydxTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/dydx/transaction/unstake`,
         {
           pubkey: pubkey,
@@ -109,9 +109,9 @@ export class DydxService extends Service {
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
     amountDydx?: number,
-  ): Promise<DydxTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<DydxTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/dydx/transaction/redelegate`,
         {
           account_id: accountId,
@@ -132,7 +132,7 @@ export class DydxService extends Service {
    * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, tx: DydxTx, note?: string): Promise<DydxSignedTx> {
+  async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -146,7 +146,7 @@ export class DydxService extends Service {
     const signer = this.getFbSigner(integration);
     const fbTx = await signer.signWithFB(payload, this.testnet ? 'DV4TNT_TEST' : 'DYDX_DYDX', fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<DydxSignedTx>(
+    const { data } = await api.post<CosmosSignedTx>(
       `/v1/dydx/transaction/prepare`,
       {
         pubkey: tx.data.pubkey,
@@ -163,9 +163,9 @@ export class DydxService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: DydxSignedTx): Promise<DydxTxHash> {
+  async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
     try {
-      const { data } = await api.post<DydxTxHash>(
+      const { data } = await api.post<CosmosTxHash>(
         `/v1/dydx/transaction/broadcast`,
         {
           tx_serialized: signedTx.data.signed_tx_serialized,
@@ -180,9 +180,9 @@ export class DydxService extends Service {
    * Get transaction status
    * @param txHash
    */
-  async getTxStatus(txHash: string): Promise<DydxTxStatus> {
+  async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
     try {
-      const { data } = await api.get<DydxTxStatus>(
+      const { data } = await api.get<CosmosTxStatus>(
         `/v1/dydx/transaction/status?tx_hash=${txHash}`);
       return data;
     } catch (e: any) {

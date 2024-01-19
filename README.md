@@ -10,13 +10,14 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - ADA
 - ATOM
 - DOT
+- DYDX
 - ETH
 - MATIC
 - NEAR
-- SOL
-- XTZ
 - OSMO
-- DYDX
+- SOL
+- TIA
+- XTZ
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ## Installation

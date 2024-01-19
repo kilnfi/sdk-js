@@ -1,6 +1,6 @@
 import { Integration } from "../types/integrations";
 import { Service } from "./service";
-import { PublicKeyResponse } from "fireblocks-sdk";
+import { AssetTypeResponse, PublicKeyResponse } from "fireblocks-sdk";
 
 export class FireblocksService extends Service {
 
@@ -19,5 +19,10 @@ export class FireblocksService extends Service {
       compressed: true,
     });
     return data;
+  }
+
+  async getAssets(integration: Integration): Promise<AssetTypeResponse[]> {
+    const fbSdk = this.getFbSdk(integration);
+    return await fbSdk.getSupportedAssets();
   }
 }

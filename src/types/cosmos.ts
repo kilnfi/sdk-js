@@ -2,7 +2,7 @@ import { IndexedTx, StdFee } from "@cosmjs/stargate";
 import { EncodeObject } from "@cosmjs/proto-signing";
 import { TransactionResponse } from "fireblocks-sdk";
 
-export type DydxTx = {
+export type CosmosTx = {
   data: {
     unsigned_tx_hash: string;
     unsigned_tx_serialized: string;
@@ -14,20 +14,20 @@ export type DydxTx = {
   }
 }
 
-export type DydxSignedTx = {
+export type CosmosSignedTx = {
   data: {
     fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
   };
 };
 
-export type DydxTxHash = {
+export type CosmosTxHash = {
   data: {
     tx_hash: string;
   };
 };
 
-export type DydxTxStatus = {
+export type CosmosTxStatus = {
   data: {
     status: 'success' | 'error',
     receipt: IndexedTx | null,

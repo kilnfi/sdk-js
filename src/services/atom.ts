@@ -1,10 +1,11 @@
 import { Service } from "./service";
 
-import { AtomRewards, AtomSignedTx, AtomStakes, AtomTx, AtomTxHash, AtomTxStatus } from "../types/atom";
+import { AtomRewards, AtomStakes } from "../types/atom";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
+import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class AtomService extends Service {
 
@@ -32,9 +33,9 @@ export class AtomService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountAtom: number,
-  ): Promise<AtomTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<AtomTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/atom/transaction/stake`,
         {
           account_id: accountId,
@@ -56,9 +57,9 @@ export class AtomService extends Service {
   async craftWithdrawRewardsTx(
     pubkey: string,
     validatorAddress: string,
-  ): Promise<AtomTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<AtomTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/atom/transaction/withdraw-rewards`,
         {
           pubkey: pubkey,
@@ -80,9 +81,9 @@ export class AtomService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountAtom?: number,
-  ): Promise<AtomTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<AtomTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/atom/transaction/unstake`,
         {
           pubkey: pubkey,
@@ -109,9 +110,9 @@ export class AtomService extends Service {
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
     amountAtom?: number,
-  ): Promise<AtomTx> {
+  ): Promise<CosmosTx> {
     try {
-      const { data } = await api.post<AtomTx>(
+      const { data } = await api.post<CosmosTx>(
         `/v1/atom/transaction/redelegate`,
         {
           account_id: accountId,
@@ -132,7 +133,7 @@ export class AtomService extends Service {
    * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, tx: AtomTx, note?: string): Promise<AtomSignedTx> {
+  async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -146,7 +147,7 @@ export class AtomService extends Service {
     const signer = this.getFbSigner(integration);
     const fbTx = await signer.signWithFB(payload, this.testnet ? 'ATOM_COS_TEST' : 'ATOM_COS', fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<AtomSignedTx>(
+    const { data } = await api.post<CosmosSignedTx>(
       `/v1/atom/transaction/prepare`,
       {
         pubkey: tx.data.pubkey,
@@ -163,9 +164,9 @@ export class AtomService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: AtomSignedTx): Promise<AtomTxHash> {
+  async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
     try {
-      const { data } = await api.post<AtomTxHash>(
+      const { data } = await api.post<CosmosTxHash>(
         `/v1/atom/transaction/broadcast`,
         {
           tx_serialized: signedTx.data.signed_tx_serialized,
@@ -180,9 +181,9 @@ export class AtomService extends Service {
    * Get transaction status
    * @param txHash
    */
-  async getTxStatus(txHash: string): Promise<AtomTxStatus> {
+  async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
     try {
-      const { data } = await api.get<AtomTxStatus>(
+      const { data } = await api.get<CosmosTxStatus>(
         `/v1/atom/transaction/status?tx_hash=${txHash}`);
       return data;
     } catch (e: any) {
