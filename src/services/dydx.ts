@@ -67,6 +67,29 @@ export class DydxService extends Service {
   }
 
   /**
+   * Craft dydx restake rewards transaction
+   * @param pubkey wallet pubkey, this is different from the wallet address
+   * @param validatorAccount validator account address (wallet controlling the validator)
+   * @param validatorAddress validator address to which the delegation has been made
+   */
+  async craftRestakeRewardsTx(
+    pubkey: string,
+    validatorAccount: string,
+    validatorAddress: string,
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/dydx/transaction/restake-rewards`,
+      {
+        pubkey: pubkey,
+        validator_account: validatorAccount,
+        validator_address: validatorAddress,
+      });
+    return data;
+
+  }
+
+  /**
    * Craft dydx unstaking transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
