@@ -136,7 +136,7 @@ export class DydxService extends Service {
     };
     const fbNote = note ? note : 'DYDX tx from @kilnfi/sdk';
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signWithFB(payload, this.testnet ? 'DV4TNT_TEST' : 'DYDX_DYDX', fbNote);
+    const fbTx = await signer.signWithFB(payload, 'DYDX_DYDX', fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<CosmosSignedTx>(
       `/v1/dydx/transaction/prepare`,
