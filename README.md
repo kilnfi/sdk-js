@@ -20,6 +20,9 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - XTZ
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
+### ⚠️️WARNING:
+The transaction crafting and reporting are done on mainnet networks on OSMO / TIA / DYDX even in testnet mode.
+
 ## Installation
 
 You can install the JS SDK with npm:
