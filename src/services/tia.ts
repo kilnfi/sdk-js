@@ -26,12 +26,14 @@ export class TiaService extends Service {
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to delegate to
    * @param amountTia how many tokens to stake in TIA
+   * @param restakeRewards If enabled, the rewards will be automatically restaked
    */
   async craftStakeTx(
     accountId: string,
     pubkey: string,
     validatorAddress: string,
     amountTia: number,
+    restakeRewards: boolean = false,
   ): Promise<CosmosTx> {
 
     const { data } = await api.post<CosmosTx>(
@@ -41,6 +43,7 @@ export class TiaService extends Service {
         pubkey: pubkey,
         validator: validatorAddress,
         amount_utia: this.tiaToUtia(amountTia.toString()),
+        restake_rewards: restakeRewards,
       });
     return data;
     
@@ -74,7 +77,6 @@ export class TiaService extends Service {
    */
   async craftRestakeRewardsTx(
     pubkey: string,
-    validatorAccount: string,
     validatorAddress: string,
   ): Promise<CosmosTx> {
 
@@ -82,7 +84,6 @@ export class TiaService extends Service {
       `/v1/tia/transaction/restake-rewards`,
       {
         pubkey: pubkey,
-        validator_account: validatorAccount,
         validator_address: validatorAddress,
       });
     return data;
