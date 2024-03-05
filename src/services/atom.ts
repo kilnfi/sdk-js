@@ -27,12 +27,14 @@ export class AtomService extends Service {
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to delegate to
    * @param amountAtom how many tokens to stake in ATOM
+   * @param restakeRewards If enabled, the rewards will be automatically restaked
    */
   async craftStakeTx(
     accountId: string,
     pubkey: string,
     validatorAddress: string,
     amountAtom: number,
+    restakeRewards: boolean = false,
   ): Promise<CosmosTx> {
 
     const { data } = await api.post<CosmosTx>(
@@ -42,6 +44,7 @@ export class AtomService extends Service {
         pubkey: pubkey,
         validator: validatorAddress,
         amount_uatom: this.atomToUatom(amountAtom.toString()),
+        restake_rewards: restakeRewards,
       });
     return data;
     
@@ -75,7 +78,6 @@ export class AtomService extends Service {
    */
   async craftRestakeRewardsTx(
     pubkey: string,
-    validatorAccount: string,
     validatorAddress: string,
   ): Promise<CosmosTx> {
 
@@ -83,7 +85,6 @@ export class AtomService extends Service {
       `/v1/atom/transaction/restake-rewards`,
       {
         pubkey: pubkey,
-        validator_account: validatorAccount,
         validator_address: validatorAddress,
       });
     return data;
