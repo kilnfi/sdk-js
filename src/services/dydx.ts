@@ -4,7 +4,7 @@ import { ServiceProps } from '../types/service';
 import { Integration } from '../types/integrations';
 import api from '../api';
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { Balance, CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class DydxService extends Service {
 
@@ -18,6 +18,10 @@ export class DydxService extends Service {
    */
   dydxToAdydx(amountDydx: string): string {
     return (parseFloat(amountDydx) * 10 ** 18).toFixed();
+  }
+
+  usdcToUusdc(amountUsdc: string): string {
+    return (parseFloat(amountUsdc) * 10 ** 6).toFixed();
   }
 
   /**
@@ -116,6 +120,44 @@ export class DydxService extends Service {
       });
     return data;
     
+  }
+
+  /**
+   * Transfer IBC USDC from your account to your NOBLE account
+   * @param pubkey
+   * @param amountUsdc
+   */
+  async craftTransferIbcUsdc(
+    pubkey: string,
+    amountUsdc: number,
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/dydx/transaction/ibc-transfer-usdc`,
+      {
+        pubkey: pubkey,
+        amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
+      });
+    return data;
+  }
+
+  /**
+   * Get balance of given address for given denom (ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5 for USDC on DYDX)
+   * @param address
+   * @param denom
+   */
+  async getBalance(
+    address: string,
+    denom: string,
+  ): Promise<Balance> {
+
+    const { data } = await api.post<Balance>(
+      `/v1/dydx/balance`,
+      {
+        address,
+        denom
+      });
+    return data;
   }
 
   /**
