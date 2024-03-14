@@ -36,19 +36,19 @@ export class NobleService extends Service {
   }
 
   /**
-   * Bridge noble USDC to ETH USDC
+   * Burn noble USDC to it can be minted on Ethereum
    * @param pubkey
    * @param recipient
    * @param amountUsdc
    */
-  async craftBridgeUsdc(
+  async craftBurnUsdc(
     pubkey: string,
     recipient: string,
     amountUsdc: number,
   ): Promise<CosmosTx> {
 
     const { data } = await api.post<CosmosTx>(
-      `/v1/noble/transaction/bridge-usdc`,
+      `/v1/noble/transaction/burn-usdc`,
       {
         pubkey: pubkey,
         recipient: recipient,
