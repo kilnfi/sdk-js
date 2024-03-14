@@ -13,6 +13,7 @@ import { OsmoService } from './services/osmo';
 import { FireblocksService } from "./services/fireblocks";
 import { DydxService } from "./services/dydx";
 import { TiaService } from "./services/tia";
+import { NobleService } from "./services/noble";
 
 type Config = {
   apiToken: string;
@@ -36,6 +37,7 @@ export class Kiln {
   osmo: OsmoService;
   dydx: DydxService;
   tia: TiaService;
+  noble: NobleService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -58,5 +60,6 @@ export class Kiln {
     this.osmo = new OsmoService({ testnet });
     this.dydx = new DydxService({ testnet });
     this.tia = new TiaService({ testnet });
+    this.noble = new NobleService({ testnet });
   }
 }
