@@ -36,7 +36,7 @@
     "@taquito/local-forging": "^17.4.0",
     "@taquito/rpc": "^16.0.1",
     "@types/bn.js": "^5.1.5",
-    "axios": "^0.23.0",
+    "axios": "^1.6.5",
     "bn.js": "^5.2.1",
     "ethers": "^5.6.4",
     "fireblocks-sdk": "^4.0.0",
