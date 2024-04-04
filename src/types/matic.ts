@@ -13,21 +13,21 @@ export type MaticTx = {
     max_priority_fee_per_gas_wei: string;
     max_fee_per_gas_wei: string;
     chain_id: number;
-  }
+  };
 };
 
 export type MaticTxHash = {
   data: {
     tx_hash: string;
-  }
+  };
 };
 
 export type MaticTxStatus = {
   data: {
-    status: 'success' | 'error' | 'pending_confirmation';
+    status: "success" | "error" | "pending_confirmation";
     receipt: TransactionReceipt | null;
-  }
-}
+  };
+};
 export type MaticSignedTx = {
   data: {
     fireblocks_tx: TransactionResponse;

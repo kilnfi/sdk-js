@@ -1,31 +1,31 @@
-import { OperationEntry } from '@taquito/rpc';
+import { OperationEntry } from "@taquito/rpc";
 import { TransactionResponse } from "fireblocks-sdk";
 
 export type XtzTx = {
   data: {
     unsigned_tx_hash: string;
     unsigned_tx_serialized: string;
-  }
+  };
 };
 
 export type XtzSignedTx = {
   data: {
     fireblocks_tx: TransactionResponse;
     signed_tx_serialized: string;
-  }
+  };
 };
 
 export type XtzTxHash = {
   data: {
     tx_hash: string;
-  }
+  };
 };
 
 export type XtzTxStatus = {
   data: {
     status: string;
     receipt: OperationEntry;
-  }
+  };
 };
 
 export type XtzStake = {
@@ -44,8 +44,8 @@ export type XtzStake = {
 };
 
 export type XtzStakes = {
-  data: XtzStake[]
-}
+  data: XtzStake[];
+};
 
 export type XtzReward = {
   date: string;
@@ -55,8 +55,8 @@ export type XtzReward = {
 };
 
 export type XtzRewards = {
-  data: XtzReward[]
-}
+  data: XtzReward[];
+};
 
 export type XtzNetworkStats = {
   data: {
@@ -64,5 +64,5 @@ export type XtzNetworkStats = {
     network_gross_apy: number;
     supply_stake_percent: number;
     updated_at: string;
-  }
-}
+  };
+};

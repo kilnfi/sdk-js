@@ -1,17 +1,13 @@
-import { Service } from './service';
+import { Service } from "./service";
 
-import {
-  OsmoRewards,
-  OsmoStakes,
-} from '../types/osmo';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
-import api from '../api';
+import { OsmoRewards, OsmoStakes } from "../types/osmo";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
+import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class OsmoService extends Service {
-
   constructor({ testnet }: ServiceProps) {
     super({ testnet });
   }
@@ -39,18 +35,14 @@ export class OsmoService extends Service {
     amountOsmo: number,
     restakeRewards: boolean = false,
   ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/osmo/transaction/stake`,
-      {
-        account_id: accountId,
-        pubkey: pubkey,
-        validator: validatorAddress,
-        amount_uosmo: this.osmoToUosmo(amountOsmo.toString()),
-        restake_rewards: restakeRewards,
-      });
+    const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/stake`, {
+      account_id: accountId,
+      pubkey: pubkey,
+      validator: validatorAddress,
+      amount_uosmo: this.osmoToUosmo(amountOsmo.toString()),
+      restake_rewards: restakeRewards,
+    });
     return data;
-    
   }
 
   /**
@@ -58,19 +50,12 @@ export class OsmoService extends Service {
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftWithdrawRewardsTx(
-    pubkey: string,
-    validatorAddress: string,
-  ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/osmo/transaction/withdraw-rewards`,
-      {
-        pubkey: pubkey,
-        validator: validatorAddress,
-      });
+  async craftWithdrawRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/withdraw-rewards`, {
+      pubkey: pubkey,
+      validator: validatorAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -79,19 +64,12 @@ export class OsmoService extends Service {
    * @param validatorAccount validator account address (wallet controlling the validator)
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftRestakeRewardsTx(
-    pubkey: string,
-    validatorAddress: string,
-  ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/osmo/transaction/restake-rewards`,
-      {
-        pubkey: pubkey,
-        validator_address: validatorAddress,
-      });
+  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/restake-rewards`, {
+      pubkey: pubkey,
+      validator_address: validatorAddress,
+    });
     return data;
-
   }
 
   /**
@@ -100,21 +78,13 @@ export class OsmoService extends Service {
    * @param validatorAddress validator address to which the delegation has been made
    * @param amountOsmo how many tokens to undelegate in OSMO
    */
-  async craftUnstakeTx(
-    pubkey: string,
-    validatorAddress: string,
-    amountOsmo?: number,
-  ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/osmo/transaction/unstake`,
-      {
-        pubkey: pubkey,
-        validator: validatorAddress,
-        amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
-      });
+  async craftUnstakeTx(pubkey: string, validatorAddress: string, amountOsmo?: number): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/unstake`, {
+      pubkey: pubkey,
+      validator: validatorAddress,
+      amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
+    });
     return data;
-    
   }
 
   /**
@@ -132,18 +102,14 @@ export class OsmoService extends Service {
     validatorDestinationAddress: string,
     amountOsmo?: number,
   ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/osmo/transaction/redelegate`,
-      {
-        account_id: accountId,
-        pubkey: pubkey,
-        validator_source: validatorSourceAddress,
-        validator_destination: validatorDestinationAddress,
-        amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
-      });
+    const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/redelegate`, {
+      account_id: accountId,
+      pubkey: pubkey,
+      validator_source: validatorSourceAddress,
+      validator_destination: validatorDestinationAddress,
+      amount_uosmo: amountOsmo ? this.osmoToUosmo(amountOsmo.toString()) : undefined,
+    });
     return data;
-    
   }
 
   /**
@@ -157,41 +123,34 @@ export class OsmoService extends Service {
       rawMessageData: {
         messages: [
           {
-            'content': tx.data.unsigned_tx_hash,
+            content: tx.data.unsigned_tx_hash,
           },
         ],
       },
     };
-    const fbNote = note ? note : 'OSMO tx from @kilnfi/sdk';
+    const fbNote = note ? note : "OSMO tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signWithFB(payload, 'OSMO', fbNote);
+    const fbTx = await signer.signWithFB(payload, "OSMO", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<CosmosSignedTx>(
-      `/v1/osmo/transaction/prepare`,
-      {
-        pubkey: tx.data.pubkey,
-        tx_body: tx.data.tx_body,
-        tx_auth_info: tx.data.tx_auth_info,
-        signature: signature,
-      });
+    const { data } = await api.post<CosmosSignedTx>(`/v1/osmo/transaction/prepare`, {
+      pubkey: tx.data.pubkey,
+      tx_body: tx.data.tx_body,
+      tx_auth_info: tx.data.tx_auth_info,
+      signature: signature,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
   }
-
 
   /**
    * Broadcast transaction to the network
    * @param signedTx
    */
   async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
-
-    const { data } = await api.post<CosmosTxHash>(
-      `/v1/osmo/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<CosmosTxHash>(`/v1/osmo/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
-
   }
 
   /**
@@ -199,11 +158,8 @@ export class OsmoService extends Service {
    * @param txHash
    */
   async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
-
-    const { data } = await api.get<CosmosTxStatus>(
-      `/v1/osmo/transaction/status?tx_hash=${txHash}`);
+    const { data } = await api.get<CosmosTxStatus>(`/v1/osmo/transaction/status?tx_hash=${txHash}`);
     return data;
-
   }
 
   /**
@@ -211,11 +167,8 @@ export class OsmoService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-
-    const { data } = await api.get<DecodedTxRaw>(
-      `/v1/osmo/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<DecodedTxRaw>(`/v1/osmo/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
-
   }
 
   /**
@@ -223,14 +176,9 @@ export class OsmoService extends Service {
    * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {OsmoStakes} Osmo Stakes
    */
-  async getStakesByAccounts(
-    accountIds: string[],
-  ): Promise<OsmoStakes> {
-
-    const { data } = await api.get<OsmoStakes>(
-      `/v1/osmo/stakes?accounts=${accountIds.join(',')}`);
+  async getStakesByAccounts(accountIds: string[]): Promise<OsmoStakes> {
+    const { data } = await api.get<OsmoStakes>(`/v1/osmo/stakes?accounts=${accountIds.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -239,15 +187,11 @@ export class OsmoService extends Service {
    * @param validators validator addresses of which you wish to retrieve stakes
    * @returns {OsmoStakes} Osmo Stakes
    */
-  async getStakesByDelegatorsAndValidators(
-    delegators: string[],
-    validators: string[],
-  ): Promise<OsmoStakes> {
-
+  async getStakesByDelegatorsAndValidators(delegators: string[], validators: string[]): Promise<OsmoStakes> {
     const { data } = await api.get<OsmoStakes>(
-      `/v1/osmo/stakes?delegators=${delegators.join(',')}&validators=${validators.join(',')}`);
+      `/v1/osmo/stakes?delegators=${delegators.join(",")}&validators=${validators.join(",")}`,
+    );
     return data;
-    
   }
 
   /**
@@ -257,18 +201,12 @@ export class OsmoService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {OsmoRewards} Osmo rewards
    */
-  async getRewardsByAccounts(
-    accountIds: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<OsmoRewards> {
-
-    const query = `/v1/osmo/rewards?accounts=${accountIds.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByAccounts(accountIds: string[], startDate?: string, endDate?: string): Promise<OsmoRewards> {
+    const query = `/v1/osmo/rewards?accounts=${accountIds.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<OsmoRewards>(query);
     return data;
-    
   }
 
   /**
@@ -285,12 +223,10 @@ export class OsmoService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<OsmoRewards> {
-
-    const query = `/v1/osmo/rewards?delegators=${delegators.join(',')}&validators=${validators.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const query = `/v1/osmo/rewards?delegators=${delegators.join(",")}&validators=${validators.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<OsmoRewards>(query);
     return data;
-    
   }
 }

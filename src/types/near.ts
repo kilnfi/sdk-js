@@ -1,32 +1,32 @@
 import { FinalExecutionOutcome } from "near-api-js/lib/providers";
-import { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
+import { SignedTransaction, Transaction } from "near-api-js/lib/transaction";
 import { TransactionResponse } from "fireblocks-sdk";
 
 export type NearTx = {
   data: {
-    tx: Transaction
-  }
-}
+    tx: Transaction;
+  };
+};
 
 export type NearSignedTx = {
   data: {
     fireblocks_tx: TransactionResponse;
-    tx: SignedTransaction
-  }
-}
+    tx: SignedTransaction;
+  };
+};
 
 export type NearTxHash = {
   data: {
     tx_hash: string;
-  }
-}
+  };
+};
 
 export type NearTxStatus = {
   data: {
-    status: 'success' | 'error';
+    status: "success" | "error";
     receipt: FinalExecutionOutcome;
-  }
-}
+  };
+};
 
 export type NearStake = {
   stake_account: string;

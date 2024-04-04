@@ -47,16 +47,13 @@ export class DotService extends Service {
   ): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
 
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/bond`,
-      {
-        account_id: accountId,
-        stash_account: stashAccount,
-        amount_planck: amountPlanck,
-        reward_destination: rewardDestination,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/bond`, {
+      account_id: accountId,
+      stash_account: stashAccount,
+      amount_planck: amountPlanck,
+      reward_destination: rewardDestination,
+    });
     return data;
-    
   }
 
   /**
@@ -64,20 +61,14 @@ export class DotService extends Service {
    * @param stashAccount stash account address
    * @param amountDot amount to bond extra in DOT
    */
-  async craftBondExtraTx(
-    stashAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
+  async craftBondExtraTx(stashAccount: string, amountDot: number): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
 
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/bond-extra`,
-      {
-        stash_account: stashAccount,
-        amount_planck: amountPlanck,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/bond-extra`, {
+      stash_account: stashAccount,
+      amount_planck: amountPlanck,
+    });
     return data;
-    
   }
 
   /**
@@ -85,20 +76,14 @@ export class DotService extends Service {
    * @param stashAccount stash account address
    * @param amountDot amount to rebond in DOT
    */
-  async craftRebondTx(
-    stashAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
+  async craftRebondTx(stashAccount: string, amountDot: number): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
 
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/rebond`,
-      {
-        stash_account: stashAccount,
-        amount_planck: amountPlanck,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/rebond`, {
+      stash_account: stashAccount,
+      amount_planck: amountPlanck,
+    });
     return data;
-    
   }
 
   /**
@@ -106,19 +91,12 @@ export class DotService extends Service {
    * @param stashAccount stash account address
    * @param validatorAddresses validator addresses to nominate to
    */
-  async craftNominateTx(
-    stashAccount: string,
-    validatorAddresses: string[],
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/nominate`,
-      {
-        stash_account: stashAccount,
-        validator_addresses: validatorAddresses,
-      });
+  async craftNominateTx(stashAccount: string, validatorAddresses: string[]): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/nominate`, {
+      stash_account: stashAccount,
+      validator_addresses: validatorAddresses,
+    });
     return data;
-    
   }
 
   /**
@@ -126,37 +104,25 @@ export class DotService extends Service {
    * @param stashAccount stash account address
    * @param amountDot amount to unrebond in DOT
    */
-  async craftUnbondTx(
-    stashAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
+  async craftUnbondTx(stashAccount: string, amountDot: number): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
 
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/unbond`,
-      {
-        stash_account: stashAccount,
-        amount_planck: amountPlanck,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/unbond`, {
+      stash_account: stashAccount,
+      amount_planck: amountPlanck,
+    });
     return data;
-    
   }
 
   /**
    * Craft dot withdraw unbonded token transaction
    * @param stashAccount stash account address
    */
-  async craftWithdrawUnbondedTx(
-    stashAccount: string,
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/withdraw-unbonded`,
-      {
-        stash_account: stashAccount,
-      });
+  async craftWithdrawUnbondedTx(stashAccount: string): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/withdraw-unbonded`, {
+      stash_account: stashAccount,
+    });
     return data;
-    
   }
 
   /**
@@ -166,17 +132,11 @@ export class DotService extends Service {
    * of the next era.
    * @param stashAccount stash account address
    */
-  async craftChillTx(
-    stashAccount: string,
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/chill`,
-      {
-        stash_account: stashAccount,
-      });
+  async craftChillTx(stashAccount: string): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/chill`, {
+      stash_account: stashAccount,
+    });
     return data;
-    
   }
 
   /**
@@ -188,19 +148,12 @@ export class DotService extends Service {
    *  'Controller': rewards are paid into the controller account
    *  Custom account address: rewards are paid into the custom account address
    */
-  async craftSetPayeeTx(
-    stashAccount: string,
-    rewardsDestination: DotRewardDestination,
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/set-payee`,
-      {
-        stash_account: stashAccount,
-        reward_destination: rewardsDestination,
-      });
+  async craftSetPayeeTx(stashAccount: string, rewardsDestination: DotRewardDestination): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/set-payee`, {
+      stash_account: stashAccount,
+      reward_destination: rewardsDestination,
+    });
     return data;
-    
   }
 
   /**
@@ -211,24 +164,15 @@ export class DotService extends Service {
    * @param amountDot
    * @param poolId
    */
-  async craftJoinPoolTx(
-    accountId: string,
-    memberAccount: string,
-    amountDot: number,
-    poolId: string,
-  ): Promise<DotTx> {
-
+  async craftJoinPoolTx(accountId: string, memberAccount: string, amountDot: number, poolId: string): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/join-pool`,
-      {
-        account_id: accountId,
-        member_account: memberAccount,
-        amount_planck: amountPlanck,
-        pool_id: poolId,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/join-pool`, {
+      account_id: accountId,
+      member_account: memberAccount,
+      amount_planck: amountPlanck,
+      pool_id: poolId,
+    });
     return data;
-    
   }
 
   /**
@@ -238,37 +182,24 @@ export class DotService extends Service {
    * @param memberAccount
    * @param amountDot
    */
-  async craftBondExtraToPoolTx(
-    memberAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
-
+  async craftBondExtraToPoolTx(memberAccount: string, amountDot: number): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/bond-extra-pool`,
-      {
-        member_account: memberAccount,
-        amount_planck: amountPlanck,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/bond-extra-pool`, {
+      member_account: memberAccount,
+      amount_planck: amountPlanck,
+    });
     return data;
-    
   }
 
   /**
    * Craft a pool bond extra transaction to bond available rewards into the pool to which they already belong.
    * @param memberAccount
    */
-  async craftBondRewardsToPoolTx(
-    memberAccount: string,
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/bond-rewards-pool`,
-      {
-        member_account: memberAccount,
-      });
+  async craftBondRewardsToPoolTx(memberAccount: string): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/bond-rewards-pool`, {
+      member_account: memberAccount,
+    });
     return data;
-    
   }
 
   /**
@@ -280,17 +211,11 @@ export class DotService extends Service {
    * The member will earn rewards pro rata based on the members stake vs the sum of the members in the pools stake. Rewards do not "expire".
    * @param memberAccount
    */
-  async craftClaimPayoutFromPoolTx(
-    memberAccount: string,
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/claim-payout-pool`,
-      {
-        member_account: memberAccount,
-      });
+  async craftClaimPayoutFromPoolTx(memberAccount: string): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/claim-payout-pool`, {
+      member_account: memberAccount,
+    });
     return data;
-    
   }
 
   /**
@@ -301,20 +226,13 @@ export class DotService extends Service {
    * @param memberAccount
    * @param amountDot
    */
-  async craftUnbondFromPoolTx(
-    memberAccount: string,
-    amountDot: number,
-  ): Promise<DotTx> {
-
+  async craftUnbondFromPoolTx(memberAccount: string, amountDot: number): Promise<DotTx> {
     const amountPlanck = this.testnet ? this.wndToPlanck(amountDot.toString()) : this.dotToPlanck(amountDot.toString());
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/unbond-pool`,
-      {
-        member_account: memberAccount,
-        amount_planck: amountPlanck,
-      });
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/unbond-pool`, {
+      member_account: memberAccount,
+      amount_planck: amountPlanck,
+    });
     return data;
-    
   }
 
   /**
@@ -322,17 +240,11 @@ export class DotService extends Service {
    * Withdraw unbonded funds from member_account.
    * @param memberAccount
    */
-  async craftWithdrawUnbondedFromPoolTx(
-    memberAccount: string,
-  ): Promise<DotTx> {
-
-    const { data } = await api.post<DotTx>(
-      `/v1/dot/transaction/withdraw-unbonded-pool`,
-      {
-        member_account: memberAccount,
-      });
+  async craftWithdrawUnbondedFromPoolTx(memberAccount: string): Promise<DotTx> {
+    const { data } = await api.post<DotTx>(`/v1/dot/transaction/withdraw-unbonded-pool`, {
+      member_account: memberAccount,
+    });
     return data;
-    
   }
 
   /**
@@ -342,7 +254,6 @@ export class DotService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: DotTx, note?: string): Promise<DotSignedTx> {
-
     const payload = {
       rawMessageData: {
         messages: [
@@ -354,19 +265,16 @@ export class DotService extends Service {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'WND' : 'DOT', fbNote);
+    const fbNote = note ? note : "DOT tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "WND" : "DOT", fbNote);
     const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
 
-    const { data } = await api.post<DotSignedTx>(
-      `/v1/dot/transaction/prepare`,
-      {
-        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-        signature: signature,
-      });
+    const { data } = await api.post<DotSignedTx>(`/v1/dot/transaction/prepare`, {
+      unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+      signature: signature,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
-    
   }
 
   /**
@@ -374,27 +282,19 @@ export class DotService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: DotSignedTx): Promise<DotTxHash> {
-
-    const { data } = await api.post<DotTxHash>(
-      `/v1/dot/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<DotTxHash>(`/v1/dot/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
-    
   }
 
   /**
    * Get transaction status
    * @param txHash transaction hash
    */
-  async getTxStatus(
-    txHash: string,
-  ): Promise<DotTxStatus> {
-
+  async getTxStatus(txHash: string): Promise<DotTxStatus> {
     const { data } = await api.get<DotTxStatus>(`/v1/dot/transaction/status?tx_hash=${txHash}`);
     return data;
-    
   }
 
   /**
@@ -402,10 +302,7 @@ export class DotService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<UnsignedTransaction> {
-
-    const { data } = await api.get<UnsignedTransaction>(
-      `/v1/dot/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<UnsignedTransaction>(`/v1/dot/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
-
   }
 }

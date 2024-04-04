@@ -3,7 +3,6 @@ import { Service } from "./service";
 import { AssetTypeResponse, PublicKeyResponse } from "fireblocks-sdk";
 
 export class FireblocksService extends Service {
-
   /**
    * Get fireblocks wallet pubkey compressed
    * @param integration

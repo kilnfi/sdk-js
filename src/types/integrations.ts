@@ -1,4 +1,4 @@
-export type SupportedProviders = 'fireblocks';
+export type SupportedProviders = "fireblocks";
 
 export type FireblocksIntegration = {
   provider: SupportedProviders;
@@ -6,7 +6,7 @@ export type FireblocksIntegration = {
   fireblocksSecretKey: string;
   vaultId: number;
   name?: string;
-  fireblocksDestinationId?: string
+  fireblocksDestinationId?: string;
 };
 
 export type Integration = FireblocksIntegration;

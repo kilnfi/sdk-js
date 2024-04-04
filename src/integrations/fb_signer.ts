@@ -6,34 +6,33 @@ import {
   TransactionOperation,
   TransactionResponse,
   TransactionStatus,
-} from 'fireblocks-sdk';
+} from "fireblocks-sdk";
 
-import { utils } from 'ethers';
-import { EthTx } from '../types/eth';
+import { utils } from "ethers";
+import { EthTx } from "../types/eth";
 import { MaticTx } from "../types/matic";
 
 type AssetId =
-  'SOL_TEST'
-  | 'SOL'
-  | 'ETH_TEST3'
-  | 'ETH_TEST6'
-  | 'ETH'
-  | 'ATOM_COS_TEST'
-  | 'ATOM_COS'
-  | 'OSMO_TEST'
-  | 'OSMO'
-  | 'ADA_TEST'
-  | 'ADA'
-  | 'NEAR_TEST'
-  | 'NEAR'
-  | 'XTZ_TEST'
-  | 'XTZ'
-  | 'WND'
-  | 'DOT'
-  | 'DV4TNT_TEST'
-  | 'DYDX_DYDX'
-  | 'CELESTIA'
-  ;
+  | "SOL_TEST"
+  | "SOL"
+  | "ETH_TEST3"
+  | "ETH_TEST6"
+  | "ETH"
+  | "ATOM_COS_TEST"
+  | "ATOM_COS"
+  | "OSMO_TEST"
+  | "OSMO"
+  | "ADA_TEST"
+  | "ADA"
+  | "NEAR_TEST"
+  | "NEAR"
+  | "XTZ_TEST"
+  | "XTZ"
+  | "WND"
+  | "DOT"
+  | "DV4TNT_TEST"
+  | "DYDX_DYDX"
+  | "CELESTIA";
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
@@ -42,8 +41,7 @@ export class FbSigner {
   constructor(fireblocks: FireblocksSDK, vaultId: number) {
     this.fireblocks = fireblocks;
     this.vaultId = vaultId;
-  };
-
+  }
 
   /**
    * Wait for given transaction to be completed
@@ -54,18 +52,22 @@ export class FbSigner {
     try {
       let tx = fbTx;
       while (tx.status != TransactionStatus.COMPLETED) {
-        if (tx.status == TransactionStatus.BLOCKED || tx.status == TransactionStatus.FAILED || tx.status == TransactionStatus.REJECTED || tx.status == TransactionStatus.CANCELLED) {
+        if (
+          tx.status == TransactionStatus.BLOCKED ||
+          tx.status == TransactionStatus.FAILED ||
+          tx.status == TransactionStatus.REJECTED ||
+          tx.status == TransactionStatus.CANCELLED
+        ) {
           throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
         }
         tx = await this.fireblocks.getTransactionById(fbTx.id);
       }
 
-      return (await this.fireblocks.getTransactionById(fbTx.id));
+      return await this.fireblocks.getTransactionById(fbTx.id);
     } catch (err: any) {
-      throw new Error('Fireblocks signer (waitForTxCompletion): ' + err);
+      throw new Error("Fireblocks signer (waitForTxCompletion): " + err);
     }
   }
-
 
   /**
    * Sign a transaction with fireblocks using Fireblocks raw message signing feature
@@ -86,10 +88,10 @@ export class FbSigner {
         extraParameters: payloadToSign,
       };
       const fbTx = await this.fireblocks.createTransaction(tx);
-      return (await this.waitForTxCompletion(fbTx));
+      return await this.waitForTxCompletion(fbTx);
     } catch (err: any) {
       console.log(err);
-      throw new Error('Fireblocks signer (signWithFB): ' + err);
+      throw new Error("Fireblocks signer (signWithFB): " + err);
     }
   }
 
@@ -102,7 +104,14 @@ export class FbSigner {
    * @param destinationId Fireblocks destination id, this corresponds to the Fireblocks whitelisted contract address id
    * @param sendAmount send the amount in tx to smart contract
    */
-  public async signAndBroadcastWithFB(payloadToSign: any, assetId: AssetId, tx: EthTx | MaticTx, destinationId: string, sendAmount: boolean = true, note?: string): Promise<TransactionResponse> {
+  public async signAndBroadcastWithFB(
+    payloadToSign: any,
+    assetId: AssetId,
+    tx: EthTx | MaticTx,
+    destinationId: string,
+    sendAmount: boolean = true,
+    note?: string,
+  ): Promise<TransactionResponse> {
     try {
       const txArgs: TransactionArguments = {
         assetId: assetId,
@@ -119,14 +128,13 @@ export class FbSigner {
         note,
         extraParameters: payloadToSign,
         gasLimit: tx.data.gas_limit,
-        priorityFee: utils.formatUnits(tx.data.max_priority_fee_per_gas_wei, 'gwei'),
-        maxFee: utils.formatUnits(tx.data.max_fee_per_gas_wei, 'gwei'),
+        priorityFee: utils.formatUnits(tx.data.max_priority_fee_per_gas_wei, "gwei"),
+        maxFee: utils.formatUnits(tx.data.max_fee_per_gas_wei, "gwei"),
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);
-      return (await this.waitForTxCompletion(fbTx));
+      return await this.waitForTxCompletion(fbTx);
     } catch (err: any) {
-      throw new Error('Fireblocks signer (signAndBroadcastWithFB): ' + err);
+      throw new Error("Fireblocks signer (signAndBroadcastWithFB): " + err);
     }
   }
 }
-

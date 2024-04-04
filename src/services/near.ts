@@ -1,7 +1,7 @@
-import { connect, Near, transactions, utils } from 'near-api-js';
-import BN from 'bn.js';
-import { sha256 } from 'js-sha256';
-import { Service } from './service';
+import { connect, Near, transactions, utils } from "near-api-js";
+import BN from "bn.js";
+import { sha256 } from "js-sha256";
+import { Service } from "./service";
 import {
   NearNetworkStats,
   NearRewards,
@@ -10,22 +10,21 @@ import {
   NearTx,
   NearTxHash,
   NearTxStatus,
-} from '../types/near';
-import { PublicKey } from 'near-api-js/lib/utils';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
-import api from '../api';
+} from "../types/near";
+import { PublicKey } from "near-api-js/lib/utils";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
+import api from "../api";
 
 export class NearService extends Service {
-
   constructor({ testnet }: ServiceProps) {
     super({ testnet });
   }
 
   private async getConnection(): Promise<Near> {
-    const officialRpc = `https://rpc.${this.testnet ? 'testnet' : 'mainnet'}.near.org`;
+    const officialRpc = `https://rpc.${this.testnet ? "testnet" : "mainnet"}.near.org`;
     const connectionConfig = {
-      networkId: this.testnet ? 'testnet' : 'mainnet',
+      networkId: this.testnet ? "testnet" : "mainnet",
       nodeUrl: officialRpc,
     };
     return await connect(connectionConfig);
@@ -36,7 +35,7 @@ export class NearService extends Service {
    * @param amountNear
    */
   nearToYocto(amountNear: string): string {
-    return utils.format.parseNearAmount(amountNear) ?? '0';
+    return utils.format.parseNearAmount(amountNear) ?? "0";
   }
 
   /**
@@ -46,45 +45,32 @@ export class NearService extends Service {
    * @param stakePoolId stake pool id
    * @param amountNear amount to stake in NEAR
    */
-  async craftStakeTx(
-    accountId: string,
-    walletId: string,
-    stakePoolId: string,
-    amountNear: number,
-  ): Promise<NearTx> {
-
+  async craftStakeTx(accountId: string, walletId: string, stakePoolId: string, amountNear: number): Promise<NearTx> {
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
     const accessKeys = await account.getAccessKeys();
-    const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
+    const fullAccessKey = accessKeys.find((key) => key.access_key.permission === "FullAccess");
     if (!fullAccessKey) {
-      throw new Error('Could not find access key');
+      throw new Error("Could not find access key");
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
 
     // Max gas fee to use in NEAR (300 Tgas)
-    const maxGasAmount = '0.0000000003';
+    const maxGasAmount = "0.0000000003";
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
     if (!parsedGasAmount) {
-      throw new Error('Could not parse gas amount');
+      throw new Error("Could not parse gas amount");
     }
     const bnAmount = new BN(this.nearToYocto(amountNear.toString()));
     const bnMaxGasFees = new BN(parsedGasAmount);
-    const actions = [transactions.functionCall('deposit_and_stake', {}, bnMaxGasFees, bnAmount)];
+    const actions = [transactions.functionCall("deposit_and_stake", {}, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      '',
+      "",
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
-    const tx = transactions.createTransaction(
-      walletId,
-      walletPubKey,
-      stakePoolId,
-      nonce,
-      actions,
-      blockHash,
-    );
+    const tx = transactions.createTransaction(walletId, walletPubKey, stakePoolId, nonce, actions, blockHash);
 
     // tag near stake
     const stake = {
@@ -109,17 +95,13 @@ export class NearService extends Service {
    * @param stakePoolId stake pool id
    * @param amountNear amount to unstake in NEAR
    */
-  async craftUnstakeTx(
-    walletId: string,
-    stakePoolId: string,
-    amountNear?: number,
-  ): Promise<NearTx> {
+  async craftUnstakeTx(walletId: string, stakePoolId: string, amountNear?: number): Promise<NearTx> {
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
     const accessKeys = await account.getAccessKeys();
-    const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
+    const fullAccessKey = accessKeys.find((key) => key.access_key.permission === "FullAccess");
     if (!fullAccessKey) {
-      throw new Error('Could not find access key');
+      throw new Error("Could not find access key");
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
@@ -130,27 +112,20 @@ export class NearService extends Service {
       };
     }
     // Max gas fee to use in NEAR (300 Tgas)
-    const maxGasAmount = '0.0000000003';
+    const maxGasAmount = "0.0000000003";
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
     if (!parsedGasAmount) {
-      throw new Error('Could not parse gas amount');
+      throw new Error("Could not parse gas amount");
     }
-    const bnAmount = new BN('0');
+    const bnAmount = new BN("0");
     const bnMaxGasFees = new BN(parsedGasAmount);
-    const actions = [transactions.functionCall(amountNear ? 'unstake' : 'unstake_all', params, bnMaxGasFees, bnAmount)];
+    const actions = [transactions.functionCall(amountNear ? "unstake" : "unstake_all", params, bnMaxGasFees, bnAmount)];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      '',
+      "",
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
-    const tx = transactions.createTransaction(
-      walletId,
-      walletPubKey,
-      stakePoolId,
-      nonce,
-      actions,
-      blockHash,
-    );
+    const tx = transactions.createTransaction(walletId, walletPubKey, stakePoolId, nonce, actions, blockHash);
 
     return {
       data: {
@@ -165,17 +140,13 @@ export class NearService extends Service {
    * @param stakePoolId stake pool id
    * @param amountNear amount to withdraw in NEAR
    */
-  async craftWithdrawTx(
-    walletId: string,
-    stakePoolId: string,
-    amountNear?: number,
-  ): Promise<NearTx> {
+  async craftWithdrawTx(walletId: string, stakePoolId: string, amountNear?: number): Promise<NearTx> {
     const connection = await this.getConnection();
     const account = await connection.account(walletId);
     const accessKeys = await account.getAccessKeys();
-    const fullAccessKey = accessKeys.find(key => key.access_key.permission === 'FullAccess');
+    const fullAccessKey = accessKeys.find((key) => key.access_key.permission === "FullAccess");
     if (!fullAccessKey) {
-      throw new Error('Could not find access key');
+      throw new Error("Could not find access key");
     }
     const walletPubKey = PublicKey.from(fullAccessKey.public_key);
     const nonce = new BN(1).add(fullAccessKey.access_key.nonce);
@@ -186,27 +157,22 @@ export class NearService extends Service {
       };
     }
     // Max gas fee to use in NEAR (300 Tgas)
-    const maxGasAmount = '0.0000000003';
+    const maxGasAmount = "0.0000000003";
     const parsedGasAmount = utils.format.parseNearAmount(maxGasAmount);
     if (!parsedGasAmount) {
-      throw new Error('Could not parse gas amount');
+      throw new Error("Could not parse gas amount");
     }
-    const bnAmount = new BN('0');
+    const bnAmount = new BN("0");
     const bnMaxGasFees = new BN(parsedGasAmount);
-    const actions = [transactions.functionCall(amountNear ? 'withdraw' : 'withdraw_all', params, bnMaxGasFees, bnAmount)];
+    const actions = [
+      transactions.functionCall(amountNear ? "withdraw" : "withdraw_all", params, bnMaxGasFees, bnAmount),
+    ];
     const accessKey = await connection.connection.provider.query(
       `access_key/${walletId}/${walletPubKey.toString()}`,
-      '',
+      "",
     );
     const blockHash = utils.serialize.base_decode(accessKey.block_hash);
-    const tx = transactions.createTransaction(
-      walletId,
-      walletPubKey,
-      stakePoolId,
-      nonce,
-      actions,
-      blockHash,
-    );
+    const tx = transactions.createTransaction(walletId, walletPubKey, stakePoolId, nonce, actions, blockHash);
 
     return {
       data: {
@@ -222,32 +188,29 @@ export class NearService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: NearTx, note?: string): Promise<NearSignedTx> {
-    const serializedTx = utils.serialize.serialize(
-      transactions.SCHEMA,
-      tx.data.tx,
-    );
+    const serializedTx = utils.serialize.serialize(transactions.SCHEMA, tx.data.tx);
     const serializedTxArray = new Uint8Array(sha256.array(serializedTx));
-    const serializedTxHash = Buffer.from(serializedTxArray).toString('hex');
+    const serializedTxHash = Buffer.from(serializedTxArray).toString("hex");
     const payload = {
       rawMessageData: {
         messages: [
           {
-            'content': serializedTxHash,
+            content: serializedTxHash,
           },
         ],
       },
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : 'NEAR tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'NEAR_TEST' : 'NEAR', fbNote);
+    const fbNote = note ? note : "NEAR tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "NEAR_TEST" : "NEAR", fbNote);
     const signature = fbTx.signedMessages![0];
 
     const signedTx = new transactions.SignedTransaction({
       transaction: tx.data.tx,
       signature: new transactions.Signature({
         keyType: tx.data.tx.publicKey.keyType,
-        data: Uint8Array.from(Buffer.from(signature.signature.fullSig, 'hex')),
+        data: Uint8Array.from(Buffer.from(signature.signature.fullSig, "hex")),
       }),
     });
 
@@ -264,7 +227,6 @@ export class NearService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: NearSignedTx): Promise<NearTxHash> {
-
     const connection = await this.getConnection();
     const res = await connection.connection.provider.sendTransaction(signedTx.data.tx);
     return {
@@ -272,7 +234,6 @@ export class NearService extends Service {
         tx_hash: res.transaction.hash,
       },
     };
-
   }
 
   /**
@@ -281,17 +242,15 @@ export class NearService extends Service {
    * @param poolId pool id
    */
   async getTxStatus(transactionHash: string, poolId: string): Promise<NearTxStatus> {
-
     const connection = await this.getConnection();
     const receipt = await connection.connection.provider.txStatusReceipts(transactionHash, poolId);
-    const status = Object.keys(receipt.status).includes('SuccessValue') ? 'success' : 'error';
+    const status = Object.keys(receipt.status).includes("SuccessValue") ? "success" : "error";
     return {
       data: {
         status: status,
         receipt: receipt,
       },
     };
-
   }
 
   /**
@@ -299,11 +258,10 @@ export class NearService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<transactions.Transaction> {
-
     const { data } = await api.get<transactions.Transaction>(
-      `/v1/near/transaction/decode?tx_serialized=${txSerialized}`);
+      `/v1/near/transaction/decode?tx_serialized=${txSerialized}`,
+    );
     return data;
-
   }
 
   /**
@@ -311,14 +269,9 @@ export class NearService extends Service {
    * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {NearStakes} Near Stakes
    */
-  async getStakesByAccounts(
-    accountIds: string[],
-  ): Promise<NearStakes> {
-
-    const { data } = await api.get<NearStakes>(
-      `/v1/near/stakes?accounts=${accountIds.join(',')}`);
+  async getStakesByAccounts(accountIds: string[]): Promise<NearStakes> {
+    const { data } = await api.get<NearStakes>(`/v1/near/stakes?accounts=${accountIds.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -326,14 +279,9 @@ export class NearService extends Service {
    * @param stakeAccounts list of stake accounts {poolId_walletId}
    * @returns {NearStakes} Near Stakes
    */
-  async getStakesByStakeAccounts(
-    stakeAccounts: string[],
-  ): Promise<NearStakes> {
-
-    const { data } = await api.get<NearStakes>(
-      `/v1/near/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+  async getStakesByStakeAccounts(stakeAccounts: string[]): Promise<NearStakes> {
+    const { data } = await api.get<NearStakes>(`/v1/near/stakes?stake_accounts=${stakeAccounts.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -341,14 +289,9 @@ export class NearService extends Service {
    * @param wallets wallet addresses of which you wish to retrieve stakes
    * @returns {NearStakes} Near Stakes
    */
-  async getStakesByWallets(
-    wallets: string[],
-  ): Promise<NearStakes> {
-
-    const { data } = await api.get<NearStakes>(
-      `/v1/near/stakes?wallets=${wallets.join(',')}`);
+  async getStakesByWallets(wallets: string[]): Promise<NearStakes> {
+    const { data } = await api.get<NearStakes>(`/v1/near/stakes?wallets=${wallets.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -358,18 +301,13 @@ export class NearService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {NearStakes} Near Stakes
    */
-  async getRewardsByAccounts(
-    accountIds: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<NearRewards> {
-
+  async getRewardsByAccounts(accountIds: string[], startDate?: string, endDate?: string): Promise<NearRewards> {
     const { data } = await api.get<NearRewards>(
-      `/v1/near/rewards?accounts=${accountIds.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`);
+      `/v1/near/rewards?accounts=${accountIds.join(",")}${
+        startDate ? `&start_date=${startDate}` : ""
+      }${endDate ? `&end_date=${endDate}` : ""}`,
+    );
     return data;
-    
   }
 
   /**
@@ -379,18 +317,13 @@ export class NearService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {NearRewards} Near Rewards
    */
-  async getRewardsByStakeAccounts(
-    stakeAccounts: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<NearRewards> {
-
+  async getRewardsByStakeAccounts(stakeAccounts: string[], startDate?: string, endDate?: string): Promise<NearRewards> {
     const { data } = await api.get<NearRewards>(
-      `/v1/near/rewards?stake_accounts=${stakeAccounts.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`);
+      `/v1/near/rewards?stake_accounts=${stakeAccounts.join(",")}${
+        startDate ? `&start_date=${startDate}` : ""
+      }${endDate ? `&end_date=${endDate}` : ""}`,
+    );
     return data;
-    
   }
 
   /**
@@ -400,29 +333,20 @@ export class NearService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {NearRewards} Near Rewards
    */
-  async getRewardsByWallets(
-    wallets: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<NearRewards> {
-
+  async getRewardsByWallets(wallets: string[], startDate?: string, endDate?: string): Promise<NearRewards> {
     const { data } = await api.get<NearRewards>(
-      `/v1/near/rewards?wallets=${wallets.join(',')}${
-        startDate ? `&start_date=${startDate}` : ''
-      }${endDate ? `&end_date=${endDate}` : ''}`);
+      `/v1/near/rewards?wallets=${wallets.join(",")}${
+        startDate ? `&start_date=${startDate}` : ""
+      }${endDate ? `&end_date=${endDate}` : ""}`,
+    );
     return data;
-    
   }
 
   /**
    * Retrieve NEAR network stats
    */
   async getNetworkStats(): Promise<NearNetworkStats> {
-
-    const { data } = await api.get<NearNetworkStats>(
-      `/v1/near/network-stats`,
-    );
+    const { data } = await api.get<NearNetworkStats>(`/v1/near/network-stats`);
     return data;
-    
   }
 }
