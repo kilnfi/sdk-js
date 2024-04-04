@@ -58,6 +58,28 @@ export class NobleService extends Service {
   }
 
   /**
+   * Transfer IBC USDC from your account to an OSMO account
+   * @param pubkey
+   * @param receiver
+   * @param amountUsdc
+   */
+  async craftOsmoIbcTransfer(
+    pubkey: string,
+    receiver: string,
+    amountUsdc: number,
+  ): Promise<CosmosTx> {
+
+    const { data } = await api.post<CosmosTx>(
+      `/v1/noble/transaction/osmo-ibc-transfer`,
+      {
+        pubkey,
+        amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
+        receiver
+      });
+    return data;
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
    * @param tx raw transaction

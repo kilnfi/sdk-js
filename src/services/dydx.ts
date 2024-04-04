@@ -127,13 +127,13 @@ export class DydxService extends Service {
    * @param pubkey
    * @param amountUsdc
    */
-  async craftTransferIbcUsdc(
+  async craftNobleIbcTransfer(
     pubkey: string,
     amountUsdc: number,
   ): Promise<CosmosTx> {
 
     const { data } = await api.post<CosmosTx>(
-      `/v1/dydx/transaction/ibc-transfer-usdc`,
+      `/v1/dydx/transaction/noble-ibc-transfer`,
       {
         pubkey: pubkey,
         amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
