@@ -7,7 +7,7 @@ import { TransactionResponse } from "fireblocks-sdk";
  * 'Controller': Rewards are paid into the controller account
  * Custom account address: Rewards are paid into the custom account address
  */
-export type DotRewardDestination = 'Staked' | 'Stash' | 'Controller' | string;
+export type DotRewardDestination = "Staked" | "Stash" | "Controller" | string;
 
 export type DotTx = {
   data: {
@@ -27,7 +27,7 @@ export type DotSignedTx = {
 export type DotTxHash = {
   data: {
     tx_hash: string;
-  }
+  };
 };
 
 export type DotTxStatus = {

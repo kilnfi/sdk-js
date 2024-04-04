@@ -12,7 +12,7 @@ export class AccountService {
    * Get all accounts
    */
   async getAll(): Promise<Account[]> {
-    const { data } = await api.get<Accounts>('/v1/accounts');
+    const { data } = await api.get<Accounts>("/v1/accounts");
     return data.accounts;
   }
 
@@ -31,9 +31,9 @@ export class AccountService {
    * @param description
    */
   async create(name: string, description?: string): Promise<Account> {
-    const { data } = await api.post<Account>('/v1/accounts', {
+    const { data } = await api.post<Account>("/v1/accounts", {
       name,
-      description: description ?? ''
+      description: description ?? "",
     });
     return data;
   }
@@ -47,9 +47,8 @@ export class AccountService {
   async update(accountId: string, name: string, description?: string): Promise<Account> {
     const { data } = await api.put<Account>(`/v1/accounts/${accountId}`, {
       name,
-      description: description ?? ''
+      description: description ?? "",
     });
     return data;
   }
-
 }

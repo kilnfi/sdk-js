@@ -1,15 +1,9 @@
-import api from '../api';
-import { Service } from './service';
-import { utils } from 'ethers';
-import { ServiceProps } from '../types/service';
-import {
-  MaticDecodedTx,
-  MaticSignedTx,
-  MaticTx,
-  MaticTxHash,
-  MaticTxStatus,
-} from "../types/matic";
-import { Integration } from '../types/integrations';
+import api from "../api";
+import { Service } from "./service";
+import { utils } from "ethers";
+import { ServiceProps } from "../types/service";
+import { MaticDecodedTx, MaticSignedTx, MaticTx, MaticTxHash, MaticTxStatus } from "../types/matic";
+import { Integration } from "../types/integrations";
 import { TransactionResponse } from "fireblocks-sdk";
 
 export class MaticService extends Service {
@@ -29,16 +23,12 @@ export class MaticService extends Service {
     contractAddressToApprove: string,
     amountMatic?: number,
   ): Promise<MaticTx> {
-
-    const { data } = await api.post<MaticTx>(
-      `/v1/matic/transaction/approve`,
-      {
-        wallet: walletAddress,
-        contract: contractAddressToApprove,
-        amount_wei: amountMatic ? this.maticToWei(amountMatic?.toString()) : undefined,
-      });
+    const { data } = await api.post<MaticTx>(`/v1/matic/transaction/approve`, {
+      wallet: walletAddress,
+      contract: contractAddressToApprove,
+      amount_wei: amountMatic ? this.maticToWei(amountMatic?.toString()) : undefined,
+    });
     return data;
-    
   }
 
   /**
@@ -55,17 +45,13 @@ export class MaticService extends Service {
     validatorShareProxyAddress: string,
     amountMatic: number,
   ): Promise<MaticTx> {
-
-    const { data } = await api.post<MaticTx>(
-      `/v1/matic/transaction/buy-voucher`,
-      {
-        account_id: accountId,
-        wallet: walletAddress,
-        amount_wei: this.maticToWei(amountMatic.toString()),
-        validator_share_proxy_address: validatorShareProxyAddress,
-      });
+    const { data } = await api.post<MaticTx>(`/v1/matic/transaction/buy-voucher`, {
+      account_id: accountId,
+      wallet: walletAddress,
+      amount_wei: this.maticToWei(amountMatic.toString()),
+      validator_share_proxy_address: validatorShareProxyAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -80,16 +66,12 @@ export class MaticService extends Service {
     validatorShareProxyAddress: string,
     amountMatic: number,
   ): Promise<MaticTx> {
-
-    const { data } = await api.post<MaticTx>(
-      `/v1/matic/transaction/sell-voucher`,
-      {
-        wallet: walletAddress,
-        amount_wei: this.maticToWei(amountMatic.toString()),
-        validator_share_proxy_address: validatorShareProxyAddress,
-      });
+    const { data } = await api.post<MaticTx>(`/v1/matic/transaction/sell-voucher`, {
+      wallet: walletAddress,
+      amount_wei: this.maticToWei(amountMatic.toString()),
+      validator_share_proxy_address: validatorShareProxyAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -98,19 +80,12 @@ export class MaticService extends Service {
    * @param walletAddress address delegating
    * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
-  async craftUnstakeClaimTokensTx(
-    walletAddress: string,
-    validatorShareProxyAddress: string,
-  ): Promise<MaticTx> {
-
-    const { data } = await api.post<MaticTx>(
-      `/v1/matic/transaction/unstake-claim-tokens`,
-      {
-        wallet: walletAddress,
-        validator_share_proxy_address: validatorShareProxyAddress,
-      });
+  async craftUnstakeClaimTokensTx(walletAddress: string, validatorShareProxyAddress: string): Promise<MaticTx> {
+    const { data } = await api.post<MaticTx>(`/v1/matic/transaction/unstake-claim-tokens`, {
+      wallet: walletAddress,
+      validator_share_proxy_address: validatorShareProxyAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -119,19 +94,12 @@ export class MaticService extends Service {
    * @param walletAddress address delegating
    * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
-  async craftWithdrawRewardsTx(
-    walletAddress: string,
-    validatorShareProxyAddress: string,
-  ): Promise<MaticTx> {
-
-    const { data } = await api.post<MaticTx>(
-      `/v1/matic/transaction/withdraw-rewards`,
-      {
-        wallet: walletAddress,
-        validator_share_proxy_address: validatorShareProxyAddress,
-      });
+  async craftWithdrawRewardsTx(walletAddress: string, validatorShareProxyAddress: string): Promise<MaticTx> {
+    const { data } = await api.post<MaticTx>(`/v1/matic/transaction/withdraw-rewards`, {
+      wallet: walletAddress,
+      validator_share_proxy_address: validatorShareProxyAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -140,19 +108,12 @@ export class MaticService extends Service {
    * @param walletAddress address delegating
    * @param validatorShareProxyAddress ValidatorShare proxy contract address of the validator
    */
-  async craftRestakeRewardsTx(
-    walletAddress: string,
-    validatorShareProxyAddress: string,
-  ): Promise<MaticTx> {
-
-    const { data } = await api.post<MaticTx>(
-      `/v1/matic/transaction/restake-rewards`,
-      {
-        wallet: walletAddress,
-        validator_share_proxy_address: validatorShareProxyAddress,
-      });
+  async craftRestakeRewardsTx(walletAddress: string, validatorShareProxyAddress: string): Promise<MaticTx> {
+    const { data } = await api.post<MaticTx>(`/v1/matic/transaction/restake-rewards`, {
+      wallet: walletAddress,
+      validator_share_proxy_address: validatorShareProxyAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -162,31 +123,27 @@ export class MaticService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: MaticTx, note?: string): Promise<MaticSignedTx> {
-
     const payload = {
       rawMessageData: {
         messages: [
           {
-            'content': tx.data.unsigned_tx_hash,
+            content: tx.data.unsigned_tx_hash,
           },
         ],
       },
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : 'MATIC tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ETH_TEST3' : 'ETH', fbNote);
-    const { data } = await api.post<MaticSignedTx>(
-      `/v1/matic/transaction/prepare`,
-      {
-        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-        r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
-        s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
-        v: fbTx?.signedMessages?.[0].signature.v ?? 0,
-      });
+    const fbNote = note ? note : "MATIC tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "ETH_TEST3" : "ETH", fbNote);
+    const { data } = await api.post<MaticSignedTx>(`/v1/matic/transaction/prepare`, {
+      unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+      r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+      s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+      v: fbTx?.signedMessages?.[0].signature.v ?? 0,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
-    
   }
 
   /**
@@ -196,8 +153,8 @@ export class MaticService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async signAndBroadcast(integration: Integration, tx: MaticTx, note?: string): Promise<TransactionResponse> {
-    if(!integration.fireblocksDestinationId) {
-      throw new Error('Fireblocks destination id is missing in integration');
+    if (!integration.fireblocksDestinationId) {
+      throw new Error("Fireblocks destination id is missing in integration");
     }
 
     const payload = {
@@ -205,9 +162,9 @@ export class MaticService extends Service {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : 'MATIC tx from @kilnfi/sdk';
-    const assetId = this.testnet ? 'ETH_TEST3' : 'ETH';
-    return  await fbSigner.signAndBroadcastWithFB(
+    const fbNote = note ? note : "MATIC tx from @kilnfi/sdk";
+    const assetId = this.testnet ? "ETH_TEST3" : "ETH";
+    return await fbSigner.signAndBroadcastWithFB(
       payload,
       assetId,
       tx,
@@ -215,23 +172,17 @@ export class MaticService extends Service {
       false,
       fbNote,
     );
-    
   }
-
 
   /**
    * Broadcast transaction to the network
    * @param signedTx
    */
   async broadcast(signedTx: MaticSignedTx): Promise<MaticTxHash> {
-
-    const { data } = await api.post<MaticTxHash>(
-      `/v1/matic/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<MaticTxHash>(`/v1/matic/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
-    
   }
 
   /**
@@ -239,11 +190,8 @@ export class MaticService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<MaticTxStatus> {
-
-    const { data } = await api.get<MaticTxStatus>(
-      `/v1/matic/transaction/status?tx_hash=${txHash}`);
+    const { data } = await api.get<MaticTxStatus>(`/v1/matic/transaction/status?tx_hash=${txHash}`);
     return data;
-    
   }
 
   /**
@@ -251,11 +199,8 @@ export class MaticService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<MaticDecodedTx> {
-
-    const { data } = await api.get<MaticDecodedTx>(
-      `/v1/matic/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<MaticDecodedTx>(`/v1/matic/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
-
   }
 
   /**

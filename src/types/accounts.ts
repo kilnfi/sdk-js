@@ -1,4 +1,3 @@
-
 export type InternalAccountsConfig = {
   testnet?: boolean;
 };
@@ -11,5 +10,5 @@ export type Account = {
 };
 
 export type Accounts = {
-  accounts: Account[]
-}
+  accounts: Account[];
+};

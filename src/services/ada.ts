@@ -1,4 +1,4 @@
-import { Service } from './service';
+import { Service } from "./service";
 import {
   AdaNetworkStats,
   AdaRewards,
@@ -8,10 +8,10 @@ import {
   AdaTx,
   AdaTxHash,
   AdaTxStatus,
-} from '../types/ada';
-import api from '../api';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
+} from "../types/ada";
+import api from "../api";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
 import { TransactionJSON } from "@emurgo/cardano-serialization-lib-nodejs";
 
 export class AdaService extends Service {
@@ -25,18 +25,12 @@ export class AdaService extends Service {
    * @param walletAddress withdrawal creds /!\ losing it => losing the ability to withdraw
    * @param poolId pool id (bech32) to delegate to, eg. KILN0 - pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k
    */
-  async craftStakeTx(
-    accountId: string,
-    walletAddress: string,
-    poolId: string,
-  ): Promise<AdaTx> {
-    const { data } = await api.post<AdaTx>(
-      `/v1/ada/transaction/stake`,
-      {
-        account_id: accountId,
-        wallet: walletAddress,
-        pool_id: poolId,
-      });
+  async craftStakeTx(accountId: string, walletAddress: string, poolId: string): Promise<AdaTx> {
+    const { data } = await api.post<AdaTx>(`/v1/ada/transaction/stake`, {
+      account_id: accountId,
+      wallet: walletAddress,
+      pool_id: poolId,
+    });
     return data;
   }
 
@@ -45,16 +39,11 @@ export class AdaService extends Service {
    * @param walletAddress wallet delegating that will receive the rewards
    * @param amountAda amount of rewards to withdraw in ADA, if not provided all rewards are withdrawn
    */
-  async craftWithdrawRewardsTx(
-    walletAddress: string,
-    amountAda?: number,
-  ): Promise<AdaTx> {
-    const { data } = await api.post<AdaTx>(
-      `/v1/ada/transaction/withdraw-rewards`,
-      {
-        wallet: walletAddress,
-        amount_lovelace: amountAda ? this.adaToLovelace(amountAda.toString()) : undefined,
-      });
+  async craftWithdrawRewardsTx(walletAddress: string, amountAda?: number): Promise<AdaTx> {
+    const { data } = await api.post<AdaTx>(`/v1/ada/transaction/withdraw-rewards`, {
+      wallet: walletAddress,
+      amount_lovelace: amountAda ? this.adaToLovelace(amountAda.toString()) : undefined,
+    });
     return data;
   }
 
@@ -62,14 +51,10 @@ export class AdaService extends Service {
    * Craft ada undelegate transaction
    * @param walletAddress wallet delegating that will receive the rewards
    */
-  async craftUnstakeTx(
-    walletAddress: string,
-  ): Promise<AdaTx> {
-    const { data } = await api.post<AdaTx>(
-      `/v1/ada/transaction/unstake`,
-      {
-        wallet: walletAddress,
-      });
+  async craftUnstakeTx(walletAddress: string): Promise<AdaTx> {
+    const { data } = await api.post<AdaTx>(`/v1/ada/transaction/unstake`, {
+      wallet: walletAddress,
+    });
     return data;
   }
 
@@ -93,11 +78,11 @@ export class AdaService extends Service {
       rawMessageData: {
         messages: [
           {
-            'content': tx.data.unsigned_tx_hash,
+            content: tx.data.unsigned_tx_hash,
           },
           {
-            'content': tx.data.unsigned_tx_hash,
-            'bip44change': 2,
+            content: tx.data.unsigned_tx_hash,
+            bip44change: 2,
           },
         ],
       },
@@ -106,8 +91,8 @@ export class AdaService extends Service {
       },
     };
 
-    const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'ADA_TEST' : 'ADA', fbNote);
+    const fbNote = note ? note : "ADA tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "ADA_TEST" : "ADA", fbNote);
 
     if (!fbTx.signedMessages) {
       throw new Error(`Could not sign the transaction.`);
@@ -120,12 +105,10 @@ export class AdaService extends Service {
       };
     });
 
-    const { data } = await api.post<AdaSignedTx>(
-      `/v1/ada/transaction/prepare`,
-      {
-        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-        signed_messages: signedMessages,
-      });
+    const { data } = await api.post<AdaSignedTx>(`/v1/ada/transaction/prepare`, {
+      unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+      signed_messages: signedMessages,
+    });
 
     data.data.fireblocks_tx = fbTx;
     return data;
@@ -136,11 +119,9 @@ export class AdaService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: AdaSignedTx): Promise<AdaTxHash> {
-    const { data } = await api.post<AdaTxHash>(
-      `/v1/ada/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<AdaTxHash>(`/v1/ada/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
   }
 
@@ -149,8 +130,7 @@ export class AdaService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<AdaTxStatus> {
-    const { data } = await api.get<AdaTxStatus>(
-      `/v1/ada/transaction/status?tx_hash=${txHash}`);
+    const { data } = await api.get<AdaTxStatus>(`/v1/ada/transaction/status?tx_hash=${txHash}`);
     return data;
   }
 
@@ -159,8 +139,7 @@ export class AdaService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<TransactionJSON> {
-    const { data } = await api.get<TransactionJSON>(
-      `/v1/ada/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<TransactionJSON>(`/v1/ada/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
   }
 
@@ -169,11 +148,8 @@ export class AdaService extends Service {
    * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {AdaStakes} Cardano Stakes
    */
-  async getStakesByAccounts(
-    accountIds: string[],
-  ): Promise<AdaStakes> {
-    const { data } = await api.get<AdaStakes>(
-      `/v1/ada/stakes?accounts=${accountIds.join(',')}`);
+  async getStakesByAccounts(accountIds: string[]): Promise<AdaStakes> {
+    const { data } = await api.get<AdaStakes>(`/v1/ada/stakes?accounts=${accountIds.join(",")}`);
     return data;
   }
 
@@ -182,11 +158,8 @@ export class AdaService extends Service {
    * @param stakeAddresses stake addresses of which you wish to retrieve stakes
    * @returns {AdaStakes} Cardano Stakes
    */
-  async getStakesByStakeAddresses(
-    stakeAddresses: string[],
-  ): Promise<AdaStakes> {
-    const { data } = await api.get<AdaStakes>(
-      `/v1/ada/stakes?stake_addresses=${stakeAddresses.join(',')}`);
+  async getStakesByStakeAddresses(stakeAddresses: string[]): Promise<AdaStakes> {
+    const { data } = await api.get<AdaStakes>(`/v1/ada/stakes?stake_addresses=${stakeAddresses.join(",")}`);
     return data;
   }
 
@@ -195,11 +168,8 @@ export class AdaService extends Service {
    * @param wallets wallet addresses of which you wish to retrieve stakes
    * @returns {AdaStakes} Cardano Stakes
    */
-  async getStakesByWallets(
-    wallets: string[],
-  ): Promise<AdaStakes> {
-    const { data } = await api.get<AdaStakes>(
-      `/v1/ada/stakes?wallets=${wallets.join(',')}`);
+  async getStakesByWallets(wallets: string[]): Promise<AdaStakes> {
+    const { data } = await api.get<AdaStakes>(`/v1/ada/stakes?wallets=${wallets.join(",")}`);
     return data;
   }
 
@@ -210,18 +180,12 @@ export class AdaService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AdaRewards} Cardano rewards
    */
-  async getRewardsByAccounts(
-    accountIds: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<AdaRewards> {
-
-    const query = `/v1/ada/rewards?accounts=${accountIds.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByAccounts(accountIds: string[], startDate?: string, endDate?: string): Promise<AdaRewards> {
+    const query = `/v1/ada/rewards?accounts=${accountIds.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<AdaRewards>(query);
     return data;
-
   }
 
   /**
@@ -236,13 +200,11 @@ export class AdaService extends Service {
     startDate?: string,
     endDate?: string,
   ): Promise<AdaRewards> {
-
-    const query = `/v1/ada/rewards?stake_addresses=${stakeAddresses.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+    const query = `/v1/ada/rewards?stake_addresses=${stakeAddresses.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<AdaRewards>(query);
     return data;
-    
   }
 
   /**
@@ -252,29 +214,19 @@ export class AdaService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {AdaRewards} Cardano rewards
    */
-  async getRewardsByWallets(
-    wallets: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<AdaRewards> {
-
-    const query = `/v1/ada/rewards?wallets=${wallets.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByWallets(wallets: string[], startDate?: string, endDate?: string): Promise<AdaRewards> {
+    const query = `/v1/ada/rewards?wallets=${wallets.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<AdaRewards>(query);
     return data;
-    
   }
 
   /**
    * Retrieve ADA network stats
    */
   async getNetworkStats(): Promise<AdaNetworkStats> {
-
-    const { data } = await api.get<AdaNetworkStats>(
-      `/v1/ada/network-stats`,
-    );
+    const { data } = await api.get<AdaNetworkStats>(`/v1/ada/network-stats`);
     return data;
-    
   }
 }

@@ -1,15 +1,15 @@
-import api from './api';
+import api from "./api";
 import { KILN_VALIDATORS as v } from "./validators";
-import { EthService } from './services/eth';
-import { SolService } from './services/sol';
-import { AtomService } from './services/atom';
-import { AccountService } from './services/accounts';
-import { AdaService } from './services/ada';
-import { NearService } from './services/near';
-import { DotService } from './services/dot';
-import { XtzService } from './services/xtz';
-import { MaticService } from './services/matic';
-import { OsmoService } from './services/osmo';
+import { EthService } from "./services/eth";
+import { SolService } from "./services/sol";
+import { AtomService } from "./services/atom";
+import { AccountService } from "./services/accounts";
+import { AdaService } from "./services/ada";
+import { NearService } from "./services/near";
+import { DotService } from "./services/dot";
+import { XtzService } from "./services/xtz";
+import { MaticService } from "./services/matic";
+import { OsmoService } from "./services/osmo";
 import { FireblocksService } from "./services/fireblocks";
 import { DydxService } from "./services/dydx";
 import { TiaService } from "./services/tia";
@@ -41,11 +41,8 @@ export class Kiln {
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
-    api.defaults.headers.common['Content-Type'] = 'application/json';
-    api.defaults.baseURL = baseUrl ? baseUrl :
-      testnet === true
-        ? 'https://api.testnet.kiln.fi'
-        : 'https://api.kiln.fi';
+    api.defaults.headers.common["Content-Type"] = "application/json";
+    api.defaults.baseURL = baseUrl ? baseUrl : testnet === true ? "https://api.testnet.kiln.fi" : "https://api.kiln.fi";
 
     this.fireblocks = new FireblocksService({ testnet });
     this.accounts = new AccountService({ testnet });
