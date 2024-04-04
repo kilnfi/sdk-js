@@ -25,7 +25,6 @@ export class NobleService extends Service {
     address: string,
     denom: string,
   ): Promise<Balance> {
-
     const { data } = await api.post<Balance>(
       `/v1/noble/balance`,
       {
@@ -46,7 +45,6 @@ export class NobleService extends Service {
     recipient: string,
     amountUsdc: number,
   ): Promise<CosmosTx> {
-
     const { data } = await api.post<CosmosTx>(
       `/v1/noble/transaction/burn-usdc`,
       {
@@ -68,13 +66,12 @@ export class NobleService extends Service {
     receiver: string,
     amountUsdc: number,
   ): Promise<CosmosTx> {
-
     const { data } = await api.post<CosmosTx>(
       `/v1/noble/transaction/osmo-ibc-transfer`,
       {
         pubkey,
         amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
-        receiver
+        receiver,
       });
     return data;
   }
