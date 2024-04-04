@@ -46,14 +46,14 @@ export class NobleService extends Service {
   /**
    * Transfer IBC USDC from your account to an OSMO account
    * @param pubkey
-   * @param receiver
+   * @param recipient
    * @param amountUsdc
    */
-  async craftOsmoIbcTransfer(pubkey: string, receiver: string, amountUsdc: number): Promise<CosmosTx> {
+  async craftOsmoIbcTransfer(pubkey: string, recipient: string, amountUsdc: number): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/noble/transaction/osmo-ibc-transfer`, {
       pubkey,
+      recipient,
       amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
-      receiver,
     });
     return data;
   }
