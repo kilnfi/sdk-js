@@ -2,6 +2,7 @@ import {
   CreateTransactionResponse,
   FireblocksSDK,
   PeerType,
+  SigningAlgorithm,
   TransactionArguments,
   TransactionOperation,
   TransactionResponse,
@@ -55,10 +56,13 @@ export class FbSigner {
         if (
           tx.status == TransactionStatus.BLOCKED ||
           tx.status == TransactionStatus.FAILED ||
-          tx.status == TransactionStatus.REJECTED ||
           tx.status == TransactionStatus.CANCELLED
         ) {
           throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
+        } else if (tx.status == TransactionStatus.REJECTED) {
+          throw Error(
+            `Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction`,
+          );
         }
         tx = await this.fireblocks.getTransactionById(fbTx.id);
       }
@@ -92,6 +96,43 @@ export class FbSigner {
     } catch (err: any) {
       console.log(err);
       throw new Error("Fireblocks signer (signWithFB): " + err);
+    }
+  }
+
+  /**
+   * Sign a generic transaction with fireblocks using Fireblocks raw message signing feature.
+   * @param payloadToSign: transaction data in hexadecimal
+   * @param derivationPath: derivation path of the token to sign
+   * @param algorithm: algorithm of the token to sign
+   * @param note: optional fireblocks custom note
+   */
+  public async signGenericWithFB(
+    payloadContent: string,
+    derivationPath: number[],
+    algorithm: SigningAlgorithm,
+    note?: string,
+  ): Promise<TransactionResponse> {
+    try {
+      const payloadToSign = {
+        operation: TransactionOperation.RAW,
+        note,
+        extraParameters: {
+          rawMessageData: {
+            messages: [
+              {
+                content: payloadContent,
+                derivationPath,
+              },
+            ],
+            algorithm,
+          },
+        },
+      };
+      const fbTx = await this.fireblocks.createTransaction(payloadToSign);
+      return await this.waitForTxCompletion(fbTx);
+    } catch (err: any) {
+      console.log(err);
+      throw new Error("Fireblocks signer (signGenericWithFB): " + err);
     }
   }
 

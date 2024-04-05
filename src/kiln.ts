@@ -1,19 +1,20 @@
 import api from "./api";
-import { KILN_VALIDATORS as v } from "./validators";
-import { EthService } from "./services/eth";
-import { SolService } from "./services/sol";
-import { AtomService } from "./services/atom";
 import { AccountService } from "./services/accounts";
 import { AdaService } from "./services/ada";
-import { NearService } from "./services/near";
+import { AtomService } from "./services/atom";
 import { DotService } from "./services/dot";
-import { XtzService } from "./services/xtz";
-import { MaticService } from "./services/matic";
-import { OsmoService } from "./services/osmo";
-import { FireblocksService } from "./services/fireblocks";
 import { DydxService } from "./services/dydx";
-import { TiaService } from "./services/tia";
+import { EthService } from "./services/eth";
+import { FetService } from "./services/fet";
+import { FireblocksService } from "./services/fireblocks";
+import { MaticService } from "./services/matic";
+import { NearService } from "./services/near";
 import { NobleService } from "./services/noble";
+import { OsmoService } from "./services/osmo";
+import { SolService } from "./services/sol";
+import { TiaService } from "./services/tia";
+import { XtzService } from "./services/xtz";
+import { KILN_VALIDATORS as v } from "./validators";
 
 type Config = {
   apiToken: string;
@@ -38,6 +39,7 @@ export class Kiln {
   dydx: DydxService;
   tia: TiaService;
   noble: NobleService;
+  fet: FetService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -58,5 +60,6 @@ export class Kiln {
     this.dydx = new DydxService({ testnet });
     this.tia = new TiaService({ testnet });
     this.noble = new NobleService({ testnet });
+    this.fet = new FetService({ testnet });
   }
 }

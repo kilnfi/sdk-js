@@ -52,4 +52,9 @@ export const KILN_VALIDATORS = {
       KILN: "tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez",
     },
   },
+  FET: {
+    mainnet: {
+      KILN: "fetchvaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ryjvncp",
+    },
+  },
 };
