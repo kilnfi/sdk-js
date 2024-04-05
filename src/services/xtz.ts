@@ -1,16 +1,8 @@
-import api from '../api';
-import { Service } from './service';
-import {
-  XtzNetworkStats,
-  XtzRewards,
-  XtzSignedTx,
-  XtzStakes,
-  XtzTx,
-  XtzTxHash,
-  XtzTxStatus,
-} from '../types/xtz';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
+import api from "../api";
+import { Service } from "./service";
+import { XtzNetworkStats, XtzRewards, XtzSignedTx, XtzStakes, XtzTx, XtzTxHash, XtzTxStatus } from "../types/xtz";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
 import { ForgeParams } from "@taquito/local-forging";
 
 export class XtzService extends Service {
@@ -24,38 +16,24 @@ export class XtzService extends Service {
    * @param walletAddress wallet address delegating
    * @param bakerAddress baker address that you wish to delegate to
    */
-  async craftStakeTx(
-    accountId: string,
-    walletAddress: string,
-    bakerAddress: string,
-  ): Promise<XtzTx> {
-
-    const { data } = await api.post<XtzTx>(
-      `/v1/xtz/transaction/stake`,
-      {
-        account_id: accountId,
-        wallet: walletAddress,
-        baker_address: bakerAddress,
-      });
+  async craftStakeTx(accountId: string, walletAddress: string, bakerAddress: string): Promise<XtzTx> {
+    const { data } = await api.post<XtzTx>(`/v1/xtz/transaction/stake`, {
+      account_id: accountId,
+      wallet: walletAddress,
+      baker_address: bakerAddress,
+    });
     return data;
-    
   }
 
   /**
    * Craft Tezos undelegation transaction
    * @param walletAddress wallet address delegating
    */
-  async craftUnStakeTx(
-    walletAddress: string,
-  ): Promise<XtzTx> {
-
-    const { data } = await api.post<XtzTx>(
-      `/v1/xtz/transaction/unstake`,
-      {
-        wallet: walletAddress,
-      });
+  async craftUnStakeTx(walletAddress: string): Promise<XtzTx> {
+    const { data } = await api.post<XtzTx>(`/v1/xtz/transaction/unstake`, {
+      wallet: walletAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -69,40 +47,33 @@ export class XtzService extends Service {
       rawMessageData: {
         messages: [
           {
-            'content': tx.data.unsigned_tx_hash,
+            content: tx.data.unsigned_tx_hash,
           },
         ],
       },
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'XTZ_TEST' : 'XTZ', fbNote);
+    const fbNote = note ? note : "XTZ tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "XTZ_TEST" : "XTZ", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<XtzSignedTx>(
-      `/v1/xtz/transaction/prepare`,
-      {
-        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-        signature: signature,
-      });
+    const { data } = await api.post<XtzSignedTx>(`/v1/xtz/transaction/prepare`, {
+      unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+      signature: signature,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
   }
-
 
   /**
    * Broadcast transaction to the network
    * @param signedTx serialized signed tx
    */
   async broadcast(signedTx: XtzSignedTx): Promise<XtzTxHash> {
-
-    const { data } = await api.post<XtzTxHash>(
-      `/v1/xtz/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<XtzTxHash>(`/v1/xtz/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
-
   }
 
   /**
@@ -111,11 +82,10 @@ export class XtzService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(blockNumber: number, txHash: string): Promise<XtzTxStatus> {
-
     const { data } = await api.get<XtzTxStatus>(
-      `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${txHash}`);
+      `/v1/xtz/transaction/status?block_number=${blockNumber}&tx_hash=${txHash}`,
+    );
     return data;
-
   }
 
   /**
@@ -123,11 +93,8 @@ export class XtzService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<ForgeParams> {
-
-    const { data } = await api.get<ForgeParams>(
-      `/v1/xtz/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<ForgeParams>(`/v1/xtz/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
-
   }
 
   /**
@@ -135,14 +102,9 @@ export class XtzService extends Service {
    * @param accountIds account ids of which you wish to retrieve rewards
    * @returns {XtzStakes} Tezos Stakes
    */
-  async getStakesByAccounts(
-    accountIds: string[],
-  ): Promise<XtzStakes> {
-
-    const { data } = await api.get<XtzStakes>(
-      `/v1/xtz/stakes?accounts=${accountIds.join(',')}`);
+  async getStakesByAccounts(accountIds: string[]): Promise<XtzStakes> {
+    const { data } = await api.get<XtzStakes>(`/v1/xtz/stakes?accounts=${accountIds.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -150,15 +112,9 @@ export class XtzService extends Service {
    * @param walletAddresses addresses of the wallets of which you wish to retrieve rewards
    * @returns {XtzStakes} Tezos Stakes
    */
-  async getStakesByWallets(
-    walletAddresses: string[],
-  ): Promise<XtzStakes> {
-
-    const { data } = await api.get<XtzStakes>(
-      `/v1/xtz/stakes?wallets=${walletAddresses.join(',')}`,
-    );
+  async getStakesByWallets(walletAddresses: string[]): Promise<XtzStakes> {
+    const { data } = await api.get<XtzStakes>(`/v1/xtz/stakes?wallets=${walletAddresses.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -168,18 +124,12 @@ export class XtzService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {XtzRewards} Tezos rewards
    */
-  async getRewardsByAccounts(
-    accountIds: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<XtzRewards> {
-
-    const query = `/v1/xtz/rewards?accounts=${accountIds.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByAccounts(accountIds: string[], startDate?: string, endDate?: string): Promise<XtzRewards> {
+    const query = `/v1/xtz/rewards?accounts=${accountIds.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<XtzRewards>(query);
     return data;
-    
   }
 
   /**
@@ -189,30 +139,20 @@ export class XtzService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {XtzRewards} Tezos rewards
    */
-  async getRewardsByWallets(
-    walletAddresses: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<XtzRewards> {
-
-    const query = `/v1/xtz/rewards?wallets=${walletAddresses.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByWallets(walletAddresses: string[], startDate?: string, endDate?: string): Promise<XtzRewards> {
+    const query = `/v1/xtz/rewards?wallets=${walletAddresses.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<XtzRewards>(query);
     return data;
-    
   }
 
   /**
    * Retrieve XTZ network stats
    */
   async getNetworkStats(): Promise<XtzNetworkStats> {
-
-    const { data } = await api.get<XtzNetworkStats>(
-      `/v1/xtz/network-stats`,
-    );
+    const { data } = await api.get<XtzNetworkStats>(`/v1/xtz/network-stats`);
     return data;
-    
   }
 
   /**

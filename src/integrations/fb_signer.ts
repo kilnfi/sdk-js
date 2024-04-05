@@ -49,9 +49,7 @@ export class FbSigner {
    * @param fbTx: fireblocks transaction
    * @private
    */
-  protected async waitForTxCompletion(
-    fbTx: CreateTransactionResponse
-  ): Promise<TransactionResponse> {
+  protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
     try {
       let tx = fbTx;
       while (tx.status != TransactionStatus.COMPLETED) {
@@ -60,12 +58,10 @@ export class FbSigner {
           tx.status == TransactionStatus.FAILED ||
           tx.status == TransactionStatus.CANCELLED
         ) {
-          throw Error(
-            `Fireblocks signer: the transaction has been ${tx.status}`
-          );
+          throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
         } else if (tx.status == TransactionStatus.REJECTED) {
           throw Error(
-            `Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction`
+            `Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction`,
           );
         }
         tx = await this.fireblocks.getTransactionById(fbTx.id);
@@ -83,11 +79,7 @@ export class FbSigner {
    * @param assetId: fireblocks asset id
    * @param note: optional fireblocks custom note
    */
-  public async signWithFB(
-    payloadToSign: any,
-    assetId: AssetId,
-    note?: string
-  ): Promise<TransactionResponse> {
+  public async signWithFB(payloadToSign: any, assetId: AssetId, note?: string): Promise<TransactionResponse> {
     try {
       const tx: TransactionArguments = {
         assetId: assetId,
@@ -118,7 +110,7 @@ export class FbSigner {
     payloadContent: string,
     derivationPath: number[],
     algorithm: SigningAlgorithm,
-    note?: string
+    note?: string,
   ): Promise<TransactionResponse> {
     try {
       const payloadToSign = {
@@ -159,7 +151,7 @@ export class FbSigner {
     tx: EthTx | MaticTx,
     destinationId: string,
     sendAmount: boolean = true,
-    note?: string
+    note?: string,
   ): Promise<TransactionResponse> {
     try {
       const txArgs: TransactionArguments = {
@@ -173,17 +165,11 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount:
-          tx.data.amount_wei && sendAmount
-            ? utils.formatEther(tx.data.amount_wei)
-            : "0",
+        amount: tx.data.amount_wei && sendAmount ? utils.formatEther(tx.data.amount_wei) : "0",
         note,
         extraParameters: payloadToSign,
         gasLimit: tx.data.gas_limit,
-        priorityFee: utils.formatUnits(
-          tx.data.max_priority_fee_per_gas_wei,
-          "gwei"
-        ),
+        priorityFee: utils.formatUnits(tx.data.max_priority_fee_per_gas_wei, "gwei"),
         maxFee: utils.formatUnits(tx.data.max_fee_per_gas_wei, "gwei"),
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);

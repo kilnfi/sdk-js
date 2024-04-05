@@ -1,13 +1,11 @@
-import { Responses } from '@blockfrost/blockfrost-js';
-import {
-  TransactionInputsJSON,
-} from '@emurgo/cardano-serialization-lib-nodejs';
+import { Responses } from "@blockfrost/blockfrost-js";
+import { TransactionInputsJSON } from "@emurgo/cardano-serialization-lib-nodejs";
 import { TransactionResponse } from "fireblocks-sdk";
 
 export type AdaTxStatus = {
   data: {
-    status: 'success' | 'pending_confirmation';
-    receipt: Responses['tx_content'];
+    status: "success" | "pending_confirmation";
+    receipt: Responses["tx_content"];
   };
 };
 
@@ -24,7 +22,7 @@ export type AdaStake = {
   rewards: string;
   available_rewards: string;
   activation_epoch: AdaEpoch;
-  state: 'active' | 'activating' | 'inactive';
+  state: "active" | "activating" | "inactive";
   net_apy: number;
 };
 
@@ -58,7 +56,7 @@ export type AdaTxHash = {
 export type AdaSignedMessage = {
   pubkey: string;
   signature: string;
-}
+};
 
 export type AdaTx = {
   data: {

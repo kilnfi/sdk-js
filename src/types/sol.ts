@@ -4,7 +4,7 @@ export type SolTx = {
   data: {
     unsigned_tx_hash: string;
     unsigned_tx_serialized: string;
-  }
+  };
 };
 
 export type SolSignedTx = {
@@ -17,7 +17,7 @@ export type SolSignedTx = {
 export type SolTxHash = {
   data: {
     tx_hash: string;
-  }
+  };
 };
 
 type SolEpoch = {
@@ -25,7 +25,7 @@ type SolEpoch = {
   begin_at: string;
 };
 
-export type SolStakeState = 'activating' | 'active' | 'deactivating' | 'inactive';
+export type SolStakeState = "activating" | "active" | "deactivating" | "inactive";
 
 export type SolStake = {
   stake_account: string;
@@ -41,7 +41,7 @@ export type SolStake = {
 
 export type SolStakes = {
   data: SolStake[];
-}
+};
 
 export type SolReward = {
   epoch: SolEpoch;
@@ -51,7 +51,7 @@ export type SolReward = {
 
 export type SolRewards = {
   data: SolReward[];
-}
+};
 
 export type SolNetworkStats = {
   data: {
@@ -64,7 +64,7 @@ export type SolNetworkStats = {
 
 export type SolTxStatus = {
   data: {
-    status: 'success' | 'error';
+    status: "success" | "error";
     receipt: TransactionResponse | null;
-  }
-}
+  };
+};

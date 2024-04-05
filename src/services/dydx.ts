@@ -1,13 +1,12 @@
-import { Service } from './service';
+import { Service } from "./service";
 
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
-import api from '../api';
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
+import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { Balance, CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 
 export class DydxService extends Service {
-
   constructor({ testnet }: ServiceProps) {
     super({ testnet });
   }
@@ -18,6 +17,10 @@ export class DydxService extends Service {
    */
   dydxToAdydx(amountDydx: string): string {
     return (parseFloat(amountDydx) * 10 ** 18).toFixed();
+  }
+
+  usdcToUusdc(amountUsdc: string): string {
+    return (parseFloat(amountUsdc) * 10 ** 6).toFixed();
   }
 
   /**
@@ -33,17 +36,13 @@ export class DydxService extends Service {
     validatorAddress: string,
     amountDydx: number,
   ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/dydx/transaction/stake`,
-      {
-        account_id: accountId,
-        pubkey: pubkey,
-        validator: validatorAddress,
-        amount_adydx: this.dydxToAdydx(amountDydx.toString()),
-      });
+    const { data } = await api.post<CosmosTx>(`/v1/dydx/transaction/stake`, {
+      account_id: accountId,
+      pubkey: pubkey,
+      validator: validatorAddress,
+      amount_adydx: this.dydxToAdydx(amountDydx.toString()),
+    });
     return data;
-    
   }
 
   /**
@@ -51,19 +50,12 @@ export class DydxService extends Service {
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftWithdrawRewardsTx(
-    pubkey: string,
-    validatorAddress: string,
-  ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/dydx/transaction/withdraw-rewards`,
-      {
-        pubkey: pubkey,
-        validator: validatorAddress,
-      });
+  async craftWithdrawRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/dydx/transaction/withdraw-rewards`, {
+      pubkey: pubkey,
+      validator: validatorAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -72,21 +64,13 @@ export class DydxService extends Service {
    * @param validatorAddress validator address to which the delegation has been made
    * @param amountDydx how many tokens to undelegate in DYDX
    */
-  async craftUnstakeTx(
-    pubkey: string,
-    validatorAddress: string,
-    amountDydx?: number,
-  ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/dydx/transaction/unstake`,
-      {
-        pubkey: pubkey,
-        validator: validatorAddress,
-        amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
-      });
+  async craftUnstakeTx(pubkey: string, validatorAddress: string, amountDydx?: number): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/dydx/transaction/unstake`, {
+      pubkey: pubkey,
+      validator: validatorAddress,
+      amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
+    });
     return data;
-    
   }
 
   /**
@@ -104,18 +88,40 @@ export class DydxService extends Service {
     validatorDestinationAddress: string,
     amountDydx?: number,
   ): Promise<CosmosTx> {
-
-    const { data } = await api.post<CosmosTx>(
-      `/v1/dydx/transaction/redelegate`,
-      {
-        account_id: accountId,
-        pubkey: pubkey,
-        validator_source: validatorSourceAddress,
-        validator_destination: validatorDestinationAddress,
-        amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
-      });
+    const { data } = await api.post<CosmosTx>(`/v1/dydx/transaction/redelegate`, {
+      account_id: accountId,
+      pubkey: pubkey,
+      validator_source: validatorSourceAddress,
+      validator_destination: validatorDestinationAddress,
+      amount_adydx: amountDydx ? this.dydxToAdydx(amountDydx.toString()) : undefined,
+    });
     return data;
-    
+  }
+
+  /**
+   * Transfer IBC USDC from your account to your NOBLE account
+   * @param pubkey
+   * @param amountUsdc
+   */
+  async craftNobleIbcTransfer(pubkey: string, amountUsdc: number): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/dydx/transaction/noble-ibc-transfer`, {
+      pubkey: pubkey,
+      amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
+    });
+    return data;
+  }
+
+  /**
+   * Get balance of given address for given denom (ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5 for USDC on DYDX)
+   * @param address
+   * @param denom
+   */
+  async getBalance(address: string, denom: string): Promise<Balance> {
+    const { data } = await api.post<Balance>(`/v1/dydx/balance`, {
+      address,
+      denom,
+    });
+    return data;
   }
 
   /**
@@ -129,41 +135,34 @@ export class DydxService extends Service {
       rawMessageData: {
         messages: [
           {
-            'content': tx.data.unsigned_tx_hash,
+            content: tx.data.unsigned_tx_hash,
           },
         ],
       },
     };
-    const fbNote = note ? note : 'DYDX tx from @kilnfi/sdk';
+    const fbNote = note ? note : "DYDX tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signWithFB(payload, 'DYDX_DYDX', fbNote);
+    const fbTx = await signer.signWithFB(payload, "DYDX_DYDX", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<CosmosSignedTx>(
-      `/v1/dydx/transaction/prepare`,
-      {
-        pubkey: tx.data.pubkey,
-        tx_body: tx.data.tx_body,
-        tx_auth_info: tx.data.tx_auth_info,
-        signature: signature,
-      });
+    const { data } = await api.post<CosmosSignedTx>(`/v1/dydx/transaction/prepare`, {
+      pubkey: tx.data.pubkey,
+      tx_body: tx.data.tx_body,
+      tx_auth_info: tx.data.tx_auth_info,
+      signature: signature,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
   }
-
 
   /**
    * Broadcast transaction to the network
    * @param signedTx
    */
   async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
-
-    const { data } = await api.post<CosmosTxHash>(
-      `/v1/dydx/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<CosmosTxHash>(`/v1/dydx/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
-
   }
 
   /**
@@ -171,11 +170,8 @@ export class DydxService extends Service {
    * @param txHash
    */
   async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
-
-    const { data } = await api.get<CosmosTxStatus>(
-      `/v1/dydx/transaction/status?tx_hash=${txHash}`);
+    const { data } = await api.get<CosmosTxStatus>(`/v1/dydx/transaction/status?tx_hash=${txHash}`);
     return data;
-
   }
 
   /**
@@ -183,10 +179,7 @@ export class DydxService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-
-    const { data } = await api.get<DecodedTxRaw>(
-      `/v1/dydx/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<DecodedTxRaw>(`/v1/dydx/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
-
   }
 }

@@ -1,28 +1,27 @@
-import { TransactionReceipt } from 'web3-core';
 import { TransactionResponse } from "fireblocks-sdk";
-import { TransactionSerializableLegacy } from "viem";
+import { TransactionSerializableLegacy, TransactionReceipt } from "viem";
 
 export type EthStakes = {
-  data: EthStake[]
-}
+  data: EthStake[];
+};
 
 export type EthStakeState =
-    | 'unknown'
-    | 'not_staked'
-    | 'deposit_in_progress'
-    | 'pending_initialized'
-    | 'pending'
-    | 'pending_queued'
-    | 'active'
-    | 'active_ongoing'
-    | 'active_exiting'
-    | 'active_slashed'
-    | 'exited'
-    | 'exited_slashed'
-    | 'exited_unslashed'
-    | 'withdrawal_possible'
-    | 'withdrawal_done'
-    | 'withdrawal';
+  | "unknown"
+  | "not_staked"
+  | "deposit_in_progress"
+  | "pending_initialized"
+  | "pending"
+  | "pending_queued"
+  | "active"
+  | "active_ongoing"
+  | "active_exiting"
+  | "active_slashed"
+  | "exited"
+  | "exited_slashed"
+  | "exited_unslashed"
+  | "withdrawal_possible"
+  | "withdrawal_done"
+  | "withdrawal";
 
 export type EthStake = {
   validator_address: string;
@@ -43,8 +42,8 @@ export type EthStake = {
 };
 
 export type EthRewards = {
-  data: EthReward[]
-}
+  data: EthReward[];
+};
 
 export type EthReward = {
   date: string;
@@ -56,7 +55,6 @@ export type EthReward = {
   el_apy: number;
   cl_apy: number;
 };
-
 
 export type EthTx = {
   data: {
@@ -70,13 +68,13 @@ export type EthTx = {
     max_priority_fee_per_gas_wei: string;
     max_fee_per_gas_wei: string;
     chain_id: number;
-  }
+  };
 };
 
 export type EthTxHash = {
   data: {
     tx_hash: string;
-  }
+  };
 };
 
 export type EthNetworkStats = {
@@ -98,10 +96,10 @@ export type EthKilnStats = {
 
 export type EthTxStatus = {
   data: {
-    status: 'success' | 'error' | 'pending_confirmation';
+    status: "success" | "error" | "pending_confirmation";
     receipt: TransactionReceipt | null;
-  }
-}
+  };
+};
 export type EthSignedTx = {
   data: {
     fireblocks_tx: TransactionResponse;

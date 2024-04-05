@@ -1,18 +1,9 @@
-import { LAMPORTS_PER_SOL, Transaction } from '@solana/web3.js';
-import api from '../api';
-import {
-  SolNetworkStats,
-  SolRewards,
-  SolSignedTx,
-  SolStakes,
-  SolTx,
-  SolTxHash,
-  SolTxStatus,
-} from '../types/sol';
-import { Service } from './service';
-import { ServiceProps } from '../types/service';
-import { Integration } from '../types/integrations';
-
+import { LAMPORTS_PER_SOL, Transaction } from "@solana/web3.js";
+import api from "../api";
+import { SolNetworkStats, SolRewards, SolSignedTx, SolStakes, SolTx, SolTxHash, SolTxStatus } from "../types/sol";
+import { Service } from "./service";
+import { ServiceProps } from "../types/service";
+import { Integration } from "../types/integrations";
 
 export class SolService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -34,18 +25,14 @@ export class SolService extends Service {
     amountSol: number,
     memo?: string,
   ): Promise<SolTx> {
-
-    const { data } = await api.post<SolTx>(
-      `/v1/sol/transaction/stake`,
-      {
-        account_id: accountId,
-        wallet: walletAddress,
-        amount_lamports: this.solToLamports(amountSol.toString()),
-        vote_account_address: voteAccountAddress,
-        memo,
-      });
+    const { data } = await api.post<SolTx>(`/v1/sol/transaction/stake`, {
+      account_id: accountId,
+      wallet: walletAddress,
+      amount_lamports: this.solToLamports(amountSol.toString()),
+      vote_account_address: voteAccountAddress,
+      memo,
+    });
     return data;
-    
   }
 
   /**
@@ -53,19 +40,12 @@ export class SolService extends Service {
    * @param stakeAccountAddress stake account address to deactivate
    * @param walletAddress wallet that has authority over the stake account
    */
-  async craftDeactivateStakeTx(
-    stakeAccountAddress: string,
-    walletAddress: string,
-  ): Promise<SolTx> {
-
-    const { data } = await api.post<SolTx>(
-      `/v1/sol/transaction/deactivate-stake`,
-      {
-        stake_account: stakeAccountAddress,
-        wallet: walletAddress,
-      });
+  async craftDeactivateStakeTx(stakeAccountAddress: string, walletAddress: string): Promise<SolTx> {
+    const { data } = await api.post<SolTx>(`/v1/sol/transaction/deactivate-stake`, {
+      stake_account: stakeAccountAddress,
+      wallet: walletAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -74,21 +54,13 @@ export class SolService extends Service {
    * @param walletAddress wallet that has authority over the stake account
    * @param amountSol: amount to withdraw in SOL, if not specified the whole balance will be withdrawn
    */
-  async craftWithdrawStakeTx(
-    stakeAccountAddress: string,
-    walletAddress: string,
-    amountSol?: number,
-  ): Promise<SolTx> {
-
-    const { data } = await api.post<SolTx>(
-      `/v1/sol/transaction/withdraw-stake`,
-      {
-        stake_account: stakeAccountAddress,
-        wallet: walletAddress,
-        amount_lamports: amountSol ? this.solToLamports(amountSol.toString()) : undefined,
-      });
+  async craftWithdrawStakeTx(stakeAccountAddress: string, walletAddress: string, amountSol?: number): Promise<SolTx> {
+    const { data } = await api.post<SolTx>(`/v1/sol/transaction/withdraw-stake`, {
+      stake_account: stakeAccountAddress,
+      wallet: walletAddress,
+      amount_lamports: amountSol ? this.solToLamports(amountSol.toString()) : undefined,
+    });
     return data;
-    
   }
 
   /**
@@ -103,16 +75,12 @@ export class SolService extends Service {
     stakeAccountDestinationAddress: string,
     walletAddress: string,
   ): Promise<SolTx> {
-
-    const { data } = await api.post<SolTx>(
-      `/v1/sol/transaction/merge-stakes`,
-      {
-        stake_account_source: stakeAccountSourceAddress,
-        stake_account_destination: stakeAccountDestinationAddress,
-        wallet: walletAddress,
-      });
+    const { data } = await api.post<SolTx>(`/v1/sol/transaction/merge-stakes`, {
+      stake_account_source: stakeAccountSourceAddress,
+      stake_account_destination: stakeAccountDestinationAddress,
+      wallet: walletAddress,
+    });
     return data;
-    
   }
 
   /**
@@ -128,17 +96,13 @@ export class SolService extends Service {
     walletAddress: string,
     amountSol: number,
   ): Promise<SolTx> {
-
-    const { data } = await api.post<SolTx>(
-      `/v1/sol/transaction/split-stake`,
-      {
-        account_id: accountId,
-        stake_account: stakeAccountAddress,
-        wallet: walletAddress,
-        amount_lamports: this.solToLamports(amountSol.toString()),
-      });
+    const { data } = await api.post<SolTx>(`/v1/sol/transaction/split-stake`, {
+      account_id: accountId,
+      stake_account: stakeAccountAddress,
+      wallet: walletAddress,
+      amount_lamports: this.solToLamports(amountSol.toString()),
+    });
     return data;
-    
   }
 
   /**
@@ -148,20 +112,19 @@ export class SolService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: SolTx, note?: string): Promise<SolSignedTx> {
-
     const payload = {
       rawMessageData: {
         messages: [
           {
-            'content': tx.data.unsigned_tx_hash,
+            content: tx.data.unsigned_tx_hash,
           },
         ],
       },
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? 'SOL_TEST' : 'SOL', fbNote);
+    const fbNote = note ? note : "SOL tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "SOL_TEST" : "SOL", fbNote);
     const signatures: string[] = [];
     fbTx.signedMessages?.forEach((signedMessage: any) => {
       if (signedMessage.derivationPath[3] == 0) {
@@ -169,31 +132,23 @@ export class SolService extends Service {
       }
     });
 
-    const { data } = await api.post<SolSignedTx>(
-      `/v1/sol/transaction/prepare`,
-      {
-        unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
-        signatures: signatures,
-      });
+    const { data } = await api.post<SolSignedTx>(`/v1/sol/transaction/prepare`, {
+      unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
+      signatures: signatures,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
-    
   }
-
 
   /**
    * Broadcast transaction to the network
    * @param signedTx serialized signed tx
    */
   async broadcast(signedTx: SolSignedTx): Promise<SolTxHash> {
-
-    const { data } = await api.post<SolTxHash>(
-      `/v1/sol/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      });
+    const { data } = await api.post<SolTxHash>(`/v1/sol/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
-    
   }
 
   /**
@@ -201,11 +156,8 @@ export class SolService extends Service {
    * @param txHash transaction hash
    */
   async getTxStatus(txHash: string): Promise<SolTxStatus> {
-
-    const { data } = await api.get<SolTxStatus>(
-      `/v1/sol/transaction/status?tx_hash=${txHash}`);
+    const { data } = await api.get<SolTxStatus>(`/v1/sol/transaction/status?tx_hash=${txHash}`);
     return data;
-
   }
 
   /**
@@ -213,11 +165,8 @@ export class SolService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<Transaction> {
-
-    const { data } = await api.get<Transaction>(
-      `/v1/sol/transaction/decode?tx_serialized=${txSerialized}`);
+    const { data } = await api.get<Transaction>(`/v1/sol/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
-
   }
 
   /**
@@ -225,14 +174,9 @@ export class SolService extends Service {
    * @param accountIds kiln account ids of which you wish to retrieve stakes
    * @returns {SolStakes} Solana Stakes
    */
-  async getStakesByAccounts(
-    accountIds: string[],
-  ): Promise<SolStakes> {
-
-    const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?accounts=${accountIds.join(',')}`);
+  async getStakesByAccounts(accountIds: string[]): Promise<SolStakes> {
+    const { data } = await api.get<SolStakes>(`/v1/sol/stakes?accounts=${accountIds.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -240,14 +184,9 @@ export class SolService extends Service {
    * @param stakeAccounts stake account addresses of which you wish to retrieve stakes
    * @returns {SolStakes} Solana Stakes
    */
-  async getStakesByStakeAccounts(
-    stakeAccounts: string[],
-  ): Promise<SolStakes> {
-
-    const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?stake_accounts=${stakeAccounts.join(',')}`);
+  async getStakesByStakeAccounts(stakeAccounts: string[]): Promise<SolStakes> {
+    const { data } = await api.get<SolStakes>(`/v1/sol/stakes?stake_accounts=${stakeAccounts.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -255,14 +194,9 @@ export class SolService extends Service {
    * @param wallets wallet addresses of which you wish to retrieve stakes
    * @returns {SolStakes} Solana Stakes
    */
-  async getStakesByWallets(
-    wallets: string[],
-  ): Promise<SolStakes> {
-
-    const { data } = await api.get<SolStakes>(
-      `/v1/sol/stakes?wallets=${wallets.join(',')}`);
+  async getStakesByWallets(wallets: string[]): Promise<SolStakes> {
+    const { data } = await api.get<SolStakes>(`/v1/sol/stakes?wallets=${wallets.join(",")}`);
     return data;
-    
   }
 
   /**
@@ -272,18 +206,12 @@ export class SolService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
-  async getRewardsByAccounts(
-    accountIds: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<SolRewards> {
-
-    const query = `/v1/sol/rewards?accounts=${accountIds.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByAccounts(accountIds: string[], startDate?: string, endDate?: string): Promise<SolRewards> {
+    const query = `/v1/sol/rewards?accounts=${accountIds.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<SolRewards>(query);
     return data;
-    
   }
 
   /**
@@ -293,18 +221,12 @@ export class SolService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
-  async getRewardsByStakeAccounts(
-    stakeAccounts: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<SolRewards> {
-
-    const query = `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByStakeAccounts(stakeAccounts: string[], startDate?: string, endDate?: string): Promise<SolRewards> {
+    const query = `/v1/sol/rewards?stake_accounts=${stakeAccounts.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<SolRewards>(query);
     return data;
-    
   }
 
   /**
@@ -314,30 +236,20 @@ export class SolService extends Service {
    * @param endDate optional date YYYY-MM-DD until you wish to retrieve rewards
    * @returns {SolRewards} Solana rewards
    */
-  async getRewardsByWallets(
-    wallets: string[],
-    startDate?: string,
-    endDate?: string,
-  ): Promise<SolRewards> {
-
-    const query = `/v1/sol/rewards?wallets=${wallets.join(',')}${
-      startDate ? `&start_date=${startDate}` : ''
-    }${endDate ? `&end_date=${endDate}` : ''}`;
+  async getRewardsByWallets(wallets: string[], startDate?: string, endDate?: string): Promise<SolRewards> {
+    const query = `/v1/sol/rewards?wallets=${wallets.join(",")}${
+      startDate ? `&start_date=${startDate}` : ""
+    }${endDate ? `&end_date=${endDate}` : ""}`;
     const { data } = await api.get<SolRewards>(query);
     return data;
-    
   }
 
   /**
    * Retrieve SOL network stats
    */
   async getNetworkStats(): Promise<SolNetworkStats> {
-
-    const { data } = await api.get<SolNetworkStats>(
-      `/v1/sol/network-stats`,
-    );
+    const { data } = await api.get<SolNetworkStats>(`/v1/sol/network-stats`);
     return data;
-    
   }
 
   /**
