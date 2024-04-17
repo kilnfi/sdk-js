@@ -160,6 +160,6 @@ export class XtzService extends Service {
    * @param xtz
    */
   xtzToMutez(xtz: string): string {
-    return (Number(xtz) * 10 ** 6).toString();
+    return (BigInt(xtz) * BigInt(10 ** 6)).toString();
   }
 }

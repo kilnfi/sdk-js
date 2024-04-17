@@ -257,6 +257,6 @@ export class SolService extends Service {
    * @param sol
    */
   solToLamports(sol: string): string {
-    return (Number(sol) * LAMPORTS_PER_SOL).toString();
+    return (BigInt(sol) * BigInt(LAMPORTS_PER_SOL)).toString();
   }
 }

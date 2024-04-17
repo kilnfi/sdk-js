@@ -16,7 +16,7 @@ export class TiaService extends Service {
    * @param amountTia
    */
   tiaToUtia(amountTia: string): string {
-    return (parseFloat(amountTia) * 10 ** 6).toFixed();
+    return (BigInt(amountTia) * BigInt(10 ** 6)).toString();
   }
 
   /**

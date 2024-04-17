@@ -16,7 +16,7 @@ export class InjService extends Service {
    * @param amount
    */
   injToAinj(amount: string): string {
-    return (parseFloat(amount) * 10 ** 18).toFixed();
+    return (BigInt(amount) * BigInt(10 ** 18)).toString();
   }
 
   /**

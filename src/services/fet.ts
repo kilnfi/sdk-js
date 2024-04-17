@@ -4,12 +4,7 @@ import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import {
-  CosmosSignedTx,
-  CosmosTx,
-  CosmosTxHash,
-  CosmosTxStatus,
-} from "../types/cosmos";
+import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 import { SigningAlgorithm } from "fireblocks-sdk";
 
 export class FetService extends Service {
@@ -22,7 +17,7 @@ export class FetService extends Service {
    * @param amountFet
    */
   fetToAfet(amountFet: string): string {
-    return (parseFloat(amountFet) * 10 ** 18).toFixed();
+    return (BigInt(amountFet) * BigInt(10 ** 18)).toString();
   }
 
   /**
@@ -38,7 +33,7 @@ export class FetService extends Service {
     pubkey: string,
     validatorAddress: string,
     amountFet: number,
-    restakeRewards: boolean = false
+    restakeRewards: boolean = false,
   ): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/fet/transaction/stake`, {
       account_id: accountId,
@@ -55,17 +50,11 @@ export class FetService extends Service {
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftWithdrawRewardsTx(
-    pubkey: string,
-    validatorAddress: string
-  ): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(
-      `/v1/fet/transaction/withdraw-rewards`,
-      {
-        pubkey: pubkey,
-        validator: validatorAddress,
-      }
-    );
+  async craftWithdrawRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/fet/transaction/withdraw-rewards`, {
+      pubkey: pubkey,
+      validator: validatorAddress,
+    });
     return data;
   }
 
@@ -75,17 +64,11 @@ export class FetService extends Service {
    * @param validatorAccount validator account address (wallet controlling the validator)
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftRestakeRewardsTx(
-    pubkey: string,
-    validatorAddress: string
-  ): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(
-      `/v1/fet/transaction/restake-rewards`,
-      {
-        pubkey: pubkey,
-        validator_address: validatorAddress,
-      }
-    );
+  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/fet/transaction/restake-rewards`, {
+      pubkey: pubkey,
+      validator_address: validatorAddress,
+    });
     return data;
   }
 
@@ -95,11 +78,7 @@ export class FetService extends Service {
    * @param validatorAddress validator address to which the delegation has been made
    * @param amountFet how many tokens to undelegate in FET
    */
-  async craftUnstakeTx(
-    pubkey: string,
-    validatorAddress: string,
-    amountFet?: number
-  ): Promise<CosmosTx> {
+  async craftUnstakeTx(pubkey: string, validatorAddress: string, amountFet?: number): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/fet/transaction/unstake`, {
       pubkey: pubkey,
       validator: validatorAddress,
@@ -121,20 +100,15 @@ export class FetService extends Service {
     pubkey: string,
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
-    amountFet?: number
+    amountFet?: number,
   ): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(
-      `/v1/fet/transaction/redelegate`,
-      {
-        account_id: accountId,
-        pubkey: pubkey,
-        validator_source: validatorSourceAddress,
-        validator_destination: validatorDestinationAddress,
-        amount_afet: amountFet
-          ? this.fetToAfet(amountFet.toString())
-          : undefined,
-      }
-    );
+    const { data } = await api.post<CosmosTx>(`/v1/fet/transaction/redelegate`, {
+      account_id: accountId,
+      pubkey: pubkey,
+      validator_source: validatorSourceAddress,
+      validator_destination: validatorDestinationAddress,
+      amount_afet: amountFet ? this.fetToAfet(amountFet.toString()) : undefined,
+    });
     return data;
   }
 
@@ -144,33 +118,21 @@ export class FetService extends Service {
    * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
-  async sign(
-    integration: Integration,
-    tx: CosmosTx,
-    note?: string
-  ): Promise<CosmosSignedTx> {
+  async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
     const payloadContent = tx.data.unsigned_tx_hash;
     const derivationPath = [44, 118, integration.vaultId, 0, 0];
     const signingAlgorithm = SigningAlgorithm.MPC_ECDSA_SECP256K1;
     const fbNote = note ? note : "FET tx from @kilnfi/sdk";
 
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signGenericWithFB(
-      payloadContent,
-      derivationPath,
-      signingAlgorithm,
-      fbNote
-    );
+    const fbTx = await signer.signGenericWithFB(payloadContent, derivationPath, signingAlgorithm, fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<CosmosSignedTx>(
-      `/v1/fet/transaction/prepare`,
-      {
-        pubkey: tx.data.pubkey,
-        tx_body: tx.data.tx_body,
-        tx_auth_info: tx.data.tx_auth_info,
-        signature: signature,
-      }
-    );
+    const { data } = await api.post<CosmosSignedTx>(`/v1/fet/transaction/prepare`, {
+      pubkey: tx.data.pubkey,
+      tx_body: tx.data.tx_body,
+      tx_auth_info: tx.data.tx_auth_info,
+      signature: signature,
+    });
     data.data.fireblocks_tx = fbTx;
     return data;
   }
@@ -180,12 +142,9 @@ export class FetService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
-    const { data } = await api.post<CosmosTxHash>(
-      `/v1/fet/transaction/broadcast`,
-      {
-        tx_serialized: signedTx.data.signed_tx_serialized,
-      }
-    );
+    const { data } = await api.post<CosmosTxHash>(`/v1/fet/transaction/broadcast`, {
+      tx_serialized: signedTx.data.signed_tx_serialized,
+    });
     return data;
   }
 
@@ -194,9 +153,7 @@ export class FetService extends Service {
    * @param txHash
    */
   async getTxStatus(txHash: string): Promise<CosmosTxStatus> {
-    const { data } = await api.get<CosmosTxStatus>(
-      `/v1/fet/transaction/status?tx_hash=${txHash}`
-    );
+    const { data } = await api.get<CosmosTxStatus>(`/v1/fet/transaction/status?tx_hash=${txHash}`);
     return data;
   }
 
@@ -205,9 +162,7 @@ export class FetService extends Service {
    * @param txSerialized transaction serialized
    */
   async decodeTx(txSerialized: string): Promise<DecodedTxRaw> {
-    const { data } = await api.get<DecodedTxRaw>(
-      `/v1/fet/transaction/decode?tx_serialized=${txSerialized}`
-    );
+    const { data } = await api.get<DecodedTxRaw>(`/v1/fet/transaction/decode?tx_serialized=${txSerialized}`);
     return data;
   }
 }
