@@ -4,6 +4,7 @@ import { SolNetworkStats, SolRewards, SolSignedTx, SolStakes, SolTx, SolTxHash, 
 import { Service } from "./service";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
+import { parseUnits } from "viem";
 
 export class SolService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -257,6 +258,6 @@ export class SolService extends Service {
    * @param sol
    */
   solToLamports(sol: string): string {
-    return (BigInt(sol) * BigInt(LAMPORTS_PER_SOL)).toString();
+    return parseUnits(sol, 9).toString();
   }
 }

@@ -6,6 +6,7 @@ import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 import { SigningAlgorithm } from "fireblocks-sdk";
+import { parseUnits } from "viem";
 
 export class FetService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -17,7 +18,7 @@ export class FetService extends Service {
    * @param amountFet
    */
   fetToAfet(amountFet: string): string {
-    return (BigInt(amountFet) * BigInt(10 ** 18)).toString();
+    return parseUnits(amountFet, 18).toString();
   }
 
   /**

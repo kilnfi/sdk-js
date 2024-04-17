@@ -13,6 +13,7 @@ import api from "../api";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import { TransactionJSON } from "@emurgo/cardano-serialization-lib-nodejs";
+import { parseUnits } from "viem";
 
 export class AdaService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -63,7 +64,7 @@ export class AdaService extends Service {
    * @param amountAda
    */
   adaToLovelace(amountAda: string): string {
-    return (BigInt(amountAda) * BigInt(10 ** 6)).toString();
+    return parseUnits(amountAda, 6).toString();
   }
 
   /**

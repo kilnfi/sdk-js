@@ -6,6 +6,7 @@ import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { parseUnits } from "viem";
 
 export class OsmoService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -17,7 +18,7 @@ export class OsmoService extends Service {
    * @param amountOsmo
    */
   osmoToUosmo(amountOsmo: string): string {
-    return (BigInt(amountOsmo) * BigInt(10 ** 6)).toString();
+    return parseUnits(amountOsmo, 6).toString();
   }
 
   /**

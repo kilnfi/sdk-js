@@ -5,6 +5,7 @@ import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { Balance, CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { parseUnits } from "viem";
 
 export class DydxService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -16,11 +17,11 @@ export class DydxService extends Service {
    * @param amountDydx
    */
   dydxToAdydx(amountDydx: string): string {
-    return (BigInt(amountDydx) * BigInt(10 ** 18)).toString();
+    return parseUnits(amountDydx, 18).toString();
   }
 
   usdcToUusdc(amountUsdc: string): string {
-    return (BigInt(amountUsdc) * BigInt(10 ** 6)).toString();
+    return parseUnits(amountUsdc, 6).toString();
   }
 
   /**
