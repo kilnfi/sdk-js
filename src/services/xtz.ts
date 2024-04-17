@@ -4,6 +4,7 @@ import { XtzNetworkStats, XtzRewards, XtzSignedTx, XtzStakes, XtzTx, XtzTxHash, 
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import { ForgeParams } from "@taquito/local-forging";
+import { parseUnits } from "viem";
 
 export class XtzService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -160,6 +161,6 @@ export class XtzService extends Service {
    * @param xtz
    */
   xtzToMutez(xtz: string): string {
-    return (BigInt(xtz) * BigInt(10 ** 6)).toString();
+    return parseUnits(xtz, 6).toString();
   }
 }

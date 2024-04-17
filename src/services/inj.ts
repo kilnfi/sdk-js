@@ -5,6 +5,7 @@ import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { parseUnits } from "viem";
 
 export class InjService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -16,7 +17,7 @@ export class InjService extends Service {
    * @param amount
    */
   injToAinj(amount: string): string {
-    return (BigInt(amount) * BigInt(10 ** 18)).toString();
+    return parseUnits(amount, 18).toString();
   }
 
   /**

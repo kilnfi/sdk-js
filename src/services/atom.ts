@@ -6,6 +6,7 @@ import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { parseUnits } from "viem";
 
 export class AtomService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -17,7 +18,7 @@ export class AtomService extends Service {
    * @param amountAtom
    */
   atomToUatom(amountAtom: string): string {
-    return (BigInt(amountAtom) * BigInt(10 ** 6)).toString();
+    return parseUnits(amountAtom, 6).toString();
   }
 
   /**

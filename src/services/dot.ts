@@ -4,6 +4,7 @@ import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import api from "../api";
 import { UnsignedTransaction } from "@substrate/txwrapper-polkadot";
+import { parseUnits } from "viem";
 
 /**
  * Staking docs: https://polkadot.js.org/docs/substrate/extrinsics#staking
@@ -20,7 +21,7 @@ export class DotService extends Service {
    * @param amountWnd
    */
   wndToPlanck(amountWnd: string): string {
-    return (BigInt(amountWnd) * BigInt(10 ** 12)).toString();
+    return parseUnits(amountWnd, 12).toString();
   }
 
   /**
@@ -29,7 +30,7 @@ export class DotService extends Service {
    * @param amountDot
    */
   dotToPlanck(amountDot: string): string {
-    return (BigInt(amountDot) * BigInt(10 ** 10)).toString();
+    return parseUnits(amountDot, 10).toString();
   }
 
   /**
