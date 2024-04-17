@@ -13,8 +13,11 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - DOT
 - DYDX
 - ETH
+- FET
+- INJ
 - MATIC
 - NEAR
+- NOBLE
 - OSMO
 - SOL
 - TIA

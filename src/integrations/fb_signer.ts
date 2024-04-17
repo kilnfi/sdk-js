@@ -33,7 +33,8 @@ type AssetId =
   | "DOT"
   | "DV4TNT_TEST"
   | "DYDX_DYDX"
-  | "CELESTIA";
+  | "CELESTIA"
+  | "INJ_INJ";
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
