@@ -16,11 +16,11 @@ export class DydxService extends Service {
    * @param amountDydx
    */
   dydxToAdydx(amountDydx: string): string {
-    return (parseFloat(amountDydx) * 10 ** 18).toFixed();
+    return (BigInt(amountDydx) * BigInt(10 ** 18)).toString();
   }
 
   usdcToUusdc(amountUsdc: string): string {
-    return (parseFloat(amountUsdc) * 10 ** 6).toFixed();
+    return (BigInt(amountUsdc) * BigInt(10 ** 6)).toString();
   }
 
   /**

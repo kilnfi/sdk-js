@@ -17,7 +17,7 @@ export class OsmoService extends Service {
    * @param amountOsmo
    */
   osmoToUosmo(amountOsmo: string): string {
-    return (parseFloat(amountOsmo) * 10 ** 6).toFixed();
+    return (BigInt(amountOsmo) * BigInt(10 ** 6)).toString();
   }
 
   /**

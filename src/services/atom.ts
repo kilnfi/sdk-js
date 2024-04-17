@@ -17,7 +17,7 @@ export class AtomService extends Service {
    * @param amountAtom
    */
   atomToUatom(amountAtom: string): string {
-    return (parseFloat(amountAtom) * 10 ** 6).toFixed();
+    return (BigInt(amountAtom) * BigInt(10 ** 6)).toString();
   }
 
   /**

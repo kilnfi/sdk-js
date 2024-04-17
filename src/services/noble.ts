@@ -12,7 +12,7 @@ export class NobleService extends Service {
   }
 
   usdcToUusdc(amountUsdc: string): string {
-    return (parseFloat(amountUsdc) * 10 ** 6).toFixed();
+    return (BigInt(amountUsdc) * BigInt(10 ** 6)).toString();
   }
 
   /**

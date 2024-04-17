@@ -20,7 +20,7 @@ export class DotService extends Service {
    * @param amountWnd
    */
   wndToPlanck(amountWnd: string): string {
-    return (parseFloat(amountWnd) * 10 ** 12).toFixed();
+    return (BigInt(amountWnd) * BigInt(10 ** 12)).toString();
   }
 
   /**
@@ -29,7 +29,7 @@ export class DotService extends Service {
    * @param amountDot
    */
   dotToPlanck(amountDot: string): string {
-    return (parseFloat(amountDot) * 10 ** 10).toFixed();
+    return (BigInt(amountDot) * BigInt(10 ** 10)).toString();
   }
 
   /**
