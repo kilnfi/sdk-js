@@ -2,7 +2,6 @@ import {
   CreateTransactionResponse,
   FireblocksSDK,
   PeerType,
-  SigningAlgorithm,
   TransactionArguments,
   TransactionOperation,
   TransactionResponse,
@@ -97,6 +96,45 @@ export class FbSigner {
         operation: TransactionOperation.RAW,
         note,
         extraParameters: payloadToSign,
+      };
+      const fbTx = await this.fireblocks.createTransaction(tx);
+      return await this.waitForTxCompletion(fbTx);
+    } catch (err: any) {
+      console.log(err);
+      throw new Error("Fireblocks signer (signWithFB): " + err);
+    }
+  }
+
+  /**
+   * Sign an EIP-712 Ethereum typed message with fireblocks
+   * @param eip712message eip712message to sign
+   * @param assetId fireblocks asset id
+   * @param note optional fireblocks custom note
+   */
+  public async signTypedMessage(
+    eip712message: any,
+    assetId: "ETH" | "ETH_TEST3" | "ETH_TEST6",
+    note?: string,
+  ): Promise<TransactionResponse> {
+    try {
+      const tx: TransactionArguments = {
+        assetId: assetId,
+        operation: TransactionOperation.TYPED_MESSAGE,
+        source: {
+          type: PeerType.VAULT_ACCOUNT,
+          id: this.vaultId.toString(),
+        },
+        note,
+        extraParameters: {
+          rawMessageData: {
+            messages: [
+              {
+                content: eip712message,
+                type: "EIP712",
+              },
+            ],
+          },
+        },
       };
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);

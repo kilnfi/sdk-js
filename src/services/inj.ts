@@ -4,8 +4,9 @@ import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import api from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
+import { CosmosSignedTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 import { parseUnits } from "viem";
+import { InjSignedTx, InjTx } from "../types/inj";
 
 export class InjService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -34,8 +35,8 @@ export class InjService extends Service {
     validatorAddress: string,
     amountInj: number,
     restakeRewards: boolean = false,
-  ): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/inj/transaction/stake`, {
+  ): Promise<InjTx> {
+    const { data } = await api.post<InjTx>(`/v1/inj/transaction/stake`, {
       account_id: accountId,
       pubkey: pubkey,
       validator: validatorAddress,
@@ -50,8 +51,8 @@ export class InjService extends Service {
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftWithdrawRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/inj/transaction/withdraw-rewards`, {
+  async craftWithdrawRewardsTx(pubkey: string, validatorAddress: string): Promise<InjTx> {
+    const { data } = await api.post<InjTx>(`/v1/inj/transaction/withdraw-rewards`, {
       pubkey: pubkey,
       validator: validatorAddress,
     });
@@ -64,8 +65,8 @@ export class InjService extends Service {
    * @param validatorAccount validator account address (wallet controlling the validator)
    * @param validatorAddress validator address to which the delegation has been made
    */
-  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/inj/transaction/restake-rewards`, {
+  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<InjTx> {
+    const { data } = await api.post<InjTx>(`/v1/inj/transaction/restake-rewards`, {
       pubkey: pubkey,
       validator_address: validatorAddress,
     });
@@ -78,8 +79,8 @@ export class InjService extends Service {
    * @param validatorAddress validator address to which the delegation has been made
    * @param amountInj how many tokens to undelegate in INJ
    */
-  async craftUnstakeTx(pubkey: string, validatorAddress: string, amountInj?: number): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/inj/transaction/unstake`, {
+  async craftUnstakeTx(pubkey: string, validatorAddress: string, amountInj?: number): Promise<InjTx> {
+    const { data } = await api.post<InjTx>(`/v1/inj/transaction/unstake`, {
       pubkey: pubkey,
       validator: validatorAddress,
       amount_inj: amountInj ? this.injToAinj(amountInj.toString()) : undefined,
@@ -101,8 +102,8 @@ export class InjService extends Service {
     validatorSourceAddress: string,
     validatorDestinationAddress: string,
     amountInj?: number,
-  ): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/inj/transaction/redelegate`, {
+  ): Promise<InjTx> {
+    const { data } = await api.post<InjTx>(`/v1/inj/transaction/redelegate`, {
       account_id: accountId,
       pubkey: pubkey,
       validator_source: validatorSourceAddress,
@@ -118,25 +119,26 @@ export class InjService extends Service {
    * @param tx raw transaction
    * @param note note to identify the transaction in your custody solution
    */
-  async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.data.unsigned_tx_hash,
-          },
-        ],
-      },
-    };
+  async sign(integration: Integration, tx: InjTx, note?: string): Promise<InjSignedTx> {
     const fbNote = note ? note : "INJ tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.sign(payload, "INJ_INJ", fbNote);
-    const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<CosmosSignedTx>(`/v1/inj/transaction/prepare`, {
+    const fbTx = await signer.signTypedMessage(tx.data.eip712_typed_data, "ETH", fbNote);
+    // const signature: string = fbTx.signedMessages![0].signature.fullSig;
+    console.log({
       pubkey: tx.data.pubkey,
       tx_body: tx.data.tx_body,
       tx_auth_info: tx.data.tx_auth_info,
-      signature: signature,
+      r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+      s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+      v: fbTx?.signedMessages?.[0].signature.v ?? 0,
+    });
+    const { data } = await api.post<InjSignedTx>(`/v1/inj/transaction/prepare`, {
+      pubkey: tx.data.pubkey,
+      tx_body: tx.data.tx_body,
+      tx_auth_info: tx.data.tx_auth_info,
+      r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+      s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+      v: fbTx?.signedMessages?.[0].signature.v ?? 0,
     });
     data.data.fireblocks_tx = fbTx;
     return data;
@@ -146,7 +148,7 @@ export class InjService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
+  async broadcast(signedTx: InjSignedTx): Promise<CosmosTxHash> {
     const { data } = await api.post<CosmosTxHash>(`/v1/inj/transaction/broadcast`, {
       tx_serialized: signedTx.data.signed_tx_serialized,
     });
