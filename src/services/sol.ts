@@ -125,7 +125,7 @@ export class SolService extends Service {
 
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "SOL tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "SOL_TEST" : "SOL", fbNote);
+    const fbTx = await fbSigner.sign(payload, this.testnet ? "SOL_TEST" : "SOL", fbNote);
     const signatures: string[] = [];
     fbTx.signedMessages?.forEach((signedMessage: any) => {
       if (signedMessage.derivationPath[3] == 0) {

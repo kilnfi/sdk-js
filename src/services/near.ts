@@ -203,7 +203,7 @@ export class NearService extends Service {
 
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "NEAR tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "NEAR_TEST" : "NEAR", fbNote);
+    const fbTx = await fbSigner.sign(payload, this.testnet ? "NEAR_TEST" : "NEAR", fbNote);
     const signature = fbTx.signedMessages![0];
 
     const signedTx = new transactions.SignedTransaction({

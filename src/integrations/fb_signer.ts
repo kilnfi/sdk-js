@@ -47,7 +47,7 @@ export class FbSigner {
 
   /**
    * Wait for given transaction to be completed
-   * @param fbTx: fireblocks transaction
+   * @param fbTx fireblocks transaction
    * @private
    */
   protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
@@ -76,19 +76,25 @@ export class FbSigner {
 
   /**
    * Sign a transaction with fireblocks using Fireblocks raw message signing feature
-   * @param payloadToSign: transaction data in hexadecimal
-   * @param assetId: fireblocks asset id
-   * @param note: optional fireblocks custom note
+   * @param payloadToSign transaction data in hexadecimal
+   * @param assetId fireblocks asset id
+   * @param note optional fireblocks custom note
    */
-  public async signWithFB(payloadToSign: any, assetId: AssetId, note?: string): Promise<TransactionResponse> {
+  public async sign(payloadToSign: any, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
     try {
+      const assetArgs = assetId
+        ? {
+            assetId,
+            source: {
+              type: PeerType.VAULT_ACCOUNT,
+              id: this.vaultId.toString(),
+            },
+          }
+        : {};
+
       const tx: TransactionArguments = {
-        assetId: assetId,
+        ...assetArgs,
         operation: TransactionOperation.RAW,
-        source: {
-          type: PeerType.VAULT_ACCOUNT,
-          id: this.vaultId.toString(),
-        },
         note,
         extraParameters: payloadToSign,
       };
@@ -101,52 +107,15 @@ export class FbSigner {
   }
 
   /**
-   * Sign a generic transaction with fireblocks using Fireblocks raw message signing feature.
-   * @param payloadToSign: transaction data in hexadecimal
-   * @param derivationPath: derivation path of the token to sign
-   * @param algorithm: algorithm of the token to sign
-   * @param note: optional fireblocks custom note
-   */
-  public async signGenericWithFB(
-    payloadContent: string,
-    derivationPath: number[],
-    algorithm: SigningAlgorithm,
-    note?: string,
-  ): Promise<TransactionResponse> {
-    try {
-      const payloadToSign = {
-        operation: TransactionOperation.RAW,
-        note,
-        extraParameters: {
-          rawMessageData: {
-            messages: [
-              {
-                content: payloadContent,
-                derivationPath,
-              },
-            ],
-            algorithm,
-          },
-        },
-      };
-      const fbTx = await this.fireblocks.createTransaction(payloadToSign);
-      return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
-      console.log(err);
-      throw new Error("Fireblocks signer (signGenericWithFB): " + err);
-    }
-  }
-
-  /**
    * Sign and broadcast a transaction with fireblocks using Fireblocks contract call feature
-   * @param payloadToSign: transaction data in hexadecimal
-   * @param assetId: fireblocks asset id
-   * @param note: optional fireblocks custom note
+   * @param payloadToSign transaction data in hexadecimal
+   * @param assetId fireblocks asset id
+   * @param note optional fireblocks custom note
    * @param tx Ethereum transaction
    * @param destinationId Fireblocks destination id, this corresponds to the Fireblocks whitelisted contract address id
    * @param sendAmount send the amount in tx to smart contract
    */
-  public async signAndBroadcastWithFB(
+  public async signAndBroadcastWith(
     payloadToSign: any,
     assetId: AssetId,
     tx: EthTx | MaticTx,

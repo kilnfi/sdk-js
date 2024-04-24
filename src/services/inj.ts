@@ -130,7 +130,7 @@ export class InjService extends Service {
     };
     const fbNote = note ? note : "INJ tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signWithFB(payload, "INJ_INJ", fbNote);
+    const fbTx = await signer.sign(payload, "INJ_INJ", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<CosmosSignedTx>(`/v1/inj/transaction/prepare`, {
       pubkey: tx.data.pubkey,

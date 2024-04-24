@@ -69,7 +69,7 @@ export class EthService extends Service {
     const fbSigner = this.getFbSigner(integration);
     const assetId = this.testnet ? "ETH_TEST6" : "ETH";
     const fbNote = note ? note : "ETH tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, assetId, fbNote);
+    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
     const { data } = await api.post<EthSignedTx>(`/v1/eth/transaction/prepare`, {
       unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
       r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
@@ -98,14 +98,7 @@ export class EthService extends Service {
     const fbSigner = this.getFbSigner(integration);
     const assetId = this.testnet ? "ETH_TEST6" : "ETH";
     const fbNote = note ? note : "ETH tx from @kilnfi/sdk";
-    return await fbSigner.signAndBroadcastWithFB(
-      payload,
-      assetId,
-      tx,
-      integration.fireblocksDestinationId,
-      true,
-      fbNote,
-    );
+    return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
 
   /**

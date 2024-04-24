@@ -56,7 +56,7 @@ export class XtzService extends Service {
 
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "XTZ tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "XTZ_TEST" : "XTZ", fbNote);
+    const fbTx = await fbSigner.sign(payload, this.testnet ? "XTZ_TEST" : "XTZ", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<XtzSignedTx>(`/v1/xtz/transaction/prepare`, {
       unsigned_tx_serialized: tx.data.unsigned_tx_serialized,

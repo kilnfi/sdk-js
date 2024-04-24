@@ -78,7 +78,7 @@ export class NobleService extends Service {
     const fbNote = note ? note : "NOBLE tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
     // NOBLE chain is not supported by Fireblocks, so we use DYDX_DYDX
-    const fbTx = await signer.signWithFB(payload, "DYDX_DYDX", fbNote);
+    const fbTx = await signer.sign(payload, "DYDX_DYDX", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<CosmosSignedTx>(`/v1/noble/transaction/prepare`, {
       pubkey: tx.data.pubkey,

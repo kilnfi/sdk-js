@@ -267,7 +267,7 @@ export class DotService extends Service {
 
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "DOT tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "WND" : "DOT", fbNote);
+    const fbTx = await fbSigner.sign(payload, this.testnet ? "WND" : "DOT", fbNote);
     const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
 
     const { data } = await api.post<DotSignedTx>(`/v1/dot/transaction/prepare`, {
