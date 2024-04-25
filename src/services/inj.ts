@@ -123,23 +123,14 @@ export class InjService extends Service {
     const fbNote = note ? note : "INJ tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
     const fbTx = await signer.signTypedMessage(tx.data.eip712_typed_data, "ETH", fbNote);
-    // const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    console.log({
+    const payload = {
       pubkey: tx.data.pubkey,
+      signature: fbTx.signedMessages![0].signature.fullSig,
+      eip712_typed_data: tx.data.eip712_typed_data,
       tx_body: tx.data.tx_body,
-      tx_auth_info: tx.data.tx_auth_info,
-      r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
-      s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
-      v: fbTx?.signedMessages?.[0].signature.v ?? 0,
-    });
-    const { data } = await api.post<InjSignedTx>(`/v1/inj/transaction/prepare`, {
-      pubkey: tx.data.pubkey,
-      tx_body: tx.data.tx_body,
-      tx_auth_info: tx.data.tx_auth_info,
-      r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
-      s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
-      v: fbTx?.signedMessages?.[0].signature.v ?? 0,
-    });
+    };
+    console.log(payload);
+    const { data } = await api.post<InjSignedTx>(`/v1/inj/transaction/prepare`, payload);
     data.data.fireblocks_tx = fbTx;
     return data;
   }

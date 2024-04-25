@@ -5,7 +5,6 @@ export type InjTx = {
     eip712_typed_data: Eip712TypedData;
     pubkey: string;
     tx_body: string;
-    tx_auth_info: string;
   };
 };
 
