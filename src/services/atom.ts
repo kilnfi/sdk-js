@@ -62,7 +62,6 @@ export class AtomService extends Service {
   /**
    * Craft atom restake rewards transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
-   * @param validatorAccount validator account address (wallet controlling the validator)
    * @param validatorAddress validator address to which the delegation has been made
    */
   async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
