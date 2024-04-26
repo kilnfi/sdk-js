@@ -135,7 +135,7 @@ export class MaticService extends Service {
 
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "MATIC tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "ETH_TEST3" : "ETH", fbNote);
+    const fbTx = await fbSigner.sign(payload, this.testnet ? "ETH_TEST3" : "ETH", fbNote);
     const { data } = await api.post<MaticSignedTx>(`/v1/matic/transaction/prepare`, {
       unsigned_tx_serialized: tx.data.unsigned_tx_serialized,
       r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
@@ -164,7 +164,7 @@ export class MaticService extends Service {
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "MATIC tx from @kilnfi/sdk";
     const assetId = this.testnet ? "ETH_TEST3" : "ETH";
-    return await fbSigner.signAndBroadcastWithFB(
+    return await fbSigner.signAndBroadcastWith(
       payload,
       assetId,
       tx,

@@ -62,7 +62,6 @@ export class OsmoService extends Service {
   /**
    * Craft osmo restake rewards transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
-   * @param validatorAccount validator account address (wallet controlling the validator)
    * @param validatorAddress validator address to which the delegation has been made
    */
   async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
@@ -131,7 +130,7 @@ export class OsmoService extends Service {
     };
     const fbNote = note ? note : "OSMO tx from @kilnfi/sdk";
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signWithFB(payload, "OSMO", fbNote);
+    const fbTx = await signer.sign(payload, "OSMO", fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<CosmosSignedTx>(`/v1/osmo/transaction/prepare`, {
       pubkey: tx.data.pubkey,

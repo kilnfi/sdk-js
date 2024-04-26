@@ -93,7 +93,7 @@ export class AdaService extends Service {
     };
 
     const fbNote = note ? note : "ADA tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.signWithFB(payload, this.testnet ? "ADA_TEST" : "ADA", fbNote);
+    const fbTx = await fbSigner.sign(payload, this.testnet ? "ADA_TEST" : "ADA", fbNote);
 
     if (!fbTx.signedMessages) {
       throw new Error(`Could not sign the transaction.`);

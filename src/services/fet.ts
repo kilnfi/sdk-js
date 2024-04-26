@@ -62,7 +62,6 @@ export class FetService extends Service {
   /**
    * Craft fetch.ai restake rewards transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
-   * @param validatorAccount validator account address (wallet controlling the validator)
    * @param validatorAddress validator address to which the delegation has been made
    */
   async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
@@ -120,13 +119,20 @@ export class FetService extends Service {
    * @param note note to identify the transaction in your custody solution
    */
   async sign(integration: Integration, tx: CosmosTx, note?: string): Promise<CosmosSignedTx> {
-    const payloadContent = tx.data.unsigned_tx_hash;
-    const derivationPath = [44, 118, integration.vaultId, 0, 0];
-    const signingAlgorithm = SigningAlgorithm.MPC_ECDSA_SECP256K1;
     const fbNote = note ? note : "FET tx from @kilnfi/sdk";
-
     const signer = this.getFbSigner(integration);
-    const fbTx = await signer.signGenericWithFB(payloadContent, derivationPath, signingAlgorithm, fbNote);
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.data.unsigned_tx_hash,
+            derivationPath: [44, 118, integration.vaultId, 0, 0],
+          },
+        ],
+        algorithm: SigningAlgorithm.MPC_ECDSA_SECP256K1,
+      },
+    };
+    const fbTx = await signer.sign(payload, undefined, fbNote);
     const signature: string = fbTx.signedMessages![0].signature.fullSig;
     const { data } = await api.post<CosmosSignedTx>(`/v1/fet/transaction/prepare`, {
       pubkey: tx.data.pubkey,
