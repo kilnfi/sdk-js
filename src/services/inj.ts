@@ -145,7 +145,7 @@ export class InjService extends Service {
    * Broadcast transaction to the network
    * @param signedTx
    */
-  async broadcast(signedTx: InjSignedTx): Promise<CosmosTxHash> {
+  async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
     const { data } = await api.post<CosmosTxHash>(`/v1/inj/transaction/broadcast`, {
       tx_serialized: signedTx.data.signed_tx_serialized,
     });

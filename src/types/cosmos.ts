@@ -9,8 +9,7 @@ export type CosmosTx = {
     tx_body: string;
     tx_auth_info: string;
     pubkey: string;
-    message?: EncodeObject;
-    messages?: any;
+    message: EncodeObject;
     fee: StdFee;
   };
 };
