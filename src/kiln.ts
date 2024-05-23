@@ -16,6 +16,7 @@ import { TiaService } from "./services/tia";
 import { XtzService } from "./services/xtz";
 import { KILN_VALIDATORS as v } from "./validators";
 import { InjService } from "./services/inj";
+import { TonService } from "./services/ton";
 
 type Config = {
   apiToken: string;
@@ -42,6 +43,7 @@ export class Kiln {
   noble: NobleService;
   fet: FetService;
   inj: InjService;
+  ton: TonService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -64,5 +66,6 @@ export class Kiln {
     this.noble = new NobleService({ testnet });
     this.fet = new FetService({ testnet });
     this.inj = new InjService({ testnet });
+    this.ton = new TonService({ testnet });
   }
 }
