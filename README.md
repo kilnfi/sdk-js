@@ -21,6 +21,7 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - OSMO
 - SOL
 - TIA
+- TON
 - XTZ
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
