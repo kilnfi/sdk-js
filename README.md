@@ -23,6 +23,7 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - TIA
 - TON
 - XTZ
+- ZETA
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
 
 ### ⚠️️WARNING:

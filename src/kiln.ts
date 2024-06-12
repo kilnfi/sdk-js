@@ -7,16 +7,17 @@ import { DydxService } from "./services/dydx";
 import { EthService } from "./services/eth";
 import { FetService } from "./services/fet";
 import { FireblocksService } from "./services/fireblocks";
+import { InjService } from "./services/inj";
 import { MaticService } from "./services/matic";
 import { NearService } from "./services/near";
 import { NobleService } from "./services/noble";
 import { OsmoService } from "./services/osmo";
 import { SolService } from "./services/sol";
 import { TiaService } from "./services/tia";
-import { XtzService } from "./services/xtz";
-import { KILN_VALIDATORS as v } from "./validators";
-import { InjService } from "./services/inj";
 import { TonService } from "./services/ton";
+import { XtzService } from "./services/xtz";
+import { ZetaService } from "./services/zeta";
+import { KILN_VALIDATORS as v } from "./validators";
 
 type Config = {
   apiToken: string;
@@ -44,6 +45,7 @@ export class Kiln {
   fet: FetService;
   inj: InjService;
   ton: TonService;
+  zeta: ZetaService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -67,5 +69,6 @@ export class Kiln {
     this.fet = new FetService({ testnet });
     this.inj = new InjService({ testnet });
     this.ton = new TonService({ testnet });
+    this.zeta = new ZetaService({ testnet });
   }
 }
