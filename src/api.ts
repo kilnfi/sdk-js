@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create({});
+const api = axios.create();
 api.interceptors.response.use(
   (res) => res,
   (err) => {
