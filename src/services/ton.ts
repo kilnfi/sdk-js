@@ -13,8 +13,8 @@ export class TonService extends Service {
   /**
    * Craft TON staking transaction to a single nomination pool
    * @param accountId id of the kiln account to use for the stake transaction
-   * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param poolAddress vote account address of the validator that you wish to delegate to
+   * @param walletAddress sender of the transaction
+   * @param poolAddress single nomination pool address
    * @param amountTon how much to stake in TON
    */
   async craftStakeSingleNominationPoolTx(
@@ -35,8 +35,8 @@ export class TonService extends Service {
   /**
    * Craft TON staking transaction to a nomination pool
    * @param accountId id of the kiln account to use for the stake transaction
-   * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param poolAddress vote account address of the validator that you wish to delegate to
+   * @param walletAddress sender of the transaction
+   * @param poolAddress nomination pool address
    * @param amountTon how much to stake in TON
    */
   async craftStakeNominationPoolTx(
@@ -56,8 +56,8 @@ export class TonService extends Service {
 
   /**
    * Craft TON unstake transaction from a single nomination pool
-   * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param poolAddress vote account address of the validator that you wish to delegate to
+   * @param walletAddress sender of the transaction
+   * @param poolAddress single nomination pool address
    * @param amountTon how much to stake in TON
    */
   async craftUnstakeSingleNominationPoolTx(
@@ -75,13 +75,54 @@ export class TonService extends Service {
 
   /**
    * Craft TON unstake transaction from a nomination pool
-   * @param walletAddress used to create the stake account and retrieve rewards in the future
-   * @param poolAddress vote account address of the validator that you wish to delegate to
+   * @param walletAddress sender of the transaction
+   * @param poolAddress nomination pool address
    */
   async craftUnstakeNominationPoolTx(walletAddress: string, poolAddress: string): Promise<TonTx> {
     const { data } = await api.post<TonTx>(`/v1/ton/transaction/unstake-nomination-pool`, {
       wallet: walletAddress,
       pool_address: poolAddress,
+    });
+    return data;
+  }
+
+  /**
+   * Craft TON whitelist tx for vesting contract
+   * @param walletAddress sender of the transaction
+   * @param vestingContractAddress vesting contract address
+   * @param addresses addresses to whitelist
+   */
+  async craftWhitelistVestingContractTx(
+    walletAddress: string,
+    vestingContractAddress: string,
+    addresses: string[],
+  ): Promise<TonTx> {
+    const { data } = await api.post<TonTx>(`/v1/ton/transaction/whitelist-vesting-contract`, {
+      wallet: walletAddress,
+      vesting_contract_address: vestingContractAddress,
+      addresses: addresses,
+    });
+    return data;
+  }
+
+  /**
+   * Craft TON send from a vesting contract tx
+   * @param walletAddress sender of the transaction
+   * @param vestingContractAddress vesting contract address
+   * @param destinationAddress the destination to which the TON will be sent to
+   * @param amountTon the amount of TON to send
+   */
+  async craftSendFromVestingContractTx(
+    walletAddress: string,
+    vestingContractAddress: string,
+    destinationAddress: string,
+    amountTon: number,
+  ): Promise<TonTx> {
+    const { data } = await api.post<TonTx>(`/v1/ton/transaction/send-from-vesting-contract`, {
+      wallet: walletAddress,
+      vesting_contract_address: vestingContractAddress,
+      destination_address: destinationAddress,
+      amount_nanoton: this.tonToNanoTon(amountTon.toString()),
     });
     return data;
   }
