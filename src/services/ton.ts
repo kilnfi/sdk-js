@@ -131,6 +131,28 @@ export class TonService extends Service {
   }
 
   /**
+   * Craft TON unstake from a vesting contract tx
+   * @param walletAddress sender of the transaction
+   * @param vestingContractAddress vesting contract address
+   * @param poolAddress the pool address to unstake from
+   * @param amountTon the amount of TON to unstake
+   */
+  async craftUnstakeFromVestingContractTx(
+    walletAddress: string,
+    vestingContractAddress: string,
+    poolAddress: string,
+    amountTon: number,
+  ): Promise<TonTx> {
+    const { data } = await api.post<TonTx>(`/v1/ton/transaction/unstake-from-vesting-contract`, {
+      wallet: walletAddress,
+      vesting_contract_address: vestingContractAddress,
+      pool_address: poolAddress,
+      amount_nanoton: this.tonToNanoTon(amountTon.toString()),
+    });
+    return data;
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
    * @param tx raw transaction
