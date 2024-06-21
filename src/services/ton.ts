@@ -106,14 +106,14 @@ export class TonService extends Service {
   }
 
   /**
-   * Craft TON send from a vesting contract tx
+   * Craft TON stake from a vesting contract tx
    * @param accountId id of the kiln account to use for the stake transaction
    * @param walletAddress sender of the transaction
    * @param vestingContractAddress vesting contract address
    * @param destinationAddress the destination to which the TON will be sent to
    * @param amountTon the amount of TON to send
    */
-  async craftSendFromVestingContractTx(
+  async craftStakeFromVestingContractTx(
     accountId: string,
     walletAddress: string,
     vestingContractAddress: string,
