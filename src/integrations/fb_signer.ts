@@ -85,12 +85,12 @@ export class FbSigner {
     try {
       const assetArgs = assetId
         ? {
-            assetId,
-            source: {
-              type: PeerType.VAULT_ACCOUNT,
-              id: this.vaultId.toString(),
-            },
-          }
+          assetId,
+          source: {
+            type: PeerType.VAULT_ACCOUNT,
+            id: this.vaultId.toString(),
+          },
+        }
         : {};
 
       const tx: TransactionArguments = {
