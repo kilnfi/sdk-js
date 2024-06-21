@@ -120,7 +120,7 @@ export class TonService extends Service {
     destinationAddress: string,
     amountTon: number,
   ): Promise<TonTx> {
-    const { data } = await api.post<TonTx>(`/v1/ton/transaction/send-from-vesting-contract`, {
+    const { data } = await api.post<TonTx>(`/v1/ton/transaction/stake-from-vesting-contract`, {
       account_id: accountId,
       wallet: walletAddress,
       vesting_contract_address: vestingContractAddress,
