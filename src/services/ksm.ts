@@ -12,14 +12,14 @@ export class KsmService extends SubstrateService {
   }
 
   mainToPlanck(amount: string): string {
-    return this.mainToPlanck(amount);
+    return this.ksmToPlanck(amount);
   }
 
   /**
-   * Convert KSM planck to main
+   * Convert KSM to planck
    * @param amountKsm amount in planck
    */
-  planckToMain(amountKsm: string): string {
+  ksmToPlanck(amountKsm: string): string {
     return parseUnits(amountKsm, 12).toString();
   }
 }

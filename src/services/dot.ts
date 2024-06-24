@@ -12,14 +12,14 @@ export class DotService extends SubstrateService {
   }
 
   mainToPlanck(amount: string): string {
-    return this.mainToPlanck(amount);
+    return this.dotToPlanck(amount);
   }
 
   /**
-   * Convert DOT planck to main
+   * Convert DOT to planck
    * @param amountDot amount in planck
    */
-  planckToMain(amountDot: string): string {
+  dotToPlanck(amountDot: string): string {
     return parseUnits(amountDot, 10).toString();
   }
 }
