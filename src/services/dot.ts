@@ -11,11 +11,15 @@ export class DotService extends SubstrateService {
     super(props, "DOT");
   }
 
-  /**
-   * Convert DOT token to planck
-   * @param amount amount in DOT
-   */
   mainToPlanck(amount: string): string {
-    return parseUnits(amount, 10).toString();
+    return this.mainToPlanck(amount);
+  }
+
+  /**
+   * Convert DOT planck to main
+   * @param amountDot amount in planck
+   */
+  planckToMain(amountDot: string): string {
+    return parseUnits(amountDot, 10).toString();
   }
 }

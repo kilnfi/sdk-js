@@ -11,11 +11,15 @@ export class KsmService extends SubstrateService {
     super(props, "KSM");
   }
 
-  /**
-   * Convert KSM token to planck
-   * @param amount amount in KSM
-   */
+
   mainToPlanck(amount: string): string {
-    return parseUnits(amount, 12).toString();
+    return this.mainToPlanck(amount);
   }
+
+  /**
+   * Convert KSM planck to main
+   * @param amountKsm amount in planck
+   */
+  planckToMain(amountKsm: string): string {
+    return parseUnits(amountKsm, 12).toString();
 }
