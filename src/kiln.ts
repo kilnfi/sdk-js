@@ -8,6 +8,7 @@ import { EthService } from "./services/eth";
 import { FetService } from "./services/fet";
 import { FireblocksService } from "./services/fireblocks";
 import { InjService } from "./services/inj";
+import { KsmService } from "./services/ksm";
 import { MaticService } from "./services/matic";
 import { NearService } from "./services/near";
 import { NobleService } from "./services/noble";
@@ -36,6 +37,7 @@ export class Kiln {
   ada: AdaService;
   near: NearService;
   dot: DotService;
+  ksm: KsmService;
   xtz: XtzService;
   matic: MaticService;
   osmo: OsmoService;
@@ -60,6 +62,7 @@ export class Kiln {
     this.ada = new AdaService({ testnet });
     this.near = new NearService({ testnet });
     this.dot = new DotService({ testnet });
+    this.ksm = new KsmService({ testnet });
     this.xtz = new XtzService({ testnet });
     this.matic = new MaticService({ testnet });
     this.osmo = new OsmoService({ testnet });
