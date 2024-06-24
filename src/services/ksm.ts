@@ -11,7 +11,6 @@ export class KsmService extends SubstrateService {
     super(props, "KSM");
   }
 
-
   mainToPlanck(amount: string): string {
     return this.mainToPlanck(amount);
   }
@@ -22,4 +21,5 @@ export class KsmService extends SubstrateService {
    */
   planckToMain(amountKsm: string): string {
     return parseUnits(amountKsm, 12).toString();
+  }
 }
