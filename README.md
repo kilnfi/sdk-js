@@ -11,6 +11,7 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 - ADA
 - ATOM
 - DOT
+- KSM
 - DYDX
 - ETH
 - FET
