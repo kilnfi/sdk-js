@@ -22,6 +22,12 @@ export const KILN_VALIDATORS = {
       KILN_NOMINATION_POOL_ID: "118",
     },
   },
+  KSM: {
+    mainnet: {
+      KILN: "FV3za2fceAXtw4KwVnPJK4c4Y2ph8VNMEA26MkgjTaEA76u",
+      KILN_NOMINATION_POOL_ID: "131",
+    },
+  },
   MATIC: {
     mainnet: {
       KILN_OWNEST: "0xD14a87025109013B0a2354a775cB335F926Af65A",
@@ -55,6 +61,11 @@ export const KILN_VALIDATORS = {
   FET: {
     mainnet: {
       KILN: "fetchvaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ryjvncp",
+    },
+  },
+  ZETA: {
+    mainnet: {
+      KILN: "zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe",
     },
   },
 };

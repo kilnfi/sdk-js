@@ -12,7 +12,7 @@ import { utils } from "ethers";
 import { EthTx } from "../types/eth";
 import { MaticTx } from "../types/matic";
 
-type AssetId =
+export type AssetId =
   | "SOL_TEST"
   | "SOL"
   | "ETH_TEST3"
@@ -28,8 +28,8 @@ type AssetId =
   | "NEAR"
   | "XTZ_TEST"
   | "XTZ"
-  | "WND"
   | "DOT"
+  | "KSM"
   | "DV4TNT_TEST"
   | "DYDX_DYDX"
   | "CELESTIA"
