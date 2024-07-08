@@ -15,7 +15,7 @@ import { MaticTx } from "../types/matic";
 export type AssetId =
   | "SOL_TEST"
   | "SOL"
-  | "ETH_TEST3"
+  | "ETH_TEST5"
   | "ETH_TEST6"
   | "ETH"
   | "ATOM_COS_TEST"
@@ -85,12 +85,12 @@ export class FbSigner {
     try {
       const assetArgs = assetId
         ? {
-          assetId,
-          source: {
-            type: PeerType.VAULT_ACCOUNT,
-            id: this.vaultId.toString(),
-          },
-        }
+            assetId,
+            source: {
+              type: PeerType.VAULT_ACCOUNT,
+              id: this.vaultId.toString(),
+            },
+          }
         : {};
 
       const tx: TransactionArguments = {
@@ -115,7 +115,7 @@ export class FbSigner {
    */
   public async signTypedMessage(
     eip712message: any,
-    assetId: "ETH" | "ETH_TEST3" | "ETH_TEST6",
+    assetId: "ETH" | "ETH_TEST5" | "ETH_TEST6",
     note?: string,
   ): Promise<TransactionResponse> {
     try {
