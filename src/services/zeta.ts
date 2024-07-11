@@ -28,6 +28,7 @@ export class ZetaService extends Service {
    * @param validatorAddress validator address to delegate to
    * @param amountZeta how many tokens to stake in ZETA
    * @param restakeRewards If enabled, the rewards will be automatically restaked
+   * @param granteeAddress validator grantee address
    */
   async craftStakeTx(
     accountId: string,
@@ -35,6 +36,7 @@ export class ZetaService extends Service {
     validatorAddress: string,
     amountZeta: number,
     restakeRewards: boolean = false,
+    granteeAddress?: string,
   ): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/zeta/transaction/stake`, {
       account_id: accountId,
@@ -42,6 +44,7 @@ export class ZetaService extends Service {
       validator: validatorAddress,
       amount_azeta: this.zetaToAZeta(amountZeta.toString()),
       restake_rewards: restakeRewards,
+      grantee_address: granteeAddress,
     });
     return data;
   }
@@ -63,11 +66,13 @@ export class ZetaService extends Service {
    * Craft a Zetachain restake rewards transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
+   * @param granteeAddress validator grantee address
    */
-  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string, granteeAddress: string): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/zeta/transaction/restake-rewards`, {
       pubkey: pubkey,
       validator_address: validatorAddress,
+      grantee_address: granteeAddress,
     });
     return data;
   }

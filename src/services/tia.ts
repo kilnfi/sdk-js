@@ -27,6 +27,7 @@ export class TiaService extends Service {
    * @param validatorAddress validator address to delegate to
    * @param amountTia how many tokens to stake in TIA
    * @param restakeRewards If enabled, the rewards will be automatically restaked
+   * @param granteeAddress validator grantee address
    */
   async craftStakeTx(
     accountId: string,
@@ -34,6 +35,7 @@ export class TiaService extends Service {
     validatorAddress: string,
     amountTia: number,
     restakeRewards: boolean = false,
+    granteeAddress?: string,
   ): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/tia/transaction/stake`, {
       account_id: accountId,
@@ -41,6 +43,7 @@ export class TiaService extends Service {
       validator: validatorAddress,
       amount_utia: this.tiaToUtia(amountTia.toString()),
       restake_rewards: restakeRewards,
+      grantee_address: granteeAddress,
     });
     return data;
   }
@@ -62,11 +65,13 @@ export class TiaService extends Service {
    * Craft tia restake rewards transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
+   * @param granteeAddress validator grantee address
    */
-  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string, granteeAddress: string): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/tia/transaction/restake-rewards`, {
       pubkey: pubkey,
       validator_address: validatorAddress,
+      grantee_address: granteeAddress,
     });
     return data;
   }
