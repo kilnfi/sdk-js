@@ -28,6 +28,7 @@ export class OsmoService extends Service {
    * @param validatorAddress validator address to delegate to
    * @param amountOsmo how many tokens to stake in OSMO
    * @param restakeRewards If enabled, the rewards will be automatically restaked
+   * @param granteeAddress validator grantee address
    */
   async craftStakeTx(
     accountId: string,
@@ -35,6 +36,7 @@ export class OsmoService extends Service {
     validatorAddress: string,
     amountOsmo: number,
     restakeRewards: boolean = false,
+    granteeAddress?: string,
   ): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/stake`, {
       account_id: accountId,
@@ -42,6 +44,7 @@ export class OsmoService extends Service {
       validator: validatorAddress,
       amount_uosmo: this.osmoToUosmo(amountOsmo.toString()),
       restake_rewards: restakeRewards,
+      grantee_address: granteeAddress,
     });
     return data;
   }
@@ -63,11 +66,13 @@ export class OsmoService extends Service {
    * Craft osmo restake rewards transaction
    * @param pubkey wallet pubkey, this is different from the wallet address
    * @param validatorAddress validator address to which the delegation has been made
+   * @param granteeAddress validator grantee address
    */
-  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string): Promise<CosmosTx> {
+  async craftRestakeRewardsTx(pubkey: string, validatorAddress: string, granteeAddress: string): Promise<CosmosTx> {
     const { data } = await api.post<CosmosTx>(`/v1/osmo/transaction/restake-rewards`, {
       pubkey: pubkey,
       validator_address: validatorAddress,
+      grantee_address: granteeAddress,
     });
     return data;
   }
