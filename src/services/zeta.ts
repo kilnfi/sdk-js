@@ -118,6 +118,21 @@ export class ZetaService extends Service {
   }
 
   /**
+   * Craft zeta send transaction
+   * @param pubkey wallet pubkey, this is different from the wallet address
+   * @param to recipient address
+   * @param amountZeta how many tokens to send in ZETA
+   */
+  async craftSendTx(pubkey: string, to: string, amountZeta: number): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/zeta/transaction/send`, {
+      pubkey: pubkey,
+      amount_azeta: this.zetaToAZeta(amountZeta.toString()),
+      to: to,
+    });
+    return data;
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
    * @param tx raw transaction
