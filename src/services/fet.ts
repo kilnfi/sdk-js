@@ -118,6 +118,21 @@ export class FetService extends Service {
   }
 
   /**
+   * Craft fetch.ai send transaction
+   * @param pubkey wallet pubkey, this is different from the wallet address
+   * @param to recipient address
+   * @param amountFet how many tokens to send in FET
+   */
+  async craftSendTx(pubkey: string, to: string, amountFet: number): Promise<CosmosTx> {
+    const { data } = await api.post<CosmosTx>(`/v1/fet/transaction/send`, {
+      pubkey: pubkey,
+      amount_afet: this.fetToAfet(amountFet.toString()),
+      to: to,
+    });
+    return data;
+  }
+
+  /**
    * Sign transaction with given integration
    * @param integration custody solution to sign with
    * @param tx raw transaction
