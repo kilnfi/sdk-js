@@ -147,6 +147,10 @@ export class FetService extends Service {
           {
             content: tx.data.unsigned_tx_hash,
             derivationPath: [44, 118, integration.vaultId, 0, 0],
+            preHash: {
+              content: tx.data.unsigned_tx_serialized,
+              hashAlgorithm: "SHA256",
+            },
           },
         ],
         algorithm: SigningAlgorithm.MPC_ECDSA_SECP256K1,

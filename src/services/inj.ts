@@ -128,6 +128,10 @@ export class InjService extends Service {
         messages: [
           {
             content: tx.data.unsigned_tx_hash,
+            preHash: {
+              content: tx.data.unsigned_tx_serialized,
+              hashAlgorithm: "SHA256",
+            },
           },
         ],
       },
