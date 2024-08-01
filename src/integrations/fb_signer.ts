@@ -100,7 +100,6 @@ export class FbSigner {
         note,
         extraParameters: payloadToSign,
       };
-      console.log(tx);
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);
     } catch (err: any) {
