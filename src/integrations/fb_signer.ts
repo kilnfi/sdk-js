@@ -35,7 +35,8 @@ export type AssetId =
   | "CELESTIA"
   | "INJ_INJ"
   | "TON_TEST"
-  | "TON";
+  | "TON"
+  | "KAVA_KAVA";
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
