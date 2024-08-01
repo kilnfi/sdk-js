@@ -19,6 +19,7 @@ import { TonService } from "./services/ton";
 import { XtzService } from "./services/xtz";
 import { ZetaService } from "./services/zeta";
 import { KILN_VALIDATORS as v } from "./validators";
+import { KavaService } from "./services/kava";
 
 type Config = {
   apiToken: string;
@@ -48,6 +49,7 @@ export class Kiln {
   inj: InjService;
   ton: TonService;
   zeta: ZetaService;
+  kava: KavaService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -73,5 +75,6 @@ export class Kiln {
     this.inj = new InjService({ testnet });
     this.ton = new TonService({ testnet });
     this.zeta = new ZetaService({ testnet });
+    this.kava = new KavaService({ testnet });
   }
 }

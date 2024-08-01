@@ -8,7 +8,7 @@ export class FireblocksService extends Service {
    * @param integration
    * @param assetId
    */
-  async getPubkey(integration: Integration, assetId: string): Promise<PublicKeyResponse> {
+  async getPubkey(integration: Integration, assetId: string): Promise<PublicKeyResponse | any> {
     const fbSdk = this.getFbSdk(integration);
     const data = await fbSdk.getPublicKeyInfoForVaultAccount({
       assetId: assetId,

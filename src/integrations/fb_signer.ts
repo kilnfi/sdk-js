@@ -35,7 +35,8 @@ export type AssetId =
   | "CELESTIA"
   | "INJ_INJ"
   | "TON_TEST"
-  | "TON";
+  | "TON"
+  | "KAVA_KAVA";
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
@@ -99,6 +100,7 @@ export class FbSigner {
         note,
         extraParameters: payloadToSign,
       };
+      console.log(tx);
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);
     } catch (err: any) {
