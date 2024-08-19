@@ -11,6 +11,8 @@ export type CosmosTx = {
     pubkey: string;
     message: EncodeObject;
     fee: StdFee;
+    chain_id: string;
+    account_number: number;
   };
 };
 
