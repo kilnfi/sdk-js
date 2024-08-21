@@ -8,29 +8,25 @@ Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
 
 ## Supported protocols
 
-- ADA
-- ATOM
-- DOT
-- DYDX
-- ETH
-- FET
-- INJ
-- KAVA
-- KSM
-- MATIC
-- NEAR
-- NOBLE
-- OSMO
-- SOL
-- TIA
-- TON
-- XTZ
-- ZETA
+- ADA (mainnet)
+- ATOM (mainnet and testnet)
+- DOT (mainnet)
+- DYDX (mainnet)
+- ETH (mainnet and holesky)
+- FET (mainnet)
+- INJ (mainnet)
+- KAVA (mainnet)
+- KSM (mainnet)
+- MATIC (mainnet and sepolia)
+- NEAR (mainnet and testnet)
+- NOBLE (mainnet)
+- OSMO (mainnet)
+- SOL (mainnet and testnet)
+- TIA (mainnet)
+- TON (mainnet and testnet)
+- XTZ (mainnet and ghostnet)
+- ZETA (mainnet)
 - More protocol to come, don't hesitate to contact us (support@kiln.fi)
-
-### ⚠️️WARNING:
-
-The transaction crafting and reporting are done on mainnet networks on OSMO / TIA / DYDX even in testnet mode.
 
 ## Installation
 
