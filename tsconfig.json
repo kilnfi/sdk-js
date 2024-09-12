@@ -1,13 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "module": "ES2020",
+    "target": "ES2021",
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": false,
     "moduleResolution": "node",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "rootDir": "src"
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*", "examples"]
