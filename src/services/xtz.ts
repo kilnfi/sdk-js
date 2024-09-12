@@ -30,7 +30,7 @@ export class XtzService extends Service {
    * Craft Tezos undelegation transaction
    * @param walletAddress wallet address delegating
    */
-  async craftUnStakeTx(walletAddress: string): Promise<XtzTx> {
+  async craftUnstakeTx(walletAddress: string): Promise<XtzTx> {
     const { data } = await api.post<XtzTx>(`/v1/xtz/transaction/unstake`, {
       wallet: walletAddress,
     });
