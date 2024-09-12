@@ -3,7 +3,7 @@ import { Service } from "./service";
 import { AtomRewards, AtomStakes } from "../types/atom";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
-import api from "../api";
+import { api } from "../api";
 import { DecodedTxRaw } from "@cosmjs/proto-signing";
 import { CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
 import { parseUnits } from "viem";

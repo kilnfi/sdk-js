@@ -1,5 +1,5 @@
 import { UnsignedTransaction } from "@substrate/txwrapper-polkadot";
-import api from "../api";
+import { api } from "../api";
 import { Integration } from "../types/integrations";
 import { ServiceProps } from "../types/service";
 import {

@@ -1,5 +1,5 @@
 import { Account, Accounts, InternalAccountsConfig } from "../types/accounts";
-import api from "../api";
+import { api } from "../api";
 
 export class AccountService {
   private testnet: boolean;

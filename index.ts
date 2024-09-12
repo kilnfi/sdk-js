@@ -1,1 +1,1 @@
-export * from "./src/kiln";
+export * from "./src/main";

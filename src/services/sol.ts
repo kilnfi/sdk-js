@@ -1,5 +1,5 @@
 import { LAMPORTS_PER_SOL, Transaction } from "@solana/web3.js";
-import api from "../api";
+import { api } from "../api";
 import { SolNetworkStats, SolRewards, SolSignedTx, SolStakes, SolTx, SolTxHash, SolTxStatus } from "../types/sol";
 import { Service } from "./service";
 import { ServiceProps } from "../types/service";

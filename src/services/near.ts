@@ -1,6 +1,6 @@
 import { connect, Near, transactions, utils } from "near-api-js";
 import BN from "bn.js";
-import { sha256 } from "js-sha256";
+import { sha256 } from "viem";
 import { Service } from "./service";
 import {
   NearNetworkStats,
@@ -14,7 +14,7 @@ import {
 import { PublicKey } from "near-api-js/lib/utils";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
-import api from "../api";
+import { api } from "../api";
 
 export class NearService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -189,7 +189,7 @@ export class NearService extends Service {
    */
   async sign(integration: Integration, tx: NearTx, note?: string): Promise<NearSignedTx> {
     const serializedTx = utils.serialize.serialize(transactions.SCHEMA, tx.data.tx);
-    const serializedTxArray = new Uint8Array(sha256.array(serializedTx));
+    const serializedTxArray = new Uint8Array(sha256(serializedTx, "bytes"));
     const serializedTxHash = Buffer.from(serializedTxArray).toString("hex");
     const payload = {
       rawMessageData: {

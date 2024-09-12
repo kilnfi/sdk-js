@@ -1,4 +1,4 @@
-import api from "../api";
+import { api } from "../api";
 import { Service } from "./service";
 import { XtzNetworkStats, XtzRewards, XtzSignedTx, XtzStakes, XtzTx, XtzTxHash, XtzTxStatus } from "../types/xtz";
 import { ServiceProps } from "../types/service";

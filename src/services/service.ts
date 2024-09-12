@@ -1,6 +1,6 @@
-import { FireblocksIntegration } from "../types/integrations";
+import type { FireblocksIntegration } from "../types/integrations";
 import { FbSigner } from "../integrations/fb_signer";
-import { ServiceProps } from "../types/service";
+import type { ServiceProps } from "../types/service";
 import { FireblocksSDK } from "fireblocks-sdk";
 
 export class Service {

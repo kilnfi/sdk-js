@@ -1,6 +1,6 @@
 import { Integration } from "../types/integrations";
 import { Service } from "./service";
-import { AssetTypeResponse, PublicKeyResponse } from "fireblocks-sdk";
+import type { AssetTypeResponse, PublicKeyResponse } from "fireblocks-sdk";
 
 export class FireblocksService extends Service {
   /**

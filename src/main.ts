@@ -1,4 +1,6 @@
-import api from "./api";
+// Polyfills
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import { AccountService } from "./services/accounts";
 import { AdaService } from "./services/ada";
 import { AtomService } from "./services/atom";
@@ -20,6 +22,7 @@ import { XtzService } from "./services/xtz";
 import { ZetaService } from "./services/zeta";
 import { KILN_VALIDATORS as v } from "./validators";
 import { KavaService } from "./services/kava";
+import { api } from "./api";
 
 type Config = {
   apiToken: string;
@@ -55,7 +58,6 @@ export class Kiln {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
     api.defaults.headers.common["Content-Type"] = "application/json";
     api.defaults.baseURL = baseUrl ? baseUrl : testnet === true ? "https://api.testnet.kiln.fi" : "https://api.kiln.fi";
-
     this.fireblocks = new FireblocksService({ testnet });
     this.accounts = new AccountService({ testnet });
     this.eth = new EthService({ testnet });

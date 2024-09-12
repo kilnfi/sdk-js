@@ -1,4 +1,4 @@
-import api from "../api";
+import { api } from "../api";
 import { Service } from "./service";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";

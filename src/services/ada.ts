@@ -9,7 +9,7 @@ import {
   AdaTxHash,
   AdaTxStatus,
 } from "../types/ada";
-import api from "../api";
+import { api } from "../api";
 import { ServiceProps } from "../types/service";
 import { Integration } from "../types/integrations";
 import { TransactionJSON } from "@emurgo/cardano-serialization-lib-nodejs";
