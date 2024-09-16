@@ -1,7 +1,7 @@
 import { FireblocksIntegration, Integration } from "../types/integrations";
 import { AssetTypeResponse, FireblocksSDK, PublicKeyResponse, TransactionResponse } from "fireblocks-sdk";
 import { FbSigner } from "../integrations/fb_signer";
-import { Client, ParseAsResponse } from "openapi-fetch";
+import { Client } from "openapi-fetch";
 import { components, paths } from "../../openapi/schema";
 
 export class FireblocksService {
@@ -102,10 +102,8 @@ export class FireblocksService {
     });
 
     return {
-      data: {
-        signed_tx: preparedTx.data,
-        fireblocks_tx: fbTx,
-      },
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
     };
   }
 }
