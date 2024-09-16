@@ -624,4 +624,46 @@ export class FireblocksService {
     const fbNote = note ? note : "POL tx from @kilnfi/sdk";
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
+
+  /**
+   * Sign a TON transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signTonTx(
+    integration: Integration,
+    tx: components["schemas"]["TONTx"],
+    assetId: "TON_TEST" | "TON",
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "TON tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+    const signature =
+      fbTx.signedMessages && fbTx.signedMessages.length > 0 ? fbTx.signedMessages[0].signature.fullSig : undefined;
+
+    const preparedTx = await this.client.POST("/v1/ton/transaction/prepare", {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+        from: tx.from,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
 }
