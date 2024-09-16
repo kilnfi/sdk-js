@@ -602,4 +602,26 @@ export class FireblocksService {
     const fbNote = note ? note : "ETH tx from @kilnfi/sdk";
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
+
+  /**
+   * Sign and broadcast a POL transaction with given integration using Fireblocks contract call feature
+   * @param integration
+   * @param tx
+   * @param assetId
+   * @param note
+   */
+  async signAndBroadcastPolTx(
+    integration: Integration,
+    tx: components["schemas"]["POLUnsignedTx"],
+    assetId: "ETH_TEST5" | "ETH",
+    note?: string,
+  ) {
+    const payload = {
+      contractCallData: tx.contract_call_data,
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "POL tx from @kilnfi/sdk";
+    return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
+  }
 }
