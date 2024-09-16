@@ -7203,52 +7203,52 @@ export interface components {
              * @description Hash of the unsigned transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Unsigned serialized transaction
              * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Contract address of the transaction recipient
              * @example 0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852
              */
-            to?: string;
+            to: string;
             /**
              * @description Hex encoded contract data to be sent with the transaction
              * @example 0xca0bfcce0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000002600000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000309696c02ec4dbb99f714e26ff1acdf6b258d36dcbad7b8b549553bc99b94ea639cd247f31683564995afd48568c1b6edd00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020010000000000000000000000bc86717bad3f8ccf86d2882a6bc351c94580a994000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060a3869da2ed5cc558f016d59fc5ceb0cac28e58743836aa3cf146221f1ef0b959e3cc5c589e05e171f1473596aadf36411767ad92edaae421ba0291bd7568267b3faabc3ab6ed9ddfc048ea6640370977f16f4f626a0e567a11ba25acdc520bb000000000000000000000000000000000000000000000000000000000000000012dd65914dda46639df6344701de54ac3ebe34a4b230262d3017fcd6c29954452
              */
-            contract_call_data?: string;
+            contract_call_data: string;
             /**
              * @description Amount of ETH to send in wei
              * @example 32000000000000000000
              */
-            amount_wei?: string;
+            amount_wei: string;
             /**
              * @description Nonce of the transaction
              * @example 1
              */
-            nonce?: number;
+            nonce: number;
             /**
              * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit
              * @example 140244
              */
-            gas_limit?: number;
+            gas_limit: number;
             /**
              * @description Max priority fee per gas in wei. This is basically the miner fee. We provide a default value of 2 gwei so transactions are mined faster.
              * @example 2000000000
              */
-            max_priority_fee_per_gas_wei?: string;
+            max_priority_fee_per_gas_wei: string;
             /**
              * @description Max fee per gas in wei. This is the maxium amount of gas that you are willing to pay for the transaction.
              * @example 383687469748
              */
-            max_fee_per_gas_wei?: string;
+            max_fee_per_gas_wei: string;
             /**
              * @description Chain ID of the network
              * @example 1
              */
-            chain_id?: number;
+            chain_id: number;
         };
         DefiStake: {
             /**
@@ -8344,12 +8344,12 @@ export interface components {
              * @description Hash of the unsigned transaction
              * @example 7383fbcd64c1d95c92b5ebee44a569f15e557a773b6d733ab7bb4e3ce98de812
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Unsigned serialized transaction
              * @example aef6da4e377364f07c2aa460d7148a8971dab767417b541fa473b2d8e038974f6e00566eaa0198f3df9230489abd1a64f5ef9b98b270940ac4cb9807f44e00ff00344c5e59a1de5370e1cee5d2fcf706a649bba15b
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Transaction object. Object shape can be found [here](https://github.com/ecadlabs/taquito/blob/master/packages/taquito-local-forging/src/interface.ts#L3)
              * @example {
@@ -8367,7 +8367,7 @@ export interface components {
              *       ]
              *     }
              */
-            unsigned_tx?: Record<string, never>;
+            unsigned_tx: Record<string, never>;
         };
         XTZSignedTx: {
             /**
@@ -9705,12 +9705,12 @@ export interface components {
              * @description Hex encoded transaction data that need to be covered by signatures
              * @example 0301080c373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e1bb5f70b4d3ae65feb6d20587f62ccc8d5e720e99abe3d4415972bbf74a8a88a51f5f3871e65b84cc393458d0f23a413184cf2bb7093ae4e2c99d55b39a575c5f98e3135fcb53e71e6fafcb4da3a3cc36af1c76a1a7e72aa12eae1346d724c6c00000000000000000000000000000000000000000000000000000000000000004792650d1e9a4fe99721617c7d47c8712c14c20a76bf043368c6528c9090531a06a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc00000000006a1d817a502050b680791e6ce6db88e1e5b7150f61fc6790a4eb4d10000000006a7d51718c774c928566398691d5eb68b5eb8a39b4b6d5c73555b210000000006a7d517192c568ee08a845f73d29788cf035c3145b21ab344d8062ea940000006a7d517192c5c51218cc94c3d4af17f58daee089ba1fd44e3dbd98a0000000006a7d517193584d0feed9bb3431d13206be544281b57b8566cc5375ff4000000f0973e76495f3ffc65798a529de5cba4ec7f47f17669c9fa256923f099a1cda304040303090204040000000402000134000000000080c6a47e8d0300c80000000000000006a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc0000000000602010a7400000000373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006060105080b07000402000000
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Hex encoded full transaction
              * @example 0300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063b2b5ef76d483b695bc3b954d9a372ca5f744e00279c8578bc4268d570b701a037fac575ae16bb3ba5702b8d5bd9930953453e2d628368f83a11ab5896d20bbcae0b4a119860afd99da20f3462ba15d8bd1528d73724b83e8cc4cee00787df28a181783c264113ef1870bae5a90987fc5cfcdffaddf23c7dcfd7585c13d10b0301080c373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e1bb5f70b4d3ae65feb6d20587f62ccc8d5e720e99abe3d4415972bbf74a8a88a51f5f3871e65b84cc393458d0f23a413184cf2bb7093ae4e2c99d55b39a575c5f98e3135fcb53e71e6fafcb4da3a3cc36af1c76a1a7e72aa12eae1346d724c6c00000000000000000000000000000000000000000000000000000000000000004792650d1e9a4fe99721617c7d47c8712c14c20a76bf043368c6528c9090531a06a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc00000000006a1d817a502050b680791e6ce6db88e1e5b7150f61fc6790a4eb4d10000000006a7d51718c774c928566398691d5eb68b5eb8a39b4b6d5c73555b210000000006a7d517192c568ee08a845f73d29788cf035c3145b21ab344d8062ea940000006a7d517192c5c51218cc94c3d4af17f58daee089ba1fd44e3dbd98a0000000006a7d517193584d0feed9bb3431d13206be544281b57b8566cc5375ff4000000f0973e76495f3ffc65798a529de5cba4ec7f47f17669c9fa256923f099a1cda304040303090204040000000402000134000000000080c6a47e8d0300c80000000000000006a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc0000000000602010a7400000000373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006060105080b07000402000000
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Transaction message containing transaction instructions. Object shape can be found [here](https://github.com/solana-labs/solana-web3.js/blob/master/packages/library-legacy/src/message/legacy.ts#L59)
              * @example {
@@ -9776,7 +9776,7 @@ export interface components {
              *       "indexToProgramIds": {}
              *     }
              */
-            unsigned_tx?: Record<string, never>;
+            unsigned_tx: Record<string, never>;
         };
         SOLDeactivateStakeTxPayload: {
             /**
@@ -11822,12 +11822,12 @@ export interface components {
              * @description Hash of the unsigned transaction
              * @example ea62bc381a2d8fc338f24634674a168fdc8f1a09b978f24f026041f4e00c876f
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Unsigned serialized transaction
              * @example 84a500818258203d244a2821a0cb32df614cf4380e6c6e0114bc7c734cfa2a3940498ad86865e100018182583900491a1d0747fa91f319625e39076232ad4cc274e3257f345ced82dbb2a8565045c49103b521a3827ff64b98889350a22fa9a0b5ccf72b279b1b0000000255928400021a000493e0031a01ad4330048282008200581ca8565045c49103b521a3827ff64b98889350a22fa9a0b5ccf72b279b83028200581ca8565045c49103b521a3827ff64b98889350a22fa9a0b5ccf72b279b581ce54d5f9340218a9816cafafc92dc3d5212b6d149ce75e9637cbcd7e0a0f5f6
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description List of inputs to spend
              * @example [
@@ -11837,7 +11837,7 @@ export interface components {
              *       }
              *     ]
              */
-            inputs?: Record<string, never>[];
+            inputs: Record<string, never>[];
         };
         ADASignedTx: {
             /**
@@ -12789,52 +12789,52 @@ export interface components {
              * @description Hash of the unsigned transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Unsigned serialized transaction
              * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Contract address of the transaction recipient
              * @example 0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852
              */
-            to?: string;
+            to: string;
             /**
              * @description Hex encoded contract data to be sent with the transaction
              * @example 0xca0bfcce0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000002600000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000309696c02ec4dbb99f714e26ff1acdf6b258d36dcbad7b8b549553bc99b94ea639cd247f31683564995afd48568c1b6edd00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020010000000000000000000000bc86717bad3f8ccf86d2882a6bc351c94580a994000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060a3869da2ed5cc558f016d59fc5ceb0cac28e58743836aa3cf146221f1ef0b959e3cc5c589e05e171f1473596aadf36411767ad92edaae421ba0291bd7568267b3faabc3ab6ed9ddfc048ea6640370977f16f4f626a0e567a11ba25acdc520bb000000000000000000000000000000000000000000000000000000000000000012dd65914dda46639df6344701de54ac3ebe34a4b230262d3017fcd6c29954452
              */
-            contract_call_data?: string;
+            contract_call_data: string;
             /**
              * @description Amount of MATIC to send in wei
              * @example 32000000000000000000
              */
-            amount_wei?: string | null;
+            amount_wei: string | null;
             /**
              * @description Nonce of the transaction
              * @example 1
              */
-            nonce?: number;
+            nonce: number;
             /**
              * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit
              * @example 140244
              */
-            gas_limit?: number;
+            gas_limit: number;
             /**
              * @description Max priority fee per gas in wei. This is basically the miner fee. We provide a default value of 2 gwei so transactions are mined faster.
              * @example 2000000000
              */
-            max_priority_fee_per_gas_wei?: string;
+            max_priority_fee_per_gas_wei: string;
             /**
              * @description Max fee per gas in wei. This is the maximum amount of gas that you are willing to pay for the transaction.
              * @example 383687469748
              */
-            max_fee_per_gas_wei?: string;
+            max_fee_per_gas_wei: string;
             /**
              * @description Chain ID of the network
              * @example 1
              */
-            chain_id?: number;
+            chain_id: number;
         };
         MATICCraftBuyVoucherTxPayload: {
             /**
@@ -13787,52 +13787,52 @@ export interface components {
              * @description Hash of the unsigned transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Unsigned serialized transaction
              * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Contract address of the transaction recipient
              * @example 0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852
              */
-            to?: string;
+            to: string;
             /**
              * @description Hex encoded contract data to be sent with the transaction
              * @example 0xca0bfcce0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000002600000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000309696c02ec4dbb99f714e26ff1acdf6b258d36dcbad7b8b549553bc99b94ea639cd247f31683564995afd48568c1b6edd00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020010000000000000000000000bc86717bad3f8ccf86d2882a6bc351c94580a994000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060a3869da2ed5cc558f016d59fc5ceb0cac28e58743836aa3cf146221f1ef0b959e3cc5c589e05e171f1473596aadf36411767ad92edaae421ba0291bd7568267b3faabc3ab6ed9ddfc048ea6640370977f16f4f626a0e567a11ba25acdc520bb000000000000000000000000000000000000000000000000000000000000000012dd65914dda46639df6344701de54ac3ebe34a4b230262d3017fcd6c29954452
              */
-            contract_call_data?: string;
+            contract_call_data: string;
             /**
              * @description Amount of POL to send in wei
              * @example 32000000000000000000
              */
-            amount_wei?: string | null;
+            amount_wei: string | null;
             /**
              * @description Nonce of the transaction
              * @example 1
              */
-            nonce?: number;
+            nonce: number;
             /**
              * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit
              * @example 140244
              */
-            gas_limit?: number;
+            gas_limit: number;
             /**
              * @description Max priority fee per gas in wei. This is basically the miner fee. We provide a default value of 2 gwei so transactions are mined faster.
              * @example 2000000000
              */
-            max_priority_fee_per_gas_wei?: string;
+            max_priority_fee_per_gas_wei: string;
             /**
              * @description Max fee per gas in wei. This is the maximum amount of gas that you are willing to pay for the transaction.
              * @example 383687469748
              */
-            max_fee_per_gas_wei?: string;
+            max_fee_per_gas_wei: string;
             /**
              * @description Chain ID of the network
              * @example 1
              */
-            chain_id?: number;
+            chain_id: number;
         };
         POLCraftBuyVoucherTxPayload: {
             /**
@@ -16439,12 +16439,12 @@ export interface components {
              * @description Hash of the unsigned transaction payload to sign
              * @example 0x0600070010a5d4e803373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24eb5001d0100d624000016000000e143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e28c36af0145fcb9c878851016179049f057988bc805990732fda56d45c48e125
              */
-            unsigned_tx_payload?: string;
+            unsigned_tx_payload: string;
             /**
              * @description Unsigned serialized transaction
              * @example 7b2261646472657373223a2235444b38536871747975566b32773471724639487761424a6f695a5631627951733541525a336466325074385636566a222c2261737365744964223a302c22626c6f636b48617368223a22307832386333366166303134356663623963383738383531303136313739303439663035373938386263383035393930373332666461353664343563343865313235222c22626c6f636b4e756d626572223a2230783031313035303862222c22657261223a22307862353030222c2267656e6573697348617368223a22307865313433663233383033616335306538663666386536323639356431636539653465316436386161333663316364326366643135333430323133663334323365222c226d65746164617461527063223a223078222c226d6574686f64223a22307830363030303730303130613564346538303333373363366638653834633638323261396638373033356636356363636638393965656633666364656536313037373034316139336531383035626162323465222c226e6f6e6365223a2230783030303030303437222c227369676e6564457874656e73696f6e73223a5b22436865636b4e6f6e5a65726f53656e646572222c22436865636b5370656356657273696f6e222c22436865636b547856657273696f6e222c22436865636b47656e65736973222c22436865636b4d6f7274616c697479222c22436865636b4e6f6e6365222c22436865636b576569676874222c224368617267655472616e73616374696f6e5061796d656e74225d2c227370656356657273696f6e223a2230783030303032346436222c22746970223a2230783030303030303030303030303030303030303030303030303030303030303030222c227472616e73616374696f6e56657273696f6e223a2230783030303030303136222c2276657273696f6e223a347d
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Transaction payload
              * @example {
@@ -16468,7 +16468,7 @@ export interface components {
              *       "transactionVersion": 22
              *     }
              */
-            unsigned_tx?: Record<string, never>;
+            unsigned_tx: Record<string, never>;
         };
         DOTCraftBondTxPayload: {
             /**
@@ -17033,12 +17033,12 @@ export interface components {
              * @description Hash of the unsigned transaction payload to sign
              * @example 0x0600070010a5d4e803373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24eb5001d0100d624000016000000e143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e28c36af0145fcb9c878851016179049f057988bc805990732fda56d45c48e125
              */
-            unsigned_tx_payload?: string;
+            unsigned_tx_payload: string;
             /**
              * @description Unsigned serialized transaction
              * @example 7b2261646472657373223a2235444b38536871747975566b32773471724639487761424a6f695a5631627951733541525a336466325074385636566a222c2261737365744964223a302c22626c6f636b48617368223a22307832386333366166303134356663623963383738383531303136313739303439663035373938386263383035393930373332666461353664343563343865313235222c22626c6f636b4e756d626572223a2230783031313035303862222c22657261223a22307862353030222c2267656e6573697348617368223a22307865313433663233383033616335306538663666386536323639356431636539653465316436386161333663316364326366643135333430323133663334323365222c226d65746164617461527063223a223078222c226d6574686f64223a22307830363030303730303130613564346538303333373363366638653834633638323261396638373033356636356363636638393965656633666364656536313037373034316139336531383035626162323465222c226e6f6e6365223a2230783030303030303437222c227369676e6564457874656e73696f6e73223a5b22436865636b4e6f6e5a65726f53656e646572222c22436865636b5370656356657273696f6e222c22436865636b547856657273696f6e222c22436865636b47656e65736973222c22436865636b4d6f7274616c697479222c22436865636b4e6f6e6365222c22436865636b576569676874222c224368617267655472616e73616374696f6e5061796d656e74225d2c227370656356657273696f6e223a2230783030303032346436222c22746970223a2230783030303030303030303030303030303030303030303030303030303030303030222c227472616e73616374696f6e56657273696f6e223a2230783030303030303136222c2276657273696f6e223a347d
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Transaction payload
              * @example {
@@ -17062,7 +17062,7 @@ export interface components {
              *       "transactionVersion": 22
              *     }
              */
-            unsigned_tx?: Record<string, never>;
+            unsigned_tx: Record<string, never>;
         };
         KSMCraftBondTxPayload: {
             /**
@@ -27610,17 +27610,17 @@ export interface components {
              * @description Hex encoded transaction data that need to be covered by signature
              * @example 5b451f530950de0cb371a91edf16f36a5180e31162faccc7f10db8ccf027023a
              */
-            unsigned_tx_hash?: string;
+            unsigned_tx_hash: string;
             /**
              * @description Hex encoded full transaction
              * @example b5ee9c72c10102010046000011011c29a9a317668d4f0a0000003e0003010066627fed9c544ffac225103268b387fd329b361cda9741c13b88cf5e028776f6277980187a1200000000000000000000000000002537dddb
              */
-            unsigned_tx_serialized?: string;
+            unsigned_tx_serialized: string;
             /**
              * @description Address of the signer
              * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
              */
-            from?: string;
+            from: string;
         };
         TONUnstakeSingleNominationPoolTxPayload: {
             /**
