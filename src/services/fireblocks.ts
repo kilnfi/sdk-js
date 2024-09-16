@@ -87,12 +87,10 @@ export class FireblocksService {
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "SOL tx from @kilnfi/sdk";
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signatures: string[] = [];
-    fbTx.signedMessages?.forEach((signedMessage: any) => {
-      if (signedMessage.derivationPath[3] == 0) {
-        signatures.push(signedMessage.signature.fullSig);
-      }
-    });
+
+    const signatures = fbTx.signedMessages
+      ?.filter(( signedMessage) => signedMessage.derivationPath[3] === 0 )
+      .map((signedMessage)=>signedMessage.signature.fullSig)
 
     const preparedTx = await this.client.POST("/v1/sol/transaction/prepare", {
       body: {
