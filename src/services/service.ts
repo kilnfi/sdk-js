@@ -1,15 +1,8 @@
 import { FireblocksIntegration } from "../types/integrations";
 import { FbSigner } from "../integrations/fb_signer";
-import { ServiceProps } from "../types/service";
 import { FireblocksSDK } from "fireblocks-sdk";
 
 export class Service {
-  protected testnet: boolean;
-
-  constructor({ testnet }: ServiceProps) {
-    this.testnet = testnet === true;
-  }
-
   /**
    * Retrieve a fireblocks SDK from a Fireblocks integration
    * @param integration
