@@ -418,4 +418,49 @@ export class FireblocksService {
       fireblocks_tx: fbTx,
     };
   }
+
+  /**
+   * Sign a TIA transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signNobleTx(
+    integration: Integration,
+    tx: components["schemas"]["TIAUnsignedTx"] | components["schemas"]["TIAStakeUnsignedTx"],
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: "SHA256",
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "TIA tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, "CELESTIA", fbNote);
+    const signature = fbTx.signedMessages![0].signature.fullSig;
+
+    const preparedTx = await this.client.POST("/v1/tia/transaction/prepare", {
+      body: {
+        pubkey: tx.pubkey,
+        tx_body: tx.tx_body,
+        tx_auth_info: tx.tx_auth_info,
+        signature: signature,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
 }
