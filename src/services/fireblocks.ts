@@ -253,10 +253,10 @@ export class FireblocksService {
       rawMessageData: {
         messages: [
           {
-            content: tx.data.unsigned_tx_hash,
+            content: tx.unsigned_tx_hash,
             derivationPath: [44, 118, integration.vaultId, 0, 0],
             preHash: {
-              content: tx.data.unsigned_tx_serialized,
+              content: tx.unsigned_tx_serialized,
               hashAlgorithm: "SHA256",
             },
           },
@@ -271,6 +271,51 @@ export class FireblocksService {
     const signature = fbTx.signedMessages![0].signature.fullSig;
 
     const preparedTx = await this.client.POST("/v1/fet/transaction/prepare", {
+      body: {
+        pubkey: tx.pubkey,
+        tx_body: tx.tx_body,
+        tx_auth_info: tx.tx_auth_info,
+        signature: signature,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a INJ transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signInjTx(
+    integration: Integration,
+    tx: components["schemas"]["INJUnsignedTx"] | components["schemas"]["INJStakeUnsignedTx"],
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: "SHA256",
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "INJ tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, "INJ_INJ", fbNote);
+    const signature = fbTx.signedMessages![0].signature.fullSig;
+
+    const preparedTx = await this.client.POST("/v1/inj/transaction/prepare", {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
