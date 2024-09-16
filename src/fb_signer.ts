@@ -8,7 +8,7 @@ import {
   TransactionStatus,
 } from "fireblocks-sdk";
 
-import { utils } from "ethers";
+import { formatUnits, formatEther } from "viem";
 import { components } from "../openapi/schema";
 
 export type AssetId =
@@ -175,12 +175,12 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount: tx.amount_wei && sendAmount ? utils.formatEther(tx.amount_wei) : "0",
+        amount: tx.amount_wei && sendAmount ? formatEther(tx.amount_wei, "wei") : "0",
         note,
         extraParameters: payloadToSign,
         gasLimit: tx.gas_limit,
-        priorityFee: utils.formatUnits(tx.max_priority_fee_per_gas_wei, "gwei"),
-        maxFee: utils.formatUnits(tx.max_fee_per_gas_wei, "gwei"),
+        priorityFee: formatUnits(tx.max_priority_fee_per_gas_wei, 9),
+        maxFee: formatUnits(tx.max_fee_per_gas_wei, 9),
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);
       return await this.waitForTxCompletion(fbTx);
