@@ -1,6 +1,6 @@
-import { FinalExecutionOutcome } from "near-api-js/lib/providers";
-import { SignedTransaction, Transaction } from "near-api-js/lib/transaction";
-import { TransactionResponse } from "fireblocks-sdk";
+import type { TransactionResponse } from 'fireblocks-sdk';
+import type { FinalExecutionOutcome } from 'near-api-js/lib/providers';
+import type { SignedTransaction, Transaction } from 'near-api-js/lib/transaction';
 
 export type NearTx = {
   data: {
@@ -23,7 +23,7 @@ export type NearTxHash = {
 
 export type NearTxStatus = {
   data: {
-    status: "success" | "error";
+    status: 'success' | 'error';
     receipt: FinalExecutionOutcome;
   };
 };

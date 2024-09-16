@@ -1,6 +1,6 @@
-import { FireblocksIntegration } from "../types/integrations";
-import { FbSigner } from "../integrations/fb_signer";
-import { FireblocksSDK } from "fireblocks-sdk";
+import { FireblocksSDK } from 'fireblocks-sdk';
+import { FbSigner } from '../integrations/fb_signer';
+import type { FireblocksIntegration } from '../types/integrations';
 
 export class Service {
   /**
@@ -11,7 +11,7 @@ export class Service {
     try {
       return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
     } catch (err: any) {
-      throw new Error("getFbSdk: " + err);
+      throw new Error(`getFbSdk: ${err}`);
     }
   }
 
@@ -24,7 +24,7 @@ export class Service {
       const fbSdk = this.getFbSdk(integration);
       return new FbSigner(fbSdk, integration.vaultId);
     } catch (err: any) {
-      throw new Error("getFbSigner: " + err);
+      throw new Error(`getFbSigner: ${err}`);
     }
   }
 }

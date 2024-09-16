@@ -1,6 +1,6 @@
-import { Coin, IndexedTx, StdFee } from "@cosmjs/stargate";
-import { EncodeObject } from "@cosmjs/proto-signing";
-import { TransactionResponse } from "fireblocks-sdk";
+import type { EncodeObject } from '@cosmjs/proto-signing';
+import type { Coin, IndexedTx, StdFee } from '@cosmjs/stargate';
+import type { TransactionResponse } from 'fireblocks-sdk';
 
 export type CosmosTx = {
   data: {
@@ -31,7 +31,7 @@ export type CosmosTxHash = {
 
 export type CosmosTxStatus = {
   data: {
-    status: "success" | "error";
+    status: 'success' | 'error';
     receipt: IndexedTx | null;
   };
 };

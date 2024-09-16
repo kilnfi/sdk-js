@@ -1,8 +1,8 @@
-import { FireblocksIntegration, Integration } from "../types/integrations";
-import { AssetTypeResponse, FireblocksSDK, PublicKeyResponse, SigningAlgorithm } from "fireblocks-sdk";
-import { FbSigner } from "../integrations/fb_signer";
-import { Client } from "openapi-fetch";
-import { components, paths } from "../openapi/schema";
+import { type AssetTypeResponse, FireblocksSDK, type PublicKeyResponse, SigningAlgorithm } from 'fireblocks-sdk';
+import type { Client } from 'openapi-fetch';
+import { FbSigner } from '../integrations/fb_signer';
+import type { components, paths } from '../openapi/schema';
+import type { FireblocksIntegration, Integration } from '../types/integrations';
 
 export class FireblocksService {
   client: Client<paths>;
@@ -62,8 +62,8 @@ export class FireblocksService {
    */
   async signSolTx(
     integration: Integration,
-    tx: components["schemas"]["SOLStakeTx"],
-    assetId: "SOL_TEST" | "SOL",
+    tx: components['schemas']['SOLStakeTx'],
+    assetId: 'SOL_TEST' | 'SOL',
     note?: string,
   ) {
     const payload = {
@@ -77,14 +77,14 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "SOL tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
 
     const signatures = fbTx.signedMessages
       ?.filter((signedMessage) => signedMessage.derivationPath[3] === 0)
       .map((signedMessage) => signedMessage.signature.fullSig);
 
-    const preparedTx = await this.client.POST("/v1/sol/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/sol/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signatures: signatures,
@@ -103,7 +103,7 @@ export class FireblocksService {
    * @param tx
    * @param note
    */
-  async signAdaTx(integration: Integration, tx: components["schemas"]["ADAUnsignedTx"], note?: string) {
+  async signAdaTx(integration: Integration, tx: components['schemas']['ADAUnsignedTx'], note?: string) {
     const payload = {
       rawMessageData: {
         messages: [
@@ -122,8 +122,8 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "ADA tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "ADA", fbNote);
+    const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'ADA', fbNote);
 
     const signedMessages = fbTx.signedMessages.map((message) => {
       return {
@@ -132,7 +132,7 @@ export class FireblocksService {
       };
     });
 
-    const preparedTx = await this.client.POST("/v1/ada/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/ada/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signed_messages: signedMessages,
@@ -154,8 +154,8 @@ export class FireblocksService {
    */
   async signAtomTx(
     integration: Integration,
-    tx: components["schemas"]["ATOMUnsignedTx"] | components["schemas"]["ATOMStakeUnsignedTx"],
-    assetId: "ATOM_COS" | "ATOM_COS_TEST",
+    tx: components['schemas']['ATOMUnsignedTx'] | components['schemas']['ATOMStakeUnsignedTx'],
+    assetId: 'ATOM_COS' | 'ATOM_COS_TEST',
     note?: string,
   ) {
     const payload = {
@@ -165,7 +165,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -173,11 +173,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "ATOM tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/atom/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/atom/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -200,7 +200,7 @@ export class FireblocksService {
    */
   async signDydxTx(
     integration: Integration,
-    tx: components["schemas"]["DYDXUnsignedTx"] | components["schemas"]["DYDXStakeUnsignedTx"],
+    tx: components['schemas']['DYDXUnsignedTx'] | components['schemas']['DYDXStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -210,7 +210,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -218,11 +218,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "DYDX tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "DYDX_DYDX", fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const fbNote = note ? note : 'DYDX tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'DYDX_DYDX', fbNote);
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/dydx/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/dydx/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -245,7 +245,7 @@ export class FireblocksService {
    */
   async signFetTx(
     integration: Integration,
-    tx: components["schemas"]["FETUnsignedTx"] | components["schemas"]["FETStakeUnsignedTx"],
+    tx: components['schemas']['FETUnsignedTx'] | components['schemas']['FETStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -256,7 +256,7 @@ export class FireblocksService {
             derivationPath: [44, 118, integration.vaultId, 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -265,11 +265,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "FET tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'FET tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/fet/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/fet/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -292,7 +292,7 @@ export class FireblocksService {
    */
   async signInjTx(
     integration: Integration,
-    tx: components["schemas"]["INJUnsignedTx"] | components["schemas"]["INJStakeUnsignedTx"],
+    tx: components['schemas']['INJUnsignedTx'] | components['schemas']['INJStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -302,7 +302,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -310,11 +310,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "INJ tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "INJ_INJ", fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const fbNote = note ? note : 'INJ tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'INJ_INJ', fbNote);
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/inj/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/inj/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -337,7 +337,7 @@ export class FireblocksService {
    */
   async signKavaTx(
     integration: Integration,
-    tx: components["schemas"]["KAVAUnsignedTx"] | components["schemas"]["KAVAStakeUnsignedTx"],
+    tx: components['schemas']['KAVAUnsignedTx'] | components['schemas']['KAVAStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -347,7 +347,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -355,11 +355,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "KAVA tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "KAVA_KAVA", fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'KAVA_KAVA', fbNote);
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/kava/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/kava/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -382,7 +382,7 @@ export class FireblocksService {
    */
   async signOsmoTx(
     integration: Integration,
-    tx: components["schemas"]["OSMOUnsignedTx"] | components["schemas"]["OSMOStakeUnsignedTx"],
+    tx: components['schemas']['OSMOUnsignedTx'] | components['schemas']['OSMOStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -392,7 +392,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -400,11 +400,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "OSMO tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "OSMO", fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const fbNote = note ? note : 'OSMO tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'OSMO', fbNote);
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/osmo/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/osmo/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -427,7 +427,7 @@ export class FireblocksService {
    */
   async signTiaTx(
     integration: Integration,
-    tx: components["schemas"]["TIAUnsignedTx"] | components["schemas"]["TIAStakeUnsignedTx"],
+    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -437,7 +437,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -445,11 +445,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "TIA tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "CELESTIA", fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const fbNote = note ? note : 'TIA tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'CELESTIA', fbNote);
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/tia/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/tia/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -472,7 +472,7 @@ export class FireblocksService {
    */
   async signZetaTx(
     integration: Integration,
-    tx: components["schemas"]["ZETAUnsignedTx"] | components["schemas"]["ZETAStakeUnsignedTx"],
+    tx: components['schemas']['ZETAUnsignedTx'] | components['schemas']['ZETAStakeUnsignedTx'],
     note?: string,
   ) {
     const payload = {
@@ -483,7 +483,7 @@ export class FireblocksService {
             derivationPath: [44, 118, integration.vaultId, 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -492,11 +492,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "ZETA tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'ZETA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/zeta/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/zeta/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -517,7 +517,7 @@ export class FireblocksService {
    * @param tx
    * @param note
    */
-  async signDotTx(integration: Integration, tx: components["schemas"]["DOTUnsignedTx"], note?: string) {
+  async signDotTx(integration: Integration, tx: components['schemas']['DOTUnsignedTx'], note?: string) {
     const payload = {
       rawMessageData: {
         messages: [
@@ -529,11 +529,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "DOT tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "DOT", fbNote);
-    const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
+    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'DOT', fbNote);
+    const signature = `0x00${fbTx.signedMessages?.[0].signature.fullSig}`;
 
-    const preparedTx = await this.client.POST("/v1/dot/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/dot/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -552,7 +552,7 @@ export class FireblocksService {
    * @param tx
    * @param note
    */
-  async signKsmTx(integration: Integration, tx: components["schemas"]["KSMUnsignedTx"], note?: string) {
+  async signKsmTx(integration: Integration, tx: components['schemas']['KSMUnsignedTx'], note?: string) {
     const payload = {
       rawMessageData: {
         messages: [
@@ -564,11 +564,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "KSM tx from @kilnfi/sdk";
-    const fbTx = await fbSigner.sign(payload, "KSM", fbNote);
-    const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
+    const fbNote = note ? note : 'KSM tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'KSM', fbNote);
+    const signature = `0x00${fbTx.signedMessages?.[0].signature.fullSig}`;
 
-    const preparedTx = await this.client.POST("/v1/ksm/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/ksm/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -590,8 +590,8 @@ export class FireblocksService {
    */
   async signAndBroadcastEthTx(
     integration: Integration,
-    tx: components["schemas"]["ETHUnsignedTx"],
-    assetId: "ETH_TEST6" | "ETH",
+    tx: components['schemas']['ETHUnsignedTx'],
+    assetId: 'ETH_TEST6' | 'ETH',
     note?: string,
   ) {
     const payload = {
@@ -599,7 +599,7 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "ETH tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
 
@@ -612,8 +612,8 @@ export class FireblocksService {
    */
   async signAndBroadcastPolTx(
     integration: Integration,
-    tx: components["schemas"]["POLUnsignedTx"],
-    assetId: "ETH_TEST5" | "ETH",
+    tx: components['schemas']['POLUnsignedTx'],
+    assetId: 'ETH_TEST5' | 'ETH',
     note?: string,
   ) {
     const payload = {
@@ -621,7 +621,7 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "POL tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'POL tx from @kilnfi/sdk';
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
 
@@ -634,8 +634,8 @@ export class FireblocksService {
    */
   async signTonTx(
     integration: Integration,
-    tx: components["schemas"]["TONTx"],
-    assetId: "TON_TEST" | "TON",
+    tx: components['schemas']['TONTx'],
+    assetId: 'TON_TEST' | 'TON',
     note?: string,
   ) {
     const payload = {
@@ -649,11 +649,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "TON tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'TON tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/ton/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/ton/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -676,8 +676,8 @@ export class FireblocksService {
    */
   async signXtzTx(
     integration: Integration,
-    tx: components["schemas"]["XTZUnsignedTx"],
-    assetId: "XTZ_TEST" | "XTZ",
+    tx: components['schemas']['XTZUnsignedTx'],
+    assetId: 'XTZ_TEST' | 'XTZ',
     note?: string,
   ) {
     const payload = {
@@ -691,11 +691,11 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getFbSigner(integration);
-    const fbNote = note ? note : "XTZ tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages![0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
 
-    const preparedTx = await this.client.POST("/v1/xtz/transaction/prepare", {
+    const preparedTx = await this.client.POST('/v1/xtz/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,

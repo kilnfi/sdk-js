@@ -1,11 +1,11 @@
-import { Service } from "./service";
+import { Service } from './service';
 
-import { ServiceProps } from "../types/service";
-import { Integration } from "../types/integrations";
-import api from "../api";
-import { DecodedTxRaw } from "@cosmjs/proto-signing";
-import { Balance, CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from "../types/cosmos";
-import { parseUnits } from "viem";
+import type { DecodedTxRaw } from '@cosmjs/proto-signing';
+import { parseUnits } from 'viem';
+import api from '../api';
+import type { Balance, CosmosSignedTx, CosmosTx, CosmosTxHash, CosmosTxStatus } from '../types/cosmos';
+import type { Integration } from '../types/integrations';
+import type { ServiceProps } from '../types/service';
 
 export class NobleService extends Service {
   constructor({ testnet }: ServiceProps) {
@@ -22,7 +22,7 @@ export class NobleService extends Service {
    * @param denom
    */
   async getBalance(address: string, denom: string): Promise<Balance> {
-    const { data } = await api.post<Balance>(`/v1/noble/balance`, {
+    const { data } = await api.post<Balance>('/v1/noble/balance', {
       address,
       denom,
     });
@@ -36,7 +36,7 @@ export class NobleService extends Service {
    * @param amountUsdc
    */
   async craftBurnUsdc(pubkey: string, recipient: string, amountUsdc: number): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/noble/transaction/burn-usdc`, {
+    const { data } = await api.post<CosmosTx>('/v1/noble/transaction/burn-usdc', {
       pubkey: pubkey,
       recipient: recipient,
       amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
@@ -51,7 +51,7 @@ export class NobleService extends Service {
    * @param amountUsdc
    */
   async craftOsmoIbcTransfer(pubkey: string, recipient: string, amountUsdc: number): Promise<CosmosTx> {
-    const { data } = await api.post<CosmosTx>(`/v1/noble/transaction/osmo-ibc-transfer`, {
+    const { data } = await api.post<CosmosTx>('/v1/noble/transaction/osmo-ibc-transfer', {
       pubkey,
       recipient,
       amount_uusdc: this.usdcToUusdc(amountUsdc.toString()),
@@ -73,18 +73,18 @@ export class NobleService extends Service {
             content: tx.data.unsigned_tx_hash,
             preHash: {
               content: tx.data.unsigned_tx_serialized,
-              hashAlgorithm: "SHA256",
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
       },
     };
-    const fbNote = note ? note : "NOBLE tx from @kilnfi/sdk";
+    const fbNote = note ? note : 'NOBLE tx from @kilnfi/sdk';
     const signer = this.getFbSigner(integration);
     // NOBLE chain is not supported by Fireblocks, so we use DYDX_DYDX
-    const fbTx = await signer.sign(payload, "DYDX_DYDX", fbNote);
-    const signature: string = fbTx.signedMessages![0].signature.fullSig;
-    const { data } = await api.post<CosmosSignedTx>(`/v1/noble/transaction/prepare`, {
+    const fbTx = await signer.sign(payload, 'DYDX_DYDX', fbNote);
+    const signature: string = fbTx.signedMessages?.[0].signature.fullSig;
+    const { data } = await api.post<CosmosSignedTx>('/v1/noble/transaction/prepare', {
       pubkey: tx.data.pubkey,
       tx_body: tx.data.tx_body,
       tx_auth_info: tx.data.tx_auth_info,
@@ -99,7 +99,7 @@ export class NobleService extends Service {
    * @param signedTx
    */
   async broadcast(signedTx: CosmosSignedTx): Promise<CosmosTxHash> {
-    const { data } = await api.post<CosmosTxHash>(`/v1/noble/transaction/broadcast`, {
+    const { data } = await api.post<CosmosTxHash>('/v1/noble/transaction/broadcast', {
       tx_serialized: signedTx.data.signed_tx_serialized,
     });
     return data;
