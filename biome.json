@@ -12,6 +12,10 @@
       "quoteStyle": "single"
     }
   },
+  "files": {
+    "maxSize": 4000000,
+    "ignore": ["openapi"]
+  },
   "linter": {
     "enabled": true,
     "rules": {

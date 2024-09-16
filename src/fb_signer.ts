@@ -71,7 +71,7 @@ export class FbSigner {
       }
 
       return await this.fireblocks.getTransactionById(fbTx.id);
-    } catch (err: any) {
+    } catch (err) {
       throw new Error(`Fireblocks signer (waitForTxCompletion): ${err}`);
     }
   }
@@ -82,7 +82,7 @@ export class FbSigner {
    * @param assetId fireblocks asset id
    * @param note optional fireblocks custom note
    */
-  public async sign(payloadToSign: any, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
+  public async sign(payloadToSign: unknown, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
     try {
       const assetArgs = assetId
         ? {
@@ -102,8 +102,7 @@ export class FbSigner {
       };
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
       throw new Error(`Fireblocks signer (signWithFB): ${err}`);
     }
   }
@@ -115,7 +114,7 @@ export class FbSigner {
    * @param note optional fireblocks custom note
    */
   public async signTypedMessage(
-    eip712message: any,
+    eip712message: unknown,
     assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST6',
     note?: string,
   ): Promise<TransactionResponse> {
@@ -141,8 +140,7 @@ export class FbSigner {
       };
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
       throw new Error(`Fireblocks signer (signWithFB): ${err}`);
     }
   }
@@ -157,7 +155,7 @@ export class FbSigner {
    * @param sendAmount send the amount in tx to smart contract
    */
   public async signAndBroadcastWith(
-    payloadToSign: any,
+    payloadToSign: unknown,
     assetId: AssetId,
     tx: components['schemas']['ETHUnsignedTx'] | components['schemas']['POLUnsignedTx'],
     destinationId: string,
@@ -185,7 +183,7 @@ export class FbSigner {
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);
       return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
+    } catch (err) {
       throw new Error(`Fireblocks signer (signAndBroadcastWithFB): ${err}`);
     }
   }
