@@ -1,8 +1,8 @@
 import { type AssetTypeResponse, FireblocksSDK, type PublicKeyResponse, SigningAlgorithm } from 'fireblocks-sdk';
 import type { Client } from 'openapi-fetch';
-import { FbSigner } from '../integrations/fb_signer';
-import type { components, paths } from '../openapi/schema';
-import type { FireblocksIntegration, Integration } from '../types/integrations';
+import { FbSigner } from './fb_signer';
+import type { components, paths } from './openapi/schema';
+import type { FireblocksIntegration, Integration } from './types/integrations';
 
 export class FireblocksService {
   client: Client<paths>;
@@ -83,6 +83,9 @@ export class FireblocksService {
     const signatures = fbTx.signedMessages
       ?.filter((signedMessage) => signedMessage.derivationPath[3] === 0)
       .map((signedMessage) => signedMessage.signature.fullSig);
+    if (!signatures) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/sol/transaction/prepare', {
       body: {
@@ -125,12 +128,15 @@ export class FireblocksService {
     const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'ADA', fbNote);
 
-    const signedMessages = fbTx.signedMessages.map((message) => {
+    const signedMessages = fbTx.signedMessages?.map((message) => {
       return {
         pubkey: message.publicKey,
         signature: message.signature.fullSig,
       };
     });
+    if (!signedMessages) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/ada/transaction/prepare', {
       body: {
@@ -176,6 +182,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/atom/transaction/prepare', {
       body: {
@@ -221,6 +230,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'DYDX tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'DYDX_DYDX', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/dydx/transaction/prepare', {
       body: {
@@ -268,6 +280,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'FET tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/fet/transaction/prepare', {
       body: {
@@ -313,6 +328,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'INJ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'INJ_INJ', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/inj/transaction/prepare', {
       body: {
@@ -358,6 +376,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'KAVA_KAVA', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/kava/transaction/prepare', {
       body: {
@@ -403,6 +424,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'OSMO tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'OSMO', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/osmo/transaction/prepare', {
       body: {
@@ -448,6 +472,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'TIA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'CELESTIA', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/tia/transaction/prepare', {
       body: {
@@ -495,6 +522,9 @@ export class FireblocksService {
     const fbNote = note ? note : 'ZETA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/zeta/transaction/prepare', {
       body: {
@@ -594,6 +624,9 @@ export class FireblocksService {
     assetId: 'ETH_TEST6' | 'ETH',
     note?: string,
   ) {
+    if (!integration.fireblocksDestinationId) {
+      throw new Error('Fireblocks destination id is missing');
+    }
     const payload = {
       contractCallData: tx.contract_call_data,
     };
@@ -616,6 +649,9 @@ export class FireblocksService {
     assetId: 'ETH_TEST5' | 'ETH',
     note?: string,
   ) {
+    if (!integration.fireblocksDestinationId) {
+      throw new Error('Fireblocks destination id is missing');
+    }
     const payload = {
       contractCallData: tx.contract_call_data,
     };
@@ -694,6 +730,10 @@ export class FireblocksService {
     const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/xtz/transaction/prepare', {
       body: {

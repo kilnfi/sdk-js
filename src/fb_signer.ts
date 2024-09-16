@@ -9,7 +9,7 @@ import {
 } from 'fireblocks-sdk';
 
 import { formatEther, formatUnits } from 'viem';
-import type { components } from '../openapi/schema';
+import type { components } from './openapi/schema';
 
 export type AssetId =
   | 'SOL_TEST'
@@ -82,7 +82,7 @@ export class FbSigner {
    * @param assetId fireblocks asset id
    * @param note optional fireblocks custom note
    */
-  public async sign(payloadToSign: unknown, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
+  public async sign(payloadToSign: object, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
     try {
       const assetArgs = assetId
         ? {
@@ -114,7 +114,7 @@ export class FbSigner {
    * @param note optional fireblocks custom note
    */
   public async signTypedMessage(
-    eip712message: unknown,
+    eip712message: object,
     assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST6',
     note?: string,
   ): Promise<TransactionResponse> {
@@ -155,7 +155,7 @@ export class FbSigner {
    * @param sendAmount send the amount in tx to smart contract
    */
   public async signAndBroadcastWith(
-    payloadToSign: unknown,
+    payloadToSign: object,
     assetId: AssetId,
     tx: components['schemas']['ETHUnsignedTx'] | components['schemas']['POLUnsignedTx'],
     destinationId: string,
@@ -174,12 +174,12 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount: tx.amount_wei && sendAmount ? formatEther(tx.amount_wei, 'wei') : '0',
+        amount: tx.amount_wei && sendAmount ? formatEther(BigInt(tx.amount_wei), 'wei') : '0',
         note,
         extraParameters: payloadToSign,
         gasLimit: tx.gas_limit,
-        priorityFee: formatUnits(tx.max_priority_fee_per_gas_wei, 9),
-        maxFee: formatUnits(tx.max_fee_per_gas_wei, 9),
+        priorityFee: formatUnits(BigInt(tx.max_priority_fee_per_gas_wei), 9),
+        maxFee: formatUnits(BigInt(tx.max_fee_per_gas_wei), 9),
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);
       return await this.waitForTxCompletion(fbTx);

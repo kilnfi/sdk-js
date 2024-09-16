@@ -1,8 +1,8 @@
 export * from './validators';
 export * from './openapi/schema';
 import createClient, { type Client } from 'openapi-fetch';
+import { FireblocksService } from './fireblocks';
 import type { paths } from './openapi/schema';
-import { FireblocksService } from './services/fireblocks';
 
 type Config = {
   baseUrl: string;
