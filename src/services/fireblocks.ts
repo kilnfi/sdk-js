@@ -580,4 +580,26 @@ export class FireblocksService {
       fireblocks_tx: fbTx,
     };
   }
+
+  /**
+   * Sign and broadcast an ETH transaction with given integration using Fireblocks contract call feature
+   * @param integration
+   * @param tx
+   * @param assetId
+   * @param note
+   */
+  async signAndBroadcastEthTx(
+    integration: Integration,
+    tx: components["schemas"]["ETHUnsignedTx"],
+    assetId: "ETH_TEST6" | "ETH",
+    note?: string,
+  ) {
+    const payload = {
+      contractCallData: tx.contract_call_data,
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "ETH tx from @kilnfi/sdk";
+    return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
+  }
 }

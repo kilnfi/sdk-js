@@ -9,8 +9,7 @@ import {
 } from "fireblocks-sdk";
 
 import { utils } from "ethers";
-import { EthTx } from "../types/eth";
-import { MaticTx } from "../types/matic";
+import { components } from "../openapi/schema";
 
 export type AssetId =
   | "SOL_TEST"
@@ -159,7 +158,7 @@ export class FbSigner {
   public async signAndBroadcastWith(
     payloadToSign: any,
     assetId: AssetId,
-    tx: EthTx | MaticTx,
+    tx: components["schemas"]["ETHUnsignedTx"] | components["schemas"]["POLUnsignedTx"],
     destinationId: string,
     sendAmount: boolean = true,
     note?: string,
@@ -176,12 +175,12 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount: tx.data.amount_wei && sendAmount ? utils.formatEther(tx.data.amount_wei) : "0",
+        amount: tx.amount_wei && sendAmount ? utils.formatEther(tx.amount_wei) : "0",
         note,
         extraParameters: payloadToSign,
-        gasLimit: tx.data.gas_limit,
-        priorityFee: utils.formatUnits(tx.data.max_priority_fee_per_gas_wei, "gwei"),
-        maxFee: utils.formatUnits(tx.data.max_fee_per_gas_wei, "gwei"),
+        gasLimit: tx.gas_limit,
+        priorityFee: utils.formatUnits(tx.max_priority_fee_per_gas_wei, "gwei"),
+        maxFee: utils.formatUnits(tx.max_fee_per_gas_wei, "gwei"),
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);
       return await this.waitForTxCompletion(fbTx);
