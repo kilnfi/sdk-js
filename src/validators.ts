@@ -6,9 +6,6 @@ export const KILN_VALIDATORS = {
       KILN2: "pool1v62c7d92xv6gyh4x9rhfpkwzlpw2ypxk92xvzavakg3xypatklv",
       KILN3: "pool1mtxmk0skqkr5y0wxnxps4n35j6wn9q8dfr82y423vvlp53vccux",
     },
-    preprod: {
-      KILN: "pool1u4x4ly6qyx9fs9k2lt7f9hpa2gftd52fee67jcmuhnt7qqae3x0",
-    },
   },
   ATOM: {
     mainnet: {

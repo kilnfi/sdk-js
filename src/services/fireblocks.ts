@@ -2,8 +2,7 @@ import { FireblocksIntegration, Integration } from "../types/integrations";
 import { AssetTypeResponse, FireblocksSDK, PublicKeyResponse, SigningAlgorithm } from "fireblocks-sdk";
 import { FbSigner } from "../integrations/fb_signer";
 import { Client } from "openapi-fetch";
-import { components, paths } from "../../openapi/schema";
-import { AdaSignedMessage } from "../types/ada";
+import { components, paths } from "../openapi/schema";
 
 export class FireblocksService {
   client: Client<paths>;
@@ -316,6 +315,51 @@ export class FireblocksService {
     const signature = fbTx.signedMessages![0].signature.fullSig;
 
     const preparedTx = await this.client.POST("/v1/inj/transaction/prepare", {
+      body: {
+        pubkey: tx.pubkey,
+        tx_body: tx.tx_body,
+        tx_auth_info: tx.tx_auth_info,
+        signature: signature,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a KAVA transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signKavaTx(
+    integration: Integration,
+    tx: components["schemas"]["KAVAUnsignedTx"] | components["schemas"]["KAVAStakeUnsignedTx"],
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: "SHA256",
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "KAVA tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, "KAVA_KAVA", fbNote);
+    const signature = fbTx.signedMessages![0].signature.fullSig;
+
+    const preparedTx = await this.client.POST("/v1/kava/transaction/prepare", {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
