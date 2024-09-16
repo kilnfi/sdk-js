@@ -1,8 +1,9 @@
 import { FireblocksIntegration, Integration } from "../types/integrations";
-import { AssetTypeResponse, FireblocksSDK, PublicKeyResponse, TransactionResponse } from "fireblocks-sdk";
+import { AssetTypeResponse, FireblocksSDK, PublicKeyResponse } from "fireblocks-sdk";
 import { FbSigner } from "../integrations/fb_signer";
 import { Client } from "openapi-fetch";
 import { components, paths } from "../../openapi/schema";
+import { AdaSignedMessage } from "../types/ada";
 
 export class FireblocksService {
   client: Client<paths>;
@@ -16,11 +17,7 @@ export class FireblocksService {
    * @param integration
    */
   getFbSdk(integration: FireblocksIntegration): FireblocksSDK {
-    try {
-      return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
-    } catch (err: any) {
-      throw new Error("getFbSdk: " + err);
-    }
+    return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
   }
 
   /**
@@ -28,12 +25,8 @@ export class FireblocksService {
    * @param integration
    */
   getFbSigner(integration: FireblocksIntegration): FbSigner {
-    try {
-      const fbSdk = this.getFbSdk(integration);
-      return new FbSigner(fbSdk, integration.vaultId);
-    } catch (err: any) {
-      throw new Error("getFbSigner: " + err);
-    }
+    const fbSdk = this.getFbSdk(integration);
+    return new FbSigner(fbSdk, integration.vaultId);
   }
   /**
    * Get fireblocks wallet pubkey compressed
@@ -89,13 +82,61 @@ export class FireblocksService {
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
 
     const signatures = fbTx.signedMessages
-      ?.filter(( signedMessage) => signedMessage.derivationPath[3] === 0 )
-      .map((signedMessage)=>signedMessage.signature.fullSig)
+      ?.filter((signedMessage) => signedMessage.derivationPath[3] === 0)
+      .map((signedMessage) => signedMessage.signature.fullSig);
 
     const preparedTx = await this.client.POST("/v1/sol/transaction/prepare", {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signatures: signatures,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a Cardano transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signAdaTx(integration: Integration, tx: components["schemas"]["ADAUnsignedTx"], note?: string) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+          },
+          {
+            content: tx.unsigned_tx_hash,
+            bip44change: 2,
+          },
+        ],
+      },
+      inputsSelection: {
+        inputsToSpend: tx.inputs,
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "ADA tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, "ADA", fbNote);
+
+    const signedMessages = fbTx.signedMessages.map((message) => {
+      return {
+        pubkey: message.publicKey,
+        signature: message.signature.fullSig,
+      };
+    });
+
+    const preparedTx = await this.client.POST("/v1/ada/transaction/prepare", {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signed_messages: signedMessages,
       },
     });
 
