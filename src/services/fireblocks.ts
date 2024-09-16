@@ -510,4 +510,74 @@ export class FireblocksService {
       fireblocks_tx: fbTx,
     };
   }
+
+  /**
+   * Sign a DOT transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signDotTx(integration: Integration, tx: components["schemas"]["DOTUnsignedTx"], note?: string) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_payload.substring(2),
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "DOT tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, "DOT", fbNote);
+    const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
+
+    const preparedTx = await this.client.POST("/v1/dot/transaction/prepare", {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a KSM transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param note
+   */
+  async signKsmTx(integration: Integration, tx: components["schemas"]["KSMUnsignedTx"], note?: string) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_payload.substring(2),
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "KSM tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, "KSM", fbNote);
+    const signature = `0x00${fbTx.signedMessages![0].signature.fullSig}`;
+
+    const preparedTx = await this.client.POST("/v1/ksm/transaction/prepare", {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
 }
