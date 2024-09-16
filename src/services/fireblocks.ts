@@ -629,6 +629,7 @@ export class FireblocksService {
    * Sign a TON transaction on Fireblocks
    * @param integration
    * @param tx
+   * @param assetId
    * @param note
    */
   async signTonTx(
@@ -650,14 +651,54 @@ export class FireblocksService {
     const fbSigner = this.getFbSigner(integration);
     const fbNote = note ? note : "TON tx from @kilnfi/sdk";
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature =
-      fbTx.signedMessages && fbTx.signedMessages.length > 0 ? fbTx.signedMessages[0].signature.fullSig : undefined;
+    const signature = fbTx.signedMessages![0].signature.fullSig;
 
     const preparedTx = await this.client.POST("/v1/ton/transaction/prepare", {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
         from: tx.from,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a XTZ transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param assetId
+   * @param note
+   */
+  async signXtzTx(
+    integration: Integration,
+    tx: components["schemas"]["XTZUnsignedTx"],
+    assetId: "XTZ_TEST" | "XTZ",
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getFbSigner(integration);
+    const fbNote = note ? note : "XTZ tx from @kilnfi/sdk";
+    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+    const signature = fbTx.signedMessages![0].signature.fullSig;
+
+    const preparedTx = await this.client.POST("/v1/xtz/transaction/prepare", {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
       },
     });
 
