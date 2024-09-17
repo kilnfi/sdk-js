@@ -1,5 +1,6 @@
 export * from './validators';
 export * from './openapi/schema';
+export * from './utils';
 import createClient, { type Client } from 'openapi-fetch';
 import { FireblocksService } from './fireblocks';
 import type { paths } from './openapi/schema';
