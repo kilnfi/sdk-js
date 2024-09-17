@@ -1,5 +1,5 @@
 // Convert Ethereum wei to ETH
-import { formatEther, formatUnits, parseUnits } from "viem";
+import { formatEther, formatUnits, parseUnits } from 'viem';
 
 export const weiToEth = (wei: bigint): string => {
   return formatEther(BigInt(wei));
