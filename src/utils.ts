@@ -1,4 +1,3 @@
-// Convert Ethereum wei to ETH
 import { formatEther, formatUnits, parseUnits } from 'viem';
 
 // Convert Ethereum wei to ETH
