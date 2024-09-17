@@ -6,14 +6,12 @@ on:
       - main
     paths:
       - "src/**"
-      - "index.ts"
       - ".github/workflows/sdk.yml"
   pull_request:
     branches:
       - main
     paths:
       - "src/**"
-      - "index.ts"
       - ".github/workflows/sdk.yml"
 
 jobs:

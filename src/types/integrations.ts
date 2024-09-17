@@ -1,4 +1,4 @@
-export type SupportedProviders = "fireblocks";
+export type SupportedProviders = 'fireblocks';
 
 export type FireblocksIntegration = {
   provider: SupportedProviders;

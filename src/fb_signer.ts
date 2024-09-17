@@ -1,42 +1,41 @@
 import {
-  CreateTransactionResponse,
-  FireblocksSDK,
+  type CreateTransactionResponse,
+  type FireblocksSDK,
   PeerType,
-  TransactionArguments,
+  type TransactionArguments,
   TransactionOperation,
-  TransactionResponse,
+  type TransactionResponse,
   TransactionStatus,
-} from "fireblocks-sdk";
+} from 'fireblocks-sdk';
 
-import { utils } from "ethers";
-import { EthTx } from "../types/eth";
-import { MaticTx } from "../types/matic";
+import { formatEther, formatUnits } from 'viem';
+import type { components } from './openapi/schema';
 
 export type AssetId =
-  | "SOL_TEST"
-  | "SOL"
-  | "ETH_TEST5"
-  | "ETH_TEST6"
-  | "ETH"
-  | "ATOM_COS_TEST"
-  | "ATOM_COS"
-  | "OSMO_TEST"
-  | "OSMO"
-  | "ADA_TEST"
-  | "ADA"
-  | "NEAR_TEST"
-  | "NEAR"
-  | "XTZ_TEST"
-  | "XTZ"
-  | "DOT"
-  | "KSM"
-  | "DV4TNT_TEST"
-  | "DYDX_DYDX"
-  | "CELESTIA"
-  | "INJ_INJ"
-  | "TON_TEST"
-  | "TON"
-  | "KAVA_KAVA";
+  | 'SOL_TEST'
+  | 'SOL'
+  | 'ETH_TEST5'
+  | 'ETH_TEST6'
+  | 'ETH'
+  | 'ATOM_COS_TEST'
+  | 'ATOM_COS'
+  | 'OSMO_TEST'
+  | 'OSMO'
+  | 'ADA_TEST'
+  | 'ADA'
+  | 'NEAR_TEST'
+  | 'NEAR'
+  | 'XTZ_TEST'
+  | 'XTZ'
+  | 'DOT'
+  | 'KSM'
+  | 'DV4TNT_TEST'
+  | 'DYDX_DYDX'
+  | 'CELESTIA'
+  | 'INJ_INJ'
+  | 'TON_TEST'
+  | 'TON'
+  | 'KAVA_KAVA';
 
 export class FbSigner {
   protected fireblocks: FireblocksSDK;
@@ -55,24 +54,25 @@ export class FbSigner {
   protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
     try {
       let tx = fbTx;
-      while (tx.status != TransactionStatus.COMPLETED) {
+      while (tx.status !== TransactionStatus.COMPLETED) {
         if (
-          tx.status == TransactionStatus.BLOCKED ||
-          tx.status == TransactionStatus.FAILED ||
-          tx.status == TransactionStatus.CANCELLED
+          tx.status === TransactionStatus.BLOCKED ||
+          tx.status === TransactionStatus.FAILED ||
+          tx.status === TransactionStatus.CANCELLED
         ) {
           throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
-        } else if (tx.status == TransactionStatus.REJECTED) {
+        }
+        if (tx.status === TransactionStatus.REJECTED) {
           throw Error(
-            `Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction`,
+            'Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction',
           );
         }
         tx = await this.fireblocks.getTransactionById(fbTx.id);
       }
 
       return await this.fireblocks.getTransactionById(fbTx.id);
-    } catch (err: any) {
-      throw new Error("Fireblocks signer (waitForTxCompletion): " + err);
+    } catch (err) {
+      throw new Error(`Fireblocks signer (waitForTxCompletion): ${err}`);
     }
   }
 
@@ -82,7 +82,7 @@ export class FbSigner {
    * @param assetId fireblocks asset id
    * @param note optional fireblocks custom note
    */
-  public async sign(payloadToSign: any, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
+  public async sign(payloadToSign: object, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
     try {
       const assetArgs = assetId
         ? {
@@ -102,9 +102,8 @@ export class FbSigner {
       };
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
-      console.log(err);
-      throw new Error("Fireblocks signer (signWithFB): " + err);
+    } catch (err) {
+      throw new Error(`Fireblocks signer (signWithFB): ${err}`);
     }
   }
 
@@ -115,8 +114,8 @@ export class FbSigner {
    * @param note optional fireblocks custom note
    */
   public async signTypedMessage(
-    eip712message: any,
-    assetId: "ETH" | "ETH_TEST5" | "ETH_TEST6",
+    eip712message: object,
+    assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST6',
     note?: string,
   ): Promise<TransactionResponse> {
     try {
@@ -133,7 +132,7 @@ export class FbSigner {
             messages: [
               {
                 content: eip712message,
-                type: "EIP712",
+                type: 'EIP712',
               },
             ],
           },
@@ -141,9 +140,8 @@ export class FbSigner {
       };
       const fbTx = await this.fireblocks.createTransaction(tx);
       return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
-      console.log(err);
-      throw new Error("Fireblocks signer (signWithFB): " + err);
+    } catch (err) {
+      throw new Error(`Fireblocks signer (signWithFB): ${err}`);
     }
   }
 
@@ -157,11 +155,11 @@ export class FbSigner {
    * @param sendAmount send the amount in tx to smart contract
    */
   public async signAndBroadcastWith(
-    payloadToSign: any,
+    payloadToSign: object,
     assetId: AssetId,
-    tx: EthTx | MaticTx,
+    tx: components['schemas']['ETHUnsignedTx'] | components['schemas']['POLUnsignedTx'],
     destinationId: string,
-    sendAmount: boolean = true,
+    sendAmount = true,
     note?: string,
   ): Promise<TransactionResponse> {
     try {
@@ -176,17 +174,17 @@ export class FbSigner {
           type: PeerType.EXTERNAL_WALLET,
           id: destinationId,
         },
-        amount: tx.data.amount_wei && sendAmount ? utils.formatEther(tx.data.amount_wei) : "0",
+        amount: tx.amount_wei && sendAmount ? formatEther(BigInt(tx.amount_wei), 'wei') : '0',
         note,
         extraParameters: payloadToSign,
-        gasLimit: tx.data.gas_limit,
-        priorityFee: utils.formatUnits(tx.data.max_priority_fee_per_gas_wei, "gwei"),
-        maxFee: utils.formatUnits(tx.data.max_fee_per_gas_wei, "gwei"),
+        gasLimit: tx.gas_limit,
+        priorityFee: formatUnits(BigInt(tx.max_priority_fee_per_gas_wei), 9),
+        maxFee: formatUnits(BigInt(tx.max_fee_per_gas_wei), 9),
       };
       const fbTx = await this.fireblocks.createTransaction(txArgs);
       return await this.waitForTxCompletion(fbTx);
-    } catch (err: any) {
-      throw new Error("Fireblocks signer (signAndBroadcastWithFB): " + err);
+    } catch (err) {
+      throw new Error(`Fireblocks signer (signAndBroadcastWithFB): ${err}`);
     }
   }
 }
