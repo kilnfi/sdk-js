@@ -33,6 +33,6 @@
       "suspicious": {
         "noArrayIndexKey": "off"
       }
-    },
+    }
   }
 }
