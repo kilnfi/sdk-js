@@ -2580,6 +2580,106 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/near/transaction/stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stake transaction
+         * @description Craft a stake transaction
+         */
+        post: operations["postNEARStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/near/transaction/unstake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Unstake transaction
+         * @description Craft an unstake transaction
+         */
+        post: operations["postNEARUnstakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/near/transaction/withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdraw transaction
+         * @description Craft a withdraw transaction
+         */
+        post: operations["postNEARWithdrawTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/near/transaction/prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare transaction
+         * @description Prepare a transaction for broadcasting by adding a signature to it
+         */
+        post: operations["postNEARPrepareTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/near/transaction/broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast transaction
+         * @description Broadcast a transaction to the NEAR network
+         */
+        post: operations["postNEARBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/near/transaction/decode": {
         parameters: {
             query?: never;
@@ -2936,6 +3036,26 @@ export interface paths {
          * @description Get stats on MutiversX network
          */
         get: operations["getEgldNetworkStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/egld/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get historical operations of MultiversX stakes
+         */
+        get: operations["getEgldOperations"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3928,6 +4048,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/dydx/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a DYDX account
+         */
+        post: operations["postDydxGetBalance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dydx/transaction/stake": {
         parameters: {
             query?: never;
@@ -4002,6 +4142,26 @@ export interface paths {
          * @description Generates a redelegate transaction on DYDX to move a stake from a validator to another without going through the 30 days unbonding period.
          */
         post: operations["postDydxRedelegateTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/dydx/transaction/noble-ibc-transfer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Noble IBC Transfer Transaction
+         * @description Generates an IBC transfer transaction on DYDX to Noble
+         */
+        post: operations["postDydxNobleIbcTransferTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4470,6 +4630,26 @@ export interface paths {
         get: operations["getZetachainReports"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/zeta/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a Zeta account
+         */
+        post: operations["postZetaGetBalance"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5004,6 +5184,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/fet/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a Fet account
+         */
+        post: operations["postFetGetBalance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/fet/transaction/stake": {
         parameters: {
             query?: never;
@@ -5532,6 +5732,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/ton/wallet-info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Wallet info
+         * @description Get the status of a TON wallet
+         */
+        get: operations["getTonWalletInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ton/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a TON account
+         */
+        post: operations["postTonGetBalance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/ton/withdraw-request": {
         parameters: {
             query?: never;
@@ -5754,6 +5994,146 @@ export interface paths {
          * @description Craft an unstake transaction from a vesting contract.
          */
         post: operations["postTonUnstakeVestingContractTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a Noble account
+         */
+        post: operations["postNobleGetBalance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/transaction/burn-usdc": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Burn USDC transaction
+         * @description Generates a burn USDC transaction on Noble in order to mint the USDC on Ethereum
+         */
+        post: operations["postNobleBurnUsdcTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/transaction/osmo-ibc-transfer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * OSMO IBC transfer transaction
+         * @description Generates an IBC transfer transaction to transfer USDC from Noble to Osmosis
+         */
+        post: operations["postNobleOsmoIbcTransferTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/transaction/prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare Transaction
+         * @description Prepare an unsigned transaction for broadcast by adding signatures to it
+         */
+        post: operations["postNoblePrepareTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/transaction/broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast Transaction
+         * @description Broadcast a signed transaction to the Noble network
+         */
+        post: operations["postNobleBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/transaction/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Status
+         * @description Get the status of a transaction
+         */
+        get: operations["getNobleTxStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/noble/transaction/decode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Decoding
+         * @description Decode a transaction
+         */
+        get: operations["getNobleTxDecoding"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -14234,6 +14614,207 @@ export interface components {
              */
             account_id: string;
         };
+        NEARStakeTxPayload: {
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id: string;
+            /**
+             * @description NEAR wallet address
+             * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
+             */
+            wallet: string;
+            /**
+             * @description NEAR pool ID
+             * @example kiln.pool.f863973.m0
+             */
+            pool_id: string;
+            /**
+             * @description Amount to stake in Yocto (1 NEAR = 10^24 Yocto)
+             * @example 1000000000000000000000000
+             */
+            amount_yocto: string;
+        };
+        NEARUnstakeTxPayload: {
+            /**
+             * @description NEAR wallet address
+             * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
+             */
+            wallet: string;
+            /**
+             * @description NEAR pool ID
+             * @example kiln.pool.f863973.m0
+             */
+            pool_id: string;
+            /**
+             * @description Amount to unstake in Yocto (1 NEAR = 10^24 Yocto). If not specified, all the stake will be unstaked.
+             * @example 1000000000000000000000000
+             */
+            amount_yocto?: string;
+        };
+        NEARWithdrawTxPayload: {
+            /**
+             * @description NEAR wallet address
+             * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
+             */
+            wallet: string;
+            /**
+             * @description NEAR pool ID
+             * @example kiln.pool.f863973.m0
+             */
+            pool_id: string;
+            /**
+             * @description Amount to withdraw in Yocto (1 NEAR = 10^24 Yocto). If not specified, all the stake will be withdrawn.
+             * @example 1000000000000000000000000
+             */
+            amount_yocto?: string;
+        };
+        NEARPrepareTxPayload: {
+            /**
+             * @description Unsigned transaction serialized
+             * @example 400000006333366231613564613265363064316664356433613662343666373339396562323635373134353766333237326633633937386263393532376164323333356600c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f0cc2dad0ea920000140000006b696c6e2e706f6f6c2e663836333937332e6d3037ce9c68061b12cc551a33496f858157ec5fb1e509179e69acfce58d7245aa6801000000020c00000077697468647261775f616c6c020000007b7d00c06e31d910010000000000000000000000000000000000
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Signature of the transaction
+             * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
+             */
+            signature: string;
+        };
+        NEARBroadcastTxPayload: {
+            /**
+             * @description Signed transaction serialized
+             * @example 400000006333366231613564613265363064316664356433613662343666373339396562323635373134353766333237326633633937386263393532376164323333356600c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f0cc2dad0ea920000140000006b696c6e2e706f6f6c2e663836333937332e6d3037ce9c68061b12cc551a33496f858157ec5fb1e509179e69acfce58d7245aa6801000000020c00000077697468647261775f616c6c020000007b7d00c06e31d910010
+             */
+            signed_tx_serialized: string;
+        };
+        NEARSignedTx: {
+            /**
+             * @description Signed transaction serialized
+             * @example 400000006333366231613564613265363064316664356433613662343666373339396562323635373134353766333237326633633937386263393532376164323333356600c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f0cc2dad0ea920000140000006b696c6e2e706f6f6c2e663836333937332e6d3037ce9c68061b12cc551a33496f858157ec5fb1e509179e69acfce58d7245aa6801000000020c00000077697468647261775f616c6c020000007b7d00c06e31d910010
+             */
+            signed_tx_serialized: string;
+        };
+        NEARBroadcastedTx: {
+            /**
+             * @description Hash of the broadcasted transaction
+             * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
+             */
+            tx_hash: string;
+        };
+        NEARTx: {
+            /**
+             * @description Unsigned transaction serialized
+             * @example 400000006333366231613564613265363064316664356433613662343666373339396562323635373134353766333237326633633937386263393532376164323333356600c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f0cc2dad0ea920000140000006b696c6e2e706f6f6c2e663836333937332e6d3037ce9c68061b12cc551a33496f858157ec5fb1e509179e69acfce58d7245aa6801000000020c00000077697468647261775f616c6c020000007b7d00c06e31d910010000000000000000000000000000000000
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Unsigned transaction hash to sign
+             * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Parsed transaction
+             * @example {
+             *       "signerId": "c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f",
+             *       "publicKey": {
+             *         "ed25519Key": {
+             *           "keyType": 0,
+             *           "data": [
+             *             195,
+             *             107,
+             *             26,
+             *             93,
+             *             162,
+             *             230,
+             *             13,
+             *             31,
+             *             213,
+             *             211,
+             *             166,
+             *             180,
+             *             111,
+             *             115,
+             *             153,
+             *             235,
+             *             38,
+             *             87,
+             *             20,
+             *             87,
+             *             243,
+             *             39,
+             *             47,
+             *             60,
+             *             151,
+             *             139,
+             *             201,
+             *             82,
+             *             122,
+             *             210,
+             *             51,
+             *             95
+             *           ]
+             *         },
+             *         "enum": "ed25519Key"
+             *       },
+             *       "nonce": "161537224000012",
+             *       "receiverId": "kiln.pool.f863973.m0",
+             *       "actions": [
+             *         {
+             *           "functionCall": {
+             *             "methodName": "withdraw_all",
+             *             "args": {
+             *               "type": "Buffer",
+             *               "data": [
+             *                 123,
+             *                 125
+             *               ]
+             *             },
+             *             "gas": "300000000000000",
+             *             "deposit": "0"
+             *           },
+             *           "enum": "functionCall"
+             *         }
+             *       ],
+             *       "blockHash": [
+             *         92,
+             *         235,
+             *         96,
+             *         73,
+             *         5,
+             *         142,
+             *         190,
+             *         166,
+             *         118,
+             *         248,
+             *         71,
+             *         141,
+             *         118,
+             *         93,
+             *         206,
+             *         84,
+             *         209,
+             *         33,
+             *         196,
+             *         62,
+             *         180,
+             *         199,
+             *         65,
+             *         131,
+             *         28,
+             *         161,
+             *         140,
+             *         43,
+             *         144,
+             *         134,
+             *         244,
+             *         245
+             *       ]
+             *     }
+             */
+            tx: Record<string, never>;
+        };
         OSMOStake: {
             /**
              * @description Public key of the validator
@@ -16004,6 +16585,44 @@ export interface components {
              * @example 0.0342
              */
             grr?: number;
+        };
+        EGLDOperations: {
+            /**
+             * @description Wallet address of the sender
+             * @example erd1exqua32r233fwsxv074dhmp5yw4nz3xnn2kkdayp2wg566janpeqhdayjd
+             */
+            sender?: string;
+            /**
+             * @description Wallet address of the receiver
+             * @example erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqrhlllls062tu4
+             */
+            receiver?: string;
+            /**
+             * @description Transaction hash
+             * @example c03a95f5d9d3c8d6a99c0a22faf78f246b3da6a1d564e52c184b38e735de95a1
+             */
+            tx_hash?: string;
+            /**
+             * Format: date-time
+             * @description Transaction timestamp
+             * @example 2024-03-29T11:55:18Z
+             */
+            tx_timestamp?: string;
+            /**
+             * @description Amount of the operation when applicable
+             * @example 1120594360000000001
+             */
+            amount?: string;
+            /**
+             * @description Gas used for the operation
+             * @example 6062000
+             */
+            gas_used?: string;
+            /**
+             * @description Type of the operation. i.e. delegate, undelegate, claimRewards, etc.
+             * @example delegate
+             */
+            type?: string;
         };
         EgldNetworkStats: {
             /**
@@ -18895,6 +19514,30 @@ export interface components {
          *     }
          */
         DYDXTxDecoding: Record<string, never>;
+        DYDXCraftNobleIbcTransferTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description The amount to transfer in uUSDC
+             * @example 1000000
+             */
+            amount_uusdc: string;
+        };
+        DYDXGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
+            /**
+             * @description The denomination of the balance to query
+             * @example uusdc
+             */
+            denom: string;
+        };
         TIAStake: {
             /**
              * @description Public key of the validator
@@ -22252,6 +22895,18 @@ export interface components {
          *     }
          */
         ZETATxDecoding: Record<string, never>;
+        ZETAGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
+             */
+            address: string;
+            /**
+             * @description The denomination of the balance to query
+             * @example azeta
+             */
+            denom: string;
+        };
         KAVAStake: {
             /**
              * @description Public key of the validator
@@ -25609,6 +26264,18 @@ export interface components {
          *     }
          */
         FETTxDecoding: Record<string, never>;
+        FETGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
+            /**
+             * @description The denomination of the balance to query
+             * @example afet
+             */
+            denom: string;
+        };
         INJStake: {
             /**
              * @description Public key of the validator
@@ -27726,6 +28393,59 @@ export interface components {
              */
             amount_nanoton: string;
         };
+        TONGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example UQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4w0V9
+             */
+            address: string;
+        };
+        NOBLEGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example noble1p59lpw8cdu948kn3kxjwely7gm9kgxuzschy48
+             */
+            address: string;
+            /**
+             * @description The denomination of the balance to query
+             * @example uusdc
+             */
+            denom: string;
+        };
+        NOBLEBurnUsdcPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 036d22419964c19ec91afa0e3a9c58dbb1aa1a4a30e5ad06cd47cd4e67f0671180
+             */
+            pubkey: string;
+            /**
+             * @description Wallet address on Ethereum to receive the USDC
+             * @example 0xBC86717BaD3F8CcF86d2882a6bC351C94580A994
+             */
+            recipient: string;
+            /**
+             * @description The amount of USDC to burn
+             * @example 1000000
+             */
+            amount_uusdc: string;
+        };
+        NOBLEOsmoIbcTransferPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 036d22419964c19ec91afa0e3a9c58dbb1aa1a4a30e5ad06cd47cd4e67f0671180
+             */
+            pubkey: string;
+            /**
+             * @description Osmosis address to receive the USDC
+             * @example osmo1p59lpw8cdu948kn3kxjwely7gm9kgxuzschy48
+             */
+            recipient: string;
+            /**
+             * @description The amount of USDC to send
+             * @example 1000000
+             */
+            amount_uusdc: string;
+        };
     };
     responses: never;
     parameters: {
@@ -27975,6 +28695,8 @@ export interface components {
         TONPoolParam: string;
         /** @description Transaction hash */
         TONTxHashParam: string;
+        /** @description Wallet address */
+        TONGetWalletInfoParam: string;
     };
     requestBodies: never;
     headers: never;
@@ -34599,6 +35321,211 @@ export interface operations {
             };
         };
     };
+    postNEARStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NEARStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["NEARTx"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNEARUnstakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NEARUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["NEARTx"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNEARWithdrawTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NEARWithdrawTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["NEARTx"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNEARPrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NEARPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["NEARSignedTx"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNEARBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NEARBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["NEARBroadcastedTx"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getNearTxDecoding: {
         parameters: {
             query: {
@@ -35520,6 +36447,60 @@ export interface operations {
                 };
             };
             /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getEgldOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of wallets addresses */
+                wallets?: components["parameters"]["EGLDWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Comma-separated list of validator contract addresses */
+                validators?: components["parameters"]["EGLDValidatorsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["EGLDOperations"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description UnauthorizedS */
             401: {
                 headers: {
                     [name: string]: unknown;
@@ -37953,6 +38934,65 @@ export interface operations {
             };
         };
     };
+    postDydxGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DYDXGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example uusdc
+                             */
+                            denom: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postDydxStakeTx: {
         parameters: {
             query?: never;
@@ -38108,6 +39148,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["DYDXCraftRedelegateTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["DYDXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postDydxNobleIbcTransferTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DYDXCraftNobleIbcTransferTxPayload"];
             };
         };
         responses: {
@@ -39386,6 +40474,65 @@ export interface operations {
                 };
                 content: {
                     "application/octet-stream": string;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postZetaGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ZETAGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example azeta
+                             */
+                            denom: string;
+                        };
+                    };
                 };
             };
             /** @description Invalid parameters */
@@ -40823,6 +41970,65 @@ export interface operations {
             };
         };
     };
+    postFetGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["FETGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example afet
+                             */
+                            denom: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postFetchStakeTx: {
         parameters: {
             query?: never;
@@ -42189,6 +43395,117 @@ export interface operations {
             };
         };
     };
+    getTonWalletInfo: {
+        parameters: {
+            query: {
+                /** @description Wallet address */
+                wallet: components["parameters"]["TONGetWalletInfoParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: {
+                            /**
+                             * @description Status of the wallet
+                             * @example active
+                             */
+                            status: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTonGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TONGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example nanoton
+                             */
+                            denom: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getTonWithdrawRequest: {
         parameters: {
             query: {
@@ -42780,6 +44097,347 @@ export interface operations {
                     "application/json; charset=utf-8": {
                         data?: components["schemas"]["TONTx"];
                     };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNobleGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NOBLEGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example uusdc
+                             */
+                            denom: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNobleBurnUsdcTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction payload */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NOBLEBurnUsdcPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["DYDXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNobleOsmoIbcTransferTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction payload */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["NOBLEOsmoIbcTransferPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["DYDXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNoblePrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to prepare */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DYDXPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["DYDXSignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postNobleBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DYDXBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["DYDXTxHash"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getNobleTxStatus: {
+        parameters: {
+            query: {
+                /** @description Hash of the transaction */
+                tx_hash: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["DYDXTxStatus"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getNobleTxDecoding: {
+        parameters: {
+            query: {
+                /** @description Raw transaction to decode */
+                tx_serialized: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": Record<string, never>;
                 };
             };
             /** @description Invalid parameters */

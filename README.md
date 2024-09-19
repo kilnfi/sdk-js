@@ -1,40 +1,18 @@
 ## Description
 
-Kiln JS SDK makes it easy to interact with the Kiln staking platform.
+Kiln SDK is a wrapper around the Kiln Connect API, which allows you to craft staking transactions as well getting real time and historical data about your stakes.
 
-It provides a simple way of crafting staking transactions as well getting real time and historical data about your stakes.
+On top of that, the SDK provides a way to sign your transactions with Fireblocks using their Contract call and Raw Signing features. 
 
-Check out the [full documentation](https://docs.kiln.fi/v1/connect/overview).
-
-## Supported protocols
-
-- ADA (mainnet)
-- ATOM (mainnet and testnet)
-- DOT (mainnet)
-- DYDX (mainnet)
-- ETH (mainnet and holesky)
-- FET (mainnet)
-- INJ (mainnet)
-- KAVA (mainnet)
-- KSM (mainnet)
-- MATIC (deprecated, use POL instead) (mainnet and sepolia)
-- NEAR (mainnet and testnet)
-- NOBLE (mainnet)
-- OSMO (mainnet)
-- POL (mainnet and sepolia)
-- SOL (mainnet and testnet)
-- TIA (mainnet)
-- TON (mainnet and testnet)
-- XTZ (mainnet and ghostnet)
-- ZETA (mainnet)
-- More protocol to come, don't hesitate to contact us (support@kiln.fi)
+- [Kiln Connect documentation](https://docs.kiln.fi/v1/connect/overview)
+- [OpenAPI reference](https://docs.api.kiln.fi/reference/getaccounts)
 
 ## Installation
 
-You can install the JS SDK with npm:
+You can install the JS SDK with your favorite package manager:
 
 ```sh
-npm install --save @kilnfi/sdk
+bun install @kilnfi/sdk
 ```
 
 ## Setup
@@ -43,68 +21,67 @@ In order to use this sdk, you will need a kiln api token.
 Please contact support@kiln.fi to get one.
 
 ```typescript
-import { Kiln } from "../src/kiln";
+import { Kiln } from "@kilnfi/sdk";
 
 const k = new Kiln({
-  testnet: true,
+  baseUrl: "https://api.kiln.fi",
   apiToken: "kiln_xxx",
 });
 ```
 
-## Craft 32 ETH staking transaction, sign it with fireblocks and broadcast it
 
+## Example: Stake 1 NEAR using Fireblocks raw signing
 ```typescript
 import { Kiln } from "@kilnfi/sdk";
-import { Integration } from "@kilnfi/sdk/lib/types/integrations";
-const fs = require("fs");
+import type { Integration } from "@kilnfi/sdk/lib/types/integrations";
+import fs from "node:fs";
+import 'dotenv/config'
 
-const apiSecret = fs.readFileSync(__dirname + "/path_to_fireblocks_secret", "utf8");
 
-const k = new Kiln({
-  testnet: true,
-  apiToken: "kiln_xxx",
-});
+const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 
-const vault: Integration = {
-  provider: "fireblocks",
-  fireblocksApiKey: "YOUR_API_USER_KEY", // your fireblocks API user key
-  fireblocksSecretKey: apiSecret, // your fireblocks private key (generated with your CSR file and your API user)
-  vaultId: 7, // your fireblocks vault id
+const stake = async () => {
+  // Kiln client configuration
+  const k = new Kiln({
+    baseUrl: 'https://api.testnet.kiln.fi',
+    apiToken: process.env.KILN_API_KEY,
+  });
+
+  // Fireblocks vault configuration
+  const vault: Integration = {
+    provider: 'fireblocks',
+    fireblocksApiKey: process.env.FIREBLOCKS_API_KEY,
+    fireblocksSecretKey: apiSecret,
+    vaultId: 14
+  };
+
+  // Craft staking tx
+  const tx = await k.client.POST(
+    '/v1/near/transaction/stake',
+    {
+      body: {
+        account_id: 'd3f1b917-72b1-4982-a4dd-93fce579a708',
+        wallet: 'c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f',
+        pool_id: 'kiln.pool.f863973.m0',
+        amount_yocto: '1000000000000000000000000',
+      }
+    }
+  );
+
+  // Sign tx with Fireblocks
+  const signResponse = await k.fireblocks.signNearTx(vault, tx.data.data, "NEAR_TEST");
+
+  // Broadcast tx
+  const broadcastedTx = await k.client.POST("/v1/near/transaction/broadcast", {
+    body: {
+      signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
+    }
+  });
 };
 
-try {
-  // Craft 32 ETH staking transaction
-  const tx = await k.eth.craftStakeTx("kiln_account_id", "withdrawal_address", 32);
-
-  // Sign it with your fireblock vault
-  const txSigned = await k.eth.sign(vault, tx);
-
-  // Broadcast it
-  const hash = await k.eth.broadcast(txSigned);
-} catch (err) {
-  // handle errors
-}
+stake();
 ```
-
-## Fetch ETH stakes and network stats
-
-```typescript
-try {
-  // Get stakes by accounts
-  const stakes = await k.eth.getAccountsRewards(["kiln-account-id"]);
-
-  // Get stakes by wallets
-  const stakesByWallet = await k.eth.getWalletRewards(["wallet-address"]);
-
-  // Get stakes by validators
-  const stakesByValidator = await k.eth.getStakesRewards(["validator-address"]);
-
-  // Get network stats
-  const stats = await k.eth.getNetworkStats();
-} catch (err) {
-  // handle errors
-}
-```
+Find complete examples in the `examples` directory.
 
 ## License
 

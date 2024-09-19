@@ -1,0 +1,12 @@
+{
+  "name": "examples",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,6 +1,6 @@
 import { type AssetTypeResponse, FireblocksSDK, type PublicKeyResponse, SigningAlgorithm } from 'fireblocks-sdk';
 import type { Client } from 'openapi-fetch';
-import { FbSigner } from './fb_signer';
+import { FireblocksSigner } from './fireblocks_signer';
 import type { components, paths } from './openapi/schema';
 import type { FireblocksIntegration, Integration } from './types/integrations';
 
@@ -15,7 +15,7 @@ export class FireblocksService {
    * Retrieve a fireblocks SDK from a Fireblocks integration
    * @param integration
    */
-  getFbSdk(integration: FireblocksIntegration): FireblocksSDK {
+  getSdk(integration: FireblocksIntegration): FireblocksSDK {
     return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
   }
 
@@ -23,9 +23,9 @@ export class FireblocksService {
    * Retrieve a fireblocks signer from a Fireblocks integration
    * @param integration
    */
-  getFbSigner(integration: FireblocksIntegration): FbSigner {
-    const fbSdk = this.getFbSdk(integration);
-    return new FbSigner(fbSdk, integration.vaultId);
+  getSigner(integration: FireblocksIntegration): FireblocksSigner {
+    const sdk = this.getSdk(integration);
+    return new FireblocksSigner(sdk, integration.vaultId);
   }
   /**
    * Get fireblocks wallet pubkey compressed
@@ -33,7 +33,7 @@ export class FireblocksService {
    * @param assetId
    */
   async getPubkey(integration: Integration, assetId: string): Promise<PublicKeyResponse> {
-    const fbSdk = this.getFbSdk(integration);
+    const fbSdk = this.getSdk(integration);
     const data = await fbSdk.getPublicKeyInfoForVaultAccount({
       assetId: assetId,
       vaultAccountId: integration.vaultId,
@@ -49,7 +49,7 @@ export class FireblocksService {
    * @param integration
    */
   async getAssets(integration: Integration): Promise<AssetTypeResponse[]> {
-    const fbSdk = this.getFbSdk(integration);
+    const fbSdk = this.getSdk(integration);
     return await fbSdk.getSupportedAssets();
   }
 
@@ -76,7 +76,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'SOL tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
 
@@ -124,7 +124,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'ADA', fbNote);
 
@@ -178,7 +178,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -226,7 +226,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'DYDX tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'DYDX_DYDX', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -276,7 +276,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'FET tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -324,7 +324,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'INJ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'INJ_INJ', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -372,7 +372,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'KAVA_KAVA', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -420,7 +420,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'OSMO tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'OSMO', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -468,7 +468,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'TIA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'CELESTIA', fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -518,7 +518,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ZETA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -558,7 +558,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'DOT', fbNote);
     const signature = `0x00${fbTx.signedMessages?.[0].signature.fullSig}`;
@@ -593,7 +593,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KSM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'KSM', fbNote);
     const signature = `0x00${fbTx.signedMessages?.[0].signature.fullSig}`;
@@ -631,7 +631,7 @@ export class FireblocksService {
       contractCallData: tx.contract_call_data,
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
@@ -656,7 +656,7 @@ export class FireblocksService {
       contractCallData: tx.contract_call_data,
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'POL tx from @kilnfi/sdk';
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
   }
@@ -684,7 +684,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'TON tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -726,7 +726,7 @@ export class FireblocksService {
       },
     };
 
-    const fbSigner = this.getFbSigner(integration);
+    const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
     const signature = fbTx.signedMessages?.[0].signature.fullSig;
@@ -736,6 +736,51 @@ export class FireblocksService {
     }
 
     const preparedTx = await this.client.POST('/v1/xtz/transaction/prepare', {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a NEAR transaction on Fireblocks
+   * @param integration
+   * @param tx
+   * @param assetId
+   * @param note
+   */
+  async signNearTx(
+    integration: Integration,
+    tx: components['schemas']['NEARTx'],
+    assetId: 'NEAR_TEST' | 'NEAR',
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'NEAR tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
+
+    const preparedTx = await this.client.POST('/v1/near/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,

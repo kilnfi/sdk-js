@@ -32,20 +32,12 @@
   },
   "homepage": "https://github.com/kilnfi/sdk-js#readme",
   "dependencies": {
-    "@cosmjs/proto-signing": "^0.30.1",
-    "@cosmjs/stargate": "^0.30.1",
-    "@types/bn.js": "^5.1.5",
-    "axios": "^1.7.2",
-    "bn.js": "^5.2.1",
     "fireblocks-sdk": "^4.2.0",
-    "js-sha256": "^0.9.0",
-    "near-api-js": "^2.1.4",
     "openapi-fetch": "^0.12.0",
     "viem": "^1.21.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.1",
-    "@types/axios": "^0.14.0",
     "@types/node-fetch": "^2.6.11",
     "typescript": "^5.6.2"
   }
