@@ -4,7 +4,7 @@ import { FireblocksSigner } from './fireblocks_signer';
 import type { components, paths } from './openapi/schema';
 
 type FireblocksIntegration = {
-  provider: "fireblocks";
+  provider: 'fireblocks';
   fireblocksApiKey: string;
   fireblocksSecretKey: string;
   vaultId: number;
