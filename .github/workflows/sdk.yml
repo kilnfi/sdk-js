@@ -15,7 +15,7 @@ on:
       - ".github/workflows/sdk.yml"
 
 jobs:
-  lint:
+  lint-and-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
