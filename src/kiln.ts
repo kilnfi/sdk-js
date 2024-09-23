@@ -1,5 +1,5 @@
 export * from './validators';
-export * from './openapi/schema.d.ts';
+export type * from './openapi/schema.d.ts';
 export * from './utils';
 import createClient, { type Client } from 'openapi-fetch';
 import { FireblocksService } from './fireblocks';

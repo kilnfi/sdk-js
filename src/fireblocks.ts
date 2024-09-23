@@ -2,7 +2,15 @@ import { type AssetTypeResponse, FireblocksSDK, type PublicKeyResponse, SigningA
 import type { Client } from 'openapi-fetch';
 import { FireblocksSigner } from './fireblocks_signer';
 import type { components, paths } from './openapi/schema';
-import type { FireblocksIntegration, Integration } from './types/integrations';
+
+type FireblocksIntegration = {
+  provider: "fireblocks";
+  fireblocksApiKey: string;
+  fireblocksSecretKey: string;
+  vaultId: number;
+  name?: string;
+  fireblocksDestinationId?: string;
+};
 
 export class FireblocksService {
   client: Client<paths>;
@@ -32,7 +40,7 @@ export class FireblocksService {
    * @param integration
    * @param assetId
    */
-  async getPubkey(integration: Integration, assetId: string): Promise<PublicKeyResponse> {
+  async getPubkey(integration: FireblocksIntegration, assetId: string): Promise<PublicKeyResponse> {
     const fbSdk = this.getSdk(integration);
     const data = await fbSdk.getPublicKeyInfoForVaultAccount({
       assetId: assetId,
@@ -48,7 +56,7 @@ export class FireblocksService {
    * List Fireblocks supported assets
    * @param integration
    */
-  async getAssets(integration: Integration): Promise<AssetTypeResponse[]> {
+  async getAssets(integration: FireblocksIntegration): Promise<AssetTypeResponse[]> {
     const fbSdk = this.getSdk(integration);
     return await fbSdk.getSupportedAssets();
   }
@@ -61,7 +69,7 @@ export class FireblocksService {
    * @param note
    */
   async signSolTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['SOLStakeTx'],
     assetId: 'SOL_TEST' | 'SOL',
     note?: string,
@@ -106,7 +114,7 @@ export class FireblocksService {
    * @param tx
    * @param note
    */
-  async signAdaTx(integration: Integration, tx: components['schemas']['ADAUnsignedTx'], note?: string) {
+  async signAdaTx(integration: FireblocksIntegration, tx: components['schemas']['ADAUnsignedTx'], note?: string) {
     const payload = {
       rawMessageData: {
         messages: [
@@ -159,7 +167,7 @@ export class FireblocksService {
    * @param note
    */
   async signAtomTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['ATOMUnsignedTx'] | components['schemas']['ATOMStakeUnsignedTx'],
     assetId: 'ATOM_COS' | 'ATOM_COS_TEST',
     note?: string,
@@ -208,7 +216,7 @@ export class FireblocksService {
    * @param note
    */
   async signDydxTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['DYDXUnsignedTx'] | components['schemas']['DYDXStakeUnsignedTx'],
     note?: string,
   ) {
@@ -256,7 +264,7 @@ export class FireblocksService {
    * @param note
    */
   async signFetTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['FETUnsignedTx'] | components['schemas']['FETStakeUnsignedTx'],
     note?: string,
   ) {
@@ -306,7 +314,7 @@ export class FireblocksService {
    * @param note
    */
   async signInjTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['INJUnsignedTx'] | components['schemas']['INJStakeUnsignedTx'],
     note?: string,
   ) {
@@ -354,7 +362,7 @@ export class FireblocksService {
    * @param note
    */
   async signKavaTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['KAVAUnsignedTx'] | components['schemas']['KAVAStakeUnsignedTx'],
     note?: string,
   ) {
@@ -402,7 +410,7 @@ export class FireblocksService {
    * @param note
    */
   async signOsmoTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['OSMOUnsignedTx'] | components['schemas']['OSMOStakeUnsignedTx'],
     note?: string,
   ) {
@@ -450,7 +458,7 @@ export class FireblocksService {
    * @param note
    */
   async signTiaTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
     note?: string,
   ) {
@@ -498,7 +506,7 @@ export class FireblocksService {
    * @param note
    */
   async signZetaTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['ZETAUnsignedTx'] | components['schemas']['ZETAStakeUnsignedTx'],
     note?: string,
   ) {
@@ -547,7 +555,7 @@ export class FireblocksService {
    * @param tx
    * @param note
    */
-  async signDotTx(integration: Integration, tx: components['schemas']['DOTUnsignedTx'], note?: string) {
+  async signDotTx(integration: FireblocksIntegration, tx: components['schemas']['DOTUnsignedTx'], note?: string) {
     const payload = {
       rawMessageData: {
         messages: [
@@ -582,7 +590,7 @@ export class FireblocksService {
    * @param tx
    * @param note
    */
-  async signKsmTx(integration: Integration, tx: components['schemas']['KSMUnsignedTx'], note?: string) {
+  async signKsmTx(integration: FireblocksIntegration, tx: components['schemas']['KSMUnsignedTx'], note?: string) {
     const payload = {
       rawMessageData: {
         messages: [
@@ -619,7 +627,7 @@ export class FireblocksService {
    * @param note
    */
   async signAndBroadcastEthTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['ETHUnsignedTx'],
     assetId: 'ETH_TEST6' | 'ETH',
     note?: string,
@@ -644,7 +652,7 @@ export class FireblocksService {
    * @param note
    */
   async signAndBroadcastPolTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['POLUnsignedTx'],
     assetId: 'ETH_TEST5' | 'ETH',
     note?: string,
@@ -669,7 +677,7 @@ export class FireblocksService {
    * @param note
    */
   async signTonTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['TONTx'],
     assetId: 'TON_TEST' | 'TON',
     note?: string,
@@ -711,7 +719,7 @@ export class FireblocksService {
    * @param note
    */
   async signXtzTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['XTZUnsignedTx'],
     assetId: 'XTZ_TEST' | 'XTZ',
     note?: string,
@@ -756,7 +764,7 @@ export class FireblocksService {
    * @param note
    */
   async signNearTx(
-    integration: Integration,
+    integration: FireblocksIntegration,
     tx: components['schemas']['NEARTx'],
     assetId: 'NEAR_TEST' | 'NEAR',
     note?: string,
