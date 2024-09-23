@@ -37,7 +37,7 @@ export type AssetId =
   | 'TON'
   | 'KAVA_KAVA';
 
-export class FbSigner {
+export class FireblocksSigner {
   protected fireblocks: FireblocksSDK;
   protected vaultId: number;
 

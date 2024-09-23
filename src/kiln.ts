@@ -1,9 +1,9 @@
 export * from './validators';
-export * from './openapi/schema';
+export * from './openapi/schema.d.ts';
 export * from './utils';
 import createClient, { type Client } from 'openapi-fetch';
 import { FireblocksService } from './fireblocks';
-import type { paths } from './openapi/schema';
+import type { paths } from './openapi/schema.d.ts';
 
 type Config = {
   baseUrl: string;
