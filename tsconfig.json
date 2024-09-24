@@ -5,7 +5,7 @@
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": false,
