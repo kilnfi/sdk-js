@@ -39,13 +39,13 @@ try {
   // Sign and broadcast using Fireblocks raw signing and Kiln Connect to broadcast
   console.log('signing...');
   const signResponse = await k.fireblocks.signEthTx(vault, tx.data.data, "ETH_TEST6");
-  // console.log('broadcasting...');
-  // const broadcastedTx = await k.client.POST("/v1/eth/transaction/broadcast", {
-  //   body: {
-  //     tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
-  //   }
-  // });
-  // console.log(broadcastedTx);
+  console.log('broadcasting...');
+  const broadcastedTx = await k.client.POST("/v1/eth/transaction/broadcast", {
+    body: {
+      tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
+    }
+  });
+  console.log(broadcastedTx);
 
 } catch (err) {
   console.log(err);
