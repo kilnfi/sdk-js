@@ -639,7 +639,7 @@ export class FireblocksService {
             content: tx.unsigned_tx_hash,
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: "KECCAK256",
+              hashAlgorithm: 'KECCAK256',
             },
           },
         ],

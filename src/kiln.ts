@@ -1,4 +1,4 @@
-import type { paths } from "./openapi/schema";
+import type { paths } from './openapi/schema';
 export * from './validators';
 export * from './openapi/schema';
 export * from './utils';
