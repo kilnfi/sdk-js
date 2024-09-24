@@ -4,7 +4,7 @@ import fs from "node:fs";
 import 'dotenv/config'
 
 
-const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
+const apiSecret = fs.readFileSync(`${__dirname}/fireblocks_secret.key`, 'utf8');
 
 const f = async () => {
   const k = new Kiln({

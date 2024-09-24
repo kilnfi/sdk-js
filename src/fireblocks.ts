@@ -626,6 +626,52 @@ export class FireblocksService {
    * @param assetId
    * @param note
    */
+  async signEthTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['ETHUnsignedTx'],
+    assetId: 'ETH_TEST6' | 'ETH',
+    note?: string,
+  ) {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: "KECCAK256",
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+
+    const preparedTx = await this.client.POST('/v1/eth/transaction/prepare', {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
+        s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
+        v: fbTx?.signedMessages?.[0].signature.v ?? 0,
+      },
+    });
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign and broadcast an ETH transaction with given integration using Fireblocks contract call feature
+   * @param integration
+   * @param tx
+   * @param assetId
+   * @param note
+   */
   async signAndBroadcastEthTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ETHUnsignedTx'],
