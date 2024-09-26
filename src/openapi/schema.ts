@@ -461,6 +461,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/eth/eigenlayer/avs-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * EigenLayer AVS rewards
+         * @description Get the claimable AVS rewards of a wallet
+         */
+        get: operations["getEigenLayerAvsRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/eth/eigenlayer/native/points": {
         parameters: {
             query?: never;
@@ -1145,6 +1165,26 @@ export interface paths {
          * @description Get reports on Solana staking
          */
         get: operations["getSolReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/sol/nonce-account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Nonce Account
+         * @description Get Kiln nonce account details. This can be used to partially sign transactions with a durable nonce.
+         */
+        get: operations["getSolNonceAccount"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1990,7 +2030,7 @@ export interface paths {
         /**
          * Buy Voucher Transaction
          * @deprecated
-         * @description Generates a buy voucher transaction to buy shares from a validator
+         * @description Generates a buy voucher transaction to buy shares from a validator. Please note that you can only buy shares from a validator if you don't have some unstaked POL that are pending for withdrawal.
          */
         post: operations["postMaticBuyVoucherTx"];
         delete?: never;
@@ -2307,7 +2347,7 @@ export interface paths {
         put?: never;
         /**
          * Buy Voucher Transaction
-         * @description Generates a buy voucher transaction to buy shares from a validator
+         * @description Generates a buy voucher transaction to buy shares from a validator. Please note that you can only buy shares from a validator if you don't have some unstaked POL that are pending for withdrawal.
          */
         post: operations["postPolBuyVoucherTx"];
         delete?: never;
@@ -6150,7 +6190,7 @@ export interface components {
              * @description Current number of the page
              * @example 2
              */
-            current_page?: number;
+            current_page: number;
             /**
              * @description Number of the next page if there is one
              * @example 3
@@ -6171,12 +6211,12 @@ export interface components {
              * @description Total number of pages
              * @example 17
              */
-            total_pages?: number;
+            total_pages: number;
             /**
              * @description Total number of entries
              * @example 423
              */
-            total_entries?: number;
+            total_entries: number;
         };
         CoreStake: {
             /**
@@ -6232,6 +6272,162 @@ export interface components {
              */
             description?: string | null;
         };
+        BasePortfolio: {
+            /** @description Token name */
+            token: string;
+            /**
+             * @description Protocol name
+             * @example Ethereum
+             */
+            name: string;
+            /**
+             * @description Total number of stakes for this protocol
+             * @example 12
+             */
+            total_stakes: number;
+            /**
+             * @description Total number of stakes actively collecting rewards for this protocol
+             * @example 10
+             */
+            total_active_stakes: number;
+            total_balance: {
+                /**
+                 * Format: float
+                 * @description Total USD balance of stakes for this protocol
+                 * @example 10896.4568
+                 */
+                amount_usd: number;
+                /**
+                 * Format: float
+                 * @description Total balance of stakes in the native protocol token for this protocol
+                 * @example 1896.4563
+                 */
+                amount: number;
+            };
+            total_rewards: {
+                /**
+                 * Format: float
+                 * @description Total USD of rewards earned for this protocol
+                 * @example 10896.4568
+                 */
+                amount_usd: number;
+                /**
+                 * Format: float
+                 * @description Total rewards earned in the native protocol token for this protocol
+                 * @example 1896.4568
+                 */
+                amount: number;
+            };
+            /**
+             * Format: float
+             * @description Protocol share of the total balance
+             * @example 42.59
+             */
+            balance_share_percent: number;
+            /**
+             * Format: float
+             * @description Protocol share of the total rewards earned
+             * @example 42.59
+             */
+            rewards_share_percent: number;
+        };
+        DefaultPortfolio: components["schemas"]["BasePortfolio"] & {
+            /**
+             * @description Token name
+             * @example NEAR
+             * @enum {string}
+             */
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "DYDX" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA";
+        };
+        ETHPortfolio: components["schemas"]["BasePortfolio"] & {
+            /**
+             * @description Token name
+             * @example ETH
+             * @enum {string}
+             */
+            token: "ETH";
+            /**
+             * Format: float
+             * @description Historical GRR
+             * @example 1.9731192967741933
+             */
+            historical_grr: number;
+            activating_stakes: {
+                /**
+                 * @description Total amount of ETH staked in activating stakes
+                 * @example 0
+                 */
+                amount: number;
+                /**
+                 * @description Total USD balance of ETH staked in activating stakes
+                 * @example 0
+                 */
+                amount_usd: number;
+                /**
+                 * @description Total number of activating stakes
+                 * @example 0
+                 */
+                total: number;
+            };
+            exited_stakes: {
+                /**
+                 * @description Total amount of ETH staked in exited stakes
+                 * @example 32
+                 */
+                amount: number;
+                /**
+                 * @description Total USD balance of ETH staked in exited stakes
+                 * @example 74914.9572243136
+                 */
+                amount_usd: number;
+                /**
+                 * @description Total number of exited stakes
+                 * @example 1
+                 */
+                total: number;
+            };
+            exiting_stakes: {
+                /**
+                 * @description Total amount of ETH staked in exiting stakes
+                 * @example 0
+                 */
+                amount: number;
+                /**
+                 * @description Total USD balance of ETH staked in exiting stakes
+                 * @example 0
+                 */
+                amount_usd: number;
+                /**
+                 * @description Total number of exiting stakes
+                 * @example 0
+                 */
+                total: number;
+            };
+            eigenlayer: {
+                /**
+                 * @description Total restaked points
+                 * @example 1260256.471111111
+                 */
+                restaked_points: number;
+                /**
+                 * @description Total number of restaked stakes
+                 * @example 13
+                 */
+                total_restaked: number;
+                /**
+                 * @description Total number of stakes that can be restaked
+                 * @example 0
+                 */
+                total_is_restakable: number;
+                /**
+                 * @description Total number of eigenlayer stakes
+                 * @example 13
+                 */
+                total: number;
+                /** @description List of eigenpods present in the account */
+                eigenpods: string[];
+            };
+        };
         Portfolio: {
             /**
              * Format: float
@@ -6256,68 +6452,7 @@ export interface components {
              */
             total_active_stakes: number;
             /** @description List of protocols staked within the account */
-            protocols: {
-                /**
-                 * @description Token name
-                 * @example ETH
-                 */
-                token: string;
-                /**
-                 * @description Protocol name
-                 * @example Ethereum
-                 */
-                name: string;
-                /**
-                 * @description Total number of stakes for this protocol
-                 * @example 12
-                 */
-                total_stakes: number;
-                /**
-                 * @description Total number of stakes actively collecting rewards for this protocol
-                 * @example 10
-                 */
-                total_active_stakes: number;
-                total_balance: {
-                    /**
-                     * Format: float
-                     * @description Total USD balance of stakes for this protocol
-                     * @example 10896.4568
-                     */
-                    amount_usd: number;
-                    /**
-                     * Format: float
-                     * @description Total balance of stakes in the native protocol token for this protocol
-                     * @example 1896.4563
-                     */
-                    amount: number;
-                };
-                total_rewards: {
-                    /**
-                     * Format: float
-                     * @description Total USD of rewards earned for this protocol
-                     * @example 10896.4568
-                     */
-                    amount_usd: number;
-                    /**
-                     * Format: float
-                     * @description Total rewards earned in the native protocol token for this protocol
-                     * @example 1896.4568
-                     */
-                    amount: number;
-                };
-                /**
-                 * Format: float
-                 * @description Protocol share of the total balance
-                 * @example 42.59
-                 */
-                balance_share_percent: number;
-                /**
-                 * Format: float
-                 * @description Protocol share of the total rewards earned
-                 * @example 42.59
-                 */
-                rewards_share_percent: number;
-            }[];
+            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["ETHPortfolio"])[];
             /**
              * @description Error message if some protocol data could not be retrieved
              * @example We could not fetch data for the following protocols: TON
@@ -6522,12 +6657,12 @@ export interface components {
              * @description The block was created through the MEV (Maximum Extractable Value) system
              * @example true
              */
-            is_mev_block?: boolean | null;
+            is_mev_block?: boolean;
             /**
              * @description Hash of the MEV payout transaction when applicable. It is provided on a "best effort" basis.
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            mev_payout_tx_hash?: string | null;
+            mev_payout_tx_hash?: string;
             /**
              * @description Amount in WEI of the reward
              * @example 3467036438000000000
@@ -6579,7 +6714,7 @@ export interface components {
              * @description Public key of the validator
              * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Validator's consensus layer index
              * @example 1
@@ -6588,107 +6723,108 @@ export interface components {
             /**
              * @description State of the Ethereum stake
              * @example active_ongoing
+             * @enum {string}
              */
-            state?: string;
+            state: "unknown" | "unstaked" | "deposit_in_progress" | "pending_initialized" | "pending_queued" | "active_ongoing" | "active_exiting" | "active_slashed" | "exited_unslashed" | "exited_slashed" | "withdrawal_possible" | "withdrawal_done";
             /**
              * Format: date-time
              * @description Date of activation on the Ethereum consensus layer
              * @example 2023-01-14T01:13:59Z
              */
-            activated_at?: string | null;
+            activated_at?: string;
             /**
              * @description Epoch of activation on the Ethereum consensus layer
              * @example 174049
              */
-            activated_epoch?: number | null;
+            activated_epoch?: number;
             /**
              * Format: date-time
              * @description Timestamp of the block at which the corresponding staking transaction was executed
              * @example 2023-01-14T01:13:59Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block at which the corresponding staking transaction was executed
              * @example 16397387
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of exit on the Ethereum consensus layer
              * @example 2023-01-14T01:13:59Z
              */
-            exited_at?: string | null;
+            exited_at?: string;
             /**
              * @description Epoch of exit on the Ethereum consensus layer
              * @example 174049
              */
-            exited_epoch?: number | null;
+            exited_epoch?: number;
             /**
              * @description Address of the sender of the first deposit transaction
              * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
              */
-            deposit_tx_sender?: string | null;
+            deposit_tx_sender?: string;
             /**
              * @description Address of the last recipient of an execution reward
              * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
              */
-            execution_fee_recipient?: string | null;
+            execution_fee_recipient?: string;
             /**
              * @description Ethereum withdrawal credentials
              * @example 010000000000000000000000e1f4acc0affb36a805474e3b6ab786738c6900a2
              */
-            withdrawal_credentials?: string | null;
+            withdrawal_credentials?: string;
             /**
              * @description Effective balance in WEI of the stake as seen by the Ethereum consensus layer
              * @example 32000000000000000000
              */
-            effective_balance?: string | null;
+            effective_balance?: string;
             /**
              * @description Current balance in WEI on the Ethereum consensus layer
              * @example 32076187808000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Sum of consensus rewards in WEI earned by this stake
              * @example 76187808000000000
              */
-            consensus_rewards?: string | null;
+            consensus_rewards?: string;
             /**
              * @description Sum of execution rewards in WEI earned by this stake
              * @example 0
              */
-            execution_rewards?: string | null;
+            execution_rewards?: string;
             /**
              * @description Sum of consensus and execution rewards in WEI earned by this stake
              * @example 76187808000000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description For Kiln On-Chain stakes only, the amount of execution rewards in WEI that can be withdrawn.
              * @example 76187808000000000
              */
-            claimable_execution_rewards?: string | null;
+            claimable_execution_rewards?: string;
             /**
              * @description For Kiln On-Chain stakes only, the amount of consensus rewards in WEI that can be withdrawn.
              * @example 76187808000000000
              */
-            claimable_consensus_rewards?: string | null;
+            claimable_consensus_rewards?: string;
             /**
              * @description Gross annual percentage yield
              * @example 3.407
              */
-            gross_apy?: number | null;
+            gross_apy?: number;
             /**
              * @description Whether this stake is managed by Kiln
              * @example true
              */
-            is_kiln?: boolean | null;
+            is_kiln: boolean;
             /**
              * Format: date-time
              * @description Last date this data was updated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string | null;
+            updated_at?: string;
             /** @description EigenLayer data of the stake, present if `include_eigenlayer=true` and if the stake has an EigenPod as withdrawal credentials */
             eigenlayer?: {
                 /**
@@ -6726,15 +6862,15 @@ export interface components {
              * @description Estimation of the next slot where the validator's CL rewards will be skimmed
              * @example 16397387
              */
-            estimated_next_skimming_slot?: number | null;
+            estimated_next_skimming_slot?: number;
             /**
              * Format: date-time
              * @description Estimation of when the validator's CL rewards will be skimmed
              * @example 2023-01-14T01:13:59Z
              */
-            estimated_next_skimming_at?: string | null;
+            estimated_next_skimming_at?: string;
             /** @description Set if an exit was requested for this stake. This is only applicable to kiln stakes until EIP-7002 (Pectra upgrade). */
-            exit_requested?: boolean | null;
+            exit_requested?: boolean;
         };
         PostETHStakesPayload: {
             stakes: {
@@ -6771,12 +6907,12 @@ export interface components {
              * @description Sum of execution rewards in WEI earned by this stake via MEV. Only available when the 'scope' parameter is used.
              * @example 0
              */
-            mev_execution_rewards?: string | null;
+            mev_execution_rewards?: string;
             /**
              * @description Sum of execution rewards in WEI earned by this stake without MEV. Only available when the 'scope' parameter is used.
              * @example 0
              */
-            non_mev_execution_rewards?: string | null;
+            non_mev_execution_rewards?: string;
             /**
              * @description Median execution reward in WEI for the day (MEV + non-MEV). Only available when the 'scope' parameter is used.
              * @example 0
@@ -6910,7 +7046,7 @@ export interface components {
              * @description When the exit message was generated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string | null;
+            updated_at?: string;
         };
         ETHEigenLayerMetadata: {
             /**
@@ -6943,6 +7079,18 @@ export interface components {
              * @example 1711479048
              */
             updated_at: number;
+        };
+        ETHEigenLayerAvsReward: {
+            /**
+             * @description Address of the token
+             * @example 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2
+             */
+            token_address: string;
+            /**
+             * @description Amount of claimable rewards
+             * @example 423768272961631825
+             */
+            claimable_amount: string;
         };
         ETHEigenLayerSummary: {
             /**
@@ -10255,6 +10403,18 @@ export interface components {
              * @example sV6dgQyxByL66t9uTPmffitncWNmnkR8oEC1gQ29jPrKFHm9TkMGvS3TgcQeNz9pSN7913aPXe6MMHFS4xqTafL
              */
             tx_hash?: string;
+        };
+        SOLNonceAccount: {
+            /**
+             * @description Nonce account address
+             * @example 3M7sFDMdUxfNNSmKk2ZmDKgKJFzuLvxpuXKDTLRGXpcK
+             */
+            nonce_account: string;
+            /**
+             * @description Nonce account authority address
+             * @example 6WwYZH8zdqF7kELtRfo1yAnvD1wvXwTg4m1jBhUCqC68
+             */
+            nonce_account_authority: string;
         };
         SOLTxStatus: {
             /**
@@ -28455,7 +28615,7 @@ export interface components {
         PaginationPageParam: number;
         /** @description Number of entries to list per page. Only used when `current_page` is specified */
         PaginationPageSizeParam: number;
-        /** @description Comma-separated list of states to filter on (see `state` for complete list). Not available with the `scope` parameter */
+        /** @description Comma-separated list of states to filter on (unknown, unstaked, deposit_in_progress, pending_initialized, pending_queued, active_ongoing, active_exiting, active_slashed, exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done). Not available with the `scope` parameter */
         FilterStatesParam: string[];
         /** @description Get data from this date (YYYY-MM-DD) */
         StartDateParam: string;
@@ -29061,7 +29221,7 @@ export interface operations {
                 current_page?: components["parameters"]["PaginationPageParam"];
                 /** @description Number of entries to list per page. Only used when `current_page` is specified */
                 page_size?: components["parameters"]["PaginationPageSizeParam"];
-                /** @description Comma-separated list of states to filter on (see `state` for complete list). Not available with the `scope` parameter */
+                /** @description Comma-separated list of states to filter on (unknown, unstaked, deposit_in_progress, pending_initialized, pending_queued, active_ongoing, active_exiting, active_slashed, exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done). Not available with the `scope` parameter */
                 filter_states?: components["parameters"]["FilterStatesParam"];
             };
             header?: never;
@@ -29077,7 +29237,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHStake"][];
+                        data: components["schemas"]["ETHStake"][];
                         pagination?: components["schemas"]["Pagination"];
                     };
                 };
@@ -29855,7 +30015,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerOperator"];
+                        data: components["schemas"]["ETHEigenLayerOperator"];
                     };
                 };
             };
@@ -29901,7 +30061,53 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerSummary"];
+                        data: components["schemas"]["ETHEigenLayerSummary"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getEigenLayerAvsRewards: {
+        parameters: {
+            query: {
+                /** @description wallet address */
+                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHEigenLayerAvsReward"][];
                     };
                 };
             };
@@ -29947,7 +30153,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerNativePoints"];
+                        data: components["schemas"]["ETHEigenLayerNativePoints"];
                     };
                 };
             };
@@ -29993,7 +30199,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerNativeUndelegation"][];
+                        data: components["schemas"]["ETHEigenLayerNativeUndelegation"][];
                     };
                 };
             };
@@ -30039,7 +30245,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerLiquidPoints"];
+                        data: components["schemas"]["ETHEigenLayerLiquidPoints"];
                     };
                 };
             };
@@ -30085,7 +30291,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerLiquidDeposit"][];
+                        data: components["schemas"]["ETHEigenLayerLiquidDeposit"][];
                     };
                 };
             };
@@ -30131,7 +30337,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHEigenLayerLiquidWithdrawal"][];
+                        data: components["schemas"]["ETHEigenLayerLiquidWithdrawal"][];
                     };
                 };
             };
@@ -31731,6 +31937,42 @@ export interface operations {
             };
         };
     };
+    getSolNonceAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SOLNonceAccount"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postSolStakeTx: {
         parameters: {
             query?: never;
@@ -31752,7 +31994,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLStakeTx"];
+                        data: components["schemas"]["SOLStakeTx"];
                     };
                 };
             };
@@ -31800,7 +32042,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLStakeTx"];
+                        data: components["schemas"]["SOLStakeTx"];
                     };
                 };
             };
@@ -31848,7 +32090,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLStakeTx"];
+                        data: components["schemas"]["SOLStakeTx"];
                     };
                 };
             };
@@ -31896,7 +32138,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLStakeTx"];
+                        data: components["schemas"]["SOLStakeTx"];
                     };
                 };
             };
@@ -31944,7 +32186,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLStakeTx"];
+                        data: components["schemas"]["SOLStakeTx"];
                     };
                 };
             };
@@ -31992,7 +32234,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLPreparedTx"];
+                        data: components["schemas"]["SOLPreparedTx"];
                     };
                 };
             };
@@ -32040,7 +32282,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLBroadcastTx"];
+                        data: components["schemas"]["SOLBroadcastTx"];
                     };
                 };
             };
@@ -32086,7 +32328,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLTxStatus"];
+                        data: components["schemas"]["SOLTxStatus"];
                     };
                 };
             };
