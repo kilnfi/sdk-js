@@ -15,7 +15,11 @@ export class Kiln {
   client: Client<paths>;
 
   constructor({ apiToken, baseUrl }: Config) {
-    const client = createClient<paths>({ baseUrl, headers: { Authorization: `Bearer ${apiToken}` } });
+    const client = createClient<paths>({
+      baseUrl,
+      headers: { Authorization: `Bearer ${apiToken}` },
+      querySerializer: { array: { explode: false, style: 'form' } },
+    });
     this.fireblocks = new FireblocksService(client);
     this.client = client;
   }
