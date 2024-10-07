@@ -1163,6 +1163,13 @@ export interface paths {
      */
     get: operations["getDotOperations"];
   };
+  "/v1/dot/reports": {
+    /**
+     * Reports
+     * @description Get reports on Polkadot staking
+     */
+    get: operations["getDotReports"];
+  };
   "/v1/dot/network-stats": {
     /**
      * Network Stats
@@ -1316,6 +1323,13 @@ export interface paths {
      * @description Get the operations of Kusama stakes
      */
     get: operations["getKsmOperations"];
+  };
+  "/v1/ksm/reports": {
+    /**
+     * Reports
+     * @description Get reports on Kusama staking
+     */
+    get: operations["getKsmReports"];
   };
   "/v1/ksm/network-stats": {
     /**
@@ -3554,8 +3568,9 @@ export interface components {
        * @description Response format. Use `"cli_deposit"` for more information about each key.
        * @default batch_deposit
        * @example cli_deposit
+       * @enum {string}
        */
-      format?: string;
+      format?: "cli_deposit" | "batch_deposit";
     };
     ETHPostKeysOnChainPayload: {
       /**
@@ -3605,88 +3620,70 @@ export interface components {
         /**
          * @description Format of the key
          * @example cli_deposit
+         * @enum {string}
          */
-        format?: string;
+        format: "cli_deposit";
         /**
          * @description Public key of the validator
          * @example 8f36e2f4e921b1ed5ce9c94f21e1f26a748ac4e0c57f0d8973e7d576a2f8953b87dd86300de718238de23b1fecb19db5
          */
-        pubkey?: string;
+        pubkey: string;
         /**
          * @description Withdrawals credentials of the validator
          * @example 010000000000000000000000e1f4acc0affb36a805474e3b6ab786738c6900a2
          */
-        withdrawal_credentials?: string;
+        withdrawal_credentials: string;
         /**
          * @description Amount in GWEI that needs to be deposited to activate the validator
          * @example 32000000000
          */
-        amount?: number;
+        amount: number;
         /**
          * @description BLS signature for the deposit data structure required to stake on the Ethereum chain
          * @example b7947eabf631d4772c4014a9fec2ecac2c15fc5175ad83023bbdfc9e6618cb8e78829231477c060bc9339482058ff195141f2aeb801c0329a1a4afebd7e76ce0ba1d9d88f8820d052836a79d59aea673db9eb5009db4a4f6e04fb7ffbdbdd604
          */
-        signature?: string;
+        signature: string;
         /**
          * @description Root hash ensuring the deposit message integrity
          * @example 65db6ae73c6465311a7acf2cd8a2863eececf09901872550639f0d8f6c1876f5
          */
-        deposit_message_root?: string;
+        deposit_message_root: string;
         /**
          * @description Root hash ensuring the deposit data integrity
          * @example 9b74cccf3a3c501374179be4bb6f505c4b40da41c205a101db3342a8df0af2dd
          */
-        deposit_data_root?: string;
+        deposit_data_root: string;
         /**
          * @description Identifier for the fork version
          * @example 00000000
          */
-        fork_version?: string;
+        fork_version: string;
         /**
          * @description Ethereum network for the generated validation key(s)
          * @example mainnet
          */
-        network_name?: string;
+        network_name: string;
         /**
          * @description Version of the deposit-cli tool used to generate the validation key
          * @example 2.2.0
          */
-        deposit_cli_version?: string;
+        deposit_cli_version: string;
       }[];
     ETHPostKeysBatchResponse: {
       /**
        * @description Format of the key
        * @example batch_deposit
+       * @enum {string}
        */
-      format?: string;
-      /**
-       * @description Public keys of the validators
-       * @example [
-       *   "8f36e2f4e921b1ed5ce9c94f21e1f26a748ac4e0c57f0d8973e7d576a2f8953b87dd86300de718238de23b1fecb19db5"
-       * ]
-       */
-      pubkeys?: string[];
-      /**
-       * @description Withdrawals credentials of the validators
-       * @example [
-       *   "010000000000000000000000e1f4acc0affb36a805474e3b6ab786738c6900a2"
-       * ]
-       */
-      withdrawal_credentials?: string[];
-      /**
-       * @description BLS signatures for the deposit data structure required to stake on the Ethereum chain
-       * @example [
-       *   "b7947eabf631d4772c4014a9fec2ecac2c15fc5175ad83023bbdfc9e6618cb8e78829231477c060bc9339482058ff195141f2aeb801c0329a1a4afebd7e76ce0ba1d9d88f8820d052836a79d59aea673db9eb5009db4a4f6e04fb7ffbdbdd604"
-       * ]
-       */
-      signatures?: string[];
-      /**
-       * @description Root hashes ensuring the deposit data integrity
-       * @example [
-       *   "37e329240dd23a4bcd86cd62b97fdf0873b565876f29678e1edbf5514fe344d6"
-       * ]
-       */
-      deposit_data_roots?: string[];
+      format: "batch_deposit";
+      /** @description Public keys of the validators */
+      pubkeys: string[];
+      /** @description Withdrawals credentials of the validators */
+      withdrawal_credentials: string[];
+      /** @description BLS signatures for the deposit data structure required to stake on the Ethereum chain */
+      signatures: string[];
+      /** @description Root hashes ensuring the deposit data integrity */
+      deposit_data_roots: string[];
     };
     ETHCraftStakeTxPayload: {
       /**
@@ -15127,7 +15124,7 @@ export interface components {
        * @description Accumulated rewards in USDC during the day
        * @example 35758910838
        */
-      rewards_uusdc: string;
+      rewards_uusdc?: string;
       /**
        * @description Estimated value of USDC rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko.
        * @example 40.12
@@ -25531,7 +25528,7 @@ export interface operations {
       201: {
         content: {
           "application/json; charset=utf-8": {
-            data?: components["schemas"]["ETHPostKeysCliResponse"] | components["schemas"]["ETHPostKeysBatchResponse"];
+            data: components["schemas"]["ETHPostKeysCliResponse"] | components["schemas"]["ETHPostKeysBatchResponse"];
           };
         };
       };
@@ -30737,6 +30734,38 @@ export interface operations {
     };
   };
   /**
+   * Reports
+   * @description Get reports on Polkadot staking
+   */
+  getDotReports: {
+    parameters: {
+      query?: {
+        addresses?: components["parameters"]["DOTAddressesParam"];
+        accounts?: components["parameters"]["AccountsParam"];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        content: {
+          "application/octet-stream": string;
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: never;
+      };
+      /** @description Internal server error */
+      500: {
+        content: never;
+      };
+    };
+  };
+  /**
    * Network Stats
    * @description Get stats on Polkadot network
    */
@@ -31462,6 +31491,38 @@ export interface operations {
           "application/json; charset=utf-8": {
             data?: components["schemas"]["KSMOperationStaking"][];
           };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        content: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        content: never;
+      };
+      /** @description Internal server error */
+      500: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * Reports
+   * @description Get reports on Kusama staking
+   */
+  getKsmReports: {
+    parameters: {
+      query?: {
+        addresses?: components["parameters"]["KSMAddressesParam"];
+        accounts?: components["parameters"]["AccountsParam"];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        content: {
+          "application/octet-stream": string;
         };
       };
       /** @description Invalid parameters */
