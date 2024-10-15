@@ -3,7 +3,7 @@ import type { Client } from 'openapi-fetch';
 import { FireblocksSigner } from './fireblocks_signer';
 import type { components, paths } from './openapi/schema';
 
-type FireblocksIntegration = {
+export type FireblocksIntegration = {
   provider: 'fireblocks';
   fireblocksApiKey: string;
   fireblocksSecretKey: string;
