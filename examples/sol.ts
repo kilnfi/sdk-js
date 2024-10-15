@@ -6,8 +6,6 @@ import type { FireblocksIntegration } from "../src/fireblocks.ts";
 
 const apiSecret = fs.readFileSync(`${__dirname}/fireblocks_secret.key`, 'utf8');
 
-console.log(process.env.KILN_API_URL);
-
 const k = new Kiln({
   baseUrl: process.env.KILN_API_URL as string,
   apiToken: process.env.KILN_API_KEY as string,
