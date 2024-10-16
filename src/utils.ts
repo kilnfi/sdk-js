@@ -20,6 +20,11 @@ export const solToLamports = (sol: string): bigint => {
   return parseUnits(sol, 9);
 };
 
+// Convert XTZ to mutez
+export const xtzToMutez = (xtz: string): bigint => {
+  return parseUnits(xtz, 6);
+};
+
 // Convert Cardano lovelace to ADA
 export const lovelaceToAda = (lovelace: bigint): string => {
   return formatUnits(lovelace, 6);
