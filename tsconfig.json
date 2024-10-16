@@ -1,19 +1,9 @@
 {
-  "compilerOptions": {
-    "module": "ES2020",
-    "target": "ES2021",
-    "declaration": true,
-    "outDir": "./lib",
-    "strict": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "verbatimModuleSyntax": false,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "rootDir": "src"
-  },
+  // This configuration is used for local development and type checking.
+  "extends": "./tsconfig.base.json",
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*", "examples"]
+  "exclude": [],
+  "compilerOptions": {
+    "baseUrl": "."
+  }
 }

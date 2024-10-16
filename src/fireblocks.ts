@@ -1,7 +1,7 @@
 import { type AssetTypeResponse, FireblocksSDK, type PublicKeyResponse, SigningAlgorithm } from 'fireblocks-sdk';
 import type { Client } from 'openapi-fetch';
-import { FireblocksSigner } from './fireblocks_signer';
-import type { components, paths } from './openapi/schema';
+import { FireblocksSigner } from './fireblocks_signer.js';
+import type { components, paths } from './openapi/schema.js';
 
 export type FireblocksIntegration = {
   provider: 'fireblocks';
@@ -189,7 +189,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -237,7 +238,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'DYDX tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'DYDX_DYDX', fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -287,7 +289,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'FET tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -335,7 +338,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'INJ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'INJ_INJ', fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -383,7 +387,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'KAVA_KAVA', fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -431,7 +436,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'OSMO tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'OSMO', fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -479,7 +485,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'TIA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'CELESTIA', fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -529,7 +536,8 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ZETA tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
     }
@@ -569,7 +577,7 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'DOT', fbNote);
-    const signature = `0x00${fbTx.signedMessages?.[0].signature.fullSig}`;
+    const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
 
     const preparedTx = await this.client.POST('/v1/dot/transaction/prepare', {
       body: {
@@ -604,7 +612,7 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KSM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'KSM', fbNote);
-    const signature = `0x00${fbTx.signedMessages?.[0].signature.fullSig}`;
+    const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
 
     const preparedTx = await this.client.POST('/v1/ksm/transaction/prepare', {
       body: {
@@ -650,12 +658,18 @@ export class FireblocksService {
     const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
 
+    const signature = fbTx?.signedMessages?.[0]?.signature;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
+
     const preparedTx = await this.client.POST('/v1/eth/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
-        r: `0x${fbTx?.signedMessages?.[0].signature.r}`,
-        s: `0x${fbTx?.signedMessages?.[0].signature.s}`,
-        v: fbTx?.signedMessages?.[0].signature.v ?? 0,
+        r: `0x${signature.r}`,
+        s: `0x${signature.s}`,
+        v: signature.v ?? 0,
       },
     });
 
@@ -741,7 +755,11 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'TON tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
 
     const preparedTx = await this.client.POST('/v1/ton/transaction/prepare', {
       body: {
@@ -783,7 +801,7 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
 
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
@@ -828,7 +846,7 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'NEAR tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages?.[0].signature.fullSig;
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
 
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
