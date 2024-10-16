@@ -9,7 +9,7 @@ import {
 } from 'fireblocks-sdk';
 
 import { formatEther, formatUnits } from 'viem';
-import type { components } from './openapi/schema';
+import type { components } from './openapi/schema.js';
 
 export type AssetId =
   | 'SOL_TEST'
@@ -82,7 +82,7 @@ export class FireblocksSigner {
    * @param assetId fireblocks asset id
    * @param note optional fireblocks custom note
    */
-  public async sign(payloadToSign: object, assetId?: AssetId, note?: string): Promise<TransactionResponse> {
+  public async sign(payloadToSign: object, assetId?: AssetId, note = ''): Promise<TransactionResponse> {
     try {
       const assetArgs = assetId
         ? {
@@ -116,7 +116,7 @@ export class FireblocksSigner {
   public async signTypedMessage(
     eip712message: object,
     assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST6',
-    note?: string,
+    note = '',
   ): Promise<TransactionResponse> {
     try {
       const tx: TransactionArguments = {
@@ -160,7 +160,7 @@ export class FireblocksSigner {
     tx: components['schemas']['ETHUnsignedTx'] | components['schemas']['POLUnsignedTx'],
     destinationId: string,
     sendAmount = true,
-    note?: string,
+    note = '',
   ): Promise<TransactionResponse> {
     try {
       const txArgs: TransactionArguments = {

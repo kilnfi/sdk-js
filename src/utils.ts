@@ -1,6 +1,6 @@
 import { formatEther, formatUnits, parseUnits } from 'viem';
 
-// Convert Ethereum wei to ETH
+// Convert wei to ETH
 export const weiToEth = (wei: bigint): string => {
   return formatEther(BigInt(wei));
 };
@@ -10,7 +10,7 @@ export const weiToPol = (wei: bigint): string => {
   return formatUnits(wei, 18);
 };
 
-// Convert Solana lamports to SOL
+// Convert lamports to SOL
 export const lamportsToSol = (lamports: bigint): string => {
   return formatUnits(lamports, 9);
 };
@@ -30,44 +30,52 @@ export const lovelaceToAda = (lovelace: bigint): string => {
   return formatUnits(lovelace, 6);
 };
 
-// Converts Near yocto to NEAR
+// Converts yocto to NEAR
 export const yoctoToNear = (yocto: bigint): string => {
   return formatUnits(yocto, 24);
 };
 
+// Convert nanoTON to TON
 export const nanotonToTon = (nanoton: bigint): string => {
   return formatUnits(nanoton, 9);
 };
 
+// Convert uZETA to ZETA
 export const uzetaToZeta = (uzeta: bigint): string => {
   return formatUnits(uzeta, 6);
 };
 
+// Convert uINJ to INJ
 export const uinjToInj = (uinj: bigint): string => {
   return formatUnits(uinj, 6);
 };
 
+// Convert aFET to FET
 export const afetToFet = (afet: bigint): string => {
   return formatUnits(afet, 18);
 };
 
+// Convert uFET to FET
 export const ufetToFet = (ufet: bigint): string => {
   return formatUnits(ufet, 6);
 };
 
-// Convert Tezos micro tez (mutez) to XTZ
+// Convert mutez to XTZ
 export const mutezToXtz = (mutez: bigint): string => {
   return formatUnits(mutez, 6);
 };
 
+// Convert uDYDX to DYDX
 export const udydxToDydx = (udydx: bigint): string => {
   return formatUnits(udydx, 6);
 };
 
+// Convert planck to DOT
 export const planckToDot = (planck: bigint): string => {
   return formatUnits(planck, 10);
 };
 
+// Convert planck to KSM
 export const planckToKsm = (planck: bigint): string => {
   return formatUnits(planck, 12);
 };
@@ -77,6 +85,7 @@ export const uatomToAtom = (uatom: bigint): string => {
   return formatUnits(uatom, 6);
 };
 
+// Convert u{Cosmos chain token: ATOM, OSMO, etc...} to {Cosmos chain token: ATOM, OSMO, etc...}
 export const uunitToUnit = (uunit: bigint): string => {
   return formatUnits(uunit, 6);
 };
