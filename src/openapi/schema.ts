@@ -34012,7 +34012,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADAUnsignedTx"];
+                        data: components["schemas"]["ADAUnsignedTx"];
                     };
                 };
             };
@@ -34060,7 +34060,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADAUnsignedTx"];
+                        data: components["schemas"]["ADAUnsignedTx"];
                     };
                 };
             };
@@ -34108,7 +34108,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADAUnsignedTx"];
+                        data: components["schemas"]["ADAUnsignedTx"];
                     };
                 };
             };
@@ -34156,7 +34156,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADASignedTx"];
+                        data: components["schemas"]["ADASignedTx"];
                     };
                 };
             };
@@ -34204,7 +34204,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADATxHash"];
+                        data: components["schemas"]["ADATxHash"];
                     };
                 };
             };
@@ -34250,7 +34250,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADATxStatus"];
+                        data: components["schemas"]["ADATxStatus"];
                     };
                 };
             };
