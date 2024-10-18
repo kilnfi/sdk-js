@@ -1,6 +1,6 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
@@ -9,19 +9,25 @@
   "module": "./build/esm/index.js",
   "types": "./build/types/index.d.ts",
   "typings": "./build/types/index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
-      "default": "./build/cjs/kiln.js",
       "types": "./build/types/kiln.d.ts",
-      "import": "./build/esm/kiln.js"
+      "import": "./build/esm/kiln.js",
+      "default": "./build/cjs/kiln.js"
     }
   },
+  "files": [
+    "*",
+    "!tsconfig.build.json"
+  ],
   "scripts": {
     "lint": "biome check ./src",
     "format": "biome check ./src --write --unsafe",
     "build": "bun run build:esm && bun run build:cjs && bun run build:types",
-    "build:esm": "tsc --project ./tsconfig.build.json --module es2020 --outDir ./build/esm",
-    "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./build/cjs  --removeComments --verbatimModuleSyntax false",
+    "prepublishOnly": "bun scripts/prepublishOnly.ts",
+    "build:esm": "tsc --project ./tsconfig.build.json --module es2020 --outDir ./build/esm && printf '{\"type\":\"commonjs\"}' > ./build/esm/package.json",
+    "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./build/cjs  --removeComments --verbatimModuleSyntax false && printf '{\"type\": \"module\",\"sideEffects\":false}' > ./build/cjs/package.json",
     "build:types": "tsc --project ./tsconfig.build.json --module esnext --declarationDir ./build/types --emitDeclarationOnly --declaration --declarationMap"
   },
   "keywords": [
@@ -39,9 +45,10 @@
   },
   "homepage": "https://github.com/kilnfi/sdk-js#readme",
   "dependencies": {
+    "@types/bun": "^1.1.11",
     "fireblocks-sdk": "^4.2.0",
     "openapi-fetch": "^0.12.0",
-    "viem": "^1.21.4"
+    "viem": "^2.21.29"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.1",
