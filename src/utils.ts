@@ -40,6 +40,10 @@ export const nanotonToTon = (nanoton: bigint): string => {
   return formatUnits(nanoton, 9);
 };
 
+export const tonToNanoton = (ton: string): bigint => {
+  return parseUnits(ton, 9);
+};
+
 // Convert uZETA to ZETA
 export const uzetaToZeta = (uzeta: bigint): string => {
   return formatUnits(uzeta, 6);
