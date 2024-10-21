@@ -1,14 +1,14 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
   "type": "module",
-  "main": "./build/cjs/index.js",
-  "module": "./build/esm/index.js",
-  "types": "./build/types/index.d.ts",
-  "typings": "./build/types/index.d.ts",
+  "main": "./build/cjs/kiln.js",
+  "module": "./build/esm/kiln.js",
+  "types": "./build/types/kiln.d.ts",
+  "typings": "./build/types/kiln.d.ts",
   "sideEffects": false,
   "exports": {
     ".": {
