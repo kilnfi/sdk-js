@@ -23,8 +23,8 @@
     "format": "biome check ./src --write --unsafe",
     "build": "bun run build:esm && bun run build:cjs && bun run build:types",
     "prepublishOnly": "bun scripts/prepublishOnly.ts",
-    "build:esm": "tsc --project ./tsconfig.build.json --module es2020 --outDir ./build/esm && printf '{\"type\":\"commonjs\"}' > ./build/esm/package.json",
-    "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./build/cjs  --removeComments --verbatimModuleSyntax false && printf '{\"type\": \"module\",\"sideEffects\":false}' > ./build/cjs/package.json",
+    "build:esm": "tsc --project ./tsconfig.build.json --module es2020 --outDir ./build/esm && printf '{\"type\": \"module\",\"sideEffects\":false}' > ./build/esm/package.json",
+    "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./build/cjs  --removeComments --verbatimModuleSyntax false && printf '{\"type\":\"commonjs\"}' > ./build/cjs/package.json",
     "build:types": "tsc --project ./tsconfig.build.json --module esnext --declarationDir ./build/types --emitDeclarationOnly --declaration --declarationMap"
   },
   "keywords": ["sdk", "js", "eth", "sol", "xtz", "validators", "staking"],
