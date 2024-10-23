@@ -10685,43 +10685,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uATOM. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uATOM that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uATOM
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the ATOM stake
              * @example active
@@ -12637,13 +12637,13 @@ export interface components {
         };
         ADAOperationStakeRegistration: {
             /**
-             * @description Operation type
+             * @description stake_registration
              * @example stake_registration
              */
             type?: string;
             /**
              * Format: date-time
-             * @description Date of the operation
+             * @description Date of the stake registration based on the block.
              * @example 2021-01-03T21:49:34Z
              */
             time?: string;
@@ -12670,13 +12670,13 @@ export interface components {
         };
         ADAOperationStakeDeregistration: {
             /**
-             * @description Operation type
+             * @description stake_deregistration
              * @example stake_deregistration
              */
             type?: string;
             /**
              * Format: date-time
-             * @description Date of the operation
+             * @description Date of the stake deregistration based on the block.
              * @example 2021-01-03T21:49:34Z
              */
             time?: string;
@@ -12703,13 +12703,13 @@ export interface components {
         };
         ADAOperationDelegation: {
             /**
-             * @description Operation type
+             * @description delegation
              * @example delegation
              */
             type?: string;
             /**
              * Format: date-time
-             * @description Date of the operation
+             * @description Date of the delegation on a pool based on the block.
              * @example 2021-01-03T21:49:34Z
              */
             time?: string;
@@ -12734,20 +12734,20 @@ export interface components {
              */
             tx_hash?: string;
             /**
-             * @description Pool ID
+             * @description The pool receiving the delegation.
              * @example pool1q0a7a94cfk4ph7gugj636tsuhhd98l2sfjv2adhaff2mvs7kmtl
              */
             pool_id?: string;
         };
         ADAOperationWithdrawal: {
             /**
-             * @description Operation type
+             * @description withdrawal
              * @example withdrawal
              */
             type?: string;
             /**
              * Format: date-time
-             * @description Date of the operation
+             * @description Date of the withdrawal based on the block.
              * @example 2021-01-03T21:49:34Z
              */
             time?: string;
@@ -12779,13 +12779,13 @@ export interface components {
         };
         ADAOperationReward: {
             /**
-             * @description Operation type
+             * @description reward
              * @example reward
              */
             type?: string;
             /**
              * Format: date-time
-             * @description Date of the operation
+             * @description Date the rewards were earned on. It is the earned epoch end date.
              * @example 2021-01-03T21:49:34Z
              */
             time?: string;
@@ -12795,12 +12795,12 @@ export interface components {
              */
             stake_address?: string;
             /**
-             * @description Epoch number
+             * @description Earned epoch number
              * @example 239
              */
             epoch?: number;
             /**
-             * @description Pool ID
+             * @description Pool the rewards come from.
              * @example pool1q0a7a94cfk4ph7gugj636tsuhhd98l2sfjv2adhaff2mvs7kmtl
              */
             pool_id?: string;
@@ -15281,43 +15281,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uOSMO. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uOSMO that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uOSMO
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the Osmosis stake
              * @example active
@@ -18322,43 +18322,53 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uDYDX. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uDYDX that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uDYDX
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
+            /**
+             * @description Total USDC rewards accumulated by this stake in the form of uUSDC. Includes currently available rewards not yet withdrawn.
+             * @example 435289200
+             */
+            rewards_uusdc?: string;
+            /**
+             * @description Available rewards in uUSDC that can be withdrawn from this stake
+             * @example 435289200
+             */
+            available_rewards_uusdc?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the DYDX stake
              * @example active
@@ -20025,43 +20035,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uTIA. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uTIA that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uTIA
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the Celestia stake
              * @example active
@@ -21713,43 +21723,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uZETA. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uZETA that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uZETA
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Not available for now, seet to 0.
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the ZETACHAIN stake
              * @example active
@@ -23394,43 +23404,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uKAVA. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uKAVA that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uKAVA
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the Kava stake
              * @example active
@@ -25063,43 +25073,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uFET. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uFET that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uFET
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the Fetch stake
              * @example active
@@ -25202,7 +25212,7 @@ export interface components {
              *       "delegatorAddress": "fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6",
              *       "validatorAddress": "fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu",
              *       "amount": {
-             *         "denom": "ufet",
+             *         "denom": "afet",
              *         "amount": "1000000"
              *       }
              *     }
@@ -25259,7 +25269,7 @@ export interface components {
              * @example {
              *       "amount": [
              *         {
-             *           "denom": "ufet",
+             *           "denom": "afet",
              *           "amount": "5000"
              *         }
              *       ],
@@ -25276,7 +25286,7 @@ export interface components {
              *           "delegatorAddress": "fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6",
              *           "validatorAddress": "fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu",
              *           "amount": {
-             *             "denom": "ufet",
+             *             "denom": "afet",
              *             "amount": "1000000"
              *           }
              *         }
@@ -25338,7 +25348,7 @@ export interface components {
              *         "delegatorAddress": "fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6",
              *         "validatorAddress": "fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu",
              *         "amount": {
-             *           "denom": "ufet",
+             *           "denom": "afet",
              *           "amount": "1000000"
              *         }
              *       }
@@ -25350,7 +25360,7 @@ export interface components {
              * @example {
              *       "amount": [
              *         {
-             *           "denom": "ufet",
+             *           "denom": "afet",
              *           "amount": "5000"
              *         }
              *       ],
@@ -25435,7 +25445,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5000ufet"
+             *               "value": "5000afet"
              *             }
              *           ]
              *         },
@@ -25448,7 +25458,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5000ufet"
+             *               "value": "5000afet"
              *             }
              *           ]
              *         },
@@ -25465,7 +25475,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5000ufet"
+             *               "value": "5000afet"
              *             }
              *           ]
              *         },
@@ -25483,7 +25493,7 @@ export interface components {
              *           "attributes": [
              *             {
              *               "key": "fee",
-             *               "value": "5000ufet"
+             *               "value": "5000afet"
              *             },
              *             {
              *               "key": "fee_payer",
@@ -25527,7 +25537,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5ufet"
+             *               "value": "5afet"
              *             }
              *           ]
              *         },
@@ -25540,7 +25550,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5ufet"
+             *               "value": "5afet"
              *             }
              *           ]
              *         },
@@ -25557,7 +25567,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5ufet"
+             *               "value": "5afet"
              *             }
              *           ]
              *         },
@@ -25575,7 +25585,7 @@ export interface components {
              *           "attributes": [
              *             {
              *               "key": "amount",
-             *               "value": "5ufet"
+             *               "value": "5afet"
              *             },
              *             {
              *               "key": "validator",
@@ -25592,7 +25602,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "100000ufet"
+             *               "value": "100000afet"
              *             }
              *           ]
              *         },
@@ -25605,7 +25615,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "100000ufet"
+             *               "value": "100000afet"
              *             }
              *           ]
              *         },
@@ -25618,7 +25628,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "100000ufet"
+             *               "value": "100000afet"
              *             },
              *             {
              *               "key": "new_shares",
@@ -25640,7 +25650,7 @@ export interface components {
              *           ]
              *         }
              *       ],
-             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5ufet\"},{\"key\":\"receiver\",\"value\":\"fetch1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000ufet\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"fetch1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5ufet\"},{\"key\":\"spender\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000ufet\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu\"},{\"key\":\"amount\",\"value\":\"100000ufet\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"fetch1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"fetch1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5ufet\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5ufet\"},{\"key\":\"validator\",\"value\":\"fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu\"}]}]}]",
+             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5afet\"},{\"key\":\"receiver\",\"value\":\"fetch1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000afet\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"fetch1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5afet\"},{\"key\":\"spender\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000afet\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu\"},{\"key\":\"amount\",\"value\":\"100000afet\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"fetch1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"fetch19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"fetch1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5afet\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5afet\"},{\"key\":\"validator\",\"value\":\"fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu\"}]}]}]",
              *       "tx": {
              *         "0": 10,
              *         "1": 160,
@@ -25998,7 +26008,7 @@ export interface components {
              * @description Amount to unstake in uFET. Omit to unstake all the delegated amount
              * @example 1000000000000000000000000
              */
-            amount_ufet?: string;
+            amount_afet?: string;
         };
         FETCraftRedelegateTxPayload: {
             /**
@@ -26026,7 +26036,7 @@ export interface components {
              * @description Amount to redelegate in uFET
              * @example 1000000000000000000000000
              */
-            amount_ufet?: string;
+            amount_afet?: string;
         };
         FETCraftStakeTxPayload: {
             /**
@@ -26046,10 +26056,10 @@ export interface components {
              */
             validator: string;
             /**
-             * @description Amount to stake in ufet
+             * @description Amount to stake in afet
              * @example 1000000000000000000000000
              */
-            amount_ufet: string;
+            amount_afet: string;
             /**
              * @description If enabled, the rewards will be automatically restaked
              * @default false
@@ -26562,7 +26572,7 @@ export interface components {
          *         "fee": {
          *           "amount": [
          *             {
-         *               "denom": "ufet",
+         *               "denom": "afet",
          *               "amount": "5000"
          *             }
          *           ],
@@ -26763,43 +26773,43 @@ export interface components {
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 2023-06-16T03:13:23.058547Z
              */
-            delegated_at?: string | null;
+            delegated_at?: string;
             /**
              * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 15739267
              */
-            delegated_block?: number | null;
+            delegated_block?: number;
             /**
              * Format: date-time
              * @description Date of undelegation for the stake
              * @example 2023-07-14T03:56:13.561156Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Block of undelegation for the stake
              * @example 16126416
              */
-            undelegated_block?: number | null;
+            undelegated_block?: number;
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation in uINJ. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Available rewards in uINJ that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * @description Staked balance on this stake in uINJ
              * @example 6300000000000000000000000
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description State of the Injective stake
              * @example active
