@@ -76,6 +76,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/accounts/{id}/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Account Report
+         * @description Get report of the account's stakes.
+         */
+        get: operations["getAccountReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/organizations/{id}/portfolio": {
         parameters: {
             query?: never;
@@ -88,6 +108,26 @@ export interface paths {
          * @description Retrieve an organization asset portfolio. USD balances are calculated based on recent asset prices. We use CoinGecko API to retrieve asset prices. The data is cached for 24h but it is possible to get real time data by using the refresh parameter.
          */
         get: operations["getOrganizationPortfolio"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{id}/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Organization Report
+         * @description Get report of the organization's stakes.
+         */
+        get: operations["getOrganizationReports"];
         put?: never;
         post?: never;
         delete?: never;
@@ -3176,6 +3216,26 @@ export interface paths {
          * @description Get historical operations of MultiversX stakes
          */
         get: operations["getEgldOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/egld/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Reports
+         * @description Get reports on MultiversX staking
+         */
+        get: operations["getEgldReports"];
         put?: never;
         post?: never;
         delete?: never;
@@ -8418,96 +8478,96 @@ export interface components {
              * @description Wallet address of the delegator
              * @example tz1VZ4iC4wzTR7iK2Q7PoQGVDAojuY42fDxD
              */
-            stake_address?: string;
+            stake_address: string;
             /**
              * @description Address of the baker
              * @example tz2FCNBrERXtaTtNX6iimR1UJ5JSDxvdHM93
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description State of the Tezos stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * @description Type of Tezos stake, delegation or stake
              * @example stake
              */
-            stake_type?: string;
+            stake_type: string;
             /**
              * Format: date-time
              * @description Date at which the stake started earning rewards
              * @example 2023-01-14T01:13:59Z
              */
-            activated_at?: string | null;
+            activated_at?: string;
             /**
              * @description Cycle at which the stake started earning rewards
              * @example 542
              */
-            activated_cycle?: number | null;
+            activated_cycle?: number;
             /**
              * Format: date-time
              * @description Cycle in which the delegation transaction was made
              * @example 2023-01-14T01:13:59Z
              */
-            delegated_at?: string | null;
+            delegated_at: string;
             /**
              * @description Date at which the staking transaction was made, corresponds to the block it was part of.
              * @example 542
              */
-            delegated_cycle?: number | null;
+            delegated_cycle: number;
             /**
              * @description Block at which the corresponding staking transaction was executed
              * @example 16397387
              */
-            delegated_block?: string | null;
+            delegated_block: string;
             /**
              * Format: date-time
              * @description Block time at which the undelegation transaction was made
              * @example 2023-01-14T01:13:59Z
              */
-            undelegated_at?: string | null;
+            undelegated_at?: string;
             /**
              * @description Cycle in which the unstaking transaction was made, corresponds to the block it was part of.
              * @example 542
              */
-            undelegated_cycle?: number | null;
+            undelegated_cycle?: number;
             /**
              * @description Current active delegated balance earning rewards in mutez
              * @example 32076187808000000000
              */
-            balance?: string | null;
+            balance: string;
             /**
              * @description Current staked balance in mutez
              * @example 32076187808000000000
              */
-            staked_balance?: string | null;
+            staked_balance: string;
             /**
              * @description Wallet balance in mutez, this is a daily snapshot done every night.
              * @example 32076187808000000000
              */
-            wallet_balance?: string | null;
+            wallet_balance: string;
             /**
              * @description Sum of delegation rewards in mutez earned by this stake since delegation
              * @example 76187808000000000
              */
-            rewards?: string | null;
+            rewards: string;
             /**
              * @description Sum of staking rewards in mutez earned by this stake since delegation (staking refers to Adaptive Issuance)
              * @example 1500000000
              */
-            staked_rewards?: string | null;
+            staked_rewards: string;
             /**
              * @description Gross annual percentage yield
              * @example 3.407
              */
-            gross_apy?: number | null;
+            gross_apy: number;
             /**
              * Format: date-time
              * @description Last date this data was updated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string | null;
+            updated_at: string;
         };
         XTZRewardByDay: {
             /**
@@ -8543,6 +8603,8 @@ export interface components {
             gross_apy: number;
             /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
             rewards_usd?: number;
+            /** @description Estimated value of the active balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            active_balance_usd?: number;
             /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
             staked_balance_usd?: number;
         };
@@ -9734,65 +9796,65 @@ export interface components {
              * @description Delegated stake account
              * @example 3sfokk2DFsd88ujd8sfa9slsdf99kjnFJksdf
              */
-            stake_account?: string;
+            stake_account: string;
             /**
              * @description Vote account to which this stake was re-delegated.
              * @example 6hNweZvzTudTuprZrAXb1A9grKvVG6xgjyvdJUqAMk78
              */
-            vote_account?: string;
+            vote_account: string;
             /**
              * @description Withdraw pubkey
              * @example 4wdr76KJTFgH68YtGddmnF45WdD8LMv9eLsdf
              */
-            withdraw_pubkey?: string | null;
+            withdraw_pubkey: string;
             /**
              * @description Stake state
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Date at which this stake was activated
              * @example 2023-01-14T01:13:59Z
              */
-            activated_at?: string;
+            activated_at: string;
             /**
              * @description Epoch at which this stake was activated
              * @example 150
              */
-            activated_epoch?: number;
+            activated_epoch: number;
             /**
              * Format: date-time
              * @description Date at which this stake was deactivated
              * @example 2023-01-14T01:13:59Z
              */
-            deactivated_at?: string | null;
+            deactivated_at?: string;
             /**
              * @description Epoch at which this stake was deactivated
              * @example 150
              */
-            deactivated_epoch?: number | null;
+            deactivated_epoch?: number;
             /**
              * @description Current balance in Lamport
              * @example 1000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Sum of rewards rewards in Lamport earned by this stake
              * @example 1000000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Net annual percentage yield
              * @example 3.407
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * Format: date-time
              * @description Last date this data was updated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string;
+            updated_at: string;
         };
         SOLRewardByDay: {
             /**
@@ -10674,12 +10736,12 @@ export interface components {
              * @description Public key of the validator
              * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -10706,27 +10768,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uATOM. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uATOM that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uATOM
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the ATOM stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -10734,7 +10796,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -10772,9 +10834,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -10796,7 +10858,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostATOMStakesPayload: {
             stakes: {
@@ -13846,97 +13908,97 @@ export interface components {
              * @description Public key owning shares of a validator
              * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Validator's index
              * @example 1
              */
-            validator_index?: number;
+            validator_index: number;
             /**
              * @description State of the POL stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * @description Block at which the corresponding staking transaction was executed
              * @example 6307582
              */
-            delegated_block?: number | null;
+            delegated_block: number;
             /**
              * Format: date-time
              * @description Date of staking transaction on the Ethereum consensus layer
              * @example 2022-02-02T08:31:07Z
              */
-            delegated_at?: string | null;
+            delegated_at: string;
             /**
              * @description Current balance in WEI of the stake
              * @example 11364372934211323407387
              */
-            balance?: string | null;
+            balance?: string;
             /**
              * @description Amount of validator shares owned by the stake
              * @example 126664878892234995894
              */
-            shares?: string | null;
+            shares?: string;
             /**
              * @description Balance in wei waiting to be withdrawn
              * @example 11364372934211323407387
              */
-            unbounded_balance?: string | null;
+            unbounded_balance?: string;
             /**
              * @description Epoch at which the withdrawn was requested
              * @example 8
              */
-            unbounded_epoch?: number | null;
+            unbounded_epoch?: number;
             /**
              * @description Whether the withdrawal delay since unbounded_epoch has passed
              * @example true
              */
-            is_unbounding_complete?: boolean | null;
+            is_unbounding_complete?: boolean;
             /**
              * @description Sum of all rewards in WEI earned by this stake
              * @example 689020902235393456944
              */
-            rewards?: string | null;
+            rewards?: string;
             /**
              * @description Net annual percentage yield
              * @example 4.066307880973232
              */
-            net_apy?: number | null;
+            net_apy?: number;
             /**
              * @description Available rewards in WEI that can be withdrawn from this stake
              * @example 659936623311645699
              */
-            available_rewards?: string | null;
+            available_rewards?: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
              * @example 2023-07-31T13:56:58Z
              */
-            updated_at?: string | null;
+            updated_at: string;
             /** @description unbounds, created via sellVoucher_new, currently active on the stakes. ignored if no unbounds are returned */
             unbounds_with_id?: {
                 /**
                  * @description id of the unbound
                  * @example 1
                  */
-                nonce?: number;
+                nonce: number;
                 /**
                  * @description Balance in wei waiting to be withdrawn
                  * @example 11364372934211323407387
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Epoch at which the withdrawn was requested
                  * @example 8
                  */
-                epoch?: number;
+                epoch: number;
                 /**
                  * @description Whether the withdrawal delay since unbounded_epoch has passed
                  * @example true
                  */
-                is_complete?: boolean;
-            }[] | null;
+                is_complete: boolean;
+            }[];
         };
         POLReward: {
             /**
@@ -14844,64 +14906,64 @@ export interface components {
              * @description Kiln internal stake account ID
              * @example validator.testnet_account.testnet
              */
-            stake_account?: string;
+            stake_account: string;
             /**
              * @description NEAR account ID
              * @example account.testnet
              */
-            account?: string;
+            account: string;
             /**
              * @description NEAR validator ID
              * @example validator.testnet
              */
-            validator?: string;
+            validator: string;
             /**
              * @description Current balance in Yocto
              * @example 1000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Sum of rewards rewards in Yocto earned by this stake
              * @example 1000000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Current unstaked balance in Yocto
              * @example 1000000000
              */
-            unstaked_balance?: string;
+            unstaked_balance: string;
             /**
              * @description Whether the stake can be withdrawn
              * @example true
              */
-            can_withdraw?: boolean;
+            can_withdraw: boolean;
             /**
              * Format: date-time
              * @description Timestamp of the block at which the corresponding staking transaction was executed
              * @example 2023-01-14T01:13:59Z
              */
-            activated_at?: string;
+            activated_at: string;
             /**
              * @description Epoch at which the corresponding staking transaction was executed
              * @example 123
              */
-            activated_epoch?: number;
+            activated_epoch: number;
             /**
              * @description Block at which the corresponding staking transaction was executed
              * @example 123
              */
-            activated_block?: number;
+            activated_block: number;
             /**
              * @description Net annual percentage yield
              * @example 3.407
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * Format: date-time
              * @description Last date this data was updated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string;
+            updated_at: string;
         };
         NEAROperation: {
             /**
@@ -15270,12 +15332,12 @@ export interface components {
              * @description Public key of the validator
              * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example osmo1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -15302,27 +15364,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uOSMO. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uOSMO that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uOSMO
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the Osmosis stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -15330,7 +15392,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -15368,9 +15430,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -15392,7 +15454,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostOSMOStakesPayload: {
             stakes: {
@@ -18311,12 +18373,12 @@ export interface components {
              * @description Public key of the validator
              * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example dydx1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -18343,17 +18405,17 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uDYDX. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uDYDX that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uDYDX
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Total USDC rewards accumulated by this stake in the form of uUSDC. Includes currently available rewards not yet withdrawn.
              * @example 435289200
@@ -18368,12 +18430,12 @@ export interface components {
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the DYDX stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -18381,7 +18443,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -18419,9 +18481,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -18443,7 +18505,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostDYDXStakesPayload: {
             stakes: {
@@ -20024,12 +20086,12 @@ export interface components {
              * @description Public key of the validator
              * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example celestia1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -20056,27 +20118,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uTIA. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uTIA that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uTIA
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the Celestia stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -20084,7 +20146,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -20122,9 +20184,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -20146,7 +20208,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostTIAStakesPayload: {
             stakes: {
@@ -21712,12 +21774,12 @@ export interface components {
              * @description Public key of the validator
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example zeta1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -21744,27 +21806,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uZETA. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uZETA that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uZETA
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Not available for now, seet to 0.
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the ZETACHAIN stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -21772,7 +21834,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -21810,9 +21872,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -21834,7 +21896,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostZETAStakesPayload: {
             stakes: {
@@ -23393,12 +23455,12 @@ export interface components {
              * @description Public key of the validator
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example kava1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -23425,27 +23487,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uKAVA. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uKAVA that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uKAVA
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the Kava stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -23453,7 +23515,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -23491,9 +23553,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -23515,7 +23577,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostKAVAStakesPayload: {
             stakes: {
@@ -25062,12 +25124,12 @@ export interface components {
              * @description Public key of the validator
              * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example fetch1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -25094,27 +25156,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uFET. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uFET that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uFET
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the Fetch stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -25122,7 +25184,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -25160,9 +25222,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -25184,7 +25246,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostFETStakesPayload: {
             stakes: {
@@ -26762,12 +26824,12 @@ export interface components {
              * @description Public key of the validator
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Public key of the delegator
              * @example inj1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * Format: date-time
              * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
@@ -26794,27 +26856,27 @@ export interface components {
              * @description Total rewards accumulated by this stake since its first ever delegation in uINJ. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
-            rewards?: string;
+            rewards: string;
             /**
              * @description Available rewards in uINJ that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
-            available_rewards?: string;
+            available_rewards: string;
             /**
              * @description Staked balance on this stake in uINJ
              * @example 6300000000000000000000000
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
              * @example 5.76
              */
-            net_apy?: number;
+            net_apy: number;
             /**
              * @description State of the Injective stake
              * @example active
              */
-            state?: string;
+            state: string;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -26822,7 +26884,7 @@ export interface components {
              */
             updated_at?: string;
             /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
-            permissions?: {
+            permissions: {
                 /**
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
@@ -26860,9 +26922,9 @@ export interface components {
                  *     ]
                  */
                 deny_list?: string[] | null;
-            }[] | null;
+            }[];
             /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
-            unbondings?: {
+            unbondings: {
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
@@ -26884,7 +26946,7 @@ export interface components {
                  * @example 150300
                  */
                 initial_balance?: string;
-            }[] | null;
+            }[];
         };
         PostINJStakesPayload: {
             stakes: {
@@ -29526,6 +29588,43 @@ export interface operations {
             };
         };
     };
+    getAccountReports: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account id */
+                id: components["parameters"]["AccountIdParam"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getOrganizationPortfolio: {
         parameters: {
             query?: {
@@ -29568,6 +29667,43 @@ export interface operations {
             };
         };
     };
+    getOrganizationReports: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Organization id */
+                id: components["parameters"]["OrganizationIdParam"];
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getDeployments: {
         parameters: {
             query?: never;
@@ -29584,7 +29720,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["Deployment"][];
+                        data: components["schemas"]["Deployment"][];
                     };
                 };
             };
@@ -30972,7 +31108,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DefiStake"][];
+                        data: components["schemas"]["DefiStake"][];
                     };
                 };
             };
@@ -31061,7 +31197,7 @@ export interface operations {
                          *         "chain": "eth"
                          *       }
                          *     ] */
-                        data?: components["schemas"]["DefiOperation"][];
+                        data: components["schemas"]["DefiOperation"][];
                     };
                 };
             };
@@ -32209,7 +32345,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["SOLStake"][];
+                        data: components["schemas"]["SOLStake"][];
                     };
                 };
             };
@@ -32257,7 +32393,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["CoreStake"];
+                        data: components["schemas"]["CoreStake"];
                     };
                 };
             };
@@ -32375,7 +32511,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["SOLOperationCreateAccountWithSeed"] | components["schemas"]["SOLOperationCreateAccount"] | components["schemas"]["SOLOperationDelegate"] | components["schemas"]["SOLOperationDeactivate"] | components["schemas"]["SOLOperationRedelegate"] | components["schemas"]["SOLOperationSplit"] | components["schemas"]["SOLOperationWithdraw"] | components["schemas"]["SOLOperationMerge"])[];
+                        data: (components["schemas"]["SOLOperationCreateAccountWithSeed"] | components["schemas"]["SOLOperationCreateAccount"] | components["schemas"]["SOLOperationDelegate"] | components["schemas"]["SOLOperationDeactivate"] | components["schemas"]["SOLOperationRedelegate"] | components["schemas"]["SOLOperationSplit"] | components["schemas"]["SOLOperationWithdraw"] | components["schemas"]["SOLOperationMerge"])[];
                     };
                 };
             };
@@ -32981,7 +33117,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMStake"][];
+                        data: components["schemas"]["ATOMStake"][];
                     };
                 };
             };
@@ -35888,7 +36024,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["NEARStake"][];
+                        data: components["schemas"]["NEARStake"][];
                     };
                 };
             };
@@ -36054,7 +36190,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["NEAROperation"][];
+                        data: components["schemas"]["NEAROperation"][];
                     };
                 };
             };
@@ -37347,6 +37483,54 @@ export interface operations {
                 content?: never;
             };
             /** @description UnauthorizedS */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getEgldReports: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of wallets addresses */
+                wallets?: components["parameters"]["EGLDWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Comma-separated list of validator contract addresses */
+                validators?: components["parameters"]["EGLDValidatorsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
             401: {
                 headers: {
                     [name: string]: unknown;
