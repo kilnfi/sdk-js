@@ -36583,7 +36583,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOStake"][];
+                        data: components["schemas"]["OSMOStake"][];
                     };
                 };
             };
@@ -37566,7 +37566,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTStake"][];
+                        data: components["schemas"]["DOTStake"][];
                     };
                 };
             };
@@ -37671,7 +37671,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTOperationStaking"][];
+                        data: components["schemas"]["DOTOperationStaking"][];
                     };
                 };
             };
@@ -38657,7 +38657,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMStake"][];
+                        data: components["schemas"]["KSMStake"][];
                     };
                 };
             };
@@ -38762,7 +38762,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMOperationStaking"][];
+                        data: components["schemas"]["KSMOperationStaking"][];
                     };
                 };
             };
@@ -39759,7 +39759,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXStake"][];
+                        data: components["schemas"]["DYDXStake"][];
                     };
                 };
             };
@@ -40075,7 +40075,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: {
+                        data: {
                             /**
                              * @description The balance of the account
                              * @example 1000000
@@ -40570,7 +40570,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIAStake"][];
+                        data: components["schemas"]["TIAStake"][];
                     };
                 };
             };
@@ -41324,7 +41324,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETAStake"][];
+                        data: components["schemas"]["ZETAStake"][];
                     };
                 };
             };
@@ -42795,7 +42795,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETStake"][];
+                        data: components["schemas"]["FETStake"][];
                     };
                 };
             };
@@ -43608,7 +43608,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJStake"][];
+                        data: components["schemas"]["INJStake"][];
                     };
                 };
             };
