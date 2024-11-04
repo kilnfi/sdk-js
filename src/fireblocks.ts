@@ -1,7 +1,14 @@
-import { type AssetTypeResponse, FireblocksSDK, type PublicKeyResponse, SigningAlgorithm } from 'fireblocks-sdk';
+import {
+  type AssetTypeResponse,
+  FireblocksSDK,
+  type PublicKeyResponse,
+  type SDKOptions,
+  SigningAlgorithm,
+} from 'fireblocks-sdk';
 import type { Client } from 'openapi-fetch';
 import { FireblocksSigner } from './fireblocks_signer.js';
 import type { components, paths } from './openapi/schema.js';
+import type { IAuthProvider } from 'fireblocks-sdk/dist/src/iauth-provider.js';
 
 export type FireblocksIntegration = {
   provider: 'fireblocks';
@@ -10,6 +17,9 @@ export type FireblocksIntegration = {
   vaultId: number;
   name?: string;
   fireblocksDestinationId?: string;
+  fireblocksApiBaseUrl?: string;
+  fireblocksAuthProvider?: IAuthProvider;
+  fireblocksSdkOptions?: SDKOptions;
 };
 
 export class FireblocksService {
@@ -24,7 +34,13 @@ export class FireblocksService {
    * @param integration
    */
   getSdk(integration: FireblocksIntegration): FireblocksSDK {
-    return new FireblocksSDK(integration.fireblocksSecretKey, integration.fireblocksApiKey);
+    return new FireblocksSDK(
+      integration.fireblocksSecretKey,
+      integration.fireblocksApiKey,
+      integration.fireblocksApiBaseUrl,
+      integration.fireblocksAuthProvider,
+      integration.fireblocksSdkOptions,
+    );
   }
 
   /**
