@@ -35,7 +35,7 @@
   "homepage": "https://github.com/kilnfi/sdk-js#readme",
   "dependencies": {
     "@types/bun": "^1.1.11",
-    "fireblocks-sdk": "^4.2.0",
+    "fireblocks-sdk": "^5.32.0",
     "openapi-fetch": "^0.12.0",
     "viem": "^2.21.29"
   },
