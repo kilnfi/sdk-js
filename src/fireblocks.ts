@@ -5,10 +5,10 @@ import {
   type SDKOptions,
   SigningAlgorithm,
 } from 'fireblocks-sdk';
+import type { IAuthProvider } from 'fireblocks-sdk/dist/src/iauth-provider.js';
 import type { Client } from 'openapi-fetch';
 import { FireblocksSigner } from './fireblocks_signer.js';
 import type { components, paths } from './openapi/schema.js';
-import type { IAuthProvider } from 'fireblocks-sdk/dist/src/iauth-provider.js';
 
 export type FireblocksIntegration = {
   provider: 'fireblocks';
