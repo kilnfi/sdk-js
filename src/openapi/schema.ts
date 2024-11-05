@@ -10841,23 +10841,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostATOMStakesPayload: {
@@ -15437,23 +15437,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostOSMOStakesPayload: {
@@ -18488,23 +18488,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostDYDXStakesPayload: {
@@ -20191,23 +20191,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostTIAStakesPayload: {
@@ -21879,23 +21879,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostZETAStakesPayload: {
@@ -23560,23 +23560,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostKAVAStakesPayload: {
@@ -25229,23 +25229,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostFETStakesPayload: {
@@ -26929,23 +26929,23 @@ export interface components {
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * Format: date-time
                  * @description Exact time at which the unbonding will take effect
                  * @example 2023-01-10T01:12:34Z
                  */
-                completion_time?: string;
+                completion_time: string;
                 /**
                  * @description Amount currently associated with the unbonding (slashes included)
                  * @example 129300
                  */
-                balance?: string;
+                balance: string;
                 /**
                  * @description Amount expected at creation (slashes non-included)
                  * @example 150300
                  */
-                initial_balance?: string;
+                initial_balance: string;
             }[];
         };
         PostINJStakesPayload: {
