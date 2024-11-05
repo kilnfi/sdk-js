@@ -23605,7 +23605,7 @@ export interface components {
              *       "delegatorAddress": "kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460",
              *       "validatorAddress": "kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe",
              *       "amount": {
-             *         "denom": "akava",
+             *         "denom": "ukava",
              *         "amount": "1000000"
              *       }
              *     }
@@ -23662,7 +23662,7 @@ export interface components {
              * @example {
              *       "amount": [
              *         {
-             *           "denom": "akava",
+             *           "denom": "ukava",
              *           "amount": "5000"
              *         }
              *       ],
@@ -23679,7 +23679,7 @@ export interface components {
              *           "delegatorAddress": "kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460",
              *           "validatorAddress": "kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe",
              *           "amount": {
-             *             "denom": "akava",
+             *             "denom": "ukava",
              *             "amount": "1000000"
              *           }
              *         }
@@ -23732,7 +23732,7 @@ export interface components {
              *         "delegatorAddress": "kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460",
              *         "validatorAddress": "kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe",
              *         "amount": {
-             *           "denom": "akava",
+             *           "denom": "ukava",
              *           "amount": "1000000"
              *         }
              *       }
@@ -23744,7 +23744,7 @@ export interface components {
              * @example {
              *       "amount": [
              *         {
-             *           "denom": "akava",
+             *           "denom": "ukava",
              *           "amount": "5000"
              *         }
              *       ],
@@ -23829,7 +23829,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5000akava"
+             *               "value": "5000ukava"
              *             }
              *           ]
              *         },
@@ -23842,7 +23842,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5000akava"
+             *               "value": "5000ukava"
              *             }
              *           ]
              *         },
@@ -23859,7 +23859,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5000akava"
+             *               "value": "5000ukava"
              *             }
              *           ]
              *         },
@@ -23877,7 +23877,7 @@ export interface components {
              *           "attributes": [
              *             {
              *               "key": "fee",
-             *               "value": "5000akava"
+             *               "value": "5000ukava"
              *             },
              *             {
              *               "key": "fee_payer",
@@ -23921,7 +23921,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5akava"
+             *               "value": "5ukava"
              *             }
              *           ]
              *         },
@@ -23934,7 +23934,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5akava"
+             *               "value": "5ukava"
              *             }
              *           ]
              *         },
@@ -23951,7 +23951,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "5akava"
+             *               "value": "5ukava"
              *             }
              *           ]
              *         },
@@ -23969,7 +23969,7 @@ export interface components {
              *           "attributes": [
              *             {
              *               "key": "amount",
-             *               "value": "5akava"
+             *               "value": "5ukava"
              *             },
              *             {
              *               "key": "validator",
@@ -23986,7 +23986,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "100000akava"
+             *               "value": "100000ukava"
              *             }
              *           ]
              *         },
@@ -23999,7 +23999,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "100000akava"
+             *               "value": "100000ukava"
              *             }
              *           ]
              *         },
@@ -24012,7 +24012,7 @@ export interface components {
              *             },
              *             {
              *               "key": "amount",
-             *               "value": "100000akava"
+             *               "value": "100000ukava"
              *             },
              *             {
              *               "key": "new_shares",
@@ -24034,7 +24034,7 @@ export interface components {
              *           ]
              *         }
              *       ],
-             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5akava\"},{\"key\":\"receiver\",\"value\":\"kava1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000akava\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5akava\"},{\"key\":\"spender\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000akava\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe\"},{\"key\":\"amount\",\"value\":\"100000akava\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5akava\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5akava\"},{\"key\":\"validator\",\"value\":\"kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe\"}]}]}]",
+             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5ukava\"},{\"key\":\"receiver\",\"value\":\"kava1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000ukava\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5ukava\"},{\"key\":\"spender\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000ukava\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe\"},{\"key\":\"amount\",\"value\":\"100000ukava\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"kava19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"kava1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5ukava\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5ukava\"},{\"key\":\"validator\",\"value\":\"kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe\"}]}]}]",
              *       "tx": {
              *         "0": 10,
              *         "1": 160,
@@ -24392,7 +24392,7 @@ export interface components {
              * @description Amount to unstake in uKAVA. Omit to unstake all the delegated amount
              * @example 1000000000000000000000000
              */
-            amount_akava?: string;
+            amount_ukava?: string;
         };
         KAVACraftRedelegateTxPayload: {
             /**
@@ -24420,7 +24420,7 @@ export interface components {
              * @description Amount to redelegate in uKAVA
              * @example 1000000000000000000000000
              */
-            amount_akava?: string;
+            amount_ukava?: string;
         };
         KAVACraftStakeTxPayload: {
             /**
@@ -24440,10 +24440,10 @@ export interface components {
              */
             validator: string;
             /**
-             * @description Amount to stake in akava
+             * @description Amount to stake in ukava
              * @example 1000000000000000000000000
              */
-            amount_akava: string;
+            amount_ukava: string;
         };
         KAVACraftRestakeRewardsTxPayload: {
             /**
@@ -24946,7 +24946,7 @@ export interface components {
          *         "fee": {
          *           "amount": [
          *             {
-         *               "denom": "akava",
+         *               "denom": "ukava",
          *               "amount": "5000"
          *             }
          *           ],
