@@ -1,9 +1,11 @@
+import createClient, { type Client, type ClientOptions } from 'openapi-fetch';
+import { FireblocksService } from './fireblocks.js';
 import type { paths } from './openapi/schema.js';
+
 export * from './validators.js';
 export * from './openapi/schema.js';
 export * from './utils.js';
-import createClient, { type Client, type ClientOptions } from 'openapi-fetch';
-import { FireblocksService } from './fireblocks.js';
+export type { FireblocksIntegration } from './fireblocks.js';
 
 type Config = {
   baseUrl: string;
