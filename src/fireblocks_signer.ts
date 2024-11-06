@@ -49,7 +49,6 @@ export class FireblocksSigner {
   /**
    * Wait for given transaction to be completed
    * @param fbTx fireblocks transaction
-   * @private
    */
   protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
     try {
