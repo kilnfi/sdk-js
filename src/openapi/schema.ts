@@ -6100,7 +6100,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/stake-nomination-pool": {
+    "/v1/ton/transaction/stake-ton-whales-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -6110,10 +6110,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Stake nomination pool transaction
-         * @description Craft a stake transaction to a nomination pool.
+         * Stake TON whales pool transaction
+         * @description Craft a stake transaction to TON whales pool.
          */
-        post: operations["postTonStakeNominationPoolTx"];
+        post: operations["postTonStakeWhalesPoolTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6140,7 +6140,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/unstake-nomination-pool": {
+    "/v1/ton/transaction/unstake-ton-whales-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -6150,10 +6150,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Unstake nomination pool transaction
-         * @description Craft an unstake transaction from a nomination pool.
+         * Unstake TON whales pool transaction
+         * @description Craft an unstake transaction from a TON whales pool.
          */
-        post: operations["postTonUnstakeNominationPoolTx"];
+        post: operations["postTonUnstakeWhalesPoolTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6174,46 +6174,6 @@ export interface paths {
          * @description Craft whitelist address on vesting contract transaction.
          */
         post: operations["postTonWhitelistVestingContractTx"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ton/transaction/stake-from-vesting-contract": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Stake vesting contract transaction
-         * @description Craft a stake transaction from a vesting contract.
-         */
-        post: operations["postTonStakeVestingContractTx"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/ton/transaction/unstake-from-vesting-contract": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Unstake vesting contract transaction
-         * @description Craft an unstake transaction from a vesting contract.
-         */
-        post: operations["postTonUnstakeVestingContractTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -7628,7 +7588,7 @@ export interface components {
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         ETHPostKeysPayload: {
             /**
@@ -11058,14 +11018,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         ATOMTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         ATOMPrepareTxPayload: {
             /**
@@ -15654,14 +15614,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         OSMOTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         OSMOPrepareTxPayload: {
             /**
@@ -17425,7 +17385,7 @@ export interface components {
              * @description Signed serialized transaction
              * @example 0xc1018400373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00ce178c21ced7677c58ebfb93496dd0a305581bfead9d1e1d7834dd8448dd81612a24548a8650650bb75747b5bfd5fc9373903cacf81bfabed7ae05e53dd5ae0fc5001901000601070010a5d4e8
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         DOTBroadcastTxPayload: {
             /**
@@ -17439,7 +17399,7 @@ export interface components {
              * @description Hash of the transaction
              * @example 0x1b9097a6e3d50066348cb173f3150546457a6188fada6a3a40d571798da1a53c
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         DOTTxStatus: {
             /**
@@ -18019,7 +17979,7 @@ export interface components {
              * @description Signed serialized transaction
              * @example 0xc1018400373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00ce178c21ced7677c58ebfb93496dd0a305581bfead9d1e1d7834dd8448dd81612a24548a8650650bb75747b5bfd5fc9373903cacf81bfabed7ae05e53dd5ae0fc5001901000601070010a5d4e8
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         KSMBroadcastTxPayload: {
             /**
@@ -18033,7 +17993,7 @@ export interface components {
              * @description Hash of the transaction
              * @example 0x1b9097a6e3d50066348cb173f3150546457a6188fada6a3a40d571798da1a53c
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         KSMTxStatus: {
             /**
@@ -18696,14 +18656,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         DYDXTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         DYDXPrepareTxPayload: {
             /**
@@ -20408,14 +20368,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         TIATxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         TIAPrepareTxPayload: {
             /**
@@ -22087,14 +22047,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         ZETATxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         ZETAPrepareTxPayload: {
             /**
@@ -23768,14 +23728,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         KAVATxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         KAVAPrepareTxPayload: {
             /**
@@ -25446,14 +25406,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         FETTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         FETPrepareTxPayload: {
             /**
@@ -27137,14 +27097,14 @@ export interface components {
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         INJTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         INJPrepareTxPayload: {
             /**
@@ -28877,7 +28837,7 @@ export interface components {
          *       }
          *     } */
         TONTxStatus: Record<string, never>;
-        TONStakeSingleNominationPoolTxPayload: {
+        TONStakeTxPayload: {
             /**
              * @description Kiln Account ID
              * @example d3f1b917-72b1-4982-a4dd-93fce579a708
@@ -28889,15 +28849,20 @@ export interface components {
              */
             wallet: string;
             /**
-             * @description Amount in nanoton
+             * @description Amount in nanoton. Minimum is 12000000000 nanoton (1.2 TON)
              * @example 1000000000000000
              */
             amount_nanoton: string;
             /**
-             * @description Nomination pool address
+             * @description Pool address
              * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
              */
             pool_address: string;
+            /**
+             * @description Vesting contract address (optional), to be used when staking from a vesting contract
+             * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+             */
+            vesting_contract_address?: string;
         };
         TONTx: {
             /**
@@ -28916,34 +28881,27 @@ export interface components {
              */
             from: string;
         };
-        TONUnstakeSingleNominationPoolTxPayload: {
+        TONUnstakeTxPayload: {
             /**
              * @description Wallet address
              * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
              */
             wallet: string;
             /**
-             * @description Nomination pool address
+             * @description Pool address
              * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
              */
             pool_address: string;
             /**
-             * @description Amount in nanoton
+             * @description Amount in nanoton (optional). If not provided, the full stake will be unstaked
              * @example 1000000000000000
              */
             amount_nanoton?: string;
-        };
-        TONUnstakeNominationPoolTxPayload: {
             /**
-             * @description Wallet address
-             * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
-             */
-            wallet: string;
-            /**
-             * @description Nomination pool address
+             * @description Vesting contract address (optional), to be used when unstaking from a vesting contract. Note that it is not possible to do partial unstake when staking from a vesting contract - only full withdraw are possible in such case.
              * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
              */
-            pool_address: string;
+            vesting_contract_address?: string;
         };
         TONWhitelistTxPayload: {
             /**
@@ -30134,7 +30092,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHUnsignedTx"];
+                        data: components["schemas"]["ETHUnsignedTx"];
                     };
                 };
             };
@@ -30182,7 +30140,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHSignedTx"];
+                        data: components["schemas"]["ETHSignedTx"];
                     };
                 };
             };
@@ -30324,7 +30282,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ETHUnsignedTx"];
+                        data: components["schemas"]["ETHUnsignedTx"];
                     };
                 };
             };
@@ -33433,7 +33391,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMStakeUnsignedTx"];
+                        data: components["schemas"]["ATOMStakeUnsignedTx"];
                     };
                 };
             };
@@ -33481,7 +33439,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMUnsignedTx"];
+                        data: components["schemas"]["ATOMUnsignedTx"];
                     };
                 };
             };
@@ -33529,7 +33487,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMUnsignedTx"];
+                        data: components["schemas"]["ATOMUnsignedTx"];
                     };
                 };
             };
@@ -33577,7 +33535,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMUnsignedTx"];
+                        data: components["schemas"]["ATOMUnsignedTx"];
                     };
                 };
             };
@@ -33625,7 +33583,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMUnsignedTx"];
+                        data: components["schemas"]["ATOMUnsignedTx"];
                     };
                 };
             };
@@ -33673,7 +33631,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMSignedTx"];
+                        data: components["schemas"]["ATOMSignedTx"];
                     };
                 };
             };
@@ -33721,7 +33679,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ATOMTxHash"];
+                        data: components["schemas"]["ATOMTxHash"];
                     };
                 };
             };
@@ -34780,7 +34738,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICUnsignedTx"];
+                        data: components["schemas"]["MATICUnsignedTx"];
                     };
                 };
             };
@@ -34828,7 +34786,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICUnsignedTx"];
+                        data: components["schemas"]["MATICUnsignedTx"];
                     };
                 };
             };
@@ -34876,7 +34834,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICUnsignedTx"];
+                        data: components["schemas"]["MATICUnsignedTx"];
                     };
                 };
             };
@@ -34924,7 +34882,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICUnsignedTx"];
+                        data: components["schemas"]["MATICUnsignedTx"];
                     };
                 };
             };
@@ -34972,7 +34930,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICUnsignedTx"];
+                        data: components["schemas"]["MATICUnsignedTx"];
                     };
                 };
             };
@@ -35020,7 +34978,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICUnsignedTx"];
+                        data: components["schemas"]["MATICUnsignedTx"];
                     };
                 };
             };
@@ -35068,7 +35026,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MATICSignedTx"];
+                        data: components["schemas"]["MATICSignedTx"];
                     };
                 };
             };
@@ -36447,7 +36405,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["NEARSignedTx"];
+                        data: components["schemas"]["NEARSignedTx"];
                     };
                 };
             };
@@ -36488,7 +36446,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["NEARBroadcastedTx"];
+                        data: components["schemas"]["NEARBroadcastedTx"];
                     };
                 };
             };
@@ -36899,7 +36857,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOUnsignedTx"];
+                        data: components["schemas"]["OSMOUnsignedTx"];
                     };
                 };
             };
@@ -36947,7 +36905,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOUnsignedTx"];
+                        data: components["schemas"]["OSMOUnsignedTx"];
                     };
                 };
             };
@@ -36995,7 +36953,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOUnsignedTx"];
+                        data: components["schemas"]["OSMOUnsignedTx"];
                     };
                 };
             };
@@ -37043,7 +37001,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOUnsignedTx"];
+                        data: components["schemas"]["OSMOUnsignedTx"];
                     };
                 };
             };
@@ -37091,7 +37049,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOUnsignedTx"];
+                        data: components["schemas"]["OSMOUnsignedTx"];
                     };
                 };
             };
@@ -37139,7 +37097,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOSignedTx"];
+                        data: components["schemas"]["OSMOSignedTx"];
                     };
                 };
             };
@@ -37187,7 +37145,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["OSMOTxHash"];
+                        data: components["schemas"]["OSMOTxHash"];
                     };
                 };
             };
@@ -37800,7 +37758,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -37848,7 +37806,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -37896,7 +37854,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -37944,7 +37902,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -37992,7 +37950,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38040,7 +37998,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38088,7 +38046,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38136,7 +38094,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38184,7 +38142,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38232,7 +38190,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38280,7 +38238,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38328,7 +38286,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38376,7 +38334,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38424,7 +38382,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTUnsignedTx"];
+                        data: components["schemas"]["DOTUnsignedTx"];
                     };
                 };
             };
@@ -38562,7 +38520,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTSignedTx"];
+                        data: components["schemas"]["DOTSignedTx"];
                     };
                 };
             };
@@ -38610,7 +38568,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DOTBroadcastedTx"];
+                        data: components["schemas"]["DOTBroadcastedTx"];
                     };
                 };
             };
@@ -38891,7 +38849,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -38939,7 +38897,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -38987,7 +38945,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39035,7 +38993,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39083,7 +39041,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39131,7 +39089,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39179,7 +39137,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39227,7 +39185,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39275,7 +39233,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39323,7 +39281,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39371,7 +39329,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39419,7 +39377,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39467,7 +39425,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39515,7 +39473,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMUnsignedTx"];
+                        data: components["schemas"]["KSMUnsignedTx"];
                     };
                 };
             };
@@ -39653,7 +39611,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMSignedTx"];
+                        data: components["schemas"]["KSMSignedTx"];
                     };
                 };
             };
@@ -39701,7 +39659,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KSMBroadcastedTx"];
+                        data: components["schemas"]["KSMBroadcastedTx"];
                     };
                 };
             };
@@ -40134,7 +40092,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -40182,7 +40140,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -40230,7 +40188,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -40278,7 +40236,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -40326,7 +40284,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -40374,7 +40332,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXSignedTx"];
+                        data: components["schemas"]["DYDXSignedTx"];
                     };
                 };
             };
@@ -40422,7 +40380,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXTxHash"];
+                        data: components["schemas"]["DYDXTxHash"];
                     };
                 };
             };
@@ -40886,7 +40844,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIAStakeUnsignedTx"];
+                        data: components["schemas"]["TIAStakeUnsignedTx"];
                     };
                 };
             };
@@ -40934,7 +40892,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIAUnsignedTx"];
+                        data: components["schemas"]["TIAUnsignedTx"];
                     };
                 };
             };
@@ -40982,7 +40940,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIAUnsignedTx"];
+                        data: components["schemas"]["TIAUnsignedTx"];
                     };
                 };
             };
@@ -41030,7 +40988,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIAUnsignedTx"];
+                        data: components["schemas"]["TIAUnsignedTx"];
                     };
                 };
             };
@@ -41078,7 +41036,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIAUnsignedTx"];
+                        data: components["schemas"]["TIAUnsignedTx"];
                     };
                 };
             };
@@ -41126,7 +41084,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIASignedTx"];
+                        data: components["schemas"]["TIASignedTx"];
                     };
                 };
             };
@@ -41174,7 +41132,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TIATxHash"];
+                        data: components["schemas"]["TIATxHash"];
                     };
                 };
             };
@@ -41699,7 +41657,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETAStakeUnsignedTx"];
+                        data: components["schemas"]["ZETAStakeUnsignedTx"];
                     };
                 };
             };
@@ -41747,7 +41705,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETAUnsignedTx"];
+                        data: components["schemas"]["ZETAUnsignedTx"];
                     };
                 };
             };
@@ -41795,7 +41753,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETAUnsignedTx"];
+                        data: components["schemas"]["ZETAUnsignedTx"];
                     };
                 };
             };
@@ -41843,7 +41801,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETAUnsignedTx"];
+                        data: components["schemas"]["ZETAUnsignedTx"];
                     };
                 };
             };
@@ -41891,7 +41849,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETASignedTx"];
+                        data: components["schemas"]["ZETASignedTx"];
                     };
                 };
             };
@@ -41939,7 +41897,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ZETATxHash"];
+                        data: components["schemas"]["ZETATxHash"];
                     };
                 };
             };
@@ -42405,7 +42363,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KAVAStakeUnsignedTx"];
+                        data: components["schemas"]["KAVAStakeUnsignedTx"];
                     };
                 };
             };
@@ -42453,7 +42411,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KAVAUnsignedTx"];
+                        data: components["schemas"]["KAVAUnsignedTx"];
                     };
                 };
             };
@@ -42501,7 +42459,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KAVAUnsignedTx"];
+                        data: components["schemas"]["KAVAUnsignedTx"];
                     };
                 };
             };
@@ -42549,7 +42507,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KAVAUnsignedTx"];
+                        data: components["schemas"]["KAVAUnsignedTx"];
                     };
                 };
             };
@@ -42597,7 +42555,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KAVASignedTx"];
+                        data: components["schemas"]["KAVASignedTx"];
                     };
                 };
             };
@@ -42645,7 +42603,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["KAVATxHash"];
+                        data: components["schemas"]["KAVATxHash"];
                     };
                 };
             };
@@ -43170,7 +43128,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETStakeUnsignedTx"];
+                        data: components["schemas"]["FETStakeUnsignedTx"];
                     };
                 };
             };
@@ -43218,7 +43176,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETUnsignedTx"];
+                        data: components["schemas"]["FETUnsignedTx"];
                     };
                 };
             };
@@ -43266,7 +43224,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETUnsignedTx"];
+                        data: components["schemas"]["FETUnsignedTx"];
                     };
                 };
             };
@@ -43314,7 +43272,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETUnsignedTx"];
+                        data: components["schemas"]["FETUnsignedTx"];
                     };
                 };
             };
@@ -43362,7 +43320,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETUnsignedTx"];
+                        data: components["schemas"]["FETUnsignedTx"];
                     };
                 };
             };
@@ -43410,7 +43368,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETSignedTx"];
+                        data: components["schemas"]["FETSignedTx"];
                     };
                 };
             };
@@ -43458,7 +43416,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["FETTxHash"];
+                        data: components["schemas"]["FETTxHash"];
                     };
                 };
             };
@@ -43924,7 +43882,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJStakeUnsignedTx"];
+                        data: components["schemas"]["INJStakeUnsignedTx"];
                     };
                 };
             };
@@ -43972,7 +43930,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJUnsignedTx"];
+                        data: components["schemas"]["INJUnsignedTx"];
                     };
                 };
             };
@@ -44020,7 +43978,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJUnsignedTx"];
+                        data: components["schemas"]["INJUnsignedTx"];
                     };
                 };
             };
@@ -44068,7 +44026,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJUnsignedTx"];
+                        data: components["schemas"]["INJUnsignedTx"];
                     };
                 };
             };
@@ -44116,7 +44074,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJSignedTx"];
+                        data: components["schemas"]["INJSignedTx"];
                     };
                 };
             };
@@ -44164,7 +44122,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["INJTxHash"];
+                        data: components["schemas"]["INJTxHash"];
                     };
                 };
             };
@@ -44924,7 +44882,7 @@ export interface operations {
         /** @description Stake transaction to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["TONStakeSingleNominationPoolTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["TONStakeTxPayload"];
             };
         };
         responses: {
@@ -44962,7 +44920,7 @@ export interface operations {
             };
         };
     };
-    postTonStakeNominationPoolTx: {
+    postTonStakeWhalesPoolTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -44972,7 +44930,7 @@ export interface operations {
         /** @description Stake transaction to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["TONStakeSingleNominationPoolTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["TONStakeTxPayload"];
             };
         };
         responses: {
@@ -45020,7 +44978,7 @@ export interface operations {
         /** @description Unstake transaction to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["TONUnstakeSingleNominationPoolTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["TONUnstakeTxPayload"];
             };
         };
         responses: {
@@ -45058,7 +45016,7 @@ export interface operations {
             };
         };
     };
-    postTonUnstakeNominationPoolTx: {
+    postTonUnstakeWhalesPoolTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -45068,7 +45026,7 @@ export interface operations {
         /** @description Unstake transaction to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["TONUnstakeNominationPoolTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["TONUnstakeTxPayload"];
             };
         };
         responses: {
@@ -45117,102 +45075,6 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["TONWhitelistTxPayload"];
-            };
-        };
-        responses: {
-            /** @description Successful operation */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    postTonStakeVestingContractTx: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Stake transaction to create */
-        requestBody: {
-            content: {
-                "application/json; charset=utf-8": components["schemas"]["TONStakeVestingContractTxPayload"];
-            };
-        };
-        responses: {
-            /** @description Successful operation */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    postTonUnstakeVestingContractTx: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Unstake transaction to create */
-        requestBody: {
-            content: {
-                "application/json; charset=utf-8": components["schemas"]["TONUnstakeVestingContractTxPayload"];
             };
         };
         responses: {
@@ -45330,7 +45192,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -45378,7 +45240,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXUnsignedTx"];
+                        data: components["schemas"]["DYDXUnsignedTx"];
                     };
                 };
             };
@@ -45426,7 +45288,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXSignedTx"];
+                        data: components["schemas"]["DYDXSignedTx"];
                     };
                 };
             };
@@ -45474,7 +45336,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["DYDXTxHash"];
+                        data: components["schemas"]["DYDXTxHash"];
                     };
                 };
             };
