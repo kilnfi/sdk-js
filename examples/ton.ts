@@ -47,7 +47,7 @@ try {
   if(!tx.data?.data) throw new Error('No data in response');
   const signResponse = await k.fireblocks.signTonTx(vault, tx.data.data, "TON");
   console.log('broadcasting...');
-  if(!signResponse.signed_tx?.data?.signed_tx_serialized) throw new Error('No signed_tx in response');
+  if(!signResponse.signed_tx.data.signed_tx_serialized) throw new Error('No signed_tx in response');
   const broadcastedTx = await k.client.POST("/v1/ton/transaction/broadcast", {
     body: {
       tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
