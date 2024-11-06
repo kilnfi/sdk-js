@@ -21,7 +21,6 @@ const vault: FireblocksIntegration = {
 try {
   console.log('crafting...');
   const tx = await k.client.POST(
-    // @ts-ignore
     '/v1/ton/transaction/stake-ton-whales-pool',
     {
       body: {
@@ -34,7 +33,6 @@ try {
     }
   );
   // const tx = await k.client.POST(
-  //   // @ts-ignore
   //   '/v1/ton/transaction/unstake-ton-whales-pool',
   //   {
   //     body: {
@@ -45,11 +43,8 @@ try {
   //     }
   //   }
   // );
-  console.log(tx);
   console.log('signing...');
-  // @ts-ignore
   if(!tx.data?.data) throw new Error('No data in response');
-  // @ts-ignore
   const signResponse = await k.fireblocks.signTonTx(vault, tx.data.data, "TON");
   console.log('broadcasting...');
   if(!signResponse.signed_tx?.data?.signed_tx_serialized) throw new Error('No signed_tx in response');
