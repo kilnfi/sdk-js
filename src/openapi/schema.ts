@@ -7574,7 +7574,7 @@ export interface components {
              * @description Signed serialized transaction
              * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         ETHBroadcastTxPayload: {
             /**
@@ -10525,7 +10525,7 @@ export interface components {
              * @description Hex encoded signed transaction
              * @example 0300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063b2b5ef76d483b695bc3b954d9a372ca5f744e00279c8578bc4268d570b701a037fac575ae16bb3ba5702b8d5bd9930953453e2d628368f83a11ab5896d20bbcae0b4a119860afd99da20f3462ba15d8bd1528d73724b83e8cc4cee00787df28a181783c264113ef1870bae5a90987fc5cfcdffaddf23c7dcfd7585c13d10b0301080c373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e1bb5f70b4d3ae65feb6d20587f62ccc8d5e720e99abe3d4415972bbf74a8a88a51f5f3871e65b84cc393458d0f23a413184cf2bb7093ae4e2c99d55b39a575c5f98e3135fcb53e71e6fafcb4da3a3cc36af1c76a1a7e72aa12eae1346d724c6c00000000000000000000000000000000000000000000000000000000000000004792650d1e9a4fe99721617c7d47c8712c14c20a76bf043368c6528c9090531a06a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc00000000006a1d817a502050b680791e6ce6db88e1e5b7150f61fc6790a4eb4d10000000006a7d51718c774c928566398691d5eb68b5eb8a39b4b6d5c73555b210000000006a7d517192c568ee08a845f73d29788cf035c3145b21ab344d8062ea940000006a7d517192c5c51218cc94c3d4af17f58daee089ba1fd44e3dbd98a0000000006a7d517193584d0feed9bb3431d13206be544281b57b8566cc5375ff4000000f0973e76495f3ffc65798a529de5cba4ec7f47f17669c9fa256923f099a1cda304040303090204040000000402000134000000000080c6a47e8d0300c80000000000000006a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc0000000000602010a7400000000373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006060105080b07000402000000
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         SOLBroadcastTxPayload: {
             /**
@@ -13847,7 +13847,7 @@ export interface components {
              * @description Signed serialized transaction
              * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         MATICBroadcastTxPayload: {
             /**
@@ -14845,7 +14845,7 @@ export interface components {
              * @description Signed serialized transaction
              * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         POLBroadcastTxPayload: {
             /**
@@ -28685,7 +28685,7 @@ export interface components {
              * @description Hex encoded signed transaction
              * @example te6cckEBAgEArQAB4YgA5oNgWZxV/vmCVySWkd/+Ly7CyQyhqFCcRKDOeq9dHGQCwbrVOyBsePyBHxhgq2rFjwPztBlAoqTbAz4Bic+CviWY9yGrfqvCtJ3eixgCVJfmep5AYnuQcOfmcC3TIwG4SU1NGLsz4oOoAAAAAAAcAQBuYn+9vlumg/kDozb4tq5nD1FDm0UHgjwhqQxEfjMglJZP+Lg41+pMaAAAAAAAAAAAAAAAAAAAAKKEVgs=
              */
-            signed_tx_serialized?: string;
+            signed_tx_serialized: string;
         };
         TONBroadcastTxPayload: {
             /**
@@ -28699,7 +28699,7 @@ export interface components {
              * @description Hash of the transaction
              * @example SQ5y4jeRZzU4h/lbyWiLhTrR9A3smK5Vmm/1p9ylDFo=
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         /** @example {
          *       "transactions": [
@@ -44312,7 +44312,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["CoreStake"];
+                        data: components["schemas"]["CoreStake"];
                     };
                 };
             };
@@ -44500,7 +44500,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: {
+                        data: {
                             /**
                              * @description Status of the wallet
                              * @example active
@@ -44554,7 +44554,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: {
+                        data: {
                             /**
                              * @description The balance of the account
                              * @example 1000000
@@ -44751,7 +44751,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONPreparedTx"];
+                        data: components["schemas"]["TONPreparedTx"];
                     };
                 };
             };
@@ -44799,7 +44799,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONBroadcastTx"];
+                        data: components["schemas"]["TONBroadcastTx"];
                     };
                 };
             };
@@ -44845,7 +44845,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTxStatus"];
+                        data: components["schemas"]["TONTxStatus"];
                     };
                 };
             };

@@ -4,6 +4,7 @@ import {
   type PublicKeyResponse,
   type SDKOptions,
   SigningAlgorithm,
+  type TransactionResponse,
 } from 'fireblocks-sdk';
 import type { IAuthProvider } from 'fireblocks-sdk/dist/src/iauth-provider.js';
 import type { Client } from 'openapi-fetch';
@@ -31,7 +32,6 @@ export class FireblocksService {
 
   /**
    * Retrieve a fireblocks SDK from a Fireblocks integration
-   * @param integration
    */
   getSdk(integration: FireblocksIntegration): FireblocksSDK {
     return new FireblocksSDK(
@@ -45,16 +45,14 @@ export class FireblocksService {
 
   /**
    * Retrieve a fireblocks signer from a Fireblocks integration
-   * @param integration
    */
   getSigner(integration: FireblocksIntegration): FireblocksSigner {
     const sdk = this.getSdk(integration);
     return new FireblocksSigner(sdk, integration.vaultId);
   }
+
   /**
    * Get fireblocks wallet pubkey compressed
-   * @param integration
-   * @param assetId
    */
   async getPubkey(integration: FireblocksIntegration, assetId: string): Promise<PublicKeyResponse> {
     const fbSdk = this.getSdk(integration);
@@ -70,7 +68,6 @@ export class FireblocksService {
 
   /**
    * List Fireblocks supported assets
-   * @param integration
    */
   async getAssets(integration: FireblocksIntegration): Promise<AssetTypeResponse[]> {
     const fbSdk = this.getSdk(integration);
@@ -79,17 +76,16 @@ export class FireblocksService {
 
   /**
    * Sign a Solana transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signSolTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['SOLStakeTx'],
     assetId: 'SOL_TEST' | 'SOL',
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['SOLPreparedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -118,6 +114,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -126,11 +126,15 @@ export class FireblocksService {
 
   /**
    * Sign a Cardano transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
-  async signAdaTx(integration: FireblocksIntegration, tx: components['schemas']['ADAUnsignedTx'], note?: string) {
+  async signAdaTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['ADAUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['ADASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -169,6 +173,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -177,17 +185,16 @@ export class FireblocksService {
 
   /**
    * Sign a ATOM transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signAtomTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ATOMUnsignedTx'] | components['schemas']['ATOMStakeUnsignedTx'],
     assetId: 'ATOM_COS' | 'ATOM_COS_TEST',
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['ATOMSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -220,6 +227,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -228,15 +239,15 @@ export class FireblocksService {
 
   /**
    * Sign a DYDX transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signDydxTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['DYDXUnsignedTx'] | components['schemas']['DYDXStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['DYDXSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -269,6 +280,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -277,15 +292,15 @@ export class FireblocksService {
 
   /**
    * Sign a FET transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signFetTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['FETUnsignedTx'] | components['schemas']['FETStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['FETSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -320,6 +335,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -328,15 +347,15 @@ export class FireblocksService {
 
   /**
    * Sign a INJ transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signInjTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['INJUnsignedTx'] | components['schemas']['INJStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['INJSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -369,6 +388,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -377,15 +400,15 @@ export class FireblocksService {
 
   /**
    * Sign a KAVA transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signKavaTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['KAVAUnsignedTx'] | components['schemas']['KAVAStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['KAVASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -418,6 +441,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -426,15 +453,15 @@ export class FireblocksService {
 
   /**
    * Sign a OSMO transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signOsmoTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['OSMOUnsignedTx'] | components['schemas']['OSMOStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['OSMOSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -467,6 +494,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -475,15 +506,15 @@ export class FireblocksService {
 
   /**
    * Sign a TIA transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signTiaTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TIASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -516,6 +547,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -524,15 +559,15 @@ export class FireblocksService {
 
   /**
    * Sign a ZETA transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
   async signZetaTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ZETAUnsignedTx'] | components['schemas']['ZETAStakeUnsignedTx'],
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['ZETASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -567,6 +602,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -575,11 +614,15 @@ export class FireblocksService {
 
   /**
    * Sign a DOT transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
-  async signDotTx(integration: FireblocksIntegration, tx: components['schemas']['DOTUnsignedTx'], note?: string) {
+  async signDotTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['DOTUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['DOTSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -602,6 +645,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -610,11 +657,15 @@ export class FireblocksService {
 
   /**
    * Sign a KSM transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param note
    */
-  async signKsmTx(integration: FireblocksIntegration, tx: components['schemas']['KSMUnsignedTx'], note?: string) {
+  async signKsmTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['KSMUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['KSMSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -637,6 +688,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -645,17 +700,16 @@ export class FireblocksService {
 
   /**
    * Sign and broadcast an ETH transaction with given integration using Fireblocks contract call feature
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signEthTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ETHUnsignedTx'],
     assetId: 'ETH_TEST6' | 'ETH',
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['ETHSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -689,6 +743,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -697,10 +755,6 @@ export class FireblocksService {
 
   /**
    * Sign and broadcast an ETH transaction with given integration using Fireblocks contract call feature
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signAndBroadcastEthTx(
     integration: FireblocksIntegration,
@@ -722,10 +776,6 @@ export class FireblocksService {
 
   /**
    * Sign and broadcast a POL transaction with given integration using Fireblocks contract call feature
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signAndBroadcastPolTx(
     integration: FireblocksIntegration,
@@ -747,17 +797,16 @@ export class FireblocksService {
 
   /**
    * Sign a TON transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signTonTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['TONTx'],
     assetId: 'TON_TEST' | 'TON',
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TONPreparedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -785,6 +834,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -793,17 +846,16 @@ export class FireblocksService {
 
   /**
    * Sign a XTZ transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signXtzTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['XTZUnsignedTx'],
     assetId: 'XTZ_TEST' | 'XTZ',
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['XTZSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -830,6 +882,10 @@ export class FireblocksService {
       },
     });
 
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
     return {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
@@ -838,17 +894,16 @@ export class FireblocksService {
 
   /**
    * Sign a NEAR transaction on Fireblocks
-   * @param integration
-   * @param tx
-   * @param assetId
-   * @param note
    */
   async signNearTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['NEARTx'],
     assetId: 'NEAR_TEST' | 'NEAR',
     note?: string,
-  ) {
+  ): Promise<{
+    signed_tx: { data: components['schemas']['NEARSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -874,6 +929,10 @@ export class FireblocksService {
         signature: signature,
       },
     });
+
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
 
     return {
       signed_tx: preparedTx.data,
