@@ -22,26 +22,26 @@ try {
   console.log('crafting...');
   const tx = await k.client.POST(
     // @ts-ignore
-    '/v1/ton/transaction/unstake-ton-whales-pool',
+    '/v1/ton/transaction/stake-ton-whales-pool',
     {
       body: {
+        account_id: process.env.KILN_ACCOUNT_ID as string,
         wallet: 'UQAd57R6nYTCpgo1OxSmpbFRsIO6HIIfO2SW6WcfCe5qIo08',
         pool_address: 'EQBXDSbE9s03Waq62YuGdtqe-bcjsN6K9fi64eUy9M8H_Yhf',
         vesting_contract_address: 'EQBdL-upJbGStg4MF8acfEfilqd34cfoHe_k2E-yecki3yS6',
-        amount_nanoton: tonToNanoton('1').toString(),
+        amount_nanoton: tonToNanoton('2').toString(),
       }
     }
   );
   // const tx = await k.client.POST(
   //   // @ts-ignore
-  //   '/v1/ton/transaction/stake-ton-whales-pool',
+  //   '/v1/ton/transaction/unstake-ton-whales-pool',
   //   {
   //     body: {
-  //       account_id: process.env.KILN_ACCOUNT_ID as string,
   //       wallet: 'UQAd57R6nYTCpgo1OxSmpbFRsIO6HIIfO2SW6WcfCe5qIo08',
   //       pool_address: 'EQBXDSbE9s03Waq62YuGdtqe-bcjsN6K9fi64eUy9M8H_Yhf',
   //       vesting_contract_address: 'EQBdL-upJbGStg4MF8acfEfilqd34cfoHe_k2E-yecki3yS6',
-  //       amount_nanoton: tonToNanoton('1.5').toString(),
+  //       amount_nanoton: tonToNanoton('0.5').toString(),
   //     }
   //   }
   // );
