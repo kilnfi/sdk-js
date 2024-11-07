@@ -5140,6 +5140,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/kava/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a Kava account
+         */
+        post: operations["postKavaGetBalance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/kava/transaction/stake": {
         parameters: {
             query?: never;
@@ -25079,6 +25099,18 @@ export interface components {
          *     }
          */
         KAVATxDecoding: Record<string, never>;
+        KAVAGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
+            /**
+             * @description The denomination of the balance to query
+             * @example ukava
+             */
+            denom: string;
+        };
         FETStake: {
             /**
              * @description Public key of the validator
@@ -40027,7 +40059,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41592,13 +41624,13 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: {
+                        data: {
                             /**
                              * @description The balance of the account
                              * @example 1000000
@@ -42317,6 +42349,65 @@ export interface operations {
                 };
                 content: {
                     "application/octet-stream": string;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postKavaGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["KAVAGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example ukava
+                             */
+                            denom: string;
+                        };
+                    };
                 };
             };
             /** @description Invalid parameters */
@@ -43063,13 +43154,13 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: {
+                        data: {
                             /**
                              * @description The balance of the account
                              * @example 1000000
@@ -44548,7 +44639,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45127,13 +45218,13 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: {
+                        data: {
                             /**
                              * @description The balance of the account
                              * @example 1000000
