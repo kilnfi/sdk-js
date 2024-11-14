@@ -68,7 +68,7 @@ export const tonToNanoton = (ton: string): bigint => {
  */
 export const kavaToUkava = (kava: string): bigint => {
   return parseUnits(kava, 6);
-}
+};
 
 /**
  * Convert uZETA to ZETA
