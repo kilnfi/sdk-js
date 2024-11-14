@@ -414,18 +414,20 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
+            derivationPath: [44, 459, integration.vaultId, 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
             },
           },
         ],
+        algorithm: SigningAlgorithm.MPC_ECDSA_SECP256K1,
       },
     };
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'KAVA_KAVA', fbNote);
+    const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
 
     if (!signature) {
