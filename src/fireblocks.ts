@@ -414,18 +414,20 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
+            derivationPath: [44, 459, integration.vaultId, 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
             },
           },
         ],
+        algorithm: SigningAlgorithm.MPC_ECDSA_SECP256K1,
       },
     };
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'KAVA_KAVA', fbNote);
+    const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
 
     if (!signature) {
@@ -433,6 +435,61 @@ export class FireblocksService {
     }
 
     const preparedTx = await this.client.POST('/v1/kava/transaction/prepare', {
+      body: {
+        pubkey: tx.pubkey,
+        tx_body: tx.tx_body,
+        tx_auth_info: tx.tx_auth_info,
+        signature: signature,
+      },
+    });
+
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a NOBLE transaction on Fireblocks
+   */
+  async signNobleTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['DYDXUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['DYDXSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            derivationPath: [44, 118, integration.vaultId, 0, 0],
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: 'SHA256',
+            },
+          },
+        ],
+        algorithm: SigningAlgorithm.MPC_ECDSA_SECP256K1,
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'NOBLE tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, undefined, fbNote);
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
+
+    const preparedTx = await this.client.POST('/v1/noble/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -699,7 +756,7 @@ export class FireblocksService {
   }
 
   /**
-   * Sign and broadcast an ETH transaction with given integration using Fireblocks contract call feature
+   * Sign an ETH transaction with given integration using Fireblocks raw signing
    */
   async signEthTx(
     integration: FireblocksIntegration,
@@ -772,6 +829,61 @@ export class FireblocksService {
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ETH tx from @kilnfi/sdk';
     return await fbSigner.signAndBroadcastWith(payload, assetId, tx, integration.fireblocksDestinationId, true, fbNote);
+  }
+
+  /**
+   * Sign a POL transaction with given integration using Fireblocks raw signing
+   */
+  async signPolTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['POLUnsignedTx'],
+    assetId: 'ETH_TEST5' | 'ETH',
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['POLSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: 'KECCAK256',
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'POL tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+
+    const signature = fbTx?.signedMessages?.[0]?.signature;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
+
+    const preparedTx = await this.client.POST('/v1/pol/transaction/prepare', {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        r: `0x${signature.r}`,
+        s: `0x${signature.s}`,
+        v: signature.v ?? 0,
+      },
+    });
+
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
   }
 
   /**

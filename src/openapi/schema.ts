@@ -44984,7 +44984,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
+                        data: components["schemas"]["TONTx"];
                     };
                 };
             };
@@ -45032,7 +45032,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
+                        data: components["schemas"]["TONTx"];
                     };
                 };
             };
@@ -45080,7 +45080,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
+                        data: components["schemas"]["TONTx"];
                     };
                 };
             };
@@ -45128,7 +45128,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
+                        data: components["schemas"]["TONTx"];
                     };
                 };
             };
@@ -45176,7 +45176,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["TONTx"];
+                        data: components["schemas"]["TONTx"];
                     };
                 };
             };
