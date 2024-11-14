@@ -1,5 +1,5 @@
-import { formatUnits, parseUnits, ripemd160, sha256 } from "viem";
-import { bech32 } from "bech32";
+import { bech32 } from 'bech32';
+import { formatUnits, parseUnits, ripemd160, sha256 } from 'viem';
 
 /**
  * Convert wei to ETH
@@ -176,7 +176,6 @@ export const ukavaToKava = (ukava: bigint): string => {
   return formatUnits(ukava, 6);
 };
 
-
 /**
  * Get a cosmos address from its public key and prefix
  * @param pubkey
@@ -184,8 +183,8 @@ export const ukavaToKava = (ukava: bigint): string => {
  */
 export const getCosmosAddress = (pubkey: string, prefix: string): string => {
   const compressed_pubkey = compressPublicKey(pubkey);
-  const hash = sha256(Uint8Array.from(Buffer.from(compressed_pubkey, "hex")));
-  const raw_addr = ripemd160(hash, "bytes")
+  const hash = sha256(Uint8Array.from(Buffer.from(compressed_pubkey, 'hex')));
+  const raw_addr = ripemd160(hash, 'bytes');
   return bech32.encode(prefix, bech32.toWords(raw_addr));
 };
 
@@ -194,14 +193,14 @@ export const getCosmosAddress = (pubkey: string, prefix: string): string => {
  * @param pubkey
  */
 export const compressPublicKey = (pubkey: string): string => {
-  const pub_key_buffer = new Uint8Array(Buffer.from(pubkey, "hex"));
+  const pub_key_buffer = new Uint8Array(Buffer.from(pubkey, 'hex'));
   if (pub_key_buffer.length !== 65) return pubkey;
   const x = pub_key_buffer.slice(1, 33);
   const y = pub_key_buffer.slice(33);
   // We will add 0x02 if the last bit isn't set, otherwise we will add 0x03
   // @ts-ignore
-  const prefix = y[y.length - 1] & 1 ? "03" : "02";
+  const prefix = y[y.length - 1] & 1 ? '03' : '02';
   // Concatenate the prefix and the x value to get the compressed key
-  const compressed_key = Buffer.concat([new Uint8Array(Buffer.from(prefix, "hex")), x]);
-  return compressed_key.toString("hex");
+  const compressed_key = Buffer.concat([new Uint8Array(Buffer.from(prefix, 'hex')), x]);
+  return compressed_key.toString('hex');
 };
