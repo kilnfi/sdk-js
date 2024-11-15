@@ -204,3 +204,38 @@ export const compressPublicKey = (pubkey: string): string => {
   const compressed_key = Buffer.concat([new Uint8Array(Buffer.from(prefix, 'hex')), x]);
   return compressed_key.toString('hex');
 };
+
+// Convert ATOM to uATOM
+export const atomToUatom = (atom: string): bigint => {
+  return parseUnits(atom, 6);
+};
+
+// Convert DYDX to adydx
+export const dydxToAdydx = (dydx: string): bigint => {
+  return parseUnits(dydx, 18); // adydx uses 18 decimals
+};
+
+// Convert ZETA to azeta
+export const zetaToAzeta = (zeta: string): bigint => {
+  return parseUnits(zeta, 18); // azeta uses 18 decimals
+};
+
+// Convert OSMO to uosmo
+export const osmoToUosmo = (osmo: string): bigint => {
+  return parseUnits(osmo, 6);
+};
+
+// Convert INJ to inj
+export const injToInj = (inj: string): bigint => {
+  return parseUnits(inj, 18); // inj uses 18 decimals
+};
+
+// Convert TIA to utia
+export const tiaToUtia = (tia: string): bigint => {
+  return parseUnits(tia, 6);
+};
+
+// Convert FET to afet
+export const fetToAfet = (fet: string): bigint => {
+  return parseUnits(fet, 18); // afet uses 18 decimals
+};
