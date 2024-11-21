@@ -6708,18 +6708,18 @@ export interface components {
              * @description type of the operation
              * @example deposit
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Time of the operation
              * @example 2023-01-14T01:13:59Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Validator address of the operation
              * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Index of the public key of the validator
              * @example 1
@@ -6729,17 +6729,17 @@ export interface components {
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
@@ -6752,17 +6752,17 @@ export interface components {
              *       "0x43244f90814b31dec250de24df5bb023eB1D85CE"
              *     ]
              */
-            proxies?: string[];
+            proxies: string[];
             /**
              * @description Slot of the deposit
              * @example 15955054
              */
-            slot?: number;
+            slot: number;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * @description Base fee used for this block in WEI
              * @example 7
@@ -6772,42 +6772,42 @@ export interface components {
              * @description Withdrawal credentials of the deposit
              * @example 010000000000000000000000e1f4acc0affb36a805474e3b6ab786738c6900a2
              */
-            withdrawal_credentials?: string;
+            withdrawal_credentials: string;
             /**
              * @description Amount in WEI of the deposit transaction
              * @example 32000000000000000000000
              */
-            amount?: string;
+            amount: string;
         };
         ETHOperationExecutionReward: {
             /** @example execution_reward */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Time of the operation
              * @example 2023-01-14T01:13:59Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Validator address of the operation
              * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Validator's consensus layer index
              * @example 1
              */
-            validator_index?: number;
+            validator_index: number;
             /**
              * @description Slot of the execution reward
              * @example 15955054
              */
-            slot?: number;
+            slot: number;
             /**
              * @description Block number of the reward
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * @description Fee recipient of the reward
              * @example 0x1e68238cE926DEC62b3FBC99AB06eB1D85CE0270
@@ -6827,47 +6827,47 @@ export interface components {
              * @description Amount in WEI of the reward
              * @example 3467036438000000000
              */
-            amount?: string;
+            amount: string;
         };
         ETHOperationConsensusWithdrawal: {
             /** @example consensus_withdrawal */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Time of the operation
              * @example 2023-01-14T01:13:59Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Validator address of the operation
              * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Validator's consensus layer index
              * @example 1
              */
-            validator_index?: number;
+            validator_index: number;
             /**
              * @description Slot of the withdrawal
              * @example 15955054
              */
-            slot?: number;
+            slot: number;
             /**
              * @description Block number of the reward
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * @description Fee recipient of the reward
              * @example 0x1e68238cE926DEC62b3FBC99AB06eB1D85CE0270
              */
-            fee_recipient?: string;
+            fee_recipient: string;
             /**
              * @description Amount in WEI of the reward
              * @example 3467036438000000000
              */
-            amount?: string;
+            amount: string;
         };
         ETHStake: {
             /**
@@ -6984,7 +6984,7 @@ export interface components {
              * @description Last date this data was updated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string;
+            updated_at: string;
             /** @description EigenLayer data of the stake, present if `include_eigenlayer=true` and if the stake has an EigenPod as withdrawal credentials */
             eigenlayer?: {
                 /**
@@ -7177,12 +7177,12 @@ export interface components {
              * @description Public key of the validator
              * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description GnuPG UID of the public key used to encrypt payload
              * @example Hubert Bonisseur de La Bath (hubert) <hubert@kiln.fi>
              */
-            gpg_public_key?: string;
+            gpg_public_key: string;
             /**
              * @description GnuPG encrypted consensus message to exit the validator
              * @example -----BEGIN PGP MESSAGE-----
@@ -7200,13 +7200,13 @@ export interface components {
              *     -----END PGP MESSAGE-----
              *
              */
-            payload?: string;
+            payload: string;
             /**
              * Format: date-time
              * @description When the exit message was generated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at?: string;
+            updated_at: string;
         };
         ETHEigenLayerMetadata: {
             /**
@@ -8657,323 +8657,323 @@ export interface components {
              * @description Last date this data was updated
              * @example 2023-01-14T01:13:59Z
              */
-            updated_at: string | null;
+            updated_at: string;
         };
         XTZOperationDelegate: {
             /**
              * @description Type of the operation
              * @example delegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The operation hash
              * @example opLq44uJLP7f3V3zCVDCDgXayV3CQLGqihdoAYtMnXLW4f1q2fb
              */
-            operation?: string;
+            operation: string;
             /**
              * @description The operation gas used if any
              * @example 10
              */
-            operation_gas_used?: string;
+            operation_gas_used: string;
             /**
              * @description The operation baker fee if applicable
              * @example 42
              */
-            baker_fee?: string;
+            baker_fee: string;
             /**
              * @description The block number in which the operation was included
              * @example 1342
              */
-            block?: number;
+            block: number;
             /**
              * @description The delegated amount
              * @example 420000
              */
-            amount?: string;
+            amount: string;
         };
         XTZOperationUndelegate: {
             /**
              * @description Type of the operation
              * @example undelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The operation hash
              * @example opLq44uJLP7f3V3zCVDCDgXayV3CQLGqihdoAYtMnXLW4f1q2fb
              */
-            operation?: string;
+            operation: string;
             /**
              * @description The operation gas used if any
              * @example 10
              */
-            operation_gas_used?: string;
+            operation_gas_used: string;
             /**
              * @description The operation baker fee if applicable
              * @example 42
              */
-            baker_fee?: string;
+            baker_fee: string;
             /**
              * @description The block number in which the operation was included
              * @example 1342
              */
-            block?: number;
+            block: number;
         };
         XTZOperationActivation: {
             /**
              * @description Type of the operation
              * @example activation
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The cycle at which the stake was active and started earning
              * @example 585
              */
-            cycle?: number;
+            cycle: number;
         };
         XTZOperationPayment: {
             /**
              * @description Type of the operation
              * @example payment
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The address that executed the payment
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            sender_address?: string;
+            sender_address: string;
             /**
              * @description The operation hash
              * @example opLq44uJLP7f3V3zCVDCDgXayV3CQLGqihdoAYtMnXLW4f1q2fb
              */
-            operation?: string;
+            operation: string;
             /**
              * @description The operation gas used if any
              * @example 10
              */
-            operation_gas_used?: string;
+            operation_gas_used: string;
             /**
              * @description The operation baker fee if applicable
              * @example 42
              */
-            baker_fee?: string;
+            baker_fee: string;
             /**
              * @description The block number in which the operation was included
              * @example 1342
              */
-            block?: number;
+            block: number;
             /**
              * @description The reward amount that was paid out
              * @example 4200
              */
-            amount?: string;
+            amount: string;
         };
         XTZOperationStake: {
             /**
              * @description Type of the operation
              * @example stake
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The operation hash
              * @example opLq44uJLP7f3V3zCVDCDgXayV3CQLGqihdoAYtMnXLW4f1q2fb
              */
-            operation?: string;
+            operation: string;
             /**
              * @description The operation gas used if any
              * @example 10
              */
-            operation_gas_used?: string;
+            operation_gas_used: string;
             /**
              * @description The operation baker fee if applicable
              * @example 42
              */
-            baker_fee?: string;
+            baker_fee: string;
             /**
              * @description The block number in which the operation was included
              * @example 1342
              */
-            block?: number;
+            block: number;
             /**
              * @description The reward amount that was paid out
              * @example 4200
              */
-            amount?: string;
+            amount: string;
         };
         XTZOperationUnstake: {
             /**
              * @description Type of the operation
              * @example unstake
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The operation hash
              * @example opLq44uJLP7f3V3zCVDCDgXayV3CQLGqihdoAYtMnXLW4f1q2fb
              */
-            operation?: string;
+            operation: string;
             /**
-             * @description The operation gas used if any
+             * @description The operation gas used if anyfalse
              * @example 10
              */
-            operation_gas_used?: string;
+            operation_gas_used: string;
             /**
              * @description The operation baker fee if applicable
              * @example 42
              */
-            baker_fee?: string;
+            baker_fee: string;
             /**
              * @description The block number in which the operation was included
              * @example 1342
              */
-            block?: number;
+            block: number;
             /**
              * @description The reward amount that was paid out
              * @example 4200
              */
-            amount?: string;
+            amount: string;
         };
         XTZOperationFinalize: {
             /**
              * @description Type of the operation
              * @example finalize
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description When did the operation occur in an RFC3339 format
              * @example 2023-01-14T01:13:59Z
              */
-            date?: string;
+            date: string;
             /**
              * @description The wallet address for the stake
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
              */
-            staker_address?: string;
+            staker_address: string;
             /**
              * @description The baker address to which the wallet is staked
              * @example tz3btDQsDkqq2G7eBdrrLqetaAfLVw6BnPez
              */
-            baker_address?: string;
+            baker_address: string;
             /**
              * @description The operation hash
              * @example opLq44uJLP7f3V3zCVDCDgXayV3CQLGqihdoAYtMnXLW4f1q2fb
              */
-            operation?: string;
+            operation: string;
             /**
              * @description The operation gas used if any
              * @example 10
              */
-            operation_gas_used?: string;
+            operation_gas_used: string;
             /**
              * @description The operation baker fee if applicable
              * @example 42
              */
-            baker_fee?: string;
+            baker_fee: string;
             /**
              * @description The block number in which the operation was included
              * @example 1342
              */
-            block?: number;
+            block: number;
             /**
              * @description The reward amount that was paid out
              * @example 4200
              */
-            amount?: string;
+            amount: string;
         };
         XTZCraftDelegateTxPayload: {
             /**
@@ -10956,7 +10956,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: (components["schemas"]["ATOMStakeMessage"] | components["schemas"]["ATOMStakeMessageRestake"])[];
+            messages: (components["schemas"]["ATOMStakeMessage"] | components["schemas"]["ATOMStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -12572,39 +12572,39 @@ export interface components {
              * @description Current stake balance in Lovelace
              * @example 30004690613
              */
-            balance: string | null;
+            balance: string;
             /**
              * @description Total stake rewards in Lovelace
              * @example 37201548
              */
-            rewards: string | null;
+            rewards: string;
             /**
              * @description Withdrawal amount of rewards in Lovelace
              * @example 4588
              */
-            available_rewards: string | null;
+            available_rewards: string;
             /**
              * @description Epoch of the last delegation
              * @example 42
              */
-            delegated_epoch: number | null;
+            delegated_epoch: number;
             /**
              * Format: date-time
              * @description Date of the last delegation
              * @example 2023-01-06T22:00:00Z
              */
-            delegated_at: string | null;
+            delegated_at: string;
             /**
              * @description Epoch at which the stake was registered
              * @example 44
              */
-            activated_epoch: number | null;
+            activated_epoch: number;
             /**
              * Format: date-time
              * @description Date at which the stake was registered
              * @example 2023-01-16T22:00:00Z
              */
-            activated_at: string | null;
+            activated_at: string;
             /**
              * @description State of the stake
              * @example active
@@ -12614,7 +12614,7 @@ export interface components {
              * @description Net annual percentage yield
              * @example 0.188014
              */
-            net_apy: number | null;
+            net_apy: number;
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -12682,175 +12682,175 @@ export interface components {
              * @description stake_registration
              * @example stake_registration
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the stake registration based on the block.
              * @example 2021-01-03T21:49:34Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Stake address
              * @example stake1u84uqy85qpsln9a49dtv7mrzzp0246v7s2cj7ypjr555ldqenardf
              */
-            stake_address?: string;
+            stake_address: string;
             /**
              * @description Epoch number
              * @example 239
              */
-            epoch?: number;
+            epoch: number;
             /**
              * @description Block number
              * @example 5162844
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 052306cc8ded7adee92ccd9e10e31c8352f568408eb1868cf3ca751d67695dc8
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         ADAOperationStakeDeregistration: {
             /**
              * @description stake_deregistration
              * @example stake_deregistration
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the stake deregistration based on the block.
              * @example 2021-01-03T21:49:34Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Stake address
              * @example stake1u84uqy85qpsln9a49dtv7mrzzp0246v7s2cj7ypjr555ldqenardf
              */
-            stake_address?: string;
+            stake_address: string;
             /**
              * @description Epoch number
              * @example 239
              */
-            epoch?: number;
+            epoch: number;
             /**
              * @description Block number
              * @example 5162844
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 052306cc8ded7adee92ccd9e10e31c8352f568408eb1868cf3ca751d67695dc8
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         ADAOperationDelegation: {
             /**
              * @description delegation
              * @example delegation
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the delegation on a pool based on the block.
              * @example 2021-01-03T21:49:34Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Stake address
              * @example stake1u84uqy85qpsln9a49dtv7mrzzp0246v7s2cj7ypjr555ldqenardf
              */
-            stake_address?: string;
+            stake_address: string;
             /**
              * @description Epoch number
              * @example 239
              */
-            epoch?: number;
+            epoch: number;
             /**
              * @description Block number
              * @example 5162844
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 052306cc8ded7adee92ccd9e10e31c8352f568408eb1868cf3ca751d67695dc8
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description The pool receiving the delegation.
              * @example pool1q0a7a94cfk4ph7gugj636tsuhhd98l2sfjv2adhaff2mvs7kmtl
              */
-            pool_id?: string;
+            pool_id: string;
         };
         ADAOperationWithdrawal: {
             /**
              * @description withdrawal
              * @example withdrawal
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the withdrawal based on the block.
              * @example 2021-01-03T21:49:34Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Stake address
              * @example stake1u84uqy85qpsln9a49dtv7mrzzp0246v7s2cj7ypjr555ldqenardf
              */
-            stake_address?: string;
+            stake_address: string;
             /**
              * @description Epoch number
              * @example 239
              */
-            epoch?: number;
+            epoch: number;
             /**
              * @description Block number
              * @example 5162844
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 052306cc8ded7adee92ccd9e10e31c8352f568408eb1868cf3ca751d67695dc8
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Amount in Lovelace
              * @example 305914672095
              */
-            amount?: string;
+            amount: string;
         };
         ADAOperationReward: {
             /**
              * @description reward
              * @example reward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date the rewards were earned on. It is the earned epoch end date.
              * @example 2021-01-03T21:49:34Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Stake address
              * @example stake1u84uqy85qpsln9a49dtv7mrzzp0246v7s2cj7ypjr555ldqenardf
              */
-            stake_address?: string;
+            stake_address: string;
             /**
              * @description Earned epoch number
              * @example 239
              */
-            epoch?: number;
+            epoch: number;
             /**
              * @description Pool the rewards come from.
              * @example pool1q0a7a94cfk4ph7gugj636tsuhhd98l2sfjv2adhaff2mvs7kmtl
              */
-            pool_id?: string;
+            pool_id: string;
             /**
              * @description Amount in Lovelace
              * @example 305914672095
              */
-            amount?: string;
+            amount: string;
         };
         ADANetworkStats: {
             /**
@@ -13897,8 +13897,9 @@ export interface components {
             /**
              * @description State of the POL stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "unstaked";
             /**
              * @description Block at which the corresponding staking transaction was executed
              * @example 6307582
@@ -13914,12 +13915,12 @@ export interface components {
              * @description Current balance in WEI of the stake
              * @example 11364372934211323407387
              */
-            balance?: string;
+            balance: string;
             /**
              * @description Amount of validator shares owned by the stake
              * @example 126664878892234995894
              */
-            shares?: string;
+            shares: string;
             /**
              * @description Balance in wei waiting to be withdrawn
              * @example 11364372934211323407387
@@ -14013,73 +14014,73 @@ export interface components {
              *     This can happen through the buyVoucher, restake and migrateIn methods.
              * @example share_minted
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator recipient of the delegation
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address receiving the shares
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Amount in WEI deposited by the user
              * @example 300000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Amount of shares received
              * @example 300000000
              */
-            tokens?: string;
+            tokens: string;
         };
         POLOperationShareBurned: {
             /**
@@ -14087,73 +14088,73 @@ export interface components {
              *     This can happen through the sellVoucher and migrateOut methods.
              * @example share_burned
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator reducing its shares
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address burning the shares
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Amount in WEI retrieved by the user
              * @example 300000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Amount of shares burnt
              * @example 300000000
              */
-            tokens?: string;
+            tokens: string;
         };
         POLOperationShareBurnedWithID: {
             /**
@@ -14161,78 +14162,78 @@ export interface components {
              *     This can happen through the sellVoucher_new method.
              * @example share_burned
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator reducing its shares
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address burning the shares
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Amount in WEI retrieved by the user
              * @example 300000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Amount of shares burnt
              * @example 300000000
              */
-            tokens?: string;
+            tokens: string;
             /**
              * @description Id of the event, matching a DelegatorUnstakedWithID
              * @example 1
              */
-            nonce?: number;
+            nonce: number;
         };
         POLOperationDelegatorRestaked: {
             /**
@@ -14241,68 +14242,68 @@ export interface components {
              *     It is important to note that this event only shows how much POL the delegator has delegated in total, it doesn't show how many rewards were restaked.
              * @example delegator_restaked
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator recipient of the re-delegation
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address re-delegating
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Total amount of WEI staked
              * @example 300000000
              */
-            total_staked?: string;
+            total_staked: string;
         };
         POLOperationDelegatorUnstaked: {
             /**
@@ -14310,68 +14311,68 @@ export interface components {
              *     This can happen through the unstakeClaimTokens and migrateOut methods.
              * @example delegator_unstaked
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator from which the user is unstaking
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address unstaking
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Amount of WEI unstaked
              * @example 300000000
              */
-            amount?: string;
+            amount: string;
         };
         POLOperationDelegatorUnstakedWithID: {
             /**
@@ -14379,73 +14380,73 @@ export interface components {
              *     This can happen through the unstakeClaimTokens_new.
              * @example delegator_unstaked
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator from which the user is unstaking
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address unstaking
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Amount of WEI unstaked
              * @example 300000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Id of the event, matching a ShareBurnedWithID
              * @example 1
              */
-            nonce?: number;
+            nonce: number;
         };
         POLOperationDelegatorClaimedRewards: {
             /**
@@ -14453,68 +14454,68 @@ export interface components {
              *     This can happen through most interactions with the contract when the delegators has enough rewards.
              * @example delegator_claimed_rewards
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator from which the user claims its rewards
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address claiming its rewards
              * @example 0xa
              */
-            user?: string;
+            user: string;
             /**
              * @description Amount claimed in WEI
              * @example 300000000
              */
-            rewards?: string;
+            rewards: string;
         };
         POLOperationSharesTransfer: {
             /**
@@ -14522,73 +14523,73 @@ export interface components {
              *     This can happen through the transfer method.
              * @example delegator_claimed_rewards
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number containing the transaction
              * @example 15955054
              */
-            block?: number;
+            block: number;
             /**
              * Format: date-time
              * @description Timestamp of the block
              * @example 2023-07-31T13:56:58Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Hash of the transaction
              * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Hash of the transaction
              * @example 1
              */
-            tx_index?: number;
+            tx_index: number;
             /**
              * @description Address of the sender of the transaction
              * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
              */
-            tx_sender?: string;
+            tx_sender: string;
             /**
              * @description Name of the contract method executed by the transaction
              * @example buyVoucher
              */
-            tx_method_name?: string | null;
+            tx_method_name?: string;
             /**
              * @description Gas used by the transaction in WEI
              * @example 2700999916653262
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Effective gas price used for this TX in WEI
              * @example 1499997889
              */
-            tx_effective_gas_price?: string | null;
+            tx_effective_gas_price?: string;
             /**
              * @description Cumulative gas used for this TX in WEI
              * @example 1499997889
              */
-            tx_cumulative_gas_used?: string | null;
+            tx_cumulative_gas_used?: string;
             /**
              * @description Index of the validator from which the user claims its rewards
              * @example 1
              */
-            validator_id?: number;
+            validator_id: number;
             /**
              * @description Address transfering the shares
              * @example 0xa
              */
-            from?: string;
+            from: string;
             /**
              * @description Address receiving the shares
              * @example 0xa
              */
-            to?: string;
+            to: string;
             /**
              * @description Amount in WEI
              * @example 300000000
              */
-            value?: string;
+            value: string;
         };
         POLNetworkStats: {
             /**
@@ -14808,8 +14809,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error" | "pending_confirmation";
             /**
              * @description Transaction receipt. Object shape can be found [here](https://github.com/web3/web3.js/blob/c5072a35996eb232e2742e92b612c07ba7af98ab/packages/web3-types/src/eth_types.ts#L299)
              * @example {
@@ -15552,7 +15554,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: (components["schemas"]["OSMOStakeMessage"] | components["schemas"]["OSMOStakeMessageRestake"])[];
+            messages: (components["schemas"]["OSMOStakeMessage"] | components["schemas"]["OSMOStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -17192,6 +17194,11 @@ export interface components {
              */
             net_rewards: string;
             /**
+             * @description Total gross rewards in Planck. Only available for kiln pool members. Default to 0.
+             * @example 37201548
+             */
+            gross_rewards: string;
+            /**
              * @description Total withdrawable rewards in Planck. Only available for pool members. Total of rewards that can be claimed from the pool.
              * @example 37201548
              */
@@ -17319,38 +17326,48 @@ export interface components {
              * @description The operation type
              * @example staking.bonded
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number of the event
              * @example 15828207
              */
-            block_number?: number;
+            block_number: number;
             /**
              * Format: date-time
-             * @description block timestamp of the event
+             * @description Block timestamp of the event
              * @example 2023-06-22T15:35:01.892644Z
              */
-            block_time?: string;
+            block_time: string;
             /**
-             * @description extrinsic sequence id of the event
+             * @description Hash of the transaction. Also named extrinsinc_hash.
+             * @example 0xf476bc1b633528a2cfbb1c959755318bed1c6825d7bb6b89d7ffc1026066f17c
+             */
+            tx_hash: string;
+            /**
+             * @description Extrinsic sequence id of the event
              * @example 4
              */
-            extrinsic_seq_id?: number;
+            extrinsic_seq_id: number;
             /**
              * @description Event sequence id of the event
              * @example 42
              */
-            event_seq_id?: number;
+            event_seq_id: number;
             /**
              * @description Amount added or removed from the staked balance in Planck
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
-             * @description address that originated the operation
+             * @description Address that originated the operation
              * @example 13UVJyLnbVp8c4FQeiGL1CZxAHdBYCemjgkAyN8AcRcDJtNr
              */
-            address?: string;
+            address: string;
+            /**
+             * @description Validator address
+             * @example 1497QNdycmxqMi3VJDxZDhaJh4s9tytr5RFWyrLcNse2xqPD
+             */
+            validator?: string;
             /**
              * @description Pool id associated. Only available for pool members
              * @example 118
@@ -17786,6 +17803,11 @@ export interface components {
              */
             net_rewards: string;
             /**
+             * @description Total gross rewards in Planck. Only available for kiln pool members. Default to 0.
+             * @example 37201548
+             */
+            gross_rewards: string;
+            /**
              * @description Total withdrawable rewards in Planck. Only available for pool members. Total of rewards that can be claimed from the pool.
              * @example 37201548
              */
@@ -17913,38 +17935,48 @@ export interface components {
              * @description The operation type
              * @example staking.bonded
              */
-            type?: string;
+            type: string;
             /**
              * @description Block number of the event
              * @example 15828207
              */
-            block_number?: number;
+            block_number: number;
             /**
              * Format: date-time
-             * @description block timestamp of the event
+             * @description Block timestamp of the event
              * @example 2023-06-22T15:35:01.892644Z
              */
-            block_time?: string;
+            block_time: string;
             /**
-             * @description extrinsic sequence id of the event
+             * @description Hash of the transaction. Also named extrinsinc_hash.
+             * @example 0xf476bc1b633528a2cfbb1c959755318bed1c6825d7bb6b89d7ffc1026066f17c
+             */
+            tx_hash: string;
+            /**
+             * @description Extrinsic sequence id of the event
              * @example 4
              */
-            extrinsic_seq_id?: number;
+            extrinsic_seq_id: number;
             /**
              * @description Event sequence id of the event
              * @example 42
              */
-            event_seq_id?: number;
+            event_seq_id: number;
             /**
              * @description Amount added or removed from the staked balance in Planck
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
-             * @description address that originated the operation
+             * @description Address that originated the operation
              * @example F3opxRbN5ZavB4LTn2PZNFRrF6pirwvYPbXnJKYNAmutiPY
              */
-            address?: string;
+            address: string;
+            /**
+             * @description Validator address
+             * @example FV3za2fceAXtw4KwVnPJK4c4Y2ph8VNMEA26MkgjTaEA76u
+             */
+            validator?: string;
             /**
              * @description Pool id associated. Only available for pool members
              * @example 131
@@ -18594,7 +18626,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: components["schemas"]["DYDXStakeMessage"][];
+            messages: components["schemas"]["DYDXStakeMessage"][];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -20306,7 +20338,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: (components["schemas"]["TIAStakeMessage"] | components["schemas"]["TIAStakeMessageRestake"])[];
+            messages: (components["schemas"]["TIAStakeMessage"] | components["schemas"]["TIAStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -21985,7 +22017,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: components["schemas"]["ZETAStakeMessage"][];
+            messages: components["schemas"]["ZETAStakeMessage"][];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -23666,7 +23698,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: components["schemas"]["KAVAStakeMessage"][];
+            messages: components["schemas"]["KAVAStakeMessage"][];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -25356,7 +25388,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: (components["schemas"]["FETStakeMessage"] | components["schemas"]["FETStakeMessageRestake"])[];
+            messages: (components["schemas"]["FETStakeMessage"] | components["schemas"]["FETStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -27047,7 +27079,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages?: components["schemas"]["INJStakeMessage"][];
+            messages: components["schemas"]["INJStakeMessage"][];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -28512,7 +28544,7 @@ export interface components {
              */
             total_balance: string;
             /**
-             * @description Whether the stake withdrawal has been requested
+             * @description Whether the stake withdrawal has been requested. This flag is contract specific.
              * @example false
              */
             withdraw_requested: boolean;
@@ -28537,18 +28569,29 @@ export interface components {
              * @example 6.02
              */
             net_apy: number;
-            withdraw_request: {
+            /** @description Single_nominator_pool_v1 contract only. Kiln specific withdrawal information */
+            kiln_requested_withdraw: {
                 /**
                  * @description Amount to withdraw
                  * @example 1002001960122254
                  */
                 amount: string;
                 /**
-                 * @description Flag to identify if the withdraw_request can be withdrawable
+                 * @description Flag to identify if the withdraw_request can be withdraw-able
                  * @example true
                  */
                 is_withdrawable: boolean;
             } | null;
+            /**
+             * @description Ton_whales contract only. Amount currently withdraw-able
+             * @example 100012345678
+             */
+            withdraw_balance: string | null;
+            /**
+             * @description Ton_whales contract only. Amount requested for withdraw
+             * @example 100087654321
+             */
+            withdraw_pending_balance: string | null;
         };
         TONRewardByEpoch: {
             /**
@@ -33854,7 +33897,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["ADAStake"][];
+                        data: components["schemas"]["ADAStake"][];
                     };
                 };
             };
@@ -33902,7 +33945,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["CoreStake"];
+                        data: components["schemas"]["CoreStake"];
                     };
                 };
             };
@@ -34016,7 +34059,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ADAOperationStakeRegistration"] | components["schemas"]["ADAOperationStakeDeregistration"] | components["schemas"]["ADAOperationDelegation"] | components["schemas"]["ADAOperationReward"] | components["schemas"]["ADAOperationWithdrawal"])[];
+                        data: (components["schemas"]["ADAOperationStakeRegistration"] | components["schemas"]["ADAOperationStakeDeregistration"] | components["schemas"]["ADAOperationDelegation"] | components["schemas"]["ADAOperationReward"] | components["schemas"]["ADAOperationWithdrawal"])[];
                     };
                 };
             };
