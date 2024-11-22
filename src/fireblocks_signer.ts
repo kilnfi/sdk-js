@@ -11,6 +11,10 @@ import {
 import { formatEther, formatUnits } from 'viem';
 import type { components } from './openapi/schema.js';
 
+/**
+ * Fireblocks asset id
+ * ref: https://github.com/fireblocks/fireblocks-web3-provider/blob/main/src/constants.ts
+ */
 export type FireblocksAssetId =
   | 'SOL_TEST'
   | 'SOL'
