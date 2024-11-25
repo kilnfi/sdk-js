@@ -530,6 +530,7 @@ export interface paths {
         };
         /**
          * EigenLayer Native Points
+         * @deprecated
          * @description Get restaked points of your EigenPod
          */
         get: operations["getEigenLayerNativePoints"];
@@ -570,6 +571,7 @@ export interface paths {
         };
         /**
          * EigenLayer Liquid Points
+         * @deprecated
          * @description Get restaked points of your Liquid Staking Tokens
          */
         get: operations["getEigenLayerLiquidPoints"];
@@ -6497,7 +6499,29 @@ export interface components {
              * @example NEAR
              * @enum {string}
              */
-            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "DYDX" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA";
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA";
+        };
+        DYDXPortfolio: components["schemas"]["BasePortfolio"] & {
+            /**
+             * @description Token name
+             * @example DYDX
+             * @enum {string}
+             */
+            token: "DYDX";
+            total_rewards: {
+                /**
+                 * Format: float
+                 * @description Total rewards earned in USDC for this protocol
+                 * @example 10896.4568
+                 */
+                amount_usdc: number;
+                /**
+                 * Format: float
+                 * @description Total USD of USDC rewards earned for this protocol
+                 * @example 1896.4568
+                 */
+                amount_usdc_usd: number;
+            };
         };
         ETHPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
@@ -6612,7 +6636,7 @@ export interface components {
              */
             total_active_stakes: number;
             /** @description List of protocols staked within the account */
-            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["ETHPortfolio"])[];
+            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["DYDXPortfolio"] | components["schemas"]["ETHPortfolio"])[];
             /**
              * @description Error message if some protocol data could not be retrieved
              * @example We could not fetch data for the following protocols: TON
@@ -7013,6 +7037,7 @@ export interface components {
                  */
                 last_checkpointed_at: number;
                 /**
+                 * @deprecated
                  * @description Amount of restaked points of the stake
                  * @example 16287.724444444444
                  */
@@ -29139,6 +29164,8 @@ export interface components {
         ETHEigenLayerOperatorParam: string;
         /** @description wallet address */
         ETHEigenLayerWalletParam: string;
+        /** @description EigenPod address */
+        ETHEigenLayerEigenPodParam: string;
         /** @description Scope of validators to fetch (all network, all kiln keys) */
         ETHScopeParam: string;
         /** @description Comma-separated list of wallets addresses */
@@ -30623,6 +30650,8 @@ export interface operations {
             query: {
                 /** @description wallet address */
                 wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                /** @description EigenPod address */
+                eigenpod: components["parameters"]["ETHEigenLayerEigenPodParam"];
             };
             header?: never;
             path?: never;
@@ -30715,6 +30744,8 @@ export interface operations {
             query: {
                 /** @description wallet address */
                 wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                /** @description EigenPod address */
+                eigenpod: components["parameters"]["ETHEigenLayerEigenPodParam"];
             };
             header?: never;
             path?: never;
@@ -30761,6 +30792,8 @@ export interface operations {
             query: {
                 /** @description wallet address */
                 wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                /** @description EigenPod address */
+                eigenpod: components["parameters"]["ETHEigenLayerEigenPodParam"];
             };
             header?: never;
             path?: never;
