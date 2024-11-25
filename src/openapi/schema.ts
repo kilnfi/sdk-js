@@ -29163,6 +29163,8 @@ export interface components {
         /** @description operator address */
         ETHEigenLayerOperatorParam: string;
         /** @description wallet address */
+        ETHEigenLayerRequiredWalletParam: string;
+        /** @description wallet address */
         ETHEigenLayerWalletParam: string;
         /** @description EigenPod address */
         ETHEigenLayerEigenPodParam: string;
@@ -30553,7 +30555,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet: components["parameters"]["ETHEigenLayerRequiredWalletParam"];
             };
             header?: never;
             path?: never;
@@ -30647,11 +30649,11 @@ export interface operations {
     };
     getEigenLayerSummary: {
         parameters: {
-            query: {
+            query?: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet?: components["parameters"]["ETHEigenLayerWalletParam"];
                 /** @description EigenPod address */
-                eigenpod: components["parameters"]["ETHEigenLayerEigenPodParam"];
+                eigenpod?: components["parameters"]["ETHEigenLayerEigenPodParam"];
             };
             header?: never;
             path?: never;
@@ -30697,7 +30699,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet: components["parameters"]["ETHEigenLayerRequiredWalletParam"];
             };
             header?: never;
             path?: never;
@@ -30741,11 +30743,11 @@ export interface operations {
     };
     getEigenLayerNativePoints: {
         parameters: {
-            query: {
+            query?: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet?: components["parameters"]["ETHEigenLayerWalletParam"];
                 /** @description EigenPod address */
-                eigenpod: components["parameters"]["ETHEigenLayerEigenPodParam"];
+                eigenpod?: components["parameters"]["ETHEigenLayerEigenPodParam"];
             };
             header?: never;
             path?: never;
@@ -30789,11 +30791,11 @@ export interface operations {
     };
     getEigenLayerNativeUndelegations: {
         parameters: {
-            query: {
+            query?: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet?: components["parameters"]["ETHEigenLayerWalletParam"];
                 /** @description EigenPod address */
-                eigenpod: components["parameters"]["ETHEigenLayerEigenPodParam"];
+                eigenpod?: components["parameters"]["ETHEigenLayerEigenPodParam"];
             };
             header?: never;
             path?: never;
@@ -30839,7 +30841,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet: components["parameters"]["ETHEigenLayerRequiredWalletParam"];
             };
             header?: never;
             path?: never;
@@ -30885,7 +30887,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet: components["parameters"]["ETHEigenLayerRequiredWalletParam"];
             };
             header?: never;
             path?: never;
@@ -30931,7 +30933,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @description wallet address */
-                wallet: components["parameters"]["ETHEigenLayerWalletParam"];
+                wallet: components["parameters"]["ETHEigenLayerRequiredWalletParam"];
             };
             header?: never;
             path?: never;
