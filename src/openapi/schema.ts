@@ -6414,8 +6414,9 @@ export interface components {
             /**
              * @description Protocol name
              * @example ethereum
+             * @enum {string}
              */
-            protocol: string;
+            protocol: "ethereum" | "solana" | "near" | "tezos" | "cardano" | "cosmos" | "matic";
             /**
              * Format: date-time
              * @description Creation date
@@ -6730,7 +6731,7 @@ export interface components {
              * @example active
              * @enum {string}
              */
-            status: "pending" | "active" | "disabled";
+            status: "pending" | "active" | "disabled" | "deposit_paused";
             /**
              * @description Custom icon of the asset
              * @example https://example.com/icon.png
@@ -7862,8 +7863,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error" | "pending_confirmation";
             /**
              * @description Transaction receipt. Object shape can be found [here](https://github.com/web3/web3.js/blob/c5072a35996eb232e2742e92b612c07ba7af98ab/packages/web3-types/src/eth_types.ts#L299)
              * @example {
@@ -8512,13 +8514,15 @@ export interface components {
             /**
              * @description State of the Tezos stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "activating" | "active" | "inactive";
             /**
              * @description Type of Tezos stake, delegation or stake
              * @example stake
+             * @enum {string}
              */
-            stake_type: string;
+            stake_type: "stake" | "delegation";
             /**
              * Format: date-time
              * @description Date at which the stake started earning rewards
@@ -9124,8 +9128,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example applied
+             * @enum {string}
              */
-            status?: string;
+            status?: "applied" | "failed" | "skipped" | "backtracked";
             /**
              * @description Transaction receipt. Object shape can be found [here](https://github.com/ecadlabs/taquito/blob/master/packages/taquito-rpc/src/types.ts#L1206)
              * @example {
@@ -9835,8 +9840,9 @@ export interface components {
             /**
              * @description Stake state
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "inactive" | "activating" | "deactivating" | "withdrawn";
             /**
              * Format: date-time
              * @description Date at which this stake was activated
@@ -10622,8 +10628,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Object shape can be found [here](https://github.com/solana-labs/solana-web3.js/blob/dfc6d588b4b7c880d74dc727399ee8a84979b480/packages/library-legacy/src/connection.ts#L1071)
              * @example {
@@ -10812,8 +10819,9 @@ export interface components {
             /**
              * @description State of the ATOM stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -11125,8 +11133,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -12523,8 +12532,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "pending_confirmation";
             /**
              * @description Transaction receipt. Object shape can be found [here](https://github.com/blockfrost/openapi/blob/master/src/generated-types.ts#L4493)
              * @example {
@@ -12653,8 +12663,9 @@ export interface components {
             /**
              * @description State of the stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "inactive";
             /**
              * @description Net annual percentage yield
              * @example 0.188014
@@ -12944,8 +12955,9 @@ export interface components {
             /**
              * @description State of the MATIC stake
              * @example active
+             * @enum {string}
              */
-            state?: string;
+            state?: "active" | "unstaked";
             /**
              * @description Block at which the corresponding staking transaction was executed
              * @example 6307582
@@ -13855,8 +13867,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error" | "pending_confirmation";
             /**
              * @description Transaction receipt. Object shape can be found [here](https://github.com/web3/web3.js/blob/c5072a35996eb232e2742e92b612c07ba7af98ab/packages/web3-types/src/eth_types.ts#L299)
              * @example {
@@ -15410,8 +15423,9 @@ export interface components {
             /**
              * @description State of the Osmosis stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -15723,8 +15737,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -17171,8 +17186,9 @@ export interface components {
             /**
              * @description Type of the operation. i.e. delegate, undelegate, claimRewards, etc.
              * @example delegate
+             * @enum {string}
              */
-            type: string;
+            type: "addNodes" | "changeOwner" | "changeServiceFee" | "getAllNodeStates" | "modifyTotalDelegationCap" | "removeNodes" | "reStakeUnStakedNodes" | "setAutomaticActivation" | "setCheckCapOnReDelegateRewards" | "setMetaData" | "stakeNodes" | "synchronizeOwner" | "unBondNodes" | "unJailNodes" | "delegate" | "unStakeNodes" | "whitelistForMerge" | "unDelegate" | "claimRewards" | "reDelegateRewards" | "reward" | "withdraw";
         };
         EgldNetworkStats: {
             /**
@@ -17251,8 +17267,9 @@ export interface components {
             /**
              * @description State of the stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "inactive";
             /**
              * @description Annual percentage yield
              * @example 0.188014
@@ -17860,8 +17877,9 @@ export interface components {
             /**
              * @description State of the stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "inactive";
             /**
              * @description Annual percentage yield
              * @example 0.188014
@@ -18491,8 +18509,9 @@ export interface components {
             /**
              * @description State of the DYDX stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -18795,8 +18814,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -20194,8 +20214,9 @@ export interface components {
             /**
              * @description State of the Celestia stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -20507,8 +20528,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -21882,8 +21904,9 @@ export interface components {
             /**
              * @description State of the ZETACHAIN stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -22186,8 +22209,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -23563,8 +23587,9 @@ export interface components {
             /**
              * @description State of the Kava stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -23867,8 +23892,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -25244,8 +25270,9 @@ export interface components {
             /**
              * @description State of the Fetch stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -25557,8 +25584,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -26944,8 +26972,9 @@ export interface components {
             /**
              * @description State of the Injective stake
              * @example active
+             * @enum {string}
              */
-            state: string;
+            state: "active" | "deactivating" | "inactive";
             /**
              * Format: date-time
              * @description Last date this data was updated
@@ -27248,8 +27277,9 @@ export interface components {
             /**
              * @description Transaction status
              * @example success
+             * @enum {string}
              */
-            status?: string;
+            status?: "success" | "error";
             /**
              * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
              * @example {
@@ -28733,8 +28763,9 @@ export interface components {
             /**
              * @description Status of the withdraw request
              * @example requested
+             * @enum {string}
              */
-            status?: string;
+            status?: "requested" | "withdrawn";
         };
         TONPostStakesPayload: {
             stakes: {
@@ -29161,7 +29192,7 @@ export interface components {
         /** @description Number of entries to list per page. Only used when `current_page` is specified */
         PaginationPageSizeParam: number;
         /** @description Comma-separated list of states to filter on (unknown, unstaked, deposit_in_progress, pending_initialized, pending_queued, active_ongoing, active_exiting, active_slashed, exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done). Not available with the `scope` parameter */
-        FilterStatesParam: string[];
+        FilterStatesParam: ("unknown" | "unstaked" | "deposit_in_progress" | "pending_initialized" | "pending_queued" | "active_ongoing" | "active_exiting" | "active_slashed" | "exited_unslashed" | "exited_slashed" | "withdrawal_possible" | "withdrawal_done")[];
         /** @description Get data from this date (YYYY-MM-DD) */
         StartDateParam: string;
         /** @description Get data to this date (YYYY-MM-DD) */
@@ -29189,7 +29220,7 @@ export interface components {
         /** @description EigenPod address */
         ETHEigenLayerEigenPodParam: string;
         /** @description Scope of validators to fetch (all network, all kiln keys) */
-        ETHScopeParam: string;
+        ETHScopeParam: "kiln" | "network";
         /** @description Comma-separated list of wallets addresses */
         ETHWalletsParam: string[];
         /** @description Comma-separated list of proxy-contract addresses.
@@ -29218,7 +29249,7 @@ export interface components {
         /** @description The cycle until which we want to fetch rewards. Must be used with `format=cycle` */
         XTZEndCycleParam: number;
         /** @description The format of the response. Defaults to `daily` */
-        XTZRewardsFormatParam: string;
+        XTZRewardsFormatParam: "daily" | "cycle";
         /** @description Comma-separated list of wallets addresses */
         SOLWalletsParam: string[];
         /** @description Comma-separated list of stake addresses */
@@ -29230,7 +29261,7 @@ export interface components {
         /** @description The epoch until which we want to fetch rewards. Must be used with `format=epoch` */
         SOLEndEpochParam: number;
         /** @description The format of the response. Defaults to `daily` */
-        SOLRewardsFormatParam: string;
+        SOLRewardsFormatParam: "daily" | "epoch";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -29249,7 +29280,7 @@ export interface components {
         ADAWalletsParam: string;
         ADAPoolIDsParam: string;
         /** @description The format of the response. Defaults to `daily` */
-        ADARewardsFormatParam: string;
+        ADARewardsFormatParam: "daily" | "epoch";
         /** @description The epoch from which we want to fetch rewards. Must be used with `format=epoch` */
         ADAStartEpochParam: number;
         /** @description The epoch until which we want to fetch rewards. Must be used with `format=epoch` */
@@ -29277,7 +29308,7 @@ export interface components {
         /** @description The epoch until which we want to fetch rewards. Must be used with `format=epoch` */
         NEAREndEpochParam: number;
         /** @description The format of the response. Defaults to `daily` */
-        NEARRewardsFormatParam: string;
+        NEARRewardsFormatParam: "daily" | "epoch";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -29303,7 +29334,7 @@ export interface components {
         DOTPaginationPageSizeParam: number;
         DOTPoolIDsParam: number;
         /** @description The format of the response. Defaults to `daily` */
-        DOTRewardsFormatParam: string;
+        DOTRewardsFormatParam: "daily" | "era";
         KSMAddressesParam: string;
         /** @description Current page to look-up entries. Defaults to 1. If the number of entries returned is lesser than `page_size`, it means it's the last page and there are no more entries. */
         KSMPaginationPageParam: number;
@@ -29311,7 +29342,7 @@ export interface components {
         KSMPaginationPageSizeParam: number;
         KSMPoolIDsParam: number;
         /** @description The format of the response. Defaults to `daily` */
-        KSMRewardsFormatParam: string;
+        KSMRewardsFormatParam: "daily" | "era";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -29397,7 +29428,7 @@ export interface components {
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         INJAuthzFlagParam: boolean;
         /** @description The format of the response. Defaults to `daily` */
-        TONRewardsFormatParam: string;
+        TONRewardsFormatParam: "daily" | "epoch";
         /** @description Comma-separated list of nominator addresses */
         TONNominatorsParam: string[];
         /** @description Comma-separated list of pool addresses */
@@ -31033,7 +31064,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json; charset=utf-8": components["schemas"]["ETHUnsignedTx"];
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
                 };
             };
             /** @description Invalid parameters or No rewards to claim */
@@ -31094,7 +31127,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json; charset=utf-8": components["schemas"]["ETHUnsignedTx"];
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
                 };
             };
             /** @description Invalid parameters or No more checkpoint proofs to process */
@@ -31149,7 +31184,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json; charset=utf-8": components["schemas"]["ETHUnsignedTx"];
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
                 };
             };
             /** @description Invalid parameters */
