@@ -7293,6 +7293,16 @@ export interface components {
              */
             token_address: string;
             /**
+             * @description Symbol of the token
+             * @example EIGEN
+             */
+            token_symbol: string;
+            /**
+             * @description Decimals of the token
+             * @example 18
+             */
+            token_decimals: number;
+            /**
              * @description Amount of claimable rewards
              * @example 423768272961631825
              */
@@ -7348,12 +7358,12 @@ export interface components {
              */
             beaconchain_restaked_balance: string;
             /**
-             * @description The sum of validators that are not restaked in the eigenpod and that don't have an `activation_eligibility_epoch` set yet
+             * @description The sum of validators that are not restaked in the eigenpod and that are not `active_ongoing`
              * @example 32000000000000000000
              */
             beaconchain_pending_balance: string;
             /**
-             * @description The sum of validators that are not restaked in the eigenpod and that have an `activation_eligibility_epoch` set
+             * @description The sum of validators that are not restaked in the eigenpod and that are `active_ongoing`
              * @example 32000000000000000000
              */
             beaconchain_restakable_balance: string;
@@ -7984,6 +7994,11 @@ export interface components {
              * @example 100000
              */
             total_rewards: string;
+            /**
+             * @description Current rewards represent the rewards since the last complete withdraw (last time a position went back to 0 in current_balance and a new deposit was performed) in the lowest unit of the token (ie asset_amount * 10**decimal)
+             * @example 100000
+             */
+            current_rewards: string;
             /**
              * @description Total deposited amount in the lowest unit of the token (ie asset_amount * 10**decimal)
              * @example 1980000
@@ -9926,7 +9941,6 @@ export interface components {
         };
         SOLRewardByEpoch: {
             /**
-             * Format: integer
              * @description Epoch for this reward entry
              * @example 120
              */
@@ -15082,7 +15096,6 @@ export interface components {
         };
         NEARRewardByEpoch: {
             /**
-             * Format: integer
              * @description Epoch for this reward entry
              * @example 120
              */
@@ -28633,7 +28646,7 @@ export interface components {
              * @example single_nominator_pool_v1
              * @enum {string}
              */
-            pool_type: "single_nominator_pool_v1" | "nominator_pool_v1";
+            pool_type: "single_nominator_pool_v1" | "nominator_pool_v1" | "ton_whales";
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation
              * @example 9020446847418
