@@ -1,17 +1,17 @@
 export type BitcoinTx = {
-	data: {
-		unsigned_tx_serialized: string;
-	};
+  data: {
+    unsigned_tx_serialized: string;
+  };
 };
 
 export type BitcoinSignedTx = {
-	data: {
-		signed_tx_serialized: string;
-	};
+  data: {
+    signed_tx_serialized: string;
+  };
 };
 
 export type BitcoinTxHash = {
-	data: {
-		tx_id: string;
-	};
+  data: {
+    tx_id: string;
+  };
 };
