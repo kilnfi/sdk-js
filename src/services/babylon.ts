@@ -12,8 +12,8 @@ export class BabylonService extends Service {
   }
 
   /**
-	 * Craft a babylon stake transaction
-	 */
+   * Craft a babylon stake transaction
+   */
   async craftStakeTx(accountId: string, publicKey: string, amountSatoshi: number, timeLock: number, feeRate: number): Promise<BitcoinTx> {
     const { data } = await api.post<BitcoinTx>('/v1/babylon/transaction/stake', {
       account_id: accountId,
@@ -26,11 +26,11 @@ export class BabylonService extends Service {
   }
 
   /**
-	 * Sign transaction with given integration
-	 * @param integration custody solution to sign with
-	 * @param tx raw babylon transaction
-	 * @param note note to identify the transaction in your custody solution
-	 */
+   * Sign transaction with given integration
+   * @param integration custody solution to sign with
+   * @param tx raw babylon transaction
+   * @param note note to identify the transaction in your custody solution
+   */
   async sign(integration: Integration, tx: BitcoinTx, note?: string): Promise<BitcoinSignedTx> {
     const fbSigner = await FireblocksPsbtSigner.create({
       fireblocks: {
