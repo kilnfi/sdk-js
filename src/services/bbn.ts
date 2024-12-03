@@ -38,7 +38,7 @@ export class BbnService extends Service {
         apiKey: integration.fireblocksApiKey,
         secretKey: integration.fireblocksSecretKey,
       },
-      assetId: this.testnet ? "BTC_TEST" : "BTC",
+      assetId: "BTC",
       vaultId: integration.vaultId.toString(),
       addressIndex: 0,
       note: note ?? "BTC tx from @kilnfi/sdk",
