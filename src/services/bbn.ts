@@ -6,7 +6,7 @@ import type { ServiceProps } from "../types/service";
 import type { Integration } from "../types/integrations";
 import { FireblocksSigner as FireblocksPsbtSigner } from "@fireblocks/psbt-sdk";
 
-export class BabylonService extends Service {
+export class BbnService extends Service {
   constructor({ testnet }: ServiceProps) {
     super({ testnet });
   }
@@ -15,7 +15,7 @@ export class BabylonService extends Service {
    * Craft a babylon stake transaction
    */
   async craftStakeTx(accountId: string, publicKey: string, amountSatoshi: number, timeLock: number, feeRate: number): Promise<BitcoinTx> {
-    const { data } = await api.post<BitcoinTx>('/v1/babylon/transaction/stake', {
+    const { data } = await api.post<BitcoinTx>('/v1/bbn/transaction/stake', {
       account_id: accountId,
       public_key: publicKey,
       amount_satoshi: amountSatoshi,
@@ -59,7 +59,7 @@ export class BabylonService extends Service {
    * @param signedTx the transaction to broadcast
    */
   async broadcast(signedTx: BitcoinSignedTx): Promise<BitcoinTxHash> {
-    const { data } = await api.post<BitcoinTxHash>('/v1/babylon/transaction/broadcast', {
+    const { data } = await api.post<BitcoinTxHash>('/v1/bbn/transaction/broadcast', {
       tx_serialized: signedTx.data.signed_tx_serialized,
     });
     return data;

@@ -21,7 +21,7 @@ import { ZetaService } from "./services/zeta";
 import { KILN_VALIDATORS as v } from "./validators";
 import { KavaService } from "./services/kava";
 import { PolService } from "./services/pol";
-import { BabylonService } from "./services/babylon";
+import { BbnService } from "./services/bbn";
 
 type Config = {
   apiToken: string;
@@ -53,7 +53,7 @@ export class Kiln {
   zeta: ZetaService;
   kava: KavaService;
   pol: PolService;
-  babylon: BabylonService;
+  bbn: BbnService;
 
   constructor({ testnet, apiToken, baseUrl }: Config) {
     api.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
@@ -81,6 +81,6 @@ export class Kiln {
     this.zeta = new ZetaService({ testnet });
     this.kava = new KavaService({ testnet });
     this.pol = new PolService({ testnet });
-    this.babylon = new BabylonService({ testnet });
+    this.bbn = new BbnService({ testnet });
   }
 }
