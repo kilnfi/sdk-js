@@ -18,7 +18,6 @@ export type AssetId =
   | "ETH_TEST5"
   | "ETH_TEST6"
   | "ETH"
-  | "ATOM_COS_TEST"
   | "ATOM_COS"
   | "OSMO_TEST"
   | "OSMO"
