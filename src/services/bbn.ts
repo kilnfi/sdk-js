@@ -57,9 +57,11 @@ export class BbnService extends Service {
   /**
    * Broadcast transaction to the network
    * @param signedTx the transaction to broadcast
+   * @param accountId the account id to attach the stake to
    */
-  async broadcast(signedTx: BitcoinSignedTx): Promise<BitcoinTxHash> {
+  async broadcast(signedTx: BitcoinSignedTx, accountId?: string): Promise<BitcoinTxHash> {
     const { data } = await api.post<BitcoinTxHash>('/v1/bbn/transaction/broadcast', {
+      account_id: accountId,
       tx_serialized: signedTx.data.signed_tx_serialized,
     });
     return data;
