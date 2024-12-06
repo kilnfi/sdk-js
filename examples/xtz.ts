@@ -21,7 +21,7 @@ const vault: FireblocksIntegration = {
 try {
   console.log('crafting...');
   const tx = await k.client.POST(
-    '/v1/xtz/transaction/delegate',
+    '/xtz/transaction/delegate',
     {
       body: {
         account_id: 'd3f1b917-72b1-4982-a4dd-93fce579a708',
@@ -35,7 +35,7 @@ try {
   const signResponse = await k.fireblocks.signXtzTx(vault, tx.data.data, "XTZ_TEST");
   if(!signResponse.signed_tx?.data.signed_tx_serialized) throw new Error('No signed_tx in response');
   console.log('broadcasting...');
-  const broadcastedTx = await k.client.POST("/v1/xtz/transaction/broadcast", {
+  const broadcastedTx = await k.client.POST("/xtz/transaction/broadcast", {
     body: {
       tx_serialized: signResponse.signed_tx.data.signed_tx_serialized
     }

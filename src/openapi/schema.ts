@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/v1/accounts": {
+    "/accounts": {
         parameters: {
             query?: never;
             header?: never;
@@ -28,7 +28,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/accounts/{id}": {
+    "/accounts/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -56,7 +56,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/accounts/{id}/portfolio": {
+    "/accounts/{id}/portfolio": {
         parameters: {
             query?: never;
             header?: never;
@@ -76,7 +76,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/accounts/{id}/reports": {
+    "/accounts/{id}/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -96,7 +96,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/organizations/{id}/portfolio": {
+    "/organizations/{id}/portfolio": {
         parameters: {
             query?: never;
             header?: never;
@@ -116,7 +116,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/organizations/{id}/reports": {
+    "/organizations/{id}/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -136,7 +136,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/deployments": {
+    "/deployments": {
         parameters: {
             query?: never;
             header?: never;
@@ -156,7 +156,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/stakes": {
+    "/eth/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -180,7 +180,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/rewards": {
+    "/eth/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -200,7 +200,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/operations": {
+    "/eth/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -220,7 +220,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/network-stats": {
+    "/eth/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -240,7 +240,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/kiln-stats": {
+    "/eth/kiln-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -260,7 +260,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/keys": {
+    "/eth/keys": {
         parameters: {
             query?: never;
             header?: never;
@@ -281,7 +281,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/transaction/stake": {
+    "/eth/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -301,7 +301,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/transaction/prepare": {
+    "/eth/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -321,7 +321,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/transaction/broadcast": {
+    "/eth/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -341,7 +341,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/transaction/status": {
+    "/eth/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -361,7 +361,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/transaction/exit-request": {
+    "/eth/transaction/exit-request": {
         parameters: {
             query?: never;
             header?: never;
@@ -381,7 +381,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/transaction/decode": {
+    "/eth/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -401,7 +401,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/reports": {
+    "/eth/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -421,7 +421,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/exit-messages": {
+    "/eth/exit-messages": {
         parameters: {
             query?: never;
             header?: never;
@@ -441,7 +441,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/eigenpod": {
+    "/eth/eigenlayer/eigenpod": {
         parameters: {
             query?: never;
             header?: never;
@@ -461,7 +461,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/operator": {
+    "/eth/eigenlayer/operator": {
         parameters: {
             query?: never;
             header?: never;
@@ -481,7 +481,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/summary": {
+    "/eth/eigenlayer/summary": {
         parameters: {
             query?: never;
             header?: never;
@@ -501,7 +501,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/avs-rewards": {
+    "/eth/eigenlayer/avs-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -521,7 +521,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/native/points": {
+    "/eth/eigenlayer/native/points": {
         parameters: {
             query?: never;
             header?: never;
@@ -542,7 +542,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/native/undelegations": {
+    "/eth/eigenlayer/native/undelegations": {
         parameters: {
             query?: never;
             header?: never;
@@ -562,7 +562,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/liquid/points": {
+    "/eth/eigenlayer/liquid/points": {
         parameters: {
             query?: never;
             header?: never;
@@ -583,7 +583,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/liquid/deposits": {
+    "/eth/eigenlayer/liquid/deposits": {
         parameters: {
             query?: never;
             header?: never;
@@ -603,7 +603,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/liquid/withdrawals": {
+    "/eth/eigenlayer/liquid/withdrawals": {
         parameters: {
             query?: never;
             header?: never;
@@ -623,7 +623,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/transaction/claim-rewards": {
+    "/eth/eigenlayer/transaction/claim-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -643,7 +643,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/transaction/verify-checkpoint-proofs": {
+    "/eth/eigenlayer/transaction/verify-checkpoint-proofs": {
         parameters: {
             query?: never;
             header?: never;
@@ -663,7 +663,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/eigenlayer/transaction/verify-withdrawal-credentials": {
+    "/eth/eigenlayer/transaction/verify-withdrawal-credentials": {
         parameters: {
             query?: never;
             header?: never;
@@ -683,7 +683,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/defi/stakes": {
+    "/defi/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -703,7 +703,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/defi/operations": {
+    "/defi/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -723,7 +723,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/defi/network-stats": {
+    "/defi/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -743,7 +743,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v1/keys": {
+    "/eth/onchain/v1/keys": {
         parameters: {
             query?: never;
             header?: never;
@@ -767,7 +767,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v2/keys": {
+    "/eth/onchain/v2/keys": {
         parameters: {
             query?: never;
             header?: never;
@@ -791,7 +791,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v2/stakes": {
+    "/eth/onchain/v2/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -811,7 +811,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v2/operations": {
+    "/eth/onchain/v2/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -831,7 +831,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v2/rewards": {
+    "/eth/onchain/v2/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -851,7 +851,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v2/network-stats": {
+    "/eth/onchain/v2/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -871,7 +871,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/eth/onchain/v2/exit-tickets": {
+    "/eth/onchain/v2/exit-tickets": {
         parameters: {
             query?: never;
             header?: never;
@@ -891,7 +891,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/stakes": {
+    "/xtz/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -911,7 +911,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/rewards": {
+    "/xtz/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -931,7 +931,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/operations": {
+    "/xtz/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -951,7 +951,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/network-stats": {
+    "/xtz/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -971,7 +971,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/reports": {
+    "/xtz/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -991,7 +991,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/delegate": {
+    "/xtz/transaction/delegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -1011,7 +1011,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/undelegate": {
+    "/xtz/transaction/undelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -1031,7 +1031,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/stake": {
+    "/xtz/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1051,7 +1051,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/unstake": {
+    "/xtz/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1071,7 +1071,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/finalize-unstake": {
+    "/xtz/transaction/finalize-unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1091,7 +1091,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/prepare": {
+    "/xtz/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -1111,7 +1111,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/broadcast": {
+    "/xtz/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -1131,7 +1131,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/status": {
+    "/xtz/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -1151,7 +1151,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/xtz/transaction/decode": {
+    "/xtz/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -1171,7 +1171,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/stakes": {
+    "/sol/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -1195,7 +1195,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/rewards": {
+    "/sol/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1215,7 +1215,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/operations": {
+    "/sol/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -1235,7 +1235,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/network-stats": {
+    "/sol/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -1255,7 +1255,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/reports": {
+    "/sol/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -1275,7 +1275,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/nonce-account": {
+    "/sol/nonce-account": {
         parameters: {
             query?: never;
             header?: never;
@@ -1295,7 +1295,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/stake": {
+    "/sol/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1315,7 +1315,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/deactivate-stake": {
+    "/sol/transaction/deactivate-stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1335,7 +1335,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/withdraw-stake": {
+    "/sol/transaction/withdraw-stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1355,7 +1355,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/merge-stakes": {
+    "/sol/transaction/merge-stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -1375,7 +1375,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/split-stake": {
+    "/sol/transaction/split-stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1395,7 +1395,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/prepare": {
+    "/sol/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -1415,7 +1415,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/broadcast": {
+    "/sol/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -1435,7 +1435,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/status": {
+    "/sol/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -1455,7 +1455,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/sol/transaction/decode": {
+    "/sol/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -1475,7 +1475,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/stakes": {
+    "/atom/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -1500,7 +1500,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/rewards": {
+    "/atom/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1520,7 +1520,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/operations": {
+    "/atom/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -1540,7 +1540,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/network-stats": {
+    "/atom/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -1560,7 +1560,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/reports": {
+    "/atom/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -1580,7 +1580,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/stake": {
+    "/atom/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1600,7 +1600,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/withdraw-rewards": {
+    "/atom/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1620,7 +1620,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/restake-rewards": {
+    "/atom/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1640,7 +1640,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/unstake": {
+    "/atom/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1660,7 +1660,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/redelegate": {
+    "/atom/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -1680,7 +1680,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/prepare": {
+    "/atom/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -1700,7 +1700,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/broadcast": {
+    "/atom/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -1720,7 +1720,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/status": {
+    "/atom/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -1740,7 +1740,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/atom/transaction/decode": {
+    "/atom/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -1760,7 +1760,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/stakes": {
+    "/ada/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -1784,7 +1784,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/rewards": {
+    "/ada/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1804,7 +1804,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/operations": {
+    "/ada/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -1824,7 +1824,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/reports": {
+    "/ada/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -1844,7 +1844,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/network-stats": {
+    "/ada/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -1864,7 +1864,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/stake": {
+    "/ada/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1884,7 +1884,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/withdraw-rewards": {
+    "/ada/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1904,7 +1904,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/unstake": {
+    "/ada/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -1924,7 +1924,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/prepare": {
+    "/ada/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -1944,7 +1944,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/broadcast": {
+    "/ada/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -1964,7 +1964,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/status": {
+    "/ada/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -1984,7 +1984,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ada/transaction/decode": {
+    "/ada/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -2004,7 +2004,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/stakes": {
+    "/bbn/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description BBN
+         */
+        get: operations["getBbnStakes"];
+        put?: never;
+        /**
+         * Create stakes
+         * @description Link BBN stakes to a Kiln account
+         */
+        post: operations["postBbnStakes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bbn/transaction/stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stake Transaction
+         * @description Craft a staking transaction to stake your bitcoin
+         */
+        post: operations["postBbnStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/bbn/transaction/broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast Transaction
+         * @description Broadcast a signed transaction to the Babylon network
+         */
+        post: operations["postBbnBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/matic/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -2032,7 +2096,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/rewards": {
+    "/matic/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2055,7 +2119,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/operations": {
+    "/matic/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -2077,7 +2141,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/network-stats": {
+    "/matic/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -2098,7 +2162,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/reports": {
+    "/matic/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -2119,7 +2183,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/approve": {
+    "/matic/transaction/approve": {
         parameters: {
             query?: never;
             header?: never;
@@ -2140,7 +2204,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/buy-voucher": {
+    "/matic/transaction/buy-voucher": {
         parameters: {
             query?: never;
             header?: never;
@@ -2161,7 +2225,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/sell-voucher": {
+    "/matic/transaction/sell-voucher": {
         parameters: {
             query?: never;
             header?: never;
@@ -2182,7 +2246,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/unstake-claim-tokens": {
+    "/matic/transaction/unstake-claim-tokens": {
         parameters: {
             query?: never;
             header?: never;
@@ -2203,7 +2267,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/withdraw-rewards": {
+    "/matic/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2224,7 +2288,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/restake-rewards": {
+    "/matic/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2245,7 +2309,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/prepare": {
+    "/matic/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -2266,7 +2330,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/broadcast": {
+    "/matic/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -2287,7 +2351,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/status": {
+    "/matic/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -2308,7 +2372,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/matic/transaction/decode": {
+    "/matic/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -2329,7 +2393,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/stakes": {
+    "/pol/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -2355,7 +2419,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/rewards": {
+    "/pol/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2377,7 +2441,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/operations": {
+    "/pol/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -2398,7 +2462,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/network-stats": {
+    "/pol/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -2418,7 +2482,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/reports": {
+    "/pol/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -2438,7 +2502,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/approve": {
+    "/pol/transaction/approve": {
         parameters: {
             query?: never;
             header?: never;
@@ -2458,7 +2522,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/buy-voucher": {
+    "/pol/transaction/buy-voucher": {
         parameters: {
             query?: never;
             header?: never;
@@ -2478,7 +2542,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/sell-voucher": {
+    "/pol/transaction/sell-voucher": {
         parameters: {
             query?: never;
             header?: never;
@@ -2498,7 +2562,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/unstake-claim-tokens": {
+    "/pol/transaction/unstake-claim-tokens": {
         parameters: {
             query?: never;
             header?: never;
@@ -2518,7 +2582,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/withdraw-rewards": {
+    "/pol/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2538,7 +2602,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/restake-rewards": {
+    "/pol/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2558,7 +2622,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/prepare": {
+    "/pol/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -2578,7 +2642,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/broadcast": {
+    "/pol/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -2598,7 +2662,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/status": {
+    "/pol/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -2618,7 +2682,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/pol/transaction/decode": {
+    "/pol/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -2638,7 +2702,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/stakes": {
+    "/near/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -2662,7 +2726,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/rewards": {
+    "/near/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2682,7 +2746,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/operations": {
+    "/near/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -2702,7 +2766,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/reports": {
+    "/near/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -2722,7 +2786,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/network-stats": {
+    "/near/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -2742,7 +2806,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/transaction/stake": {
+    "/near/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -2762,7 +2826,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/transaction/unstake": {
+    "/near/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -2782,7 +2846,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/transaction/withdraw": {
+    "/near/transaction/withdraw": {
         parameters: {
             query?: never;
             header?: never;
@@ -2802,7 +2866,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/transaction/prepare": {
+    "/near/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -2822,7 +2886,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/transaction/broadcast": {
+    "/near/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -2842,7 +2906,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/near/transaction/decode": {
+    "/near/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -2862,7 +2926,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/stakes": {
+    "/osmo/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -2886,7 +2950,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/rewards": {
+    "/osmo/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2906,7 +2970,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/operations": {
+    "/osmo/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -2926,7 +2990,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/network-stats": {
+    "/osmo/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -2946,7 +3010,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/reports": {
+    "/osmo/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -2966,7 +3030,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/stake": {
+    "/osmo/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -2986,7 +3050,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/withdraw-rewards": {
+    "/osmo/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -3006,7 +3070,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/restake-rewards": {
+    "/osmo/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -3026,7 +3090,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/unstake": {
+    "/osmo/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -3046,7 +3110,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/redelegate": {
+    "/osmo/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -3066,7 +3130,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/prepare": {
+    "/osmo/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -3086,7 +3150,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/broadcast": {
+    "/osmo/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -3106,7 +3170,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/status": {
+    "/osmo/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -3126,7 +3190,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/osmo/transaction/decode": {
+    "/osmo/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -3146,7 +3210,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/egld/stakes": {
+    "/egld/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -3166,7 +3230,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/egld/rewards": {
+    "/egld/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -3186,7 +3250,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/egld/network-stats": {
+    "/egld/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -3206,7 +3270,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/egld/operations": {
+    "/egld/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -3226,7 +3290,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/egld/reports": {
+    "/egld/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -3246,7 +3310,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/stakes": {
+    "/dot/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -3266,7 +3330,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/rewards": {
+    "/dot/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -3286,7 +3350,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/operations": {
+    "/dot/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -3306,7 +3370,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/reports": {
+    "/dot/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -3326,7 +3390,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/network-stats": {
+    "/dot/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -3346,7 +3410,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/bond": {
+    "/dot/transaction/bond": {
         parameters: {
             query?: never;
             header?: never;
@@ -3366,7 +3430,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/bond-extra": {
+    "/dot/transaction/bond-extra": {
         parameters: {
             query?: never;
             header?: never;
@@ -3386,7 +3450,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/rebond": {
+    "/dot/transaction/rebond": {
         parameters: {
             query?: never;
             header?: never;
@@ -3406,7 +3470,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/unbond": {
+    "/dot/transaction/unbond": {
         parameters: {
             query?: never;
             header?: never;
@@ -3426,7 +3490,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/nominate": {
+    "/dot/transaction/nominate": {
         parameters: {
             query?: never;
             header?: never;
@@ -3446,7 +3510,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/withdraw-unbonded": {
+    "/dot/transaction/withdraw-unbonded": {
         parameters: {
             query?: never;
             header?: never;
@@ -3466,7 +3530,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/chill": {
+    "/dot/transaction/chill": {
         parameters: {
             query?: never;
             header?: never;
@@ -3486,7 +3550,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/set-payee": {
+    "/dot/transaction/set-payee": {
         parameters: {
             query?: never;
             header?: never;
@@ -3506,7 +3570,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/join-pool": {
+    "/dot/transaction/join-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3526,7 +3590,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/bond-extra-pool": {
+    "/dot/transaction/bond-extra-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3546,7 +3610,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/bond-rewards-pool": {
+    "/dot/transaction/bond-rewards-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3566,7 +3630,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/claim-payout-pool": {
+    "/dot/transaction/claim-payout-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3586,7 +3650,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/unbond-pool": {
+    "/dot/transaction/unbond-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3606,7 +3670,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/withdraw-unbonded-pool": {
+    "/dot/transaction/withdraw-unbonded-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3626,7 +3690,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/status": {
+    "/dot/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -3646,7 +3710,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/decode": {
+    "/dot/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -3666,7 +3730,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/prepare": {
+    "/dot/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -3686,7 +3750,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dot/transaction/broadcast": {
+    "/dot/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -3706,7 +3770,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/stakes": {
+    "/ksm/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -3726,7 +3790,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/rewards": {
+    "/ksm/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -3746,7 +3810,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/operations": {
+    "/ksm/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -3766,7 +3830,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/reports": {
+    "/ksm/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -3786,7 +3850,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/network-stats": {
+    "/ksm/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -3806,7 +3870,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/bond": {
+    "/ksm/transaction/bond": {
         parameters: {
             query?: never;
             header?: never;
@@ -3826,7 +3890,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/bond-extra": {
+    "/ksm/transaction/bond-extra": {
         parameters: {
             query?: never;
             header?: never;
@@ -3846,7 +3910,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/rebond": {
+    "/ksm/transaction/rebond": {
         parameters: {
             query?: never;
             header?: never;
@@ -3866,7 +3930,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/unbond": {
+    "/ksm/transaction/unbond": {
         parameters: {
             query?: never;
             header?: never;
@@ -3886,7 +3950,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/nominate": {
+    "/ksm/transaction/nominate": {
         parameters: {
             query?: never;
             header?: never;
@@ -3906,7 +3970,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/withdraw-unbonded": {
+    "/ksm/transaction/withdraw-unbonded": {
         parameters: {
             query?: never;
             header?: never;
@@ -3926,7 +3990,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/chill": {
+    "/ksm/transaction/chill": {
         parameters: {
             query?: never;
             header?: never;
@@ -3946,7 +4010,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/set-payee": {
+    "/ksm/transaction/set-payee": {
         parameters: {
             query?: never;
             header?: never;
@@ -3966,7 +4030,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/join-pool": {
+    "/ksm/transaction/join-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -3986,7 +4050,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/bond-extra-pool": {
+    "/ksm/transaction/bond-extra-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -4006,7 +4070,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/bond-rewards-pool": {
+    "/ksm/transaction/bond-rewards-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -4026,7 +4090,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/claim-payout-pool": {
+    "/ksm/transaction/claim-payout-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -4046,7 +4110,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/unbond-pool": {
+    "/ksm/transaction/unbond-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -4066,7 +4130,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/withdraw-unbonded-pool": {
+    "/ksm/transaction/withdraw-unbonded-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -4086,7 +4150,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/status": {
+    "/ksm/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -4106,7 +4170,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/decode": {
+    "/ksm/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -4126,7 +4190,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/prepare": {
+    "/ksm/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -4146,7 +4210,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ksm/transaction/broadcast": {
+    "/ksm/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -4166,7 +4230,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/stakes": {
+    "/dydx/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -4190,7 +4254,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/rewards": {
+    "/dydx/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4210,7 +4274,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/operations": {
+    "/dydx/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -4230,7 +4294,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/network-stats": {
+    "/dydx/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -4250,7 +4314,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/reports": {
+    "/dydx/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -4270,7 +4334,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/balance": {
+    "/dydx/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -4290,7 +4354,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/stake": {
+    "/dydx/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -4310,7 +4374,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/withdraw-rewards": {
+    "/dydx/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4330,7 +4394,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/unstake": {
+    "/dydx/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -4350,7 +4414,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/redelegate": {
+    "/dydx/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -4370,7 +4434,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/noble-ibc-transfer": {
+    "/dydx/transaction/noble-ibc-transfer": {
         parameters: {
             query?: never;
             header?: never;
@@ -4390,7 +4454,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/prepare": {
+    "/dydx/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -4410,7 +4474,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/broadcast": {
+    "/dydx/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -4430,7 +4494,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/status": {
+    "/dydx/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -4450,7 +4514,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/dydx/transaction/decode": {
+    "/dydx/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -4470,7 +4534,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/stakes": {
+    "/tia/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -4494,7 +4558,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/rewards": {
+    "/tia/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4514,7 +4578,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/operations": {
+    "/tia/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -4534,7 +4598,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/network-stats": {
+    "/tia/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -4554,7 +4618,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/reports": {
+    "/tia/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -4574,7 +4638,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/stake": {
+    "/tia/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -4594,7 +4658,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/withdraw-rewards": {
+    "/tia/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4614,7 +4678,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/restake-rewards": {
+    "/tia/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4634,7 +4698,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/unstake": {
+    "/tia/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -4654,7 +4718,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/redelegate": {
+    "/tia/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -4674,7 +4738,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/prepare": {
+    "/tia/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -4694,7 +4758,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/broadcast": {
+    "/tia/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -4714,7 +4778,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/status": {
+    "/tia/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -4734,7 +4798,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/tia/transaction/decode": {
+    "/tia/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -4754,7 +4818,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/stakes": {
+    "/zeta/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -4778,7 +4842,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/rewards": {
+    "/zeta/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4798,7 +4862,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/operations": {
+    "/zeta/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -4818,7 +4882,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/network-stats": {
+    "/zeta/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -4838,7 +4902,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/reports": {
+    "/zeta/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -4858,7 +4922,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/balance": {
+    "/zeta/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -4878,7 +4942,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/stake": {
+    "/zeta/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -4898,7 +4962,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/withdraw-rewards": {
+    "/zeta/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -4918,7 +4982,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/unstake": {
+    "/zeta/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -4938,7 +5002,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/redelegate": {
+    "/zeta/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -4958,7 +5022,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/prepare": {
+    "/zeta/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -4978,7 +5042,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/broadcast": {
+    "/zeta/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -4998,7 +5062,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/status": {
+    "/zeta/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -5018,7 +5082,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/zeta/transaction/decode": {
+    "/zeta/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -5038,7 +5102,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/stakes": {
+    "/kava/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -5062,7 +5126,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/rewards": {
+    "/kava/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5082,7 +5146,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/operations": {
+    "/kava/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -5102,7 +5166,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/network-stats": {
+    "/kava/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -5122,7 +5186,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/reports": {
+    "/kava/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -5142,7 +5206,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/balance": {
+    "/kava/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -5162,7 +5226,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/stake": {
+    "/kava/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -5182,7 +5246,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/withdraw-rewards": {
+    "/kava/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5202,7 +5266,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/unstake": {
+    "/kava/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -5222,7 +5286,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/restake-rewards": {
+    "/kava/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5242,7 +5306,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/redelegate": {
+    "/kava/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -5262,7 +5326,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/prepare": {
+    "/kava/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -5282,7 +5346,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/broadcast": {
+    "/kava/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -5302,7 +5366,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/status": {
+    "/kava/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -5322,7 +5386,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/kava/transaction/decode": {
+    "/kava/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -5342,7 +5406,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/stakes": {
+    "/fet/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -5366,7 +5430,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/rewards": {
+    "/fet/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5386,7 +5450,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/operations": {
+    "/fet/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -5406,7 +5470,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/network-stats": {
+    "/fet/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -5426,7 +5490,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/reports": {
+    "/fet/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -5446,7 +5510,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/balance": {
+    "/fet/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -5466,7 +5530,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/stake": {
+    "/fet/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -5486,7 +5550,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/withdraw-rewards": {
+    "/fet/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5506,7 +5570,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/restake-rewards": {
+    "/fet/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5526,7 +5590,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/unstake": {
+    "/fet/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -5546,7 +5610,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/redelegate": {
+    "/fet/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -5566,7 +5630,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/prepare": {
+    "/fet/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -5586,7 +5650,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/broadcast": {
+    "/fet/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -5606,7 +5670,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/status": {
+    "/fet/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -5626,7 +5690,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/fet/transaction/decode": {
+    "/fet/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -5646,7 +5710,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/stakes": {
+    "/inj/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -5670,7 +5734,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/rewards": {
+    "/inj/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5690,7 +5754,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/operations": {
+    "/inj/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -5710,7 +5774,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/network-stats": {
+    "/inj/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -5730,7 +5794,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/reports": {
+    "/inj/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -5750,7 +5814,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/stake": {
+    "/inj/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -5770,7 +5834,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/withdraw-rewards": {
+    "/inj/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5790,7 +5854,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/unstake": {
+    "/inj/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -5810,7 +5874,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/redelegate": {
+    "/inj/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -5830,7 +5894,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/prepare": {
+    "/inj/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -5850,7 +5914,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/broadcast": {
+    "/inj/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -5870,7 +5934,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/status": {
+    "/inj/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -5890,7 +5954,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/inj/transaction/decode": {
+    "/inj/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -5910,7 +5974,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/stakes": {
+    "/ton/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -5934,7 +5998,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/rewards": {
+    "/ton/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -5954,7 +6018,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/network-stats": {
+    "/ton/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -5974,7 +6038,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/reports": {
+    "/ton/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -5994,7 +6058,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/wallet-info": {
+    "/ton/wallet-info": {
         parameters: {
             query?: never;
             header?: never;
@@ -6014,7 +6078,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/balance": {
+    "/ton/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -6034,7 +6098,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/withdraw-request": {
+    "/ton/withdraw-request": {
         parameters: {
             query?: never;
             header?: never;
@@ -6062,7 +6126,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/prepare": {
+    "/ton/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -6082,7 +6146,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/broadcast": {
+    "/ton/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -6102,7 +6166,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/status": {
+    "/ton/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -6122,7 +6186,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/stake-single-nomination-pool": {
+    "/ton/transaction/stake-single-nomination-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -6142,7 +6206,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/stake-ton-whales-pool": {
+    "/ton/transaction/stake-ton-whales-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -6162,7 +6226,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/unstake-single-nomination-pool": {
+    "/ton/transaction/unstake-single-nomination-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -6182,7 +6246,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/unstake-ton-whales-pool": {
+    "/ton/transaction/unstake-ton-whales-pool": {
         parameters: {
             query?: never;
             header?: never;
@@ -6202,7 +6266,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/ton/transaction/whitelist-vesting-contract": {
+    "/ton/transaction/whitelist-vesting-contract": {
         parameters: {
             query?: never;
             header?: never;
@@ -6222,7 +6286,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/balance": {
+    "/noble/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -6242,7 +6306,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/transaction/burn-usdc": {
+    "/noble/transaction/burn-usdc": {
         parameters: {
             query?: never;
             header?: never;
@@ -6262,7 +6326,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/transaction/osmo-ibc-transfer": {
+    "/noble/transaction/osmo-ibc-transfer": {
         parameters: {
             query?: never;
             header?: never;
@@ -6282,7 +6346,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/transaction/prepare": {
+    "/noble/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -6302,7 +6366,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/transaction/broadcast": {
+    "/noble/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -6322,7 +6386,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/transaction/status": {
+    "/noble/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -6342,7 +6406,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/noble/transaction/decode": {
+    "/noble/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -6520,7 +6584,7 @@ export interface components {
              * @example NEAR
              * @enum {string}
              */
-            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA";
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC";
         };
         DYDXPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
@@ -12954,6 +13018,116 @@ export interface components {
              * @example 2023-08-09T11:41:36Z
              */
             updated_at: string;
+        };
+        BBNUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 70736274ff0100cf02000000016b5253d7d86352e1d3f1eba7a1ebf6216477e4a945d1b879833eb10a3a60653e0200000000fdffffff0350c3000000000000225120b712455a29769599d30a5b589cfea040ca2a5f3b22c403d26667664a442cedfd0000000000000000496a476262623400bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d7600964aca090000000000160014d21aac5179517528f2f158769086c50ea90c73db000000000001011f5b940a0000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            unsigned_tx_serialized: string;
+        };
+        BBNBroadcastTxPayload: {
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id?: string;
+            /**
+             * @description Signed serialized transaction
+             * @example 0300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063b2b5ef76d483b695bc3b954d9a372ca5f744e00279c8578bc4268d570b701a037fac575ae16bb3ba5702b8d5bd9930953453e2d628368f83a11ab5896d20bbcae0b4a119860afd99da20f3462ba15d8bd1528d73724b83e8cc4cee00787df28a181783c264113ef1870bae5a90987fc5cfcdffaddf23c7dcfd7585c13d10b0301080c373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e1bb5f70b4d3ae65feb6d20587f62ccc8d5e720e99abe3d4415972bbf74a8a88a51f5f3871e65b84cc393458d0f23a413184cf2bb7093ae4e2c99d55b39a575c5f98e3135fcb53e71e6fafcb4da3a3cc36af1c76a1a7e72aa12eae1346d724c6c00000000000000000000000000000000000000000000000000000000000000004792650d1e9a4fe99721617c7d47c8712c14c20a76bf043368c6528c9090531a06a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc00000000006a1d817a502050b680791e6ce6db88e1e5b7150f61fc6790a4eb4d10000000006a7d51718c774c928566398691d5eb68b5eb8a39b4b6d5c73555b210000000006a7d517192c568ee08a845f73d29788cf035c3145b21ab344d8062ea940000006a7d517192c5c51218cc94c3d4af17f58daee089ba1fd44e3dbd98a0000000006a7d517193584d0feed9bb3431d13206be544281b57b8566cc5375ff4000000f0973e76495f3ffc65798a529de5cba4ec7f47f17669c9fa256923f099a1cda304040303090204040000000402000134000000000080c6a47e8d0300c80000000000000006a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc0000000000602010a7400000000373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006060105080b07000402000000
+             */
+            tx_serialized: string;
+        };
+        BBNPostStakesPayload: {
+            stakes: {
+                /**
+                 * @description Transaction id of the stake
+                 * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
+                 */
+                tx_id: string;
+            }[];
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id: string;
+        };
+        BBNCraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key in compressed 33 bytes format
+             * @example 03bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6
+             */
+            public_key: string;
+            /**
+             * @description Amount of BTC to lock up in satoshi unit
+             * @example 100000
+             */
+            amount_satoshi: number;
+            /**
+             * @description Amount of blocks your BTC will remain locked
+             * @example 150
+             */
+            time_lock: number;
+            /**
+             * @description Fee rate for the transaction, in satoshi per byte
+             * @example 10
+             */
+            fee_rate: number;
+        };
+        BBNTxHash: {
+            /**
+             * @description Transaction id
+             * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
+             */
+            tx_id: string;
+        };
+        BBNStake: {
+            /**
+             * @description The status of the stake
+             * @example status
+             */
+            status: string;
+            /**
+             * @description The id/hash of the transaction
+             * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
+             */
+            staking_tx: string;
+            /**
+             * @description The address of the staker
+             * @example bc1q6gd2c5te296j3uh3tpmfppk9p65scu7m53kx93
+             */
+            staker: string;
+            /**
+             * @description The amount of the stake in satoshis
+             * @example 50000
+             */
+            amount: number;
+            /**
+             * @description The public key of the finality provider
+             * @example 053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76
+             */
+            finality_provider: string;
+            /**
+             * @description The amount of block for which the stake is blocked
+             * @example 150
+             */
+            lock_time: number;
+            /**
+             * @description The timestamp of when the stake was activated_at
+             * @example 2024-12-05T15:36:36+00:00
+             */
+            activated_at: string;
+            /**
+             * @description The amount of points the stake as earned
+             * @example 15
+             */
+            points: number;
         };
         MATICStake: {
             /**
@@ -29302,6 +29476,8 @@ export interface components {
         ADAPaginationPageParam: number;
         /** @description Number of entries to list per page. Defaults to `100`. specified */
         ADAPaginationPageSizeParam: number;
+        BBNWalletsParam: string;
+        BBNTxIDsParam: string;
         /** @description Comma-separated list of wallets addresses */
         MATICWalletsParam: string[];
         /** @description Comma-separated list of validators' indexes */
@@ -34580,6 +34756,198 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": Record<string, never>;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getBbnStakes: {
+        parameters: {
+            query?: {
+                wallets?: components["parameters"]["BBNWalletsParam"];
+                tx_ids?: components["parameters"]["BBNTxIDsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BBNStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBbnStakes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Stakes to create */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BBNPostStakesPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CoreStake"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBbnStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BBNCraftStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BBNUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBbnBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BBNBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BBNTxHash"];
+                    };
                 };
             };
             /** @description Invalid parameters */

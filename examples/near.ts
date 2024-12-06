@@ -1,5 +1,5 @@
 import { Kiln } from "../src/kiln";
-import type { Integration } from "../lib/types/integrations";
+import type { FireblocksIntegration } from "../src/fireblocks";
 import fs from "node:fs";
 import 'dotenv/config'
 
@@ -11,7 +11,7 @@ const k = new Kiln({
   apiToken: process.env.KILN_API_KEY,
 });
 
-const vault: Integration = {
+const vault: FireblocksIntegration = {
   provider: 'fireblocks',
   fireblocksApiKey: process.env.FIREBLOCKS_API_KEY,
   fireblocksSecretKey: apiSecret,
@@ -21,7 +21,7 @@ const vault: Integration = {
 try {
   console.log('crafting...');
   const tx = await k.client.POST(
-    '/v1/near/transaction/stake',
+    '/near/transaction/stake',
     {
       body: {
         account_id: 'd3f1b917-72b1-4982-a4dd-93fce579a708',
@@ -34,7 +34,7 @@ try {
   console.log('signing...');
   const signResponse = await k.fireblocks.signNearTx(vault, tx.data.data, "NEAR_TEST");
   console.log('broadcasting...');
-  const broadcastedTx = await k.client.POST("/v1/near/transaction/broadcast", {
+  const broadcastedTx = await k.client.POST("/near/transaction/broadcast", {
     body: {
       signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     }

@@ -21,7 +21,7 @@ const vault: FireblocksIntegration = {
 try {
   console.log('crafting...');
   const tx = await k.client.POST(
-    '/v1/ton/transaction/stake-ton-whales-pool',
+    '/ton/transaction/stake-ton-whales-pool',
     {
       body: {
         account_id: process.env.KILN_ACCOUNT_ID as string,
@@ -48,7 +48,7 @@ try {
   const signResponse = await k.fireblocks.signTonTx(vault, tx.data.data, "TON");
   console.log('broadcasting...');
   if(!signResponse.signed_tx?.data?.signed_tx_serialized) throw new Error('No signed_tx in response');
-  const broadcastedTx = await k.client.POST("/v1/ton/transaction/broadcast", {
+  const broadcastedTx = await k.client.POST("/ton/transaction/broadcast", {
     body: {
       tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     }
