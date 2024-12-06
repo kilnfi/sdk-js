@@ -21,7 +21,7 @@ const vault: FireblocksIntegration = {
 try {
   console.log('crafting...');
   const tx = await k.client.POST(
-    '/v1/kava/transaction/stake',
+    '/kava/transaction/stake',
     {
       body: {
         account_id: process.env.KILN_ACCOUNT_ID as string,
@@ -36,7 +36,7 @@ try {
   const signResponse = await k.fireblocks.signKavaTx(vault, tx.data.data);
   console.log('broadcasting...');
   if(!signResponse.signed_tx?.data?.signed_tx_serialized) throw new Error('No signed_tx in response');
-  const broadcastedTx = await k.client.POST("/v1/kava/transaction/broadcast", {
+  const broadcastedTx = await k.client.POST("/kava/transaction/broadcast", {
     body: {
       tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     }

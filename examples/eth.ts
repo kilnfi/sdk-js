@@ -22,7 +22,7 @@ const vault: Integration = {
 try {
   console.log('crafting...');
   const tx = await k.client.POST(
-    '/v1/eth/transaction/stake',
+    '/eth/transaction/stake',
     {
       body: {
         account_id: process.env.KILN_ACCOUNT_ID,
@@ -40,7 +40,7 @@ try {
   console.log('signing...');
   const signResponse = await k.fireblocks.signEthTx(vault, tx.data.data, "ETH_TEST6");
   console.log('broadcasting...');
-  const broadcastedTx = await k.client.POST("/v1/eth/transaction/broadcast", {
+  const broadcastedTx = await k.client.POST("/eth/transaction/broadcast", {
     body: {
       tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     }

@@ -30,7 +30,7 @@ try {
   // });
   // console.log(getCosmosAddress('02d92b48d3e9ef34f2016eac7857a02768c88e30aea7a2366bc5ba032a22eceb8b', 'noble'));
   const tx = await k.client.POST(
-    '/v1/noble/transaction/burn-usdc',
+    '/noble/transaction/burn-usdc',
     {
       body: {
         pubkey: '02d92b48d3e9ef34f2016eac7857a02768c88e30aea7a2366bc5ba032a22eceb8b',
@@ -44,7 +44,7 @@ try {
   const signResponse = await k.fireblocks.signNobleTx(vault, tx.data.data);
   console.log('broadcasting...');
   if(!signResponse.signed_tx?.data?.signed_tx_serialized) throw new Error('No signed_tx in response');
-  const broadcastedTx = await k.client.POST("/v1/noble/transaction/broadcast", {
+  const broadcastedTx = await k.client.POST("/noble/transaction/broadcast", {
     body: {
       tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     }
