@@ -107,7 +107,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/sol/transaction/prepare', {
+    const preparedTx = await this.client.POST('/sol/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signatures: signatures,
@@ -166,7 +166,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/ada/transaction/prepare', {
+    const preparedTx = await this.client.POST('/ada/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signed_messages: signedMessages,
@@ -218,7 +218,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/atom/transaction/prepare', {
+    const preparedTx = await this.client.POST('/atom/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -271,7 +271,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/dydx/transaction/prepare', {
+    const preparedTx = await this.client.POST('/dydx/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -326,7 +326,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/fet/transaction/prepare', {
+    const preparedTx = await this.client.POST('/fet/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -379,7 +379,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/inj/transaction/prepare', {
+    const preparedTx = await this.client.POST('/inj/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -434,7 +434,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/kava/transaction/prepare', {
+    const preparedTx = await this.client.POST('/kava/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -489,7 +489,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/noble/transaction/prepare', {
+    const preparedTx = await this.client.POST('/noble/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -542,7 +542,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/osmo/transaction/prepare', {
+    const preparedTx = await this.client.POST('/osmo/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -595,7 +595,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/tia/transaction/prepare', {
+    const preparedTx = await this.client.POST('/tia/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -650,7 +650,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/zeta/transaction/prepare', {
+    const preparedTx = await this.client.POST('/zeta/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,
@@ -695,7 +695,7 @@ export class FireblocksService {
     const fbTx = await fbSigner.sign(payload, 'DOT', fbNote);
     const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
 
-    const preparedTx = await this.client.POST('/v1/dot/transaction/prepare', {
+    const preparedTx = await this.client.POST('/dot/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -738,7 +738,7 @@ export class FireblocksService {
     const fbTx = await fbSigner.sign(payload, 'KSM', fbNote);
     const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
 
-    const preparedTx = await this.client.POST('/v1/ksm/transaction/prepare', {
+    const preparedTx = await this.client.POST('/ksm/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -791,7 +791,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/eth/transaction/prepare', {
+    const preparedTx = await this.client.POST('/eth/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         r: `0x${signature.r}`,
@@ -867,7 +867,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/pol/transaction/prepare', {
+    const preparedTx = await this.client.POST('/pol/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         r: `0x${signature.r}`,
@@ -938,7 +938,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/ton/transaction/prepare', {
+    const preparedTx = await this.client.POST('/ton/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -987,7 +987,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/xtz/transaction/prepare', {
+    const preparedTx = await this.client.POST('/xtz/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
@@ -1035,7 +1035,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/v1/near/transaction/prepare', {
+    const preparedTx = await this.client.POST('/near/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
