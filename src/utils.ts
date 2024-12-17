@@ -239,3 +239,13 @@ export const tiaToUtia = (tia: string): bigint => {
 export const fetToAfet = (fet: string): bigint => {
   return parseUnits(fet, 18); // afet uses 18 decimals
 };
+
+// Convert TRX to sun
+export const trxToSun = (trx: string): bigint => {
+  return parseUnits(trx, 18);
+};
+
+// Convert sun to TRX
+export const sunToTrx = (trx: bigint): string => {
+  return formatUnits(trx, 18);
+};

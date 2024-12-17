@@ -10,6 +10,7 @@ import type { IAuthProvider } from 'fireblocks-sdk/dist/src/iauth-provider.js';
 import type { Client } from 'openapi-fetch';
 import { FireblocksSigner } from './fireblocks_signer.js';
 import type { components, paths } from './openapi/schema.js';
+import { keccak256 } from 'viem';
 
 export type FireblocksIntegration = {
   provider: 'fireblocks';
@@ -1005,7 +1006,7 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a NEAR transaction on Fireblocks
+   * Sign a Near transaction on Fireblocks
    */
   async signNearTx(
     integration: FireblocksIntegration,
@@ -1036,6 +1037,58 @@ export class FireblocksService {
     }
 
     const preparedTx = await this.client.POST('/near/transaction/prepare', {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+      },
+    });
+
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a Trx transaction on Fireblocks
+   */
+  async signTrxTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TRXUnsignedtx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TRXUnsignedtx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: keccak256(`0x${tx.raw_data_hex}`).replace('0x', ''),
+            preHash: {
+              content: tx.raw_data_hex,
+              hashAlgorithm: 'KECCAK256',
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'TRX tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'TRX', fbNote);
+
+    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+
+    if (!signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
+
+    const preparedTx = await this.client.POST('/trx/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
