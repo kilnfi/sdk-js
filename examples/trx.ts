@@ -22,7 +22,7 @@ try {
   // const tx = await k.client.POST('/trx/transaction/stake', {
   const tx = await k.client.POST('/trx/stake', {
     body: {
-      owner_address: 'TUoHaVjx7n5xz8LwPRDckgFrDWhMhuSuJM',
+      owner_address: 'TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7',
       amount_sun: trxToSun('1').toString(),
       resource: 'BANDWIDTH',
     },
@@ -33,7 +33,7 @@ try {
   // const broadcastedTx = await k.client.POST('/near/transaction/broadcast', {
   const broadcastedTx = await k.client.POST('/trx/broadcast', {
     body: {
-      signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
+      tx_serialized: signResponse.signed_tx,
     },
   });
   console.log(broadcastedTx);

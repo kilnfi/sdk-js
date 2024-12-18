@@ -1068,9 +1068,9 @@ export class FireblocksService {
       rawMessageData: {
         messages: [
           {
-            content: keccak256(`0x${tx.raw_data_hex}`).replace('0x', ''),
+            content: keccak256(`0x${tx.unsigned_tx_serialized}`).replace('0x', ''),
             preHash: {
-              content: tx.raw_data_hex,
+              content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'KECCAK256',
             },
           },
@@ -1088,7 +1088,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/trx/transaction/prepare', {
+    const preparedTx = await this.client.POST('/trx/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
