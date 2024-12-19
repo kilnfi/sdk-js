@@ -10,7 +10,7 @@ import type { IAuthProvider } from 'fireblocks-sdk/dist/src/iauth-provider.js';
 import type { Client } from 'openapi-fetch';
 import { FireblocksSigner } from './fireblocks_signer.js';
 import type { components, paths } from './openapi/schema.js';
-import { keccak256 } from 'viem';
+import { sha256 } from 'viem';
 
 export type FireblocksIntegration = {
   provider: 'fireblocks';
@@ -1068,10 +1068,10 @@ export class FireblocksService {
       rawMessageData: {
         messages: [
           {
-            content: keccak256(`0x${tx.unsigned_tx_serialized}`).replace('0x', ''),
+            content: sha256(`0x${tx.unsigned_tx_serialized}`).replace('0x', ''),
             preHash: {
               content: tx.unsigned_tx_serialized,
-              hashAlgorithm: 'KECCAK256',
+              hashAlgorithm: 'SHA256',
             },
           },
         ],
@@ -1082,7 +1082,7 @@ export class FireblocksService {
     const fbNote = note ? note : 'TRX tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'TRX', fbNote);
 
-    const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
+    const signature = `${fbTx.signedMessages?.[0]?.signature.fullSig}00`;
 
     if (!signature) {
       throw new Error('Fireblocks signature is missing');
