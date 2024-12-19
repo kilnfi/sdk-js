@@ -1088,6 +1088,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
+    // const preparedTx = await this.client.POST('/trx/transaction/prepare', {
     const preparedTx = await this.client.POST('/trx/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
