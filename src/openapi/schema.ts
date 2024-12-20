@@ -1760,6 +1760,215 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/cronos/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description Retrieve the status of Cronos stakes, expressed in microCRO (10⁻⁶ CRO).
+         *
+         */
+        get: operations["getCronosStakes"];
+        put?: never;
+        /**
+         * Create stakes
+         * @description Link an Cronos stake to a Kiln account
+         */
+        post: operations["postCronosStakes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cronos/rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rewards
+         * @description Get historical rewards by day of Cronos stakes. Units are in microCRO (10⁻⁶ CRO).
+         */
+        get: operations["getCronosRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cronos/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of Cronos stakes. Units are in microCRO (10⁻⁶ CRO).
+         */
+        get: operations["getCronosOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cronos/network-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Network Stats
+         * @description Get some network statistics on Cosmos
+         */
+        get: operations["getCronosNetworkStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cronos/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Reports
+         * @description Get reports on Cosmos staking
+         */
+        get: operations["getCronosReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/mantra/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description Get the status of OM stakes. Units are in uOM (10⁻⁶ OM).
+         */
+        get: operations["getMantraStakes"];
+        put?: never;
+        /**
+         * Create stakes
+         * @description Link a Mantra stake to a Kiln account
+         */
+        post: operations["postMantraStakes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/mantra/rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rewards
+         * @description Get historical rewards by day of Mantra stakes. Units are in uOM (10⁻⁶ OM).
+         */
+        get: operations["getMantraRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/mantra/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of Mantra stakes. Units are in uOM (10⁻⁶ OM).
+         */
+        get: operations["getMantraOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/mantra/network-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Network Stats
+         * @description Get some network statistics on Mantra
+         */
+        get: operations["getMantraNetworkStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/mantra/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Reports
+         * @description Get reports on Mantra staking
+         */
+        get: operations["getMantraReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ada/stakes": {
         parameters: {
             query?: never;
@@ -6426,6 +6635,166 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/trx/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description Get the status of TRX stakes
+         */
+        get: operations["getTrxStakes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stake transaction
+         * @description Craft a stake transaction to obtain bandwidth or energy, and obtain TRON Power.
+         */
+        post: operations["postTrxStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/unstake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Unstake transaction
+         * @description Craft an unstake transaction to unstake TRX, releases bandwidth or energy, and voting rights.
+         */
+        post: operations["postTrxUnstakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/withdraw-unstaked": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdraw unstaked transaction
+         * @description Craft a withdraw unstaked transaction.
+         */
+        post: operations["postTrxWithdrawUnstakedTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/vote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Vote transaction
+         * @description Craft a vote transaction.
+         */
+        post: operations["postTrxVoteTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/withdraw-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdraw rewards transaction
+         * @description Craft a withdraw rewards transaction.
+         */
+        post: operations["postTrxWithdrawRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare transaction
+         * @description Prepare a transaction for broadcast by adding a signature to it.
+         */
+        post: operations["postTrxPrepareTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast transaction
+         * @description Broadcast a signed transaction to the blockchain.
+         */
+        post: operations["postTrxBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -6977,6 +7346,248 @@ export interface components {
              * @example 3467036438000000000
              */
             amount: string;
+        };
+        ETHOperationKilnExitRequest: {
+            /**
+             * @description type of the operation
+             * @example kiln_exit_request
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Hash of the transaction
+             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used by the transaction in WEI
+             * @example 2700999916653262
+             */
+            tx_gas_used: string;
+            /**
+             * @description Effective gas price used for this TX in WEI
+             * @example 1499997889
+             */
+            tx_effective_gas_price?: string;
+            /**
+             * @description Address of the sender of the transaction
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            tx_sender: string;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Base fee used for this block in WEI
+             * @example 7
+             */
+            block_base_fee?: string;
+            /**
+             * @description Address of the contract from which the request originate
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            emitting_contract: string;
+            /**
+             * @description Address that called the contract
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            caller?: string;
+        };
+        ETHOperationLidoExitRequest: {
+            /**
+             * @description type of the operation
+             * @example lido_exit_request
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Hash of the transaction
+             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used by the transaction in WEI
+             * @example 2700999916653262
+             */
+            tx_gas_used: string;
+            /**
+             * @description Effective gas price used for this TX in WEI
+             * @example 1499997889
+             */
+            tx_effective_gas_price?: string;
+            /**
+             * @description Address of the sender of the transaction
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            tx_sender: string;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Base fee used for this block in WEI
+             * @example 7
+             */
+            block_base_fee?: string;
+            /**
+             * @description Address of the contract from which the request originate
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            emitting_contract: string;
+        };
+        ETHOperationRioExitRequest: {
+            /**
+             * @description type of the operation
+             * @example rio_exit_request
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Hash of the transaction
+             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used by the transaction in WEI
+             * @example 2700999916653262
+             */
+            tx_gas_used: string;
+            /**
+             * @description Effective gas price used for this TX in WEI
+             * @example 1499997889
+             */
+            tx_effective_gas_price?: string;
+            /**
+             * @description Address of the sender of the transaction
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            tx_sender: string;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Base fee used for this block in WEI
+             * @example 7
+             */
+            block_base_fee?: string;
+            /**
+             * @description Address of the contract from which the request originate
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            emitting_contract: string;
+        };
+        ETHOperationVoluntaryExit: {
+            /**
+             * @description type of the operation
+             * @example voluntary_exit
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Index in the list of Voluntary Exits in the block's payload
+             * @example 0
+             */
+            index_in_payload: number;
+            /**
+             * @description Exit epoch set in the message sent to the Beacon Chain
+             * @example 2000
+             */
+            message_epoch: number;
+            /**
+             * @description Signature of the message sent to the Beacon Chain
+             * @example 0xabc
+             */
+            message_signature: string;
         };
         ETHStake: {
             /**
@@ -8253,6 +8864,11 @@ export interface components {
              * @example 300000000
              */
             balance?: string;
+            /**
+             * @description Balance of the stake in the integration's ERC20 token
+             * @example 300000000
+             */
+            shares_balance?: string;
             /**
              * @description Rewards of the stake in WEI
              * @example 300000000
@@ -12531,6 +13147,3386 @@ export interface components {
          *     }
          */
         ATOMTxDecoding: Record<string, never>;
+        CRONOSStake: {
+            /**
+             * @description Public key of the validator
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address: string;
+            /**
+             * @description Public key of the delegator
+             * @example cro1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            delegator_address: string;
+            /**
+             * Format: date-time
+             * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 2023-06-16T03:13:23.058547Z
+             */
+            delegated_at?: string;
+            /**
+             * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 15739267
+             */
+            delegated_block?: number;
+            /**
+             * Format: date-time
+             * @description Date of undelegation for the stake
+             * @example 2023-07-14T03:56:13.561156Z
+             */
+            undelegated_at?: string;
+            /**
+             * @description Block of undelegation for the stake
+             * @example 16126416
+             */
+            undelegated_block?: number;
+            /**
+             * @description Total rewards accumulated by this stake since its first ever delegation in basecro. Includes currently available rewards not yet withdrawn.
+             * @example 735573808534727891000000
+             */
+            rewards: string;
+            /**
+             * @description Available rewards in basecro that can be withdrawn from this stake
+             * @example 36748808534727891000000
+             */
+            available_rewards: string;
+            /**
+             * @description Staked balance on this stake in basecro
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 5.76
+             */
+            net_apy: number;
+            /**
+             * @description State of the CRO stake
+             * @example active
+             * @enum {string}
+             */
+            state: "active" | "deactivating" | "inactive";
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at?: string;
+            /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
+            permissions: {
+                /**
+                 * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
+                 * @example granter
+                 */
+                source?: string;
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height?: number;
+                /**
+                 * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+                 * @example Staking.MsgDelegate
+                 */
+                permission?: string;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the permissions will be revoked
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                expires_at?: string | null;
+                /**
+                 * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "crovaloper1xyz",
+                 *       "crovaloper1abc"
+                 *     ]
+                 */
+                allow_list?: string[] | null;
+                /**
+                 * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "crovaloper1xyz",
+                 *       "crovaloper1abc"
+                 *     ]
+                 */
+                deny_list?: string[] | null;
+            }[];
+            /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
+            unbondings: {
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height: number;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the unbonding will take effect
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                completion_time: string;
+                /**
+                 * @description Amount currently associated with the unbonding (slashes included)
+                 * @example 129300
+                 */
+                balance: string;
+                /**
+                 * @description Amount expected at creation (slashes non-included)
+                 * @example 150300
+                 */
+                initial_balance: string;
+            }[];
+        };
+        PostCRONOSStakesPayload: {
+            stakes: {
+                /**
+                 * @description Stake id {validator_address}_{delegator_address}
+                 * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry_cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h}
+                 */
+                stakeId?: string;
+            }[];
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id: string;
+        };
+        CRONOSStakeMessage: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.MsgDelegate
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "delegatorAddress": "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h",
+             *       "validatorAddress": "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry",
+             *       "amount": {
+             *         "denom": "basecro",
+             *         "amount": "1000000"
+             *       }
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        CRONOSStakeMessageRestake: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.StakeAuthorization
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "allowList": {
+             *         "address": [
+             *           "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry"
+             *         ]
+             *       },
+             *       "AuthorizationType": 1
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        CRONOSStakeUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "basecro",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description List of messages included in the transaction. The list contains one message for the staking delegation and one more message for rewards restaking in case specified as a parameter (`restake_rewards=true`).
+             * @example [
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *         "value": {
+             *           "delegatorAddress": "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h",
+             *           "validatorAddress": "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry",
+             *           "amount": {
+             *             "denom": "basecro",
+             *             "amount": "1000000"
+             *           }
+             *         }
+             *       },
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.StakeAuthorization",
+             *         "allowList": {
+             *           "address": [
+             *             "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry"
+             *           ]
+             *         },
+             *         "AuthorizationType": 1
+             *       }
+             *     ]
+             */
+            messages: (components["schemas"]["CRONOSStakeMessage"] | components["schemas"]["CRONOSStakeMessageRestake"])[];
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        CRONOSUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Message included in the transaction
+             * @example {
+             *       "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *       "value": {
+             *         "delegatorAddress": "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h",
+             *         "validatorAddress": "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry",
+             *         "amount": {
+             *           "denom": "basecro",
+             *           "amount": "1000000"
+             *         }
+             *       }
+             *     }
+             */
+            message: Record<string, never>;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "basecro",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        CRONOSSignedTx: {
+            /**
+             * @description Serialized signed transaction in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signed_tx_serialized: string;
+        };
+        CRONOSTxHash: {
+            /**
+             * @description Hash of the transaction
+             * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
+             */
+            tx_hash: string;
+        };
+        CRONOSPrepareTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Transaction signature serialized in hex
+             * @example 191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signature: string;
+        };
+        CRONOSBroadcastTxPayload: {
+            /**
+             * @description Signed transaction serialized in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            tx_serialized: string;
+        };
+        CRONOSTxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status?: "success" | "error";
+            /**
+             * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
+             * @example {
+             *       "height": 16007296,
+             *       "txIndex": 0,
+             *       "hash": "2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB",
+             *       "code": 0,
+             *       "events": [
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "cro17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "cro17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "fee",
+             *               "value": "5000basecro"
+             *             },
+             *             {
+             *               "key": "fee_payer",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "acc_seq",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev/33"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "signature",
+             *               "value": "GR+HpU3Or7arml8RKhNETKN+SaAp5TG7ITAf1y6dOQMEx2PMpal2CmMdyFcF3WsItQ9f/31d6Nc7LOvR9MO2oA=="
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "action",
+             *               "value": "/cosmos.staking.v1beta1.MsgDelegate"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "cro1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "cro1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "cro1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "withdraw_rewards",
+             *           "attributes": [
+             *             {
+             *               "key": "amount",
+             *               "value": "5basecro"
+             *             },
+             *             {
+             *               "key": "validator",
+             *               "value": "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "cro1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000basecro"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "delegate",
+             *           "attributes": [
+             *             {
+             *               "key": "validator",
+             *               "value": "crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000basecro"
+             *             },
+             *             {
+             *               "key": "new_shares",
+             *               "value": "100000.000000000000000000"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "module",
+             *               "value": "staking"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         }
+             *       ],
+             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5basecro\"},{\"key\":\"receiver\",\"value\":\"cro1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000basecro\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"cro1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5basecro\"},{\"key\":\"spender\",\"value\":\"cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000basecro\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry\"},{\"key\":\"amount\",\"value\":\"100000basecro\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"cro1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"cro19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"cro1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5basecro\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5basecro\"},{\"key\":\"validator\",\"value\":\"crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry\"}]}]}]",
+             *       "tx": {
+             *         "0": 10,
+             *         "1": 160,
+             *         "2": 1,
+             *         "3": 10,
+             *         "4": 157,
+             *         "5": 1,
+             *         "6": 10,
+             *         "7": 35,
+             *         "8": 47,
+             *         "9": 99,
+             *         "10": 111,
+             *         "11": 115,
+             *         "12": 109,
+             *         "13": 111,
+             *         "14": 115,
+             *         "15": 46,
+             *         "16": 115,
+             *         "17": 116,
+             *         "18": 97,
+             *         "19": 107,
+             *         "20": 105,
+             *         "21": 110,
+             *         "22": 103,
+             *         "23": 46,
+             *         "24": 118,
+             *         "25": 49,
+             *         "26": 98,
+             *         "27": 101,
+             *         "28": 116,
+             *         "29": 97,
+             *         "30": 49,
+             *         "31": 46,
+             *         "32": 77,
+             *         "33": 115,
+             *         "34": 103,
+             *         "35": 68,
+             *         "36": 101,
+             *         "37": 108,
+             *         "38": 101,
+             *         "39": 103,
+             *         "40": 97,
+             *         "41": 116,
+             *         "42": 101,
+             *         "43": 18,
+             *         "44": 118,
+             *         "45": 10,
+             *         "46": 45,
+             *         "47": 99,
+             *         "48": 111,
+             *         "49": 115,
+             *         "50": 109,
+             *         "51": 111,
+             *         "52": 115,
+             *         "53": 49,
+             *         "54": 57,
+             *         "55": 99,
+             *         "56": 57,
+             *         "57": 102,
+             *         "58": 100,
+             *         "59": 104,
+             *         "60": 52,
+             *         "61": 56,
+             *         "62": 56,
+             *         "63": 118,
+             *         "64": 113,
+             *         "65": 106,
+             *         "66": 99,
+             *         "67": 108,
+             *         "68": 108,
+             *         "69": 116,
+             *         "70": 119,
+             *         "71": 112,
+             *         "72": 54,
+             *         "73": 56,
+             *         "74": 106,
+             *         "75": 109,
+             *         "76": 53,
+             *         "77": 48,
+             *         "78": 121,
+             *         "79": 100,
+             *         "80": 119,
+             *         "81": 121,
+             *         "82": 104,
+             *         "83": 51,
+             *         "84": 54,
+             *         "85": 106,
+             *         "86": 113,
+             *         "87": 101,
+             *         "88": 97,
+             *         "89": 116,
+             *         "90": 101,
+             *         "91": 118,
+             *         "92": 18,
+             *         "93": 52,
+             *         "94": 99,
+             *         "95": 111,
+             *         "96": 115,
+             *         "97": 109,
+             *         "98": 111,
+             *         "99": 115,
+             *         "100": 118,
+             *         "101": 97,
+             *         "102": 108,
+             *         "103": 111,
+             *         "104": 112,
+             *         "105": 101,
+             *         "106": 114,
+             *         "107": 49,
+             *         "108": 54,
+             *         "109": 121,
+             *         "110": 115,
+             *         "111": 48,
+             *         "112": 101,
+             *         "113": 103,
+             *         "114": 57,
+             *         "115": 51,
+             *         "116": 53,
+             *         "117": 109,
+             *         "118": 107,
+             *         "119": 113,
+             *         "120": 112,
+             *         "121": 107,
+             *         "122": 121,
+             *         "123": 100,
+             *         "124": 107,
+             *         "125": 103,
+             *         "126": 102,
+             *         "127": 99,
+             *         "128": 106,
+             *         "129": 57,
+             *         "130": 97,
+             *         "131": 103,
+             *         "132": 101,
+             *         "133": 50,
+             *         "134": 97,
+             *         "135": 117,
+             *         "136": 56,
+             *         "137": 108,
+             *         "138": 57,
+             *         "139": 54,
+             *         "140": 110,
+             *         "141": 97,
+             *         "142": 101,
+             *         "143": 114,
+             *         "144": 101,
+             *         "145": 57,
+             *         "146": 26,
+             *         "147": 15,
+             *         "148": 10,
+             *         "149": 5,
+             *         "150": 117,
+             *         "151": 97,
+             *         "152": 116,
+             *         "153": 111,
+             *         "154": 109,
+             *         "155": 18,
+             *         "156": 6,
+             *         "157": 49,
+             *         "158": 48,
+             *         "159": 48,
+             *         "160": 48,
+             *         "161": 48,
+             *         "162": 48,
+             *         "163": 18,
+             *         "164": 103,
+             *         "165": 10,
+             *         "166": 80,
+             *         "167": 10,
+             *         "168": 70,
+             *         "169": 10,
+             *         "170": 31,
+             *         "171": 47,
+             *         "172": 99,
+             *         "173": 111,
+             *         "174": 115,
+             *         "175": 109,
+             *         "176": 111,
+             *         "177": 115,
+             *         "178": 46,
+             *         "179": 99,
+             *         "180": 114,
+             *         "181": 121,
+             *         "182": 112,
+             *         "183": 116,
+             *         "184": 111,
+             *         "185": 46,
+             *         "186": 115,
+             *         "187": 101,
+             *         "188": 99,
+             *         "189": 112,
+             *         "190": 50,
+             *         "191": 53,
+             *         "192": 54,
+             *         "193": 107,
+             *         "194": 49,
+             *         "195": 46,
+             *         "196": 80,
+             *         "197": 117,
+             *         "198": 98,
+             *         "199": 75,
+             *         "200": 101,
+             *         "201": 121,
+             *         "202": 18,
+             *         "203": 35,
+             *         "204": 10,
+             *         "205": 33,
+             *         "206": 3,
+             *         "207": 156,
+             *         "208": 228,
+             *         "209": 123,
+             *         "210": 42,
+             *         "211": 129,
+             *         "212": 61,
+             *         "213": 19,
+             *         "214": 135,
+             *         "215": 97,
+             *         "216": 49,
+             *         "217": 169,
+             *         "218": 195,
+             *         "219": 190,
+             *         "220": 119,
+             *         "221": 232,
+             *         "222": 196,
+             *         "223": 175,
+             *         "224": 164,
+             *         "225": 158,
+             *         "226": 148,
+             *         "227": 135,
+             *         "228": 68,
+             *         "229": 171,
+             *         "230": 190,
+             *         "231": 225,
+             *         "232": 31,
+             *         "233": 147,
+             *         "234": 158,
+             *         "235": 42,
+             *         "236": 66,
+             *         "237": 15,
+             *         "238": 70,
+             *         "239": 18,
+             *         "240": 4,
+             *         "241": 10,
+             *         "242": 2,
+             *         "243": 8,
+             *         "244": 1,
+             *         "245": 24,
+             *         "246": 33,
+             *         "247": 18,
+             *         "248": 19,
+             *         "249": 10,
+             *         "250": 13,
+             *         "251": 10,
+             *         "252": 5,
+             *         "253": 117,
+             *         "254": 97,
+             *         "255": 116,
+             *         "256": 111,
+             *         "257": 109,
+             *         "258": 18,
+             *         "259": 4,
+             *         "260": 53,
+             *         "261": 48,
+             *         "262": 48,
+             *         "263": 48,
+             *         "264": 16,
+             *         "265": 224,
+             *         "266": 167,
+             *         "267": 18,
+             *         "268": 26,
+             *         "269": 64,
+             *         "270": 25,
+             *         "271": 31,
+             *         "272": 135,
+             *         "273": 165,
+             *         "274": 77,
+             *         "275": 206,
+             *         "276": 175,
+             *         "277": 182,
+             *         "278": 171,
+             *         "279": 154,
+             *         "280": 95,
+             *         "281": 17,
+             *         "282": 42,
+             *         "283": 19,
+             *         "284": 68,
+             *         "285": 76,
+             *         "286": 163,
+             *         "287": 126,
+             *         "288": 73,
+             *         "289": 160,
+             *         "290": 41,
+             *         "291": 229,
+             *         "292": 49,
+             *         "293": 187,
+             *         "294": 33,
+             *         "295": 48,
+             *         "296": 31,
+             *         "297": 215,
+             *         "298": 46,
+             *         "299": 157,
+             *         "300": 57,
+             *         "301": 3,
+             *         "302": 4,
+             *         "303": 199,
+             *         "304": 99,
+             *         "305": 204,
+             *         "306": 165,
+             *         "307": 169,
+             *         "308": 118,
+             *         "309": 10,
+             *         "310": 99,
+             *         "311": 29,
+             *         "312": 200,
+             *         "313": 87,
+             *         "314": 5,
+             *         "315": 221,
+             *         "316": 107,
+             *         "317": 8,
+             *         "318": 181,
+             *         "319": 15,
+             *         "320": 95,
+             *         "321": 255,
+             *         "322": 125,
+             *         "323": 93,
+             *         "324": 232,
+             *         "325": 215,
+             *         "326": 59,
+             *         "327": 44,
+             *         "328": 235,
+             *         "329": 209,
+             *         "330": 244,
+             *         "331": 195,
+             *         "332": 182,
+             *         "333": 160
+             *       },
+             *       "gasUsed": 167798,
+             *       "gasWanted": 300000
+             *     }
+             */
+            receipt?: Record<string, never>;
+        };
+        CRONOSCraftUnstakeTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator: string;
+            /**
+             * @description Amount to unstake in basecro. Omit to unstake all the delegated amount
+             * @example 1000000000000000000000000
+             */
+            amount_basecro?: string;
+        };
+        CRONOSCraftRedelegateTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to which the new stake will be linked
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator source address of current stake
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_source: string;
+            /**
+             * @description Validator destination address to which redelegate the stake
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_destination: string;
+            /**
+             * @description Amount to redelegate in basecro
+             * @example 1000000000000000000000000
+             */
+            amount_basecro?: string;
+        };
+        CRONOSCraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator: string;
+            /**
+             * @description Amount to stake in basecro
+             * @example 1000000000000000000000000
+             */
+            amount_basecro: string;
+            /**
+             * @description If enabled, the rewards will be automatically restaked
+             * @default false
+             */
+            restake_rewards: boolean;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address?: string;
+        };
+        CRONOSCraftRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        CRONOSCraftWithdrawRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator: string;
+        };
+        CRONOSReward: {
+            /**
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2023-01-15
+             */
+            date: string;
+            /**
+             * @description Accumulated rewards in basecro during the day
+             * @example 3575891083876864200000
+             */
+            rewards: string;
+            /**
+             * @description Staked balance in basecro at the end of the day
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 20.76
+             */
+            net_apy: number;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            rewards_usd?: number;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            balance_usd?: number;
+        };
+        CRONOSOperationDelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgDelegate
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address?: string;
+            /**
+             * @description Delegator address
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            delegator_address?: string;
+            /**
+             * @description Amount added to the staked balance in basecro
+             * @example 3000000
+             */
+            amount?: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in basecro
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        CRONOSOperationUndelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgUndelegate
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address?: string;
+            /**
+             * @description Delegator address
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            delegator_address?: string;
+            /**
+             * @description Amount removed from the staked balance in basecro
+             * @example 3000000
+             */
+            amount?: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in basecro
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        CRONOSOperationRedelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgBeginRedelegate
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Destination validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address?: string;
+            /**
+             * @description Source validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address_source?: string;
+            /**
+             * @description Delegator address
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            delegator_address?: string;
+            /**
+             * @description Amount moved from the source validator staked balance to the destination validator staked balance in basecro
+             * @example 3000000
+             */
+            amount?: string;
+            /**
+             * @description Rewards auto-claimed from the destination validator alongside the operation in basecro
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+            /**
+             * @description Rewards auto-claimed from the source validator alongside the operation in basecro
+             * @example 10841
+             */
+            withdraw_rewards_source?: string;
+        };
+        CRONOSOperationWithdrawRewards: {
+            /**
+             * @description Operation type
+             * @example distr.MsgWithdrawDelegatorReward
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Validator address
+             * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+             */
+            validator_address?: string;
+            /**
+             * @description Delegator address
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            delegator_address?: string;
+            /**
+             * @description Rewards claimed alongside the operation in basecro
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        CRONOSOperationGrant: {
+            /**
+             * @description Operation type
+             * @example Authz.Grant
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Recipient of the permissions
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            grantee?: string;
+            /**
+             * @description Owner of the stake giving the permissions
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            granter?: string;
+            /**
+             * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+             * @example Staking.MsgDelegate
+             */
+            permission?: string;
+            /**
+             * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h",
+             *       "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h"
+             *     ]
+             */
+            allow_list?: string[] | null;
+            /**
+             * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h",
+             *       "cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h"
+             *     ]
+             */
+            deny_list?: string[] | null;
+        };
+        CRONOSOperationExec: {
+            /**
+             * @description Operation type
+             * @example Authz.Exec
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type?: string;
+                /**
+                 * @description Destination validator address
+                 * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+                 */
+                validator_address?: string;
+                /**
+                 * @description Source validator address
+                 * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+                 */
+                delegator_address?: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in basecro
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in basecro
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in basecro
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        CRONOSNetworkStats: {
+            /**
+             * @description Price of CRO in USD
+             * @example 10.53
+             */
+            cronos_price_usd: number;
+            /**
+             * @description Number of validators in the network
+             * @example 100
+             */
+            nb_validators: number;
+            /**
+             * @description Gross annual percentage yield
+             * @example 4.5
+             */
+            network_gross_apy: number;
+            /**
+             * @description Supply of CRO currently staked
+             * @example 12.4
+             */
+            supply_staked_percent: number;
+            /**
+             * @description CRO inflation rate
+             * @example 3.5
+             */
+            inflation_rate: number;
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at: string;
+        };
+        /**
+         * @description Decoded transaction
+         * @example {
+         *       "authInfo": {
+         *         "signerInfos": [
+         *           {
+         *             "publicKey": {
+         *               "typeUrl": "/cosmos.crypto.secp256k1.PubKey",
+         *               "value": {
+         *                 "0": 10,
+         *                 "1": 33,
+         *                 "2": 3,
+         *                 "3": 156,
+         *                 "4": 228,
+         *                 "5": 123,
+         *                 "6": 42,
+         *                 "7": 129,
+         *                 "8": 61,
+         *                 "9": 19,
+         *                 "10": 135,
+         *                 "11": 97,
+         *                 "12": 49,
+         *                 "13": 169,
+         *                 "14": 195,
+         *                 "15": 190,
+         *                 "16": 119,
+         *                 "17": 232,
+         *                 "18": 196,
+         *                 "19": 175,
+         *                 "20": 164,
+         *                 "21": 158,
+         *                 "22": 148,
+         *                 "23": 135,
+         *                 "24": 68,
+         *                 "25": 171,
+         *                 "26": 190,
+         *                 "27": 225,
+         *                 "28": 31,
+         *                 "29": 147,
+         *                 "30": 158,
+         *                 "31": 42,
+         *                 "32": 66,
+         *                 "33": 15,
+         *                 "34": 70
+         *               }
+         *             },
+         *             "modeInfo": {
+         *               "single": {
+         *                 "mode": 1
+         *               }
+         *             },
+         *             "sequence": {
+         *               "low": 102,
+         *               "high": 0,
+         *               "unsigned": true
+         *             }
+         *           }
+         *         ],
+         *         "fee": {
+         *           "amount": [
+         *             {
+         *               "denom": "basecro",
+         *               "amount": "5000"
+         *             }
+         *           ],
+         *           "gasLimit": {
+         *             "low": 2000000,
+         *             "high": 0,
+         *             "unsigned": true
+         *           },
+         *           "payer": "",
+         *           "granter": ""
+         *         }
+         *       },
+         *       "body": {
+         *         "messages": [
+         *           {
+         *             "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+         *             "value": {
+         *               "0": 10,
+         *               "1": 45,
+         *               "2": 99,
+         *               "3": 111,
+         *               "4": 115,
+         *               "5": 109,
+         *               "6": 111,
+         *               "7": 115,
+         *               "8": 49,
+         *               "9": 57,
+         *               "10": 99,
+         *               "11": 57,
+         *               "12": 102,
+         *               "13": 100,
+         *               "14": 104,
+         *               "15": 52,
+         *               "16": 56,
+         *               "17": 56,
+         *               "18": 118,
+         *               "19": 113,
+         *               "20": 106,
+         *               "21": 99,
+         *               "22": 108,
+         *               "23": 108,
+         *               "24": 116,
+         *               "25": 119,
+         *               "26": 112,
+         *               "27": 54,
+         *               "28": 56,
+         *               "29": 106,
+         *               "30": 109,
+         *               "31": 53,
+         *               "32": 48,
+         *               "33": 121,
+         *               "34": 100,
+         *               "35": 119,
+         *               "36": 121,
+         *               "37": 104,
+         *               "38": 51,
+         *               "39": 54,
+         *               "40": 106,
+         *               "41": 113,
+         *               "42": 101,
+         *               "43": 97,
+         *               "44": 116,
+         *               "45": 101,
+         *               "46": 118,
+         *               "47": 18,
+         *               "48": 52,
+         *               "49": 99,
+         *               "50": 111,
+         *               "51": 115,
+         *               "52": 109,
+         *               "53": 111,
+         *               "54": 115,
+         *               "55": 118,
+         *               "56": 97,
+         *               "57": 108,
+         *               "58": 111,
+         *               "59": 112,
+         *               "60": 101,
+         *               "61": 114,
+         *               "62": 49,
+         *               "63": 54,
+         *               "64": 121,
+         *               "65": 115,
+         *               "66": 48,
+         *               "67": 101,
+         *               "68": 103,
+         *               "69": 57,
+         *               "70": 51,
+         *               "71": 53,
+         *               "72": 109,
+         *               "73": 107,
+         *               "74": 113,
+         *               "75": 112,
+         *               "76": 107,
+         *               "77": 121,
+         *               "78": 100,
+         *               "79": 107,
+         *               "80": 103,
+         *               "81": 102,
+         *               "82": 99,
+         *               "83": 106,
+         *               "84": 57,
+         *               "85": 97,
+         *               "86": 103,
+         *               "87": 101,
+         *               "88": 50,
+         *               "89": 97,
+         *               "90": 117,
+         *               "91": 56,
+         *               "92": 108,
+         *               "93": 57,
+         *               "94": 54,
+         *               "95": 110,
+         *               "96": 97,
+         *               "97": 101,
+         *               "98": 114,
+         *               "99": 101,
+         *               "100": 57,
+         *               "101": 26,
+         *               "102": 16,
+         *               "103": 10,
+         *               "104": 5,
+         *               "105": 117,
+         *               "106": 97,
+         *               "107": 116,
+         *               "108": 111,
+         *               "109": 109,
+         *               "110": 18,
+         *               "111": 7,
+         *               "112": 49,
+         *               "113": 48,
+         *               "114": 48,
+         *               "115": 48,
+         *               "116": 48,
+         *               "117": 48,
+         *               "118": 48
+         *             }
+         *           }
+         *         ],
+         *         "memo": "",
+         *         "timeoutHeight": {
+         *           "low": 0,
+         *           "high": 0,
+         *           "unsigned": true
+         *         },
+         *         "extensionOptions": [],
+         *         "nonCriticalExtensionOptions": []
+         *       },
+         *       "signatures": [
+         *         {
+         *           "0": 116,
+         *           "1": 104,
+         *           "2": 101,
+         *           "3": 116,
+         *           "4": 97,
+         *           "5": 45,
+         *           "6": 116,
+         *           "7": 101,
+         *           "8": 115,
+         *           "9": 116,
+         *           "10": 110,
+         *           "11": 101,
+         *           "12": 116,
+         *           "13": 45,
+         *           "14": 48,
+         *           "15": 48,
+         *           "16": 49
+         *         }
+         *       ]
+         *     }
+         */
+        CRONOSTxDecoding: Record<string, never>;
+        MANTRAStake: {
+            /**
+             * @description Public key of the validator
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address: string;
+            /**
+             * @description Public key of the delegator
+             * @example mantra1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            delegator_address: string;
+            /**
+             * Format: date-time
+             * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 2023-06-16T03:13:23.058547Z
+             */
+            delegated_at?: string;
+            /**
+             * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 15739267
+             */
+            delegated_block?: number;
+            /**
+             * Format: date-time
+             * @description Date of undelegation for the stake
+             * @example 2023-07-14T03:56:13.561156Z
+             */
+            undelegated_at?: string;
+            /**
+             * @description Block of undelegation for the stake
+             * @example 16126416
+             */
+            undelegated_block?: number;
+            /**
+             * @description Total rewards accumulated by this stake since its first ever delegation in uOM. Includes currently available rewards not yet withdrawn.
+             * @example 735573808534727891000000
+             */
+            rewards: string;
+            /**
+             * @description Available rewards in uOM that can be withdrawn from this stake
+             * @example 36748808534727891000000
+             */
+            available_rewards: string;
+            /**
+             * @description Staked balance on this stake in uOM
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 5.76
+             */
+            net_apy: number;
+            /**
+             * @description State of the Mantra stake
+             * @example active
+             * @enum {string}
+             */
+            state: "active" | "deactivating" | "inactive";
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at?: string;
+            /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
+            permissions: {
+                /**
+                 * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
+                 * @example granter
+                 */
+                source?: string;
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height?: number;
+                /**
+                 * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+                 * @example Staking.MsgDelegate
+                 */
+                permission?: string;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the permissions will be revoked
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                expires_at?: string | null;
+                /**
+                 * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "mantravaloper1xyz",
+                 *       "mantravaloper1abc"
+                 *     ]
+                 */
+                allow_list?: string[] | null;
+                /**
+                 * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "mantravaloper1xyz",
+                 *       "mantravaloper1abc"
+                 *     ]
+                 */
+                deny_list?: string[] | null;
+            }[];
+            /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
+            unbondings: {
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height: number;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the unbonding will take effect
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                completion_time: string;
+                /**
+                 * @description Amount currently associated with the unbonding (slashes included)
+                 * @example 129300
+                 */
+                balance: string;
+                /**
+                 * @description Amount expected at creation (slashes non-included)
+                 * @example 150300
+                 */
+                initial_balance: string;
+            }[];
+        };
+        PostMANTRAStakesPayload: {
+            stakes: {
+                /**
+                 * @description Stake id {validator_address}_{delegator_address}
+                 * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g_mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a}
+                 */
+                stakeId?: string;
+            }[];
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id: string;
+        };
+        MANTRAStakeMessage: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.MsgDelegate
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "delegatorAddress": "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a",
+             *       "validatorAddress": "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g",
+             *       "amount": {
+             *         "denom": "uom",
+             *         "amount": "1000000"
+             *       }
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        MANTRAStakeMessageRestake: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.StakeAuthorization
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "allowList": {
+             *         "address": [
+             *           "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g"
+             *         ]
+             *       },
+             *       "AuthorizationType": 1
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        MANTRAStakeUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "uom",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description List of messages included in the transaction. The list contains one message for the staking delegation and one more message for rewards restaking in case specified as a parameter (`restake_rewards=true`).
+             * @example [
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *         "value": {
+             *           "delegatorAddress": "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a",
+             *           "validatorAddress": "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g",
+             *           "amount": {
+             *             "denom": "uom",
+             *             "amount": "1000000"
+             *           }
+             *         }
+             *       },
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.StakeAuthorization",
+             *         "allowList": {
+             *           "address": [
+             *             "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g"
+             *           ]
+             *         },
+             *         "AuthorizationType": 1
+             *       }
+             *     ]
+             */
+            messages: (components["schemas"]["MANTRAStakeMessage"] | components["schemas"]["MANTRAStakeMessageRestake"])[];
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        MANTRAUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Message included in the transaction
+             * @example {
+             *       "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *       "value": {
+             *         "delegatorAddress": "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a",
+             *         "validatorAddress": "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g",
+             *         "amount": {
+             *           "denom": "uom",
+             *           "amount": "1000000"
+             *         }
+             *       }
+             *     }
+             */
+            message: Record<string, never>;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "uom",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        MANTRASignedTx: {
+            /**
+             * @description Serialized signed transaction in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signed_tx_serialized: string;
+        };
+        MANTRATxHash: {
+            /**
+             * @description Hash of the transaction
+             * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
+             */
+            tx_hash: string;
+        };
+        MANTRAPrepareTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Transaction signature serialized in hex
+             * @example 191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signature: string;
+        };
+        MANTRABroadcastTxPayload: {
+            /**
+             * @description Signed transaction serialized in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            tx_serialized: string;
+        };
+        MANTRATxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status?: "success" | "error";
+            /**
+             * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
+             * @example {
+             *       "height": 16007296,
+             *       "txIndex": 0,
+             *       "hash": "2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB",
+             *       "code": 0,
+             *       "events": [
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "mantra17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "mantra17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "fee",
+             *               "value": "5000uom"
+             *             },
+             *             {
+             *               "key": "fee_payer",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "acc_seq",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev/33"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "signature",
+             *               "value": "GR+HpU3Or7arml8RKhNETKN+SaAp5TG7ITAf1y6dOQMEx2PMpal2CmMdyFcF3WsItQ9f/31d6Nc7LOvR9MO2oA=="
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "action",
+             *               "value": "/cosmos.staking.v1beta1.MsgDelegate"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "mantra1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "mantra1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "mantra1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "withdraw_rewards",
+             *           "attributes": [
+             *             {
+             *               "key": "amount",
+             *               "value": "5uom"
+             *             },
+             *             {
+             *               "key": "validator",
+             *               "value": "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "mantra1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000uom"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "delegate",
+             *           "attributes": [
+             *             {
+             *               "key": "validator",
+             *               "value": "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000uom"
+             *             },
+             *             {
+             *               "key": "new_shares",
+             *               "value": "100000.000000000000000000"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "module",
+             *               "value": "staking"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         }
+             *       ],
+             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5uom\"},{\"key\":\"receiver\",\"value\":\"mantra1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000uom\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"mantra1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5uom\"},{\"key\":\"spender\",\"value\":\"mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000uom\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g\"},{\"key\":\"amount\",\"value\":\"100000uom\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"mantra1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"mantra19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"mantra1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5uom\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5uom\"},{\"key\":\"validator\",\"value\":\"mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g\"}]}]}]",
+             *       "tx": {
+             *         "0": 10,
+             *         "1": 160,
+             *         "2": 1,
+             *         "3": 10,
+             *         "4": 157,
+             *         "5": 1,
+             *         "6": 10,
+             *         "7": 35,
+             *         "8": 47,
+             *         "9": 99,
+             *         "10": 111,
+             *         "11": 115,
+             *         "12": 109,
+             *         "13": 111,
+             *         "14": 115,
+             *         "15": 46,
+             *         "16": 115,
+             *         "17": 116,
+             *         "18": 97,
+             *         "19": 107,
+             *         "20": 105,
+             *         "21": 110,
+             *         "22": 103,
+             *         "23": 46,
+             *         "24": 118,
+             *         "25": 49,
+             *         "26": 98,
+             *         "27": 101,
+             *         "28": 116,
+             *         "29": 97,
+             *         "30": 49,
+             *         "31": 46,
+             *         "32": 77,
+             *         "33": 115,
+             *         "34": 103,
+             *         "35": 68,
+             *         "36": 101,
+             *         "37": 108,
+             *         "38": 101,
+             *         "39": 103,
+             *         "40": 97,
+             *         "41": 116,
+             *         "42": 101,
+             *         "43": 18,
+             *         "44": 118,
+             *         "45": 10,
+             *         "46": 45,
+             *         "47": 99,
+             *         "48": 111,
+             *         "49": 115,
+             *         "50": 109,
+             *         "51": 111,
+             *         "52": 115,
+             *         "53": 49,
+             *         "54": 57,
+             *         "55": 99,
+             *         "56": 57,
+             *         "57": 102,
+             *         "58": 100,
+             *         "59": 104,
+             *         "60": 52,
+             *         "61": 56,
+             *         "62": 56,
+             *         "63": 118,
+             *         "64": 113,
+             *         "65": 106,
+             *         "66": 99,
+             *         "67": 108,
+             *         "68": 108,
+             *         "69": 116,
+             *         "70": 119,
+             *         "71": 112,
+             *         "72": 54,
+             *         "73": 56,
+             *         "74": 106,
+             *         "75": 109,
+             *         "76": 53,
+             *         "77": 48,
+             *         "78": 121,
+             *         "79": 100,
+             *         "80": 119,
+             *         "81": 121,
+             *         "82": 104,
+             *         "83": 51,
+             *         "84": 54,
+             *         "85": 106,
+             *         "86": 113,
+             *         "87": 101,
+             *         "88": 97,
+             *         "89": 116,
+             *         "90": 101,
+             *         "91": 118,
+             *         "92": 18,
+             *         "93": 52,
+             *         "94": 99,
+             *         "95": 111,
+             *         "96": 115,
+             *         "97": 109,
+             *         "98": 111,
+             *         "99": 115,
+             *         "100": 118,
+             *         "101": 97,
+             *         "102": 108,
+             *         "103": 111,
+             *         "104": 112,
+             *         "105": 101,
+             *         "106": 114,
+             *         "107": 49,
+             *         "108": 54,
+             *         "109": 121,
+             *         "110": 115,
+             *         "111": 48,
+             *         "112": 101,
+             *         "113": 103,
+             *         "114": 57,
+             *         "115": 51,
+             *         "116": 53,
+             *         "117": 109,
+             *         "118": 107,
+             *         "119": 113,
+             *         "120": 112,
+             *         "121": 107,
+             *         "122": 121,
+             *         "123": 100,
+             *         "124": 107,
+             *         "125": 103,
+             *         "126": 102,
+             *         "127": 99,
+             *         "128": 106,
+             *         "129": 57,
+             *         "130": 97,
+             *         "131": 103,
+             *         "132": 101,
+             *         "133": 50,
+             *         "134": 97,
+             *         "135": 117,
+             *         "136": 56,
+             *         "137": 108,
+             *         "138": 57,
+             *         "139": 54,
+             *         "140": 110,
+             *         "141": 97,
+             *         "142": 101,
+             *         "143": 114,
+             *         "144": 101,
+             *         "145": 57,
+             *         "146": 26,
+             *         "147": 15,
+             *         "148": 10,
+             *         "149": 5,
+             *         "150": 117,
+             *         "151": 97,
+             *         "152": 116,
+             *         "153": 111,
+             *         "154": 109,
+             *         "155": 18,
+             *         "156": 6,
+             *         "157": 49,
+             *         "158": 48,
+             *         "159": 48,
+             *         "160": 48,
+             *         "161": 48,
+             *         "162": 48,
+             *         "163": 18,
+             *         "164": 103,
+             *         "165": 10,
+             *         "166": 80,
+             *         "167": 10,
+             *         "168": 70,
+             *         "169": 10,
+             *         "170": 31,
+             *         "171": 47,
+             *         "172": 99,
+             *         "173": 111,
+             *         "174": 115,
+             *         "175": 109,
+             *         "176": 111,
+             *         "177": 115,
+             *         "178": 46,
+             *         "179": 99,
+             *         "180": 114,
+             *         "181": 121,
+             *         "182": 112,
+             *         "183": 116,
+             *         "184": 111,
+             *         "185": 46,
+             *         "186": 115,
+             *         "187": 101,
+             *         "188": 99,
+             *         "189": 112,
+             *         "190": 50,
+             *         "191": 53,
+             *         "192": 54,
+             *         "193": 107,
+             *         "194": 49,
+             *         "195": 46,
+             *         "196": 80,
+             *         "197": 117,
+             *         "198": 98,
+             *         "199": 75,
+             *         "200": 101,
+             *         "201": 121,
+             *         "202": 18,
+             *         "203": 35,
+             *         "204": 10,
+             *         "205": 33,
+             *         "206": 3,
+             *         "207": 156,
+             *         "208": 228,
+             *         "209": 123,
+             *         "210": 42,
+             *         "211": 129,
+             *         "212": 61,
+             *         "213": 19,
+             *         "214": 135,
+             *         "215": 97,
+             *         "216": 49,
+             *         "217": 169,
+             *         "218": 195,
+             *         "219": 190,
+             *         "220": 119,
+             *         "221": 232,
+             *         "222": 196,
+             *         "223": 175,
+             *         "224": 164,
+             *         "225": 158,
+             *         "226": 148,
+             *         "227": 135,
+             *         "228": 68,
+             *         "229": 171,
+             *         "230": 190,
+             *         "231": 225,
+             *         "232": 31,
+             *         "233": 147,
+             *         "234": 158,
+             *         "235": 42,
+             *         "236": 66,
+             *         "237": 15,
+             *         "238": 70,
+             *         "239": 18,
+             *         "240": 4,
+             *         "241": 10,
+             *         "242": 2,
+             *         "243": 8,
+             *         "244": 1,
+             *         "245": 24,
+             *         "246": 33,
+             *         "247": 18,
+             *         "248": 19,
+             *         "249": 10,
+             *         "250": 13,
+             *         "251": 10,
+             *         "252": 5,
+             *         "253": 117,
+             *         "254": 97,
+             *         "255": 116,
+             *         "256": 111,
+             *         "257": 109,
+             *         "258": 18,
+             *         "259": 4,
+             *         "260": 53,
+             *         "261": 48,
+             *         "262": 48,
+             *         "263": 48,
+             *         "264": 16,
+             *         "265": 224,
+             *         "266": 167,
+             *         "267": 18,
+             *         "268": 26,
+             *         "269": 64,
+             *         "270": 25,
+             *         "271": 31,
+             *         "272": 135,
+             *         "273": 165,
+             *         "274": 77,
+             *         "275": 206,
+             *         "276": 175,
+             *         "277": 182,
+             *         "278": 171,
+             *         "279": 154,
+             *         "280": 95,
+             *         "281": 17,
+             *         "282": 42,
+             *         "283": 19,
+             *         "284": 68,
+             *         "285": 76,
+             *         "286": 163,
+             *         "287": 126,
+             *         "288": 73,
+             *         "289": 160,
+             *         "290": 41,
+             *         "291": 229,
+             *         "292": 49,
+             *         "293": 187,
+             *         "294": 33,
+             *         "295": 48,
+             *         "296": 31,
+             *         "297": 215,
+             *         "298": 46,
+             *         "299": 157,
+             *         "300": 57,
+             *         "301": 3,
+             *         "302": 4,
+             *         "303": 199,
+             *         "304": 99,
+             *         "305": 204,
+             *         "306": 165,
+             *         "307": 169,
+             *         "308": 118,
+             *         "309": 10,
+             *         "310": 99,
+             *         "311": 29,
+             *         "312": 200,
+             *         "313": 87,
+             *         "314": 5,
+             *         "315": 221,
+             *         "316": 107,
+             *         "317": 8,
+             *         "318": 181,
+             *         "319": 15,
+             *         "320": 95,
+             *         "321": 255,
+             *         "322": 125,
+             *         "323": 93,
+             *         "324": 232,
+             *         "325": 215,
+             *         "326": 59,
+             *         "327": 44,
+             *         "328": 235,
+             *         "329": 209,
+             *         "330": 244,
+             *         "331": 195,
+             *         "332": 182,
+             *         "333": 160
+             *       },
+             *       "gasUsed": 167798,
+             *       "gasWanted": 300000
+             *     }
+             */
+            receipt?: Record<string, never>;
+        };
+        MANTRACraftUnstakeTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator: string;
+            /**
+             * @description Amount to unstake in uOM. Omit to unstake all the delegated amount
+             * @example 1000000000000000000000000
+             */
+            amount_uom?: string;
+        };
+        MANTRACraftRedelegateTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to which the new stake will be linked
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator source address of current stake
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_source: string;
+            /**
+             * @description Validator destination address to which redelegate the stake
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_destination: string;
+            /**
+             * @description Amount to redelegate in uOM
+             * @example 1000000000000000000000000
+             */
+            amount_uom?: string;
+        };
+        MANTRACraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator: string;
+            /**
+             * @description Amount to stake in uom
+             * @example 1000000000000000000000000
+             */
+            amount_uom: string;
+            /**
+             * @description If enabled, the rewards will be automatically restaked
+             * @default false
+             */
+            restake_rewards: boolean;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address?: string;
+        };
+        MANTRACraftRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        MANTRACraftWithdrawRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator: string;
+        };
+        MANTRAReward: {
+            /**
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2023-01-15
+             */
+            date: string;
+            /**
+             * @description Accumulated rewards in uOM during the day
+             * @example 3575891083876864200000
+             */
+            rewards: string;
+            /**
+             * @description Staked balance in uOM at the end of the day
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 20.76
+             */
+            net_apy: number;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            rewards_usd?: number;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            balance_usd?: number;
+        };
+        MANTRAOperationDelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgDelegate
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address?: string;
+            /**
+             * @description Delegator address
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            delegator_address?: string;
+            /**
+             * @description Amount added to the staked balance in uOM
+             * @example 3000000
+             */
+            amount?: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in uOM
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        MANTRAOperationUndelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgUndelegate
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address?: string;
+            /**
+             * @description Delegator address
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            delegator_address?: string;
+            /**
+             * @description Amount removed from the staked balance in uOM
+             * @example 3000000
+             */
+            amount?: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in uOM
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        MANTRAOperationRedelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgBeginRedelegate
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Destination validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address?: string;
+            /**
+             * @description Source validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address_source?: string;
+            /**
+             * @description Delegator address
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            delegator_address?: string;
+            /**
+             * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOM
+             * @example 3000000
+             */
+            amount?: string;
+            /**
+             * @description Rewards auto-claimed from the destination validator alongside the operation in uOM
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+            /**
+             * @description Rewards auto-claimed from the source validator alongside the operation in uOM
+             * @example 10841
+             */
+            withdraw_rewards_source?: string;
+        };
+        MANTRAOperationWithdrawRewards: {
+            /**
+             * @description Operation type
+             * @example distr.MsgWithdrawDelegatorReward
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Validator address
+             * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+             */
+            validator_address?: string;
+            /**
+             * @description Delegator address
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            delegator_address?: string;
+            /**
+             * @description Rewards claimed alongside the operation in uOM
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        MANTRAOperationGrant: {
+            /**
+             * @description Operation type
+             * @example Authz.Grant
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            /**
+             * @description Recipient of the permissions
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            grantee?: string;
+            /**
+             * @description Owner of the stake giving the permissions
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            granter?: string;
+            /**
+             * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+             * @example Staking.MsgDelegate
+             */
+            permission?: string;
+            /**
+             * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a",
+             *       "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a"
+             *     ]
+             */
+            allow_list?: string[] | null;
+            /**
+             * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a",
+             *       "mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a"
+             *     ]
+             */
+            deny_list?: string[] | null;
+        };
+        MANTRAOperationExec: {
+            /**
+             * @description Operation type
+             * @example Authz.Exec
+             */
+            type?: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time?: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block?: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash?: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used?: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index?: number;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type?: string;
+                /**
+                 * @description Destination validator address
+                 * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+                 */
+                validator_address?: string;
+                /**
+                 * @description Source validator address
+                 * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+                 */
+                delegator_address?: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOM
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uOM
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uOM
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        MANTRANetworkStats: {
+            /**
+             * @description Price of Mantra in USD
+             * @example 10.53
+             */
+            mantra_price_usd: number;
+            /**
+             * @description Number of validators in the network
+             * @example 100
+             */
+            nb_validators: number;
+            /**
+             * @description Gross annual percentage yield
+             * @example 4.5
+             */
+            network_gross_apy: number;
+            /**
+             * @description Supply of Mantra currently staked
+             * @example 12.4
+             */
+            supply_staked_percent: number;
+            /**
+             * @description Mantra inflation rate
+             * @example 3.5
+             */
+            inflation_rate: number;
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at: string;
+        };
+        /**
+         * @description Decoded transaction
+         * @example {
+         *       "authInfo": {
+         *         "signerInfos": [
+         *           {
+         *             "publicKey": {
+         *               "typeUrl": "/cosmos.crypto.secp256k1.PubKey",
+         *               "value": {
+         *                 "0": 10,
+         *                 "1": 33,
+         *                 "2": 3,
+         *                 "3": 156,
+         *                 "4": 228,
+         *                 "5": 123,
+         *                 "6": 42,
+         *                 "7": 129,
+         *                 "8": 61,
+         *                 "9": 19,
+         *                 "10": 135,
+         *                 "11": 97,
+         *                 "12": 49,
+         *                 "13": 169,
+         *                 "14": 195,
+         *                 "15": 190,
+         *                 "16": 119,
+         *                 "17": 232,
+         *                 "18": 196,
+         *                 "19": 175,
+         *                 "20": 164,
+         *                 "21": 158,
+         *                 "22": 148,
+         *                 "23": 135,
+         *                 "24": 68,
+         *                 "25": 171,
+         *                 "26": 190,
+         *                 "27": 225,
+         *                 "28": 31,
+         *                 "29": 147,
+         *                 "30": 158,
+         *                 "31": 42,
+         *                 "32": 66,
+         *                 "33": 15,
+         *                 "34": 70
+         *               }
+         *             },
+         *             "modeInfo": {
+         *               "single": {
+         *                 "mode": 1
+         *               }
+         *             },
+         *             "sequence": {
+         *               "low": 102,
+         *               "high": 0,
+         *               "unsigned": true
+         *             }
+         *           }
+         *         ],
+         *         "fee": {
+         *           "amount": [
+         *             {
+         *               "denom": "uom",
+         *               "amount": "5000"
+         *             }
+         *           ],
+         *           "gasLimit": {
+         *             "low": 2000000,
+         *             "high": 0,
+         *             "unsigned": true
+         *           },
+         *           "payer": "",
+         *           "granter": ""
+         *         }
+         *       },
+         *       "body": {
+         *         "messages": [
+         *           {
+         *             "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+         *             "value": {
+         *               "0": 10,
+         *               "1": 45,
+         *               "2": 99,
+         *               "3": 111,
+         *               "4": 115,
+         *               "5": 109,
+         *               "6": 111,
+         *               "7": 115,
+         *               "8": 49,
+         *               "9": 57,
+         *               "10": 99,
+         *               "11": 57,
+         *               "12": 102,
+         *               "13": 100,
+         *               "14": 104,
+         *               "15": 52,
+         *               "16": 56,
+         *               "17": 56,
+         *               "18": 118,
+         *               "19": 113,
+         *               "20": 106,
+         *               "21": 99,
+         *               "22": 108,
+         *               "23": 108,
+         *               "24": 116,
+         *               "25": 119,
+         *               "26": 112,
+         *               "27": 54,
+         *               "28": 56,
+         *               "29": 106,
+         *               "30": 109,
+         *               "31": 53,
+         *               "32": 48,
+         *               "33": 121,
+         *               "34": 100,
+         *               "35": 119,
+         *               "36": 121,
+         *               "37": 104,
+         *               "38": 51,
+         *               "39": 54,
+         *               "40": 106,
+         *               "41": 113,
+         *               "42": 101,
+         *               "43": 97,
+         *               "44": 116,
+         *               "45": 101,
+         *               "46": 118,
+         *               "47": 18,
+         *               "48": 52,
+         *               "49": 99,
+         *               "50": 111,
+         *               "51": 115,
+         *               "52": 109,
+         *               "53": 111,
+         *               "54": 115,
+         *               "55": 118,
+         *               "56": 97,
+         *               "57": 108,
+         *               "58": 111,
+         *               "59": 112,
+         *               "60": 101,
+         *               "61": 114,
+         *               "62": 49,
+         *               "63": 54,
+         *               "64": 121,
+         *               "65": 115,
+         *               "66": 48,
+         *               "67": 101,
+         *               "68": 103,
+         *               "69": 57,
+         *               "70": 51,
+         *               "71": 53,
+         *               "72": 109,
+         *               "73": 107,
+         *               "74": 113,
+         *               "75": 112,
+         *               "76": 107,
+         *               "77": 121,
+         *               "78": 100,
+         *               "79": 107,
+         *               "80": 103,
+         *               "81": 102,
+         *               "82": 99,
+         *               "83": 106,
+         *               "84": 57,
+         *               "85": 97,
+         *               "86": 103,
+         *               "87": 101,
+         *               "88": 50,
+         *               "89": 97,
+         *               "90": 117,
+         *               "91": 56,
+         *               "92": 108,
+         *               "93": 57,
+         *               "94": 54,
+         *               "95": 110,
+         *               "96": 97,
+         *               "97": 101,
+         *               "98": 114,
+         *               "99": 101,
+         *               "100": 57,
+         *               "101": 26,
+         *               "102": 16,
+         *               "103": 10,
+         *               "104": 5,
+         *               "105": 117,
+         *               "106": 97,
+         *               "107": 116,
+         *               "108": 111,
+         *               "109": 109,
+         *               "110": 18,
+         *               "111": 7,
+         *               "112": 49,
+         *               "113": 48,
+         *               "114": 48,
+         *               "115": 48,
+         *               "116": 48,
+         *               "117": 48,
+         *               "118": 48
+         *             }
+         *           }
+         *         ],
+         *         "memo": "",
+         *         "timeoutHeight": {
+         *           "low": 0,
+         *           "high": 0,
+         *           "unsigned": true
+         *         },
+         *         "extensionOptions": [],
+         *         "nonCriticalExtensionOptions": []
+         *       },
+         *       "signatures": [
+         *         {
+         *           "0": 116,
+         *           "1": 104,
+         *           "2": 101,
+         *           "3": 116,
+         *           "4": 97,
+         *           "5": 45,
+         *           "6": 116,
+         *           "7": 101,
+         *           "8": 115,
+         *           "9": 116,
+         *           "10": 110,
+         *           "11": 101,
+         *           "12": 116,
+         *           "13": 45,
+         *           "14": 48,
+         *           "15": 48,
+         *           "16": 49
+         *         }
+         *       ]
+         *     }
+         */
+        MANTRATxDecoding: Record<string, never>;
         ADAPostStakesPayload: {
             stakes: {
                 /**
@@ -29369,6 +33365,123 @@ export interface components {
              */
             amount_uusdc: string;
         };
+        TRXUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e566f74655769746e657373436f6e747261637412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
+             */
+            unsigned_tx_serialized: string;
+        };
+        TRXCraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+            /**
+             * @description Amount of TRX to stake in sun
+             * @example 10000
+             */
+            amount_sun: string;
+            /**
+             * @description Resource to obtain
+             * @example BANDWIDTH
+             * @enum {string}
+             */
+            resource: "BANDWIDTH" | "ENERGY";
+        };
+        TRXCraftUnstakeTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+            /**
+             * @description Amount of TRX to unstake in sun
+             * @example 10000
+             */
+            amount_sun: string;
+            /**
+             * @description Resource to release
+             * @example BANDWIDTH
+             * @enum {string}
+             */
+            resource: "BANDWIDTH" | "ENERGY";
+        };
+        TRXCraftWithdrawUnstakedTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+        };
+        TRXCraftVoteTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+            /**
+             * @description Number of votes to cast
+             * @example 1
+             */
+            votes?: string;
+        };
+        TRXCraftWithdrawRewardsTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+        };
+        TRXPrepareTxPayload: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f6f746f636f6c2e566f74655769746e657373436f6e747261637412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Signature of the transaction
+             * @example 47b1f77b3e30cfbbfa41d795dd34475865240617dd1c5a7bad526f5fd89e52cd057c80b665cc2431efab53520e2b1b92a0425033baee915df858ca1c588b0a1800
+             */
+            signature: string;
+        };
+        TRXBroadcastTxPayload: {
+            /**
+             * @description Signed serialized transaction
+             * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f6f746f636f6c2e566f74655769746e7373616c6c656454787061796c6f616412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
+             */
+            signed_tx_serialized: string;
+        };
+        TRXStake: {
+            /**
+             * @description Wallet address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            wallet: string;
+            /**
+             * @description Validator address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            validator: string;
+            /**
+             * @description Staked balance in sun
+             * @example 10000
+             */
+            balance: string;
+            /**
+             * Format: date-time
+             * @description Last updated timestamp
+             * @example 2021-01-01T00:00:00Z
+             */
+            updated_at: string;
+        };
     };
     responses: never;
     parameters: {
@@ -29463,6 +33576,34 @@ export interface components {
         ATOMDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         ATOMAuthzFlagParam: boolean;
+        /** @description Comma-separated list of validators addresses, these addresses
+         *     are matched with the corresponding delegator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        CRONOSValidatorsParam: string[];
+        /** @description Comma-separated list of delegator addresses, these addresses
+         *     are matched with the corresponding validator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        CRONOSDelegatorsParam: string[];
+        /** @description whether or not the operation returned will include authz operations, defaults to false */
+        CRONOSAuthzFlagParam: boolean;
+        /** @description Comma-separated list of validators addresses, these addresses
+         *     are matched with the corresponding delegator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        MANTRAValidatorsParam: string[];
+        /** @description Comma-separated list of delegator addresses, these addresses
+         *     are matched with the corresponding validator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        MANTRADelegatorsParam: string[];
+        /** @description whether or not the operation returned will include authz operations, defaults to false */
+        MANTRAAuthzFlagParam: boolean;
         ADAStakeAddressesParam: string;
         ADAWalletsParam: string;
         ADAPoolIDsParam: string;
@@ -29517,6 +33658,7 @@ export interface components {
         /** @description Comma-separated list of validator contract addresses */
         EGLDValidatorsParam: string[];
         DOTAddressesParam: string;
+        DOTValidatorsParam: string;
         /** @description Current page to look-up entries. Defaults to 1. If the number of entries returned is lesser than `page_size`, it means it's the last page and there are no more entries. */
         DOTPaginationPageParam: number;
         /** @description Number of entries to list per page. Defaults to `100`. specified */
@@ -29525,6 +33667,7 @@ export interface components {
         /** @description The format of the response. Defaults to `daily` */
         DOTRewardsFormatParam: "daily" | "era";
         KSMAddressesParam: string;
+        KSMValidatorsParam: string;
         /** @description Current page to look-up entries. Defaults to 1. If the number of entries returned is lesser than `page_size`, it means it's the last page and there are no more entries. */
         KSMPaginationPageParam: number;
         /** @description Number of entries to list per page. Defaults to `100`. specified */
@@ -29628,6 +33771,7 @@ export interface components {
         TONTxHashParam: string;
         /** @description Wallet address */
         TONGetWalletInfoParam: string;
+        TRXWalletsParam: string;
     };
     requestBodies: never;
     headers: never;
@@ -30254,7 +34398,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"])[];
+                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"])[];
                     };
                 };
             };
@@ -30430,7 +34574,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30478,7 +34622,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30526,7 +34670,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -30620,7 +34764,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32221,7 +36365,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32269,7 +36413,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32317,7 +36461,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32365,7 +36509,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32413,7 +36557,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32461,7 +36605,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32509,7 +36653,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -32989,7 +37133,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33037,7 +37181,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33085,7 +37229,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33133,7 +37277,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33181,7 +37325,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33229,7 +37373,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33277,7 +37421,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33741,7 +37885,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33789,7 +37933,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33837,7 +37981,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33885,7 +38029,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33933,7 +38077,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -33981,7 +38125,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34029,7 +38173,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34127,6 +38271,658 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": Record<string, never>;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCronosStakes: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CRONOSStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postCronosStakes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Stakes to create */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["PostCRONOSStakesPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CoreStake"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCronosRewards: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CRONOSReward"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCronosOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                /** @description whether or not the operation returned will include authz operations, defaults to false */
+                authz?: components["parameters"]["CRONOSAuthzFlagParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: (components["schemas"]["CRONOSOperationDelegate"] | components["schemas"]["CRONOSOperationUndelegate"] | components["schemas"]["CRONOSOperationRedelegate"] | components["schemas"]["CRONOSOperationWithdrawRewards"] | components["schemas"]["CRONOSOperationGrant"] | components["schemas"]["CRONOSOperationExec"])[];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCronosNetworkStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CRONOSNetworkStats"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getCronosReports: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMantraStakes: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["MANTRAStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postMantraStakes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Stakes to create */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["PostMANTRAStakesPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CoreStake"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMantraRewards: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["MANTRAReward"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMantraOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                /** @description whether or not the operation returned will include authz operations, defaults to false */
+                authz?: components["parameters"]["MANTRAAuthzFlagParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: (components["schemas"]["MANTRAOperationDelegate"] | components["schemas"]["MANTRAOperationUndelegate"] | components["schemas"]["MANTRAOperationRedelegate"] | components["schemas"]["MANTRAOperationWithdrawRewards"] | components["schemas"]["MANTRAOperationGrant"] | components["schemas"]["MANTRAOperationExec"])[];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMantraNetworkStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["MANTRANetworkStats"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMantraReports: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
                 };
             };
             /** @description Invalid parameters */
@@ -34466,7 +39262,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34514,7 +39310,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34562,7 +39358,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34610,7 +39406,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34658,7 +39454,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34892,7 +39688,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -34940,7 +39736,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35280,7 +40076,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35328,7 +40124,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35376,7 +40172,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35424,7 +40220,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35472,7 +40268,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35520,7 +40316,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35568,7 +40364,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -35616,7 +40412,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36046,7 +40842,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36094,7 +40890,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36142,7 +40938,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36190,7 +40986,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36238,7 +41034,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36286,7 +41082,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36334,7 +41130,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -36382,7 +41178,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37399,7 +42195,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37447,7 +42243,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37495,7 +42291,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37543,7 +42339,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37591,7 +42387,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37639,7 +42435,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -37687,7 +42483,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38103,6 +42899,7 @@ export interface operations {
         parameters: {
             query?: {
                 addresses?: components["parameters"]["DOTAddressesParam"];
+                validators?: components["parameters"]["DOTValidatorsParam"];
                 pool_ids?: components["parameters"]["DOTPoolIDsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
@@ -38300,7 +43097,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38348,7 +43145,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38396,7 +43193,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38444,7 +43241,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38492,7 +43289,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38540,7 +43337,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38588,7 +43385,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38636,7 +43433,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38684,7 +43481,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38732,7 +43529,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38780,7 +43577,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38828,7 +43625,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38876,7 +43673,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -38924,7 +43721,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39062,7 +43859,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39110,7 +43907,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39194,6 +43991,7 @@ export interface operations {
         parameters: {
             query?: {
                 addresses?: components["parameters"]["KSMAddressesParam"];
+                validators?: components["parameters"]["KSMValidatorsParam"];
                 pool_ids?: components["parameters"]["KSMPoolIDsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
@@ -39391,7 +44189,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39439,7 +44237,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39487,7 +44285,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39535,7 +44333,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39583,7 +44381,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39631,7 +44429,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39679,7 +44477,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39727,7 +44525,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39775,7 +44573,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39823,7 +44621,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39871,7 +44669,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39919,7 +44717,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -39967,7 +44765,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40015,7 +44813,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40153,7 +44951,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40201,7 +44999,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40634,7 +45432,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40682,7 +45480,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40730,7 +45528,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40778,7 +45576,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40826,7 +45624,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40874,7 +45672,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -40922,7 +45720,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41386,7 +46184,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41434,7 +46232,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41482,7 +46280,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41530,7 +46328,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41578,7 +46376,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41626,7 +46424,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -41674,7 +46472,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42199,7 +46997,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42247,7 +47045,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42295,7 +47093,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42343,7 +47141,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42391,7 +47189,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42439,7 +47237,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -42964,7 +47762,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43012,7 +47810,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43060,7 +47858,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43108,7 +47906,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43156,7 +47954,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43204,7 +48002,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43252,7 +48050,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43777,7 +48575,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43825,7 +48623,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43873,7 +48671,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43921,7 +48719,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -43969,7 +48767,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44017,7 +48815,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44065,7 +48863,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44531,7 +49329,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44579,7 +49377,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44627,7 +49425,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44675,7 +49473,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44723,7 +49521,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -44771,7 +49569,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45400,7 +50198,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45448,7 +50246,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45542,7 +50340,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45590,7 +50388,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45638,7 +50436,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45686,7 +50484,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45734,7 +50532,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45841,7 +50639,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45889,7 +50687,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45937,7 +50735,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -45985,7 +50783,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            201: {
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -46083,6 +50881,389 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": Record<string, never>;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTrxStakes: {
+        parameters: {
+            query?: {
+                wallet?: components["parameters"]["TRXWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxUnstakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxWithdrawUnstakedTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftWithdrawUnstakedTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxVoteTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftVoteTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxWithdrawRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftWithdrawRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxPrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to prepare */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
                 };
             };
             /** @description Invalid parameters */
