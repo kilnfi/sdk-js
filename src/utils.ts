@@ -242,10 +242,10 @@ export const fetToAfet = (fet: string): bigint => {
 
 // Convert TRX to sun
 export const trxToSun = (trx: string): bigint => {
-  return parseUnits(trx, 18);
+  return parseUnits(trx, 6);
 };
 
 // Convert sun to TRX
 export const sunToTrx = (trx: bigint): string => {
-  return formatUnits(trx, 18);
+  return formatUnits(trx, 6);
 };
