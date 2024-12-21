@@ -1082,14 +1082,13 @@ export class FireblocksService {
     const fbNote = note ? note : 'TRX tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'TRX', fbNote);
 
-    const signature = `${fbTx.signedMessages?.[0]?.signature.fullSig}00`;
-
-    if (!signature) {
+    if (!fbTx.signedMessages?.[0]?.signature) {
       throw new Error('Fireblocks signature is missing');
     }
 
-    // const preparedTx = await this.client.POST('/trx/transaction/prepare', {
-    const preparedTx = await this.client.POST('/trx/prepare', {
+    const signature = `${fbTx.signedMessages[0].signature.fullSig}00`;
+
+    const preparedTx = await this.client.POST('/trx/prepare' as '/trx/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
