@@ -1058,10 +1058,10 @@ export class FireblocksService {
    */
   async signTrxTx(
     integration: FireblocksIntegration,
-    tx: components['schemas']['TRXUnsignedtx'],
+    tx: components['schemas']['TRXUnsignedTx'],
     note?: string,
   ): Promise<{
-    signed_tx: { data: components['schemas']['TRXUnsignedtx'] };
+    signed_tx: { data: components['schemas']['TRXUnsignedTx'] };
     fireblocks_tx: TransactionResponse;
   }> {
     const payload = {
