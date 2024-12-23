@@ -39,7 +39,8 @@ export type FireblocksAssetId =
   | 'INJ_INJ'
   | 'TON_TEST'
   | 'TON'
-  | 'KAVA_KAVA';
+  | 'KAVA_KAVA'
+  | 'TRX';
 
 export class FireblocksSigner {
   protected fireblocks: FireblocksSDK;

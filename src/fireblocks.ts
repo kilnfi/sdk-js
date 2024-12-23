@@ -1005,7 +1005,7 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a NEAR transaction on Fireblocks
+   * Sign a Near transaction on Fireblocks
    */
   async signNearTx(
     integration: FireblocksIntegration,
@@ -1036,6 +1036,58 @@ export class FireblocksService {
     }
 
     const preparedTx = await this.client.POST('/near/transaction/prepare', {
+      body: {
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+      },
+    });
+
+    if (preparedTx.error) {
+      throw new Error('Failed to prepare transaction');
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a Trx transaction on Fireblocks
+   */
+  async signTrxTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TRXUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TRXSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_id,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: 'SHA256',
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'TRX tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'TRX', fbNote);
+
+    if (!fbTx.signedMessages?.[0]?.signature) {
+      throw new Error('Fireblocks signature is missing');
+    }
+
+    const signature = `${fbTx.signedMessages[0].signature.fullSig}0${fbTx.signedMessages[0].signature.v}`;
+
+    const preparedTx = await this.client.POST('/trx/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
