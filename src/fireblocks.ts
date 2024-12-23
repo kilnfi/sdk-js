@@ -350,11 +350,9 @@ export class FireblocksService {
    */
   async signMantraTx(
     integration: FireblocksIntegration,
-    //@ts-ignore
     tx: components['schemas']['MANTRAUnsignedTx'] | components['schemas']['MANTRAStakeUnsignedTx'],
     note?: string,
   ): Promise<{
-    //@ts-ignore
     signed_tx: { data: components['schemas']['MANTRASignedTx'] };
     fireblocks_tx: TransactionResponse;
   }> {
@@ -383,7 +381,6 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    //@ts-ignore
     const preparedTx = await this.client.POST('/mantra/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
