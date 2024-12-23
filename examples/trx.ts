@@ -19,7 +19,7 @@ const vault: FireblocksIntegration = {
 
 try {
   console.log('crafting...');
-  const tx = await k.client.POST('/trx/stake' as '/trx/transaction/stake', {
+  const tx = await k.client.POST('/trx/transaction/stake', {
     body: {
       account_id: '',
       owner_address: 'TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7',
@@ -34,7 +34,7 @@ try {
   const signResponse = await k.fireblocks.signTrxTx(vault, tx.data.data);
 
   console.log('broadcasting...');
-  const broadcastedTx = await k.client.POST('/trx/broadcast' as '/trx/transaction/broadcast', {
+  const broadcastedTx = await k.client.POST('/trx/transaction/broadcast', {
     body: {
       signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     },

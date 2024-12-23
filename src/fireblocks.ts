@@ -1088,7 +1088,7 @@ export class FireblocksService {
 
     const signature = `${fbTx.signedMessages[0].signature.fullSig}0${fbTx.signedMessages[0].signature.v}`;
 
-    const preparedTx = await this.client.POST('/trx/prepare' as '/trx/transaction/prepare', {
+    const preparedTx = await this.client.POST('/trx/transaction/prepare', {
       body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
