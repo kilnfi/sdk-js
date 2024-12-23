@@ -1068,7 +1068,7 @@ export class FireblocksService {
       rawMessageData: {
         messages: [
           {
-            content: sha256(`0x${tx.unsigned_tx_serialized}`).replace('0x', ''),
+            content: tx.unsigned_tx_id,
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
@@ -1086,7 +1086,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const signature = `${fbTx.signedMessages[0].signature.fullSig}00`;
+    const signature = `${fbTx.signedMessages[0].signature.fullSig}0${fbTx.signedMessages[0].signature.v}`;
 
     const preparedTx = await this.client.POST('/trx/prepare' as '/trx/transaction/prepare', {
       body: {
