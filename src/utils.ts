@@ -72,6 +72,13 @@ export const kavaToUkava = (kava: string): bigint => {
 };
 
 /**
+ * Convert OM to uOM
+ */
+export const omToUom = (om: string): bigint => {
+  return parseUnits(om, 6);
+};
+
+/**
  * Convert uZETA to ZETA
  */
 export const uzetaToZeta = (uzeta: bigint): string => {
@@ -174,6 +181,13 @@ export const usdcToUusdc = (usdc: string): bigint => {
  */
 export const ukavaToKava = (ukava: bigint): string => {
   return formatUnits(ukava, 6);
+};
+
+/**
+ * Convert uOM to OM
+ */
+export const uomToOm = (uom: bigint): string => {
+  return formatUnits(uom, 6);
 };
 
 /**
