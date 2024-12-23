@@ -33367,10 +33367,29 @@ export interface components {
         };
         TRXUnsignedTx: {
             /**
+             * @description Unsigned transaction Id
+             * @example a610890432d168c44f902ab8d984685aa732aeb6b5c9b5d55afaec1c658ec495
+             */
+            unsigned_tx_id: string;
+            /**
              * @description Unsigned serialized transaction
-             * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e566f74655769746e657373436f6e747261637412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
+             * @example 0a02237722087aa78d8d8af3f1cd40c8a6949cbf325a57083612530a34747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e467265657a6542616c616e63655632436f6e7472616374121b0a154102e07e61860efd34e1bdedcb5b485da75407d8f110c0843d70e8f4b49abf32
              */
             unsigned_tx_serialized: string;
+        };
+        TRXSignedTx: {
+            /**
+             * @description Signed serialized transaction
+             * @example 0a750a02238e2208b63bcc4a1991f66a40d0c1989cbf325a57083612530a34747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e467265657a6542616c616e63655632436f6e7472616374121b0a154102e07e61860efd34e1bdedcb5b485da75407d8f110c0843d70f08fb99abf321241f19adddba846d1fae9233d872048b04a7b003b7757816b5f601d2a08b00f99901b25ec8e6b906a46165a25ece7f8b9e138b755a9d5aca2c880ba8dbaaf8f8a8400
+             */
+            signed_tx_serialized: string;
+        };
+        TRXBroadcastedTx: {
+            /**
+             * @description Hash of transaction
+             * @example 4a783155af9825fefabad5e338a1e16d1d3e4b049ab67bc1a32d41aabc8b6d9e
+             */
+            tx_hash: string;
         };
         TRXCraftStakeTxPayload: {
             /**
@@ -51214,7 +51233,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["TRXUnsignedTx"];
+                        data: components["schemas"]["TRXSignedTx"];
                     };
                 };
             };
@@ -51262,7 +51281,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["TRXUnsignedTx"];
+                        data: components["schemas"]["TRXBroadcastedTx"];
                     };
                 };
             };
