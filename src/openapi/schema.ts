@@ -29369,6 +29369,142 @@ export interface components {
              */
             amount_uusdc: string;
         };
+        TRXUnsignedTx: {
+            /**
+             * @description Unsigned transaction Id
+             * @example a610890432d168c44f902ab8d984685aa732aeb6b5c9b5d55afaec1c658ec495
+             */
+            unsigned_tx_id: string;
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0a02237722087aa78d8d8af3f1cd40c8a6949cbf325a57083612530a34747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e467265657a6542616c616e63655632436f6e7472616374121b0a154102e07e61860efd34e1bdedcb5b485da75407d8f110c0843d70e8f4b49abf32
+             */
+            unsigned_tx_serialized: string;
+        };
+        TRXSignedTx: {
+            /**
+             * @description Signed serialized transaction
+             * @example 0a750a02238e2208b63bcc4a1991f66a40d0c1989cbf325a57083612530a34747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e467265657a6542616c616e63655632436f6e7472616374121b0a154102e07e61860efd34e1bdedcb5b485da75407d8f110c0843d70f08fb99abf321241f19adddba846d1fae9233d872048b04a7b003b7757816b5f601d2a08b00f99901b25ec8e6b906a46165a25ece7f8b9e138b755a9d5aca2c880ba8dbaaf8f8a8400
+             */
+            signed_tx_serialized: string;
+        };
+        TRXBroadcastedTx: {
+            /**
+             * @description Hash of transaction
+             * @example 4a783155af9825fefabad5e338a1e16d1d3e4b049ab67bc1a32d41aabc8b6d9e
+             */
+            tx_hash: string;
+        };
+        TRXCraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+            /**
+             * @description Amount of TRX to stake in sun
+             * @example 10000
+             */
+            amount_sun: string;
+            /**
+             * @description Resource to obtain
+             * @example BANDWIDTH
+             * @enum {string}
+             */
+            resource: "BANDWIDTH" | "ENERGY";
+        };
+        TRXCraftUnstakeTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+            /**
+             * @description Amount of TRX to unstake in sun
+             * @example 10000
+             */
+            amount_sun: string;
+            /**
+             * @description Resource to release
+             * @example BANDWIDTH
+             * @enum {string}
+             */
+            resource: "BANDWIDTH" | "ENERGY";
+        };
+        TRXCraftWithdrawUnstakedTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+        };
+        TRXCraftVoteTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+            /**
+             * @description Number of votes to cast
+             * @example 1
+             */
+            votes?: string;
+        };
+        TRXCraftWithdrawRewardsTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
+        };
+        TRXPrepareTxPayload: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f6f746f636f6c2e566f74655769746e657373436f6e747261637412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Signature of the transaction
+             * @example 47b1f77b3e30cfbbfa41d795dd34475865240617dd1c5a7bad526f5fd89e52cd057c80b665cc2431efab53520e2b1b92a0425033baee915df858ca1c588b0a1800
+             */
+            signature: string;
+        };
+        TRXBroadcastTxPayload: {
+            /**
+             * @description Signed serialized transaction
+             * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f6f746f636f6c2e566f74655769746e7373616c6c656454787061796c6f616412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
+             */
+            signed_tx_serialized: string;
+        };
+        TRXStake: {
+            /**
+             * @description Wallet address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            wallet: string;
+            /**
+             * @description Validator address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            validator: string;
+            /**
+             * @description Staked balance in sun
+             * @example 10000
+             */
+            balance: string;
+            /**
+             * Format: date-time
+             * @description Last updated timestamp
+             * @example 2021-01-01T00:00:00Z
+             */
+            updated_at: string;
+        };
     };
     responses: never;
     parameters: {
@@ -46083,6 +46219,389 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": Record<string, never>;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTrxStakes: {
+        parameters: {
+            query?: {
+                wallet?: components["parameters"]["TRXWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxUnstakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxWithdrawUnstakedTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftWithdrawUnstakedTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxVoteTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftVoteTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxWithdrawRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftWithdrawRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxPrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to prepare */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXSignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postTrxBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXBroadcastedTx"];
+                    };
                 };
             };
             /** @description Invalid parameters */
