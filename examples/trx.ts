@@ -36,7 +36,7 @@ try {
   console.log('broadcasting...');
   const broadcastedTx = await k.client.POST('/trx/broadcast' as '/trx/transaction/broadcast', {
     body: {
-      tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
+      signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     },
   });
   console.log(broadcastedTx);
