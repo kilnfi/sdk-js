@@ -25,7 +25,6 @@ try {
       pubkey: '028dfa6f41c655e38a0f8f2e3f3aa3e1246907a9bb299933f11996e2a345a21e10',
       validator: 'mantravaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ram37xw',
       amount_uom: omToUom('0.01').toString(),
-      restake_rewards: false,
     },
   });
 
