@@ -2029,6 +2029,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/mantra/transaction/restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Restake Rewards Transaction
+         * @description Generates a restake rewards transaction on Mantra
+         */
+        post: operations["postMantraRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/mantra/transaction/unstake": {
         parameters: {
             query?: never;
@@ -15239,7 +15259,7 @@ export interface components {
              */
             fee: Record<string, never>;
             /**
-             * @description List of messages included in the transaction.
+             * @description List of messages included in the transaction. The list contains one message for the staking delegation and one more message for rewards restaking in case specified as a parameter (`restake_rewards=true`).
              * @example [
              *       {
              *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
@@ -15251,10 +15271,19 @@ export interface components {
              *             "amount": "1000000"
              *           }
              *         }
+             *       },
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.StakeAuthorization",
+             *         "allowList": {
+             *           "address": [
+             *             "mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g"
+             *           ]
+             *         },
+             *         "AuthorizationType": 1
              *       }
              *     ]
              */
-            messages: components["schemas"]["MANTRAStakeMessage"][];
+            messages: (components["schemas"]["MANTRAStakeMessage"] | components["schemas"]["MANTRAStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -16013,6 +16042,16 @@ export interface components {
              * @example 1000000000000000000000000
              */
             amount_uom: string;
+            /**
+             * @description If enabled, the rewards will be automatically restaked
+             * @default false
+             */
+            restake_rewards: boolean;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address?: string;
         };
         MANTRACraftRestakeRewardsTxPayload: {
             /**
@@ -39258,6 +39297,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["MANTRACraftWithdrawRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["MANTRAUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postMantraRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["MANTRACraftRestakeRewardsTxPayload"];
             };
         };
         responses: {

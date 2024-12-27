@@ -1,6 +1,6 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
