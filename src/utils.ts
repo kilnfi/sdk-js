@@ -149,6 +149,20 @@ export const uunitToUnit = (uunit: bigint): string => {
 };
 
 /**
+ * Convert Satoshi to BTC
+ */
+export const satToBtc = (sat: bigint): string => {
+  return formatUnits(sat, 8);
+};
+
+/**
+ * Convert BTC to Satoshi
+ */
+export const btcToSat = (btc: string): bigint => {
+  return parseUnits(btc, 8);
+};
+
+/**
  * Convert uOSMO to OSMO
  */
 export const uosmoToOsmo = (uosmo: bigint): string => {
@@ -219,47 +233,65 @@ export const compressPublicKey = (pubkey: string): string => {
   return compressed_key.toString('hex');
 };
 
-// Convert ATOM to uATOM
+/**
+ * Convert ATOM to uATOM
+ */
 export const atomToUatom = (atom: string): bigint => {
   return parseUnits(atom, 6);
 };
 
-// Convert DYDX to adydx
+/**
+ * Convert DYDX to adydx
+ */
 export const dydxToAdydx = (dydx: string): bigint => {
   return parseUnits(dydx, 18); // adydx uses 18 decimals
 };
 
-// Convert ZETA to azeta
+/**
+ * Convert ZETA to azeta
+ */
 export const zetaToAzeta = (zeta: string): bigint => {
   return parseUnits(zeta, 18); // azeta uses 18 decimals
 };
 
-// Convert OSMO to uosmo
+/**
+ * Convert OSMO to uosmo
+ */
 export const osmoToUosmo = (osmo: string): bigint => {
   return parseUnits(osmo, 6);
 };
 
-// Convert INJ to inj
+/**
+ * Convert INJ to inj
+ */
 export const injToInj = (inj: string): bigint => {
   return parseUnits(inj, 18); // inj uses 18 decimals
 };
 
-// Convert TIA to utia
+/**
+ * Convert TIA to utia
+ */
 export const tiaToUtia = (tia: string): bigint => {
   return parseUnits(tia, 6);
 };
 
-// Convert FET to afet
+/**
+ * Convert FET to afet
+ */
 export const fetToAfet = (fet: string): bigint => {
   return parseUnits(fet, 18); // afet uses 18 decimals
 };
 
-// Convert TRX to sun
+/**
+ * Convert TRX to sun
+ */
 export const trxToSun = (trx: string): bigint => {
   return parseUnits(trx, 6);
 };
 
-// Convert sun to TRX
+/**
+ * Convert sun to TRX
+ */
 export const sunToTrx = (trx: bigint): string => {
   return formatUnits(trx, 6);
 };
