@@ -40,7 +40,8 @@ export type FireblocksAssetId =
   | 'TON_TEST'
   | 'TON'
   | 'KAVA_KAVA'
-  | 'TRX';
+  | 'TRX'
+  | 'BTC';
 
 export class FireblocksSigner {
   protected fireblocks: FireblocksSDK;
