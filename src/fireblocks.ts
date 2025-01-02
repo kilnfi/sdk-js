@@ -189,7 +189,6 @@ export class FireblocksService {
   async signAtomTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ATOMUnsignedTx'] | components['schemas']['ATOMStakeUnsignedTx'],
-    assetId: 'ATOM_COS' | 'ATOM_COS_TEST',
     note?: string,
   ): Promise<{
     signed_tx: { data: components['schemas']['ATOMSignedTx'] };
@@ -211,7 +210,7 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ATOM tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+    const fbTx = await fbSigner.sign(payload, 'ATOM_COS', fbNote);
     const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
 
     if (!signature) {
