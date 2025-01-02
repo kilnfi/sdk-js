@@ -2129,6 +2129,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/mantra/transaction/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send Transaction
+         * @description Generates a send transaction on Mantra
+         */
+        post: operations["postMantraSendTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/mantra/transaction/status": {
         parameters: {
             query?: never;
@@ -5371,6 +5391,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/zeta/transaction/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send Transaction
+         * @description Generates a send transaction on ZetaChain
+         */
+        post: operations["postZetaSendTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/zeta/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
@@ -5775,6 +5815,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/kava/transaction/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send Transaction
+         * @description Generates a send transaction on Kava
+         */
+        post: operations["postKavaSendTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/kava/transaction/status": {
         parameters: {
             query?: never;
@@ -6013,6 +6073,26 @@ export interface paths {
          * @description Generates an undelegate transaction on Fetch
          */
         post: operations["postFetchUnstakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/fet/transaction/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send Transaction
+         * @description Generates a send transaction on Fetch
+         */
+        post: operations["postFetchSendTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -13347,6 +13427,23 @@ export interface components {
          *     }
          */
         ATOMTxDecoding: Record<string, never>;
+        ATOMCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in uatom
+             * @example 1000000000000000000000000
+             */
+            amount_uatom: string;
+        };
         CRONOSStake: {
             /**
              * @description Public key of the validator
@@ -15037,6 +15134,23 @@ export interface components {
          *     }
          */
         CRONOSTxDecoding: Record<string, never>;
+        CRONOSCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example cro1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in basecro
+             * @example 1000000000000000000000000
+             */
+            amount_basecro: string;
+        };
         MANTRAStake: {
             /**
              * @description Public key of the validator
@@ -16727,6 +16841,23 @@ export interface components {
          *     }
          */
         MANTRATxDecoding: Record<string, never>;
+        MANTRACraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example mantra1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in uom
+             * @example 1000000000000000000000000
+             */
+            amount_uom: string;
+        };
         MANTRAGetBalancePayload: {
             /**
              * @description Wallet address
@@ -21452,6 +21583,23 @@ export interface components {
          *     }
          */
         OSMOTxDecoding: Record<string, never>;
+        OSMOCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example osmo1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in uosmo
+             * @example 1000000000000000000000000
+             */
+            amount_uosmo: string;
+        };
         EGLDStake: {
             /**
              * @description Wallet address of the delegator
@@ -24529,6 +24677,23 @@ export interface components {
          *     }
          */
         DYDXTxDecoding: Record<string, never>;
+        DYDXCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example dydx1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in adydx
+             * @example 1000000000000000000000000
+             */
+            amount_adydx: string;
+        };
         DYDXCraftNobleIbcTransferTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
@@ -26243,6 +26408,23 @@ export interface components {
          *     }
          */
         TIATxDecoding: Record<string, never>;
+        TIACraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example celestia1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in utia
+             * @example 1000000000000000000000000
+             */
+            amount_utia: string;
+        };
         ZETAStake: {
             /**
              * @description Public key of the validator
@@ -27914,6 +28096,23 @@ export interface components {
          *     }
          */
         ZETATxDecoding: Record<string, never>;
+        ZETACraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example zeta1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in azeta
+             * @example 1000000000000000000000000
+             */
+            amount_azeta: string;
+        };
         ZETAGetBalancePayload: {
             /**
              * @description Wallet address
@@ -29597,6 +29796,23 @@ export interface components {
          *     }
          */
         KAVATxDecoding: Record<string, never>;
+        KAVACraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example kava1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in ukava
+             * @example 1000000000000000000000000
+             */
+            amount_ukava: string;
+        };
         KAVAGetBalancePayload: {
             /**
              * @description Wallet address
@@ -31299,6 +31515,23 @@ export interface components {
          *     }
          */
         FETTxDecoding: Record<string, never>;
+        FETCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example fetch1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in afet
+             * @example 1000000000000000000000000
+             */
+            amount_afet: string;
+        };
         FETGetBalancePayload: {
             /**
              * @description Wallet address
@@ -32982,6 +33215,23 @@ export interface components {
          *     }
          */
         INJTxDecoding: Record<string, never>;
+        INJCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example inj1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in inj
+             * @example 1000000000000000000000000
+             */
+            amount_inj: string;
+        };
         TONStake: {
             /**
              * @description Internal Kiln ID
@@ -39548,6 +39798,54 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["MANTRATxHash"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postMantraSendTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["MANTRACraftSendTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["MANTRAUnsignedTx"];
                     };
                 };
             };
@@ -47748,6 +48046,54 @@ export interface operations {
             };
         };
     };
+    postZetaSendTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ZETACraftSendTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ZETAUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postZetaWithdrawRewardsTx: {
         parameters: {
             query?: never;
@@ -48801,6 +49147,54 @@ export interface operations {
             };
         };
     };
+    postKavaSendTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["KAVACraftSendTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["KAVAUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getKavaTxStatus: {
         parameters: {
             query: {
@@ -49433,6 +49827,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["FETCraftUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["FETUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postFetchSendTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["FETCraftSendTxPayload"];
             };
         };
         responses: {
