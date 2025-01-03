@@ -345,14 +345,14 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a MANTRA transaction on Fireblocks
+   * Sign a OM transaction on Fireblocks
    */
-  async signMantraTx(
+  async signOmTx(
     integration: FireblocksIntegration,
-    tx: components['schemas']['MANTRAUnsignedTx'] | components['schemas']['MANTRAStakeUnsignedTx'],
+    tx: components['schemas']['OMUnsignedTx'] | components['schemas']['OMStakeUnsignedTx'],
     note?: string,
   ): Promise<{
-    signed_tx: { data: components['schemas']['MANTRASignedTx'] };
+    signed_tx: { data: components['schemas']['OMSignedTx'] };
     fireblocks_tx: TransactionResponse;
   }> {
     const payload = {
@@ -372,7 +372,7 @@ export class FireblocksService {
     };
 
     const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'MANTRA tx from @kilnfi/sdk';
+    const fbNote = note ? note : 'OM tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, undefined, fbNote);
     const signature = fbTx.signedMessages?.[0]?.signature.fullSig;
 
@@ -380,7 +380,7 @@ export class FireblocksService {
       throw new Error('Fireblocks signature is missing');
     }
 
-    const preparedTx = await this.client.POST('/mantra/transaction/prepare', {
+    const preparedTx = await this.client.POST('/om/transaction/prepare', {
       body: {
         pubkey: tx.pubkey,
         tx_body: tx.tx_body,

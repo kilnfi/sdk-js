@@ -1760,7 +1760,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/cronos/stakes": {
+    "/cro/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -1772,20 +1772,20 @@ export interface paths {
          * @description Retrieve the status of Cronos stakes, expressed in microCRO (10⁻⁶ CRO).
          *
          */
-        get: operations["getCronosStakes"];
+        get: operations["getCroStakes"];
         put?: never;
         /**
          * Create stakes
          * @description Link an Cronos stake to a Kiln account
          */
-        post: operations["postCronosStakes"];
+        post: operations["postCroStakes"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/cronos/rewards": {
+    "/cro/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1796,7 +1796,7 @@ export interface paths {
          * Rewards
          * @description Get historical rewards by day of Cronos stakes. Units are in microCRO (10⁻⁶ CRO).
          */
-        get: operations["getCronosRewards"];
+        get: operations["getCroRewards"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1805,7 +1805,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/cronos/operations": {
+    "/cro/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -1816,7 +1816,7 @@ export interface paths {
          * Operations
          * @description Get the operations of Cronos stakes. Units are in microCRO (10⁻⁶ CRO).
          */
-        get: operations["getCronosOperations"];
+        get: operations["getCroOperations"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1825,7 +1825,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/cronos/network-stats": {
+    "/cro/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -1836,7 +1836,7 @@ export interface paths {
          * Network Stats
          * @description Get some network statistics on Cosmos
          */
-        get: operations["getCronosNetworkStats"];
+        get: operations["getCroNetworkStats"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1845,7 +1845,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/cronos/reports": {
+    "/cro/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -1856,7 +1856,7 @@ export interface paths {
          * Reports
          * @description Get reports on Cosmos staking
          */
-        get: operations["getCronosReports"];
+        get: operations["getCroReports"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1865,7 +1865,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mantra/stakes": {
+    "/om/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -1876,20 +1876,20 @@ export interface paths {
          * Stakes
          * @description Get the status of OM stakes. Units are in uOM (10⁻⁶ OM).
          */
-        get: operations["getMantraStakes"];
+        get: operations["getOmStakes"];
         put?: never;
         /**
          * Create stakes
          * @description Link a Mantra stake to a Kiln account
          */
-        post: operations["postMantraStakes"];
+        post: operations["postOmStakes"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/rewards": {
+    "/om/rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -1900,7 +1900,7 @@ export interface paths {
          * Rewards
          * @description Get historical rewards by day of Mantra stakes. Units are in uOM (10⁻⁶ OM).
          */
-        get: operations["getMantraRewards"];
+        get: operations["getOmRewards"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1909,7 +1909,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mantra/operations": {
+    "/om/operations": {
         parameters: {
             query?: never;
             header?: never;
@@ -1920,7 +1920,7 @@ export interface paths {
          * Operations
          * @description Get the operations of Mantra stakes. Units are in uOM (10⁻⁶ OM).
          */
-        get: operations["getMantraOperations"];
+        get: operations["getOmOperations"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1929,7 +1929,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mantra/network-stats": {
+    "/om/network-stats": {
         parameters: {
             query?: never;
             header?: never;
@@ -1940,7 +1940,7 @@ export interface paths {
          * Network Stats
          * @description Get some network statistics on Mantra
          */
-        get: operations["getMantraNetworkStats"];
+        get: operations["getOmNetworkStats"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1949,7 +1949,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mantra/reports": {
+    "/om/reports": {
         parameters: {
             query?: never;
             header?: never;
@@ -1960,7 +1960,7 @@ export interface paths {
          * Reports
          * @description Get reports on Mantra staking
          */
-        get: operations["getMantraReports"];
+        get: operations["getOmReports"];
         put?: never;
         post?: never;
         delete?: never;
@@ -1969,7 +1969,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mantra/balance": {
+    "/om/balance": {
         parameters: {
             query?: never;
             header?: never;
@@ -1982,14 +1982,14 @@ export interface paths {
          * Get balance
          * @description Get balance of a Mantra account
          */
-        post: operations["postMantraGetBalance"];
+        post: operations["postOmGetBalance"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/stake": {
+    "/om/transaction/stake": {
         parameters: {
             query?: never;
             header?: never;
@@ -2002,14 +2002,14 @@ export interface paths {
          * Stake Transaction
          * @description Generates a delegate transaction on Mantra
          */
-        post: operations["postMantraStakeTx"];
+        post: operations["postOmStakeTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/withdraw-rewards": {
+    "/om/transaction/withdraw-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2022,14 +2022,14 @@ export interface paths {
          * Withdraw Rewards Transaction
          * @description Generates a withdraw rewards transaction on Mantra
          */
-        post: operations["postMantraWithdrawRewardsTx"];
+        post: operations["postOmWithdrawRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/restake-rewards": {
+    "/om/transaction/restake-rewards": {
         parameters: {
             query?: never;
             header?: never;
@@ -2042,14 +2042,14 @@ export interface paths {
          * Restake Rewards Transaction
          * @description Generates a restake rewards transaction on Mantra
          */
-        post: operations["postMantraRestakeRewardsTx"];
+        post: operations["postOmRestakeRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/unstake": {
+    "/om/transaction/unstake": {
         parameters: {
             query?: never;
             header?: never;
@@ -2062,14 +2062,14 @@ export interface paths {
          * Unstake Transaction
          * @description Generates an undelegate transaction on Mantra
          */
-        post: operations["postMantraUnstakeTx"];
+        post: operations["postOmUnstakeTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/redelegate": {
+    "/om/transaction/redelegate": {
         parameters: {
             query?: never;
             header?: never;
@@ -2082,14 +2082,14 @@ export interface paths {
          * Redelegate Transaction
          * @description Generates a redelegate transaction on Mantra to move a stake from a validator to another without going through the 21 days unbonding period.
          */
-        post: operations["postMantraRedelegateTx"];
+        post: operations["postOmRedelegateTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/prepare": {
+    "/om/transaction/prepare": {
         parameters: {
             query?: never;
             header?: never;
@@ -2102,14 +2102,14 @@ export interface paths {
          * Prepare Transaction
          * @description Prepare an unsigned transaction for broadcast by adding signatures to it
          */
-        post: operations["postMantraPrepareTx"];
+        post: operations["postOmPrepareTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/broadcast": {
+    "/om/transaction/broadcast": {
         parameters: {
             query?: never;
             header?: never;
@@ -2122,14 +2122,14 @@ export interface paths {
          * Broadcast Transaction
          * @description Broadcast a signed transaction to the Mantra network
          */
-        post: operations["postMantraBroadcastTx"];
+        post: operations["postOmBroadcastTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/send": {
+    "/om/transaction/send": {
         parameters: {
             query?: never;
             header?: never;
@@ -2142,14 +2142,14 @@ export interface paths {
          * Send Transaction
          * @description Generates a send transaction on Mantra
          */
-        post: operations["postMantraSendTx"];
+        post: operations["postOmSendTx"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/status": {
+    "/om/transaction/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -2160,7 +2160,7 @@ export interface paths {
          * Transaction Status
          * @description Get the status of a transaction
          */
-        get: operations["getMantraTxStatus"];
+        get: operations["getOmTxStatus"];
         put?: never;
         post?: never;
         delete?: never;
@@ -2169,7 +2169,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/mantra/transaction/decode": {
+    "/om/transaction/decode": {
         parameters: {
             query?: never;
             header?: never;
@@ -2180,7 +2180,7 @@ export interface paths {
          * Transaction Decoding
          * @description Decode a transaction
          */
-        get: operations["getMantraTxDecoding"];
+        get: operations["getOmTxDecoding"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7213,7 +7213,7 @@ export interface components {
              * @example NEAR
              * @enum {string}
              */
-            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC";
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO";
         };
         DYDXPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
@@ -13424,7 +13424,7 @@ export interface components {
              */
             amount_uatom: string;
         };
-        CRONOSStake: {
+        CROStake: {
             /**
              * @description Public key of the validator
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
@@ -13478,7 +13478,7 @@ export interface components {
              */
             net_apy: number;
             /**
-             * @description State of the CRO stake
+             * @description State of the Cronos stake
              * @example active
              * @enum {string}
              */
@@ -13554,7 +13554,7 @@ export interface components {
                 initial_balance: string;
             }[];
         };
-        PostCRONOSStakesPayload: {
+        PostCROStakesPayload: {
             stakes: {
                 /**
                  * @description Stake id {validator_address}_{delegator_address}
@@ -13568,7 +13568,7 @@ export interface components {
              */
             account_id: string;
         };
-        CRONOSStakeMessage: {
+        CROStakeMessage: {
             /**
              * @description Type URL of the message
              * @example /cosmos.staking.v1beta1.MsgDelegate
@@ -13587,7 +13587,7 @@ export interface components {
              */
             value?: Record<string, never>;
         };
-        CRONOSStakeMessageRestake: {
+        CROStakeMessageRestake: {
             /**
              * @description Type URL of the message
              * @example /cosmos.staking.v1beta1.StakeAuthorization
@@ -13606,7 +13606,7 @@ export interface components {
              */
             value?: Record<string, never>;
         };
-        CRONOSStakeUnsignedTx: {
+        CROStakeUnsignedTx: {
             /**
              * @description Unsigned serialized transaction
              * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
@@ -13670,7 +13670,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages: (components["schemas"]["CRONOSStakeMessage"] | components["schemas"]["CRONOSStakeMessageRestake"])[];
+            messages: (components["schemas"]["CROStakeMessage"] | components["schemas"]["CROStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -13682,7 +13682,7 @@ export interface components {
              */
             account_number: number;
         };
-        CRONOSUnsignedTx: {
+        CROUnsignedTx: {
             /**
              * @description Unsigned serialized transaction
              * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
@@ -13747,21 +13747,21 @@ export interface components {
              */
             account_number: number;
         };
-        CRONOSSignedTx: {
+        CROSignedTx: {
             /**
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
             signed_tx_serialized: string;
         };
-        CRONOSTxHash: {
+        CROTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
             tx_hash: string;
         };
-        CRONOSPrepareTxPayload: {
+        CROPrepareTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -13783,14 +13783,14 @@ export interface components {
              */
             signature: string;
         };
-        CRONOSBroadcastTxPayload: {
+        CROBroadcastTxPayload: {
             /**
              * @description Signed transaction serialized in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
             tx_serialized: string;
         };
-        CRONOSTxStatus: {
+        CROTxStatus: {
             /**
              * @description Transaction status
              * @example success
@@ -14362,7 +14362,7 @@ export interface components {
              */
             receipt?: Record<string, never>;
         };
-        CRONOSCraftUnstakeTxPayload: {
+        CROCraftUnstakeTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -14379,7 +14379,7 @@ export interface components {
              */
             amount_basecro?: string;
         };
-        CRONOSCraftRedelegateTxPayload: {
+        CROCraftRedelegateTxPayload: {
             /**
              * Format: uuid
              * @description Kiln Account ID to which the new stake will be linked
@@ -14407,7 +14407,7 @@ export interface components {
              */
             amount_basecro?: string;
         };
-        CRONOSCraftStakeTxPayload: {
+        CROCraftStakeTxPayload: {
             /**
              * Format: uuid
              * @description Kiln Account ID to stake into
@@ -14440,7 +14440,7 @@ export interface components {
              */
             grantee_address?: string;
         };
-        CRONOSCraftRestakeRewardsTxPayload: {
+        CROCraftRestakeRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -14457,7 +14457,7 @@ export interface components {
              */
             grantee_address: string;
         };
-        CRONOSCraftWithdrawRewardsTxPayload: {
+        CROCraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -14469,7 +14469,7 @@ export interface components {
              */
             validator: string;
         };
-        CRONOSReward: {
+        CROReward: {
             /**
              * Format: date
              * @description Day for this reward entry
@@ -14496,7 +14496,7 @@ export interface components {
             /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
             balance_usd?: number;
         };
-        CRONOSOperationDelegate: {
+        CROOperationDelegate: {
             /**
              * @description Operation type
              * @example staking.MsgDelegate
@@ -14549,7 +14549,7 @@ export interface components {
              */
             withdraw_rewards?: string;
         };
-        CRONOSOperationUndelegate: {
+        CROOperationUndelegate: {
             /**
              * @description Operation type
              * @example staking.MsgUndelegate
@@ -14602,7 +14602,7 @@ export interface components {
              */
             withdraw_rewards?: string;
         };
-        CRONOSOperationRedelegate: {
+        CROOperationRedelegate: {
             /**
              * @description Operation type
              * @example staking.MsgBeginRedelegate
@@ -14665,7 +14665,7 @@ export interface components {
              */
             withdraw_rewards_source?: string;
         };
-        CRONOSOperationWithdrawRewards: {
+        CROOperationWithdrawRewards: {
             /**
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
@@ -14713,7 +14713,7 @@ export interface components {
              */
             withdraw_rewards?: string;
         };
-        CRONOSOperationGrant: {
+        CROOperationGrant: {
             /**
              * @description Operation type
              * @example Authz.Grant
@@ -14777,7 +14777,7 @@ export interface components {
              */
             deny_list?: string[] | null;
         };
-        CRONOSOperationExec: {
+        CROOperationExec: {
             /**
              * @description Operation type
              * @example Authz.Exec
@@ -14847,12 +14847,12 @@ export interface components {
                 withdraw_rewards_source?: string;
             }[] | null;
         };
-        CRONOSNetworkStats: {
+        CRONetworkStats: {
             /**
-             * @description Price of CRO in USD
+             * @description Price of Cronos in USD
              * @example 10.53
              */
-            cronos_price_usd: number;
+            cro_price_usd: number;
             /**
              * @description Number of validators in the network
              * @example 100
@@ -14864,12 +14864,12 @@ export interface components {
              */
             network_gross_apy: number;
             /**
-             * @description Supply of CRO currently staked
+             * @description Supply of Cronos currently staked
              * @example 12.4
              */
             supply_staked_percent: number;
             /**
-             * @description CRO inflation rate
+             * @description Cronos inflation rate
              * @example 3.5
              */
             inflation_rate: number;
@@ -15113,8 +15113,8 @@ export interface components {
          *       ]
          *     }
          */
-        CRONOSTxDecoding: Record<string, never>;
-        CRONOSCraftSendTxPayload: {
+        CROTxDecoding: Record<string, never>;
+        CROCraftSendTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -15131,7 +15131,7 @@ export interface components {
              */
             amount_basecro: string;
         };
-        MANTRAStake: {
+        OMStake: {
             /**
              * @description Public key of the validator
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
@@ -15261,7 +15261,7 @@ export interface components {
                 initial_balance: string;
             }[];
         };
-        PostMANTRAStakesPayload: {
+        PostOMStakesPayload: {
             stakes: {
                 /**
                  * @description Stake id {validator_address}_{delegator_address}
@@ -15275,7 +15275,7 @@ export interface components {
              */
             account_id: string;
         };
-        MANTRAStakeMessage: {
+        OMStakeMessage: {
             /**
              * @description Type URL of the message
              * @example /cosmos.staking.v1beta1.MsgDelegate
@@ -15294,7 +15294,7 @@ export interface components {
              */
             value?: Record<string, never>;
         };
-        MANTRAStakeMessageRestake: {
+        OMStakeMessageRestake: {
             /**
              * @description Type URL of the message
              * @example /cosmos.staking.v1beta1.StakeAuthorization
@@ -15313,7 +15313,7 @@ export interface components {
              */
             value?: Record<string, never>;
         };
-        MANTRAStakeUnsignedTx: {
+        OMStakeUnsignedTx: {
             /**
              * @description Unsigned serialized transaction
              * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
@@ -15377,7 +15377,7 @@ export interface components {
              *       }
              *     ]
              */
-            messages: (components["schemas"]["MANTRAStakeMessage"] | components["schemas"]["MANTRAStakeMessageRestake"])[];
+            messages: (components["schemas"]["OMStakeMessage"] | components["schemas"]["OMStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -15389,7 +15389,7 @@ export interface components {
              */
             account_number: number;
         };
-        MANTRAUnsignedTx: {
+        OMUnsignedTx: {
             /**
              * @description Unsigned serialized transaction
              * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
@@ -15454,21 +15454,21 @@ export interface components {
              */
             account_number: number;
         };
-        MANTRASignedTx: {
+        OMSignedTx: {
             /**
              * @description Serialized signed transaction in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
             signed_tx_serialized: string;
         };
-        MANTRATxHash: {
+        OMTxHash: {
             /**
              * @description Hash of the transaction
              * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
              */
             tx_hash: string;
         };
-        MANTRAPrepareTxPayload: {
+        OMPrepareTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -15490,14 +15490,14 @@ export interface components {
              */
             signature: string;
         };
-        MANTRABroadcastTxPayload: {
+        OMBroadcastTxPayload: {
             /**
              * @description Signed transaction serialized in hex
              * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
              */
             tx_serialized: string;
         };
-        MANTRATxStatus: {
+        OMTxStatus: {
             /**
              * @description Transaction status
              * @example success
@@ -16069,7 +16069,7 @@ export interface components {
              */
             receipt?: Record<string, never>;
         };
-        MANTRACraftUnstakeTxPayload: {
+        OMCraftUnstakeTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -16086,7 +16086,7 @@ export interface components {
              */
             amount_uom?: string;
         };
-        MANTRACraftRedelegateTxPayload: {
+        OMCraftRedelegateTxPayload: {
             /**
              * Format: uuid
              * @description Kiln Account ID to which the new stake will be linked
@@ -16114,7 +16114,7 @@ export interface components {
              */
             amount_uom?: string;
         };
-        MANTRACraftStakeTxPayload: {
+        OMCraftStakeTxPayload: {
             /**
              * Format: uuid
              * @description Kiln Account ID to stake into
@@ -16147,7 +16147,7 @@ export interface components {
              */
             grantee_address?: string;
         };
-        MANTRACraftRestakeRewardsTxPayload: {
+        OMCraftRestakeRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -16164,7 +16164,7 @@ export interface components {
              */
             grantee_address: string;
         };
-        MANTRACraftWithdrawRewardsTxPayload: {
+        OMCraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -16176,7 +16176,7 @@ export interface components {
              */
             validator: string;
         };
-        MANTRAReward: {
+        OMReward: {
             /**
              * Format: date
              * @description Day for this reward entry
@@ -16203,7 +16203,7 @@ export interface components {
             /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
             balance_usd?: number;
         };
-        MANTRAOperationDelegate: {
+        OMOperationDelegate: {
             /**
              * @description Operation type
              * @example staking.MsgDelegate
@@ -16256,7 +16256,7 @@ export interface components {
              */
             withdraw_rewards?: string;
         };
-        MANTRAOperationUndelegate: {
+        OMOperationUndelegate: {
             /**
              * @description Operation type
              * @example staking.MsgUndelegate
@@ -16309,7 +16309,7 @@ export interface components {
              */
             withdraw_rewards?: string;
         };
-        MANTRAOperationRedelegate: {
+        OMOperationRedelegate: {
             /**
              * @description Operation type
              * @example staking.MsgBeginRedelegate
@@ -16372,7 +16372,7 @@ export interface components {
              */
             withdraw_rewards_source?: string;
         };
-        MANTRAOperationWithdrawRewards: {
+        OMOperationWithdrawRewards: {
             /**
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
@@ -16420,7 +16420,7 @@ export interface components {
              */
             withdraw_rewards?: string;
         };
-        MANTRAOperationGrant: {
+        OMOperationGrant: {
             /**
              * @description Operation type
              * @example Authz.Grant
@@ -16484,7 +16484,7 @@ export interface components {
              */
             deny_list?: string[] | null;
         };
-        MANTRAOperationExec: {
+        OMOperationExec: {
             /**
              * @description Operation type
              * @example Authz.Exec
@@ -16554,12 +16554,12 @@ export interface components {
                 withdraw_rewards_source?: string;
             }[] | null;
         };
-        MANTRANetworkStats: {
+        OMNetworkStats: {
             /**
              * @description Price of Mantra in USD
              * @example 10.53
              */
-            mantra_price_usd: number;
+            om_price_usd: number;
             /**
              * @description Number of validators in the network
              * @example 100
@@ -16820,8 +16820,8 @@ export interface components {
          *       ]
          *     }
          */
-        MANTRATxDecoding: Record<string, never>;
-        MANTRACraftSendTxPayload: {
+        OMTxDecoding: Record<string, never>;
+        OMCraftSendTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -16838,7 +16838,7 @@ export interface components {
              */
             amount_uom: string;
         };
-        MANTRAGetBalancePayload: {
+        OMGetBalancePayload: {
             /**
              * @description Wallet address
              * @example mantra1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
@@ -34042,29 +34042,29 @@ export interface components {
          *     fetch a specific stake, pass your wallet address and the
          *     validator address as parameters.
          *      */
-        CRONOSValidatorsParam: string[];
+        CROValidatorsParam: string[];
         /** @description Comma-separated list of delegator addresses, these addresses
          *     are matched with the corresponding validator addresses. To
          *     fetch a specific stake, pass your wallet address and the
          *     validator address as parameters.
          *      */
-        CRONOSDelegatorsParam: string[];
+        CRODelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
-        CRONOSAuthzFlagParam: boolean;
+        CROAuthzFlagParam: boolean;
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
          *     validator address as parameters.
          *      */
-        MANTRAValidatorsParam: string[];
+        OMValidatorsParam: string[];
         /** @description Comma-separated list of delegator addresses, these addresses
          *     are matched with the corresponding validator addresses. To
          *     fetch a specific stake, pass your wallet address and the
          *     validator address as parameters.
          *      */
-        MANTRADelegatorsParam: string[];
+        OMDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
-        MANTRAAuthzFlagParam: boolean;
+        OMAuthzFlagParam: boolean;
         ADAStakeAddressesParam: string;
         ADAWalletsParam: string;
         ADAPoolIDsParam: string;
@@ -38757,7 +38757,7 @@ export interface operations {
             };
         };
     };
-    getCronosStakes: {
+    getCroStakes: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of validators addresses, these addresses
@@ -38765,13 +38765,13 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                validators?: components["parameters"]["CROValidatorsParam"];
                 /** @description Comma-separated list of delegator addresses, these addresses
                  *     are matched with the corresponding validator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                delegators?: components["parameters"]["CRODelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
             };
@@ -38788,7 +38788,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["CRONOSStake"][];
+                        data: components["schemas"]["CROStake"][];
                     };
                 };
             };
@@ -38815,7 +38815,7 @@ export interface operations {
             };
         };
     };
-    postCronosStakes: {
+    postCroStakes: {
         parameters: {
             query?: never;
             header?: never;
@@ -38825,7 +38825,7 @@ export interface operations {
         /** @description Stakes to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["PostCRONOSStakesPayload"];
+                "application/json; charset=utf-8": components["schemas"]["PostCROStakesPayload"];
             };
         };
         responses: {
@@ -38863,7 +38863,7 @@ export interface operations {
             };
         };
     };
-    getCronosRewards: {
+    getCroRewards: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of validators addresses, these addresses
@@ -38871,13 +38871,13 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                validators?: components["parameters"]["CROValidatorsParam"];
                 /** @description Comma-separated list of delegator addresses, these addresses
                  *     are matched with the corresponding validator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                delegators?: components["parameters"]["CRODelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
                 /** @description Get data from this date (YYYY-MM-DD) */
@@ -38900,7 +38900,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["CRONOSReward"][];
+                        data: components["schemas"]["CROReward"][];
                     };
                 };
             };
@@ -38927,7 +38927,7 @@ export interface operations {
             };
         };
     };
-    getCronosOperations: {
+    getCroOperations: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of validators addresses, these addresses
@@ -38935,15 +38935,15 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                validators?: components["parameters"]["CROValidatorsParam"];
                 /** @description Comma-separated list of delegator addresses, these addresses
                  *     are matched with the corresponding validator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                delegators?: components["parameters"]["CRODelegatorsParam"];
                 /** @description whether or not the operation returned will include authz operations, defaults to false */
-                authz?: components["parameters"]["CRONOSAuthzFlagParam"];
+                authz?: components["parameters"]["CROAuthzFlagParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
                 /** @description Get data from this date (YYYY-MM-DD) */
@@ -38964,7 +38964,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: (components["schemas"]["CRONOSOperationDelegate"] | components["schemas"]["CRONOSOperationUndelegate"] | components["schemas"]["CRONOSOperationRedelegate"] | components["schemas"]["CRONOSOperationWithdrawRewards"] | components["schemas"]["CRONOSOperationGrant"] | components["schemas"]["CRONOSOperationExec"])[];
+                        data: (components["schemas"]["CROOperationDelegate"] | components["schemas"]["CROOperationUndelegate"] | components["schemas"]["CROOperationRedelegate"] | components["schemas"]["CROOperationWithdrawRewards"] | components["schemas"]["CROOperationGrant"] | components["schemas"]["CROOperationExec"])[];
                     };
                 };
             };
@@ -38991,7 +38991,7 @@ export interface operations {
             };
         };
     };
-    getCronosNetworkStats: {
+    getCroNetworkStats: {
         parameters: {
             query?: never;
             header?: never;
@@ -39007,7 +39007,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["CRONOSNetworkStats"];
+                        data: components["schemas"]["CRONetworkStats"];
                     };
                 };
             };
@@ -39027,7 +39027,7 @@ export interface operations {
             };
         };
     };
-    getCronosReports: {
+    getCroReports: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of delegator addresses, these addresses
@@ -39035,13 +39035,13 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["CRONOSDelegatorsParam"];
+                delegators?: components["parameters"]["CRODelegatorsParam"];
                 /** @description Comma-separated list of validators addresses, these addresses
                  *     are matched with the corresponding delegator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["CRONOSValidatorsParam"];
+                validators?: components["parameters"]["CROValidatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
             };
@@ -39083,7 +39083,7 @@ export interface operations {
             };
         };
     };
-    getMantraStakes: {
+    getOmStakes: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of validators addresses, these addresses
@@ -39091,13 +39091,13 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                validators?: components["parameters"]["OMValidatorsParam"];
                 /** @description Comma-separated list of delegator addresses, these addresses
                  *     are matched with the corresponding validator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                delegators?: components["parameters"]["OMDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
             };
@@ -39114,7 +39114,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAStake"][];
+                        data: components["schemas"]["OMStake"][];
                     };
                 };
             };
@@ -39141,7 +39141,7 @@ export interface operations {
             };
         };
     };
-    postMantraStakes: {
+    postOmStakes: {
         parameters: {
             query?: never;
             header?: never;
@@ -39151,7 +39151,7 @@ export interface operations {
         /** @description Stakes to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["PostMANTRAStakesPayload"];
+                "application/json; charset=utf-8": components["schemas"]["PostOMStakesPayload"];
             };
         };
         responses: {
@@ -39189,7 +39189,7 @@ export interface operations {
             };
         };
     };
-    getMantraRewards: {
+    getOmRewards: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of validators addresses, these addresses
@@ -39197,13 +39197,13 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                validators?: components["parameters"]["OMValidatorsParam"];
                 /** @description Comma-separated list of delegator addresses, these addresses
                  *     are matched with the corresponding validator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                delegators?: components["parameters"]["OMDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
                 /** @description Get data from this date (YYYY-MM-DD) */
@@ -39226,7 +39226,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAReward"][];
+                        data: components["schemas"]["OMReward"][];
                     };
                 };
             };
@@ -39253,7 +39253,7 @@ export interface operations {
             };
         };
     };
-    getMantraOperations: {
+    getOmOperations: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of validators addresses, these addresses
@@ -39261,15 +39261,15 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                validators?: components["parameters"]["OMValidatorsParam"];
                 /** @description Comma-separated list of delegator addresses, these addresses
                  *     are matched with the corresponding validator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                delegators?: components["parameters"]["OMDelegatorsParam"];
                 /** @description whether or not the operation returned will include authz operations, defaults to false */
-                authz?: components["parameters"]["MANTRAAuthzFlagParam"];
+                authz?: components["parameters"]["OMAuthzFlagParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
                 /** @description Get data from this date (YYYY-MM-DD) */
@@ -39290,7 +39290,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: (components["schemas"]["MANTRAOperationDelegate"] | components["schemas"]["MANTRAOperationUndelegate"] | components["schemas"]["MANTRAOperationRedelegate"] | components["schemas"]["MANTRAOperationWithdrawRewards"] | components["schemas"]["MANTRAOperationGrant"] | components["schemas"]["MANTRAOperationExec"])[];
+                        data: (components["schemas"]["OMOperationDelegate"] | components["schemas"]["OMOperationUndelegate"] | components["schemas"]["OMOperationRedelegate"] | components["schemas"]["OMOperationWithdrawRewards"] | components["schemas"]["OMOperationGrant"] | components["schemas"]["OMOperationExec"])[];
                     };
                 };
             };
@@ -39317,7 +39317,7 @@ export interface operations {
             };
         };
     };
-    getMantraNetworkStats: {
+    getOmNetworkStats: {
         parameters: {
             query?: never;
             header?: never;
@@ -39333,7 +39333,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRANetworkStats"];
+                        data: components["schemas"]["OMNetworkStats"];
                     };
                 };
             };
@@ -39353,7 +39353,7 @@ export interface operations {
             };
         };
     };
-    getMantraReports: {
+    getOmReports: {
         parameters: {
             query?: {
                 /** @description Comma-separated list of delegator addresses, these addresses
@@ -39361,13 +39361,13 @@ export interface operations {
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                delegators?: components["parameters"]["MANTRADelegatorsParam"];
+                delegators?: components["parameters"]["OMDelegatorsParam"];
                 /** @description Comma-separated list of validators addresses, these addresses
                  *     are matched with the corresponding delegator addresses. To
                  *     fetch a specific stake, pass your wallet address and the
                  *     validator address as parameters.
                  *      */
-                validators?: components["parameters"]["MANTRAValidatorsParam"];
+                validators?: components["parameters"]["OMValidatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
             };
@@ -39409,7 +39409,7 @@ export interface operations {
             };
         };
     };
-    postMantraGetBalance: {
+    postOmGetBalance: {
         parameters: {
             query?: never;
             header?: never;
@@ -39419,7 +39419,7 @@ export interface operations {
         /** @description Account to query */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRAGetBalancePayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMGetBalancePayload"];
             };
         };
         responses: {
@@ -39468,7 +39468,7 @@ export interface operations {
             };
         };
     };
-    postMantraStakeTx: {
+    postOmStakeTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39478,7 +39478,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRACraftStakeTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMCraftStakeTxPayload"];
             };
         };
         responses: {
@@ -39489,7 +39489,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAStakeUnsignedTx"];
+                        data: components["schemas"]["OMStakeUnsignedTx"];
                     };
                 };
             };
@@ -39516,7 +39516,7 @@ export interface operations {
             };
         };
     };
-    postMantraWithdrawRewardsTx: {
+    postOmWithdrawRewardsTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39526,7 +39526,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRACraftWithdrawRewardsTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMCraftWithdrawRewardsTxPayload"];
             };
         };
         responses: {
@@ -39537,7 +39537,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAUnsignedTx"];
+                        data: components["schemas"]["OMUnsignedTx"];
                     };
                 };
             };
@@ -39564,7 +39564,7 @@ export interface operations {
             };
         };
     };
-    postMantraRestakeRewardsTx: {
+    postOmRestakeRewardsTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39574,7 +39574,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRACraftRestakeRewardsTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMCraftRestakeRewardsTxPayload"];
             };
         };
         responses: {
@@ -39585,7 +39585,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAUnsignedTx"];
+                        data: components["schemas"]["OMUnsignedTx"];
                     };
                 };
             };
@@ -39612,7 +39612,7 @@ export interface operations {
             };
         };
     };
-    postMantraUnstakeTx: {
+    postOmUnstakeTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39622,7 +39622,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRACraftUnstakeTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMCraftUnstakeTxPayload"];
             };
         };
         responses: {
@@ -39633,7 +39633,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAUnsignedTx"];
+                        data: components["schemas"]["OMUnsignedTx"];
                     };
                 };
             };
@@ -39660,7 +39660,7 @@ export interface operations {
             };
         };
     };
-    postMantraRedelegateTx: {
+    postOmRedelegateTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39670,7 +39670,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRACraftRedelegateTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMCraftRedelegateTxPayload"];
             };
         };
         responses: {
@@ -39681,7 +39681,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAUnsignedTx"];
+                        data: components["schemas"]["OMUnsignedTx"];
                     };
                 };
             };
@@ -39708,7 +39708,7 @@ export interface operations {
             };
         };
     };
-    postMantraPrepareTx: {
+    postOmPrepareTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39718,7 +39718,7 @@ export interface operations {
         /** @description Transaction to prepare */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRAPrepareTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMPrepareTxPayload"];
             };
         };
         responses: {
@@ -39729,7 +39729,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRASignedTx"];
+                        data: components["schemas"]["OMSignedTx"];
                     };
                 };
             };
@@ -39756,7 +39756,7 @@ export interface operations {
             };
         };
     };
-    postMantraBroadcastTx: {
+    postOmBroadcastTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39766,7 +39766,7 @@ export interface operations {
         /** @description Transaction to broadcast */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRABroadcastTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMBroadcastTxPayload"];
             };
         };
         responses: {
@@ -39777,7 +39777,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRATxHash"];
+                        data: components["schemas"]["OMTxHash"];
                     };
                 };
             };
@@ -39804,7 +39804,7 @@ export interface operations {
             };
         };
     };
-    postMantraSendTx: {
+    postOmSendTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -39814,7 +39814,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["MANTRACraftSendTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["OMCraftSendTxPayload"];
             };
         };
         responses: {
@@ -39825,7 +39825,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["MANTRAUnsignedTx"];
+                        data: components["schemas"]["OMUnsignedTx"];
                     };
                 };
             };
@@ -39852,7 +39852,7 @@ export interface operations {
             };
         };
     };
-    getMantraTxStatus: {
+    getOmTxStatus: {
         parameters: {
             query: {
                 /** @description Hash of the transaction */
@@ -39871,7 +39871,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MANTRATxStatus"];
+                        data?: components["schemas"]["OMTxStatus"];
                     };
                 };
             };
@@ -39898,7 +39898,7 @@ export interface operations {
             };
         };
     };
-    getMantraTxDecoding: {
+    getOmTxDecoding: {
         parameters: {
             query: {
                 /** @description Raw transaction to decode */
@@ -39917,7 +39917,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: components["schemas"]["MANTRATxDecoding"];
+                        data?: components["schemas"]["OMTxDecoding"];
                     };
                 };
             };
