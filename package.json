@@ -1,6 +1,6 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "4.0.7",
+  "version": "4.1.0",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
@@ -34,9 +34,9 @@
   },
   "homepage": "https://github.com/kilnfi/sdk-js#readme",
   "dependencies": {
+    "@fireblocks/ts-sdk": "^6.0.0",
     "@types/bun": "^1.1.11",
     "bech32": "^2.0.0",
-    "fireblocks-sdk": "^5.32.0",
     "openapi-fetch": "^0.12.0",
     "viem": "^2.21.29"
   },

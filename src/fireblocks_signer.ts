@@ -1,13 +1,9 @@
-import {
-  type CreateTransactionResponse,
-  type FireblocksSDK,
-  PeerType,
-  type TransactionArguments,
-  TransactionOperation,
-  type TransactionResponse,
-  TransactionStatus,
-} from 'fireblocks-sdk';
-
+import type {
+  CreateTransactionResponse,
+  Fireblocks,
+  TransactionRequest,
+  TransactionResponse,
+} from '@fireblocks/ts-sdk';
 import { formatEther, formatUnits } from 'viem';
 import type { components } from './openapi/schema.js';
 
@@ -43,13 +39,10 @@ export type FireblocksAssetId =
   | 'BTC';
 
 export class FireblocksSigner {
-  protected fireblocks: FireblocksSDK;
-  protected vaultId: number;
-
-  constructor(fireblocks: FireblocksSDK, vaultId: number) {
-    this.fireblocks = fireblocks;
-    this.vaultId = vaultId;
-  }
+  constructor(
+    protected fireblocks: Fireblocks,
+    protected vaultId: `${number}`,
+  ) {}
 
   /**
    * Wait for given transaction to be completed
@@ -58,23 +51,19 @@ export class FireblocksSigner {
   protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
     try {
       let tx = fbTx;
-      while (tx.status !== TransactionStatus.COMPLETED) {
-        if (
-          tx.status === TransactionStatus.BLOCKED ||
-          tx.status === TransactionStatus.FAILED ||
-          tx.status === TransactionStatus.CANCELLED
-        ) {
+      while (tx.status !== 'COMPLETED') {
+        if (tx.status === 'BLOCKED' || tx.status === 'FAILED' || tx.status === 'CANCELLED') {
           throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
         }
-        if (tx.status === TransactionStatus.REJECTED) {
+        if (tx.status === 'REJECTED') {
           throw Error(
             'Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction',
           );
         }
-        tx = await this.fireblocks.getTransactionById(fbTx.id);
+        tx = (await this.fireblocks.transactions.getTransaction({ txId: fbTx.id as string })).data;
       }
 
-      return await this.fireblocks.getTransactionById(fbTx.id);
+      return tx;
     } catch (err) {
       throw new Error(`Fireblocks signer (waitForTxCompletion): ${err}`);
     }
@@ -89,22 +78,22 @@ export class FireblocksSigner {
   public async sign(payloadToSign: object, assetId?: FireblocksAssetId, note = ''): Promise<TransactionResponse> {
     try {
       const assetArgs = assetId
-        ? {
+        ? ({
             assetId,
             source: {
-              type: PeerType.VAULT_ACCOUNT,
-              id: this.vaultId.toString(),
+              type: 'VAULT_ACCOUNT',
+              id: this.vaultId,
             },
-          }
-        : {};
+          } satisfies Partial<TransactionRequest>)
+        : undefined;
 
-      const tx: TransactionArguments = {
+      const tx: TransactionRequest = {
         ...assetArgs,
-        operation: TransactionOperation.RAW,
+        operation: 'RAW',
         note,
         extraParameters: payloadToSign,
       };
-      const fbTx = await this.fireblocks.createTransaction(tx);
+      const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
       return await this.waitForTxCompletion(fbTx);
     } catch (err) {
       throw new Error(`Fireblocks signer (signWithFB): ${err}`);
@@ -123,12 +112,12 @@ export class FireblocksSigner {
     note = '',
   ): Promise<TransactionResponse> {
     try {
-      const tx: TransactionArguments = {
+      const tx: TransactionRequest = {
         assetId: assetId,
-        operation: TransactionOperation.TYPED_MESSAGE,
+        operation: 'TYPED_MESSAGE',
         source: {
-          type: PeerType.VAULT_ACCOUNT,
-          id: this.vaultId.toString(),
+          type: 'VAULT_ACCOUNT',
+          id: this.vaultId,
         },
         note,
         extraParameters: {
@@ -142,7 +131,7 @@ export class FireblocksSigner {
           },
         },
       };
-      const fbTx = await this.fireblocks.createTransaction(tx);
+      const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
       return await this.waitForTxCompletion(fbTx);
     } catch (err) {
       throw new Error(`Fireblocks signer (signWithFB): ${err}`);
@@ -167,15 +156,15 @@ export class FireblocksSigner {
     note = '',
   ): Promise<TransactionResponse> {
     try {
-      const txArgs: TransactionArguments = {
+      const txArgs: TransactionRequest = {
         assetId: assetId,
-        operation: TransactionOperation.CONTRACT_CALL,
+        operation: 'CONTRACT_CALL',
         source: {
-          type: PeerType.VAULT_ACCOUNT,
-          id: this.vaultId.toString(),
+          type: 'VAULT_ACCOUNT',
+          id: this.vaultId,
         },
         destination: {
-          type: PeerType.EXTERNAL_WALLET,
+          type: 'EXTERNAL_WALLET',
           id: destinationId,
         },
         amount: tx.amount_wei && sendAmount ? formatEther(BigInt(tx.amount_wei), 'wei') : '0',
@@ -185,7 +174,7 @@ export class FireblocksSigner {
         priorityFee: formatUnits(BigInt(tx.max_priority_fee_per_gas_wei), 9),
         maxFee: formatUnits(BigInt(tx.max_fee_per_gas_wei), 9),
       };
-      const fbTx = await this.fireblocks.createTransaction(txArgs);
+      const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: txArgs })).data;
       return await this.waitForTxCompletion(fbTx);
     } catch (err) {
       throw new Error(`Fireblocks signer (signAndBroadcastWithFB): ${err}`);
