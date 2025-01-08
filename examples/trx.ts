@@ -21,9 +21,9 @@ try {
   console.log('crafting...');
   const tx = await k.client.POST('/trx/transaction/stake', {
     body: {
-      account_id: '',
+      account_id: '9d7b0e32-203d-4b1d-9ff1-99ccae420c7f',
       owner_address: 'TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7',
-      amount_sun: trxToSun('1').toString(),
+      amount_sun: Number(trxToSun('1')),
       resource: 'BANDWIDTH',
     },
   });
@@ -36,7 +36,7 @@ try {
   console.log('broadcasting...');
   const broadcastedTx = await k.client.POST('/trx/transaction/broadcast', {
     body: {
-      signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
+      tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
     },
   });
   console.log(broadcastedTx);
