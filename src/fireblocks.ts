@@ -8,7 +8,7 @@ import {
 } from '@fireblocks/ts-sdk';
 
 import type { Client } from 'openapi-fetch';
-import { FireblocksSigner, type FireblocksAssetId } from './fireblocks_signer.js';
+import { type FireblocksAssetId, FireblocksSigner } from './fireblocks_signer.js';
 import type { components, paths } from './openapi/schema.js';
 
 export type FireblocksIntegration = (
