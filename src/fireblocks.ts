@@ -8,7 +8,7 @@ import {
 } from '@fireblocks/ts-sdk';
 
 import type { Client } from 'openapi-fetch';
-import { FireblocksSigner } from './fireblocks_signer.js';
+import { type FireblocksAssetId, FireblocksSigner } from './fireblocks_signer.js';
 import type { components, paths } from './openapi/schema.js';
 
 export type FireblocksIntegration = (
@@ -16,6 +16,11 @@ export type FireblocksIntegration = (
   | { config: ConfigurationOptions; instance?: never }
 ) & {
   vaultId: `${number}`;
+};
+
+const ERRORS = {
+  MISSING_SIGNATURE: 'An error occurred while attempting to retrieve the signature from Fireblocks.',
+  FAILED_TO_PREPARE: 'An error occurred while attempting to add the signature to the transaction.',
 };
 
 export class FireblocksService {
@@ -46,7 +51,10 @@ export class FireblocksService {
   /**
    * Get fireblocks wallet pubkey compressed
    */
-  async getPubkey(integration: FireblocksIntegration, assetId: string): Promise<PublicKeyInformation> {
+  async getPubkey(
+    integration: FireblocksIntegration,
+    assetId: (string & {}) | FireblocksAssetId,
+  ): Promise<PublicKeyInformation> {
     const fbSdk = this.getSdk(integration);
     const data = await fbSdk.vaults.getPublicKeyInfoForAddress({
       assetId: assetId,
@@ -97,7 +105,7 @@ export class FireblocksService {
       .map((signedMessage) => signedMessage.signature?.fullSig)
       .filter((s) => s !== undefined);
     if (!signatures) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/sol/transaction/prepare', {
@@ -108,7 +116,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -154,7 +162,7 @@ export class FireblocksService {
       signature: message.signature?.fullSig as string,
     }));
     if (!signedMessages) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/ada/transaction/prepare', {
@@ -165,7 +173,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -205,7 +213,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/atom/transaction/prepare', {
@@ -218,7 +226,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -258,7 +266,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/dydx/transaction/prepare', {
@@ -271,7 +279,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -313,7 +321,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/fet/transaction/prepare', {
@@ -326,7 +334,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -368,7 +376,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/om/transaction/prepare', {
@@ -381,7 +389,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -421,7 +429,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/inj/transaction/prepare', {
@@ -434,7 +442,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -476,7 +484,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/kava/transaction/prepare', {
@@ -489,7 +497,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -531,7 +539,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/noble/transaction/prepare', {
@@ -544,7 +552,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -584,7 +592,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/osmo/transaction/prepare', {
@@ -597,7 +605,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -637,7 +645,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/tia/transaction/prepare', {
@@ -650,7 +658,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -692,7 +700,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/zeta/transaction/prepare', {
@@ -705,7 +713,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -740,7 +748,7 @@ export class FireblocksService {
     const fbTx = await fbSigner.sign(payload, 'DOT', fbNote);
 
     if (!fbTx.signedMessages?.[0]?.signature?.fullSig) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
@@ -753,7 +761,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -788,7 +796,7 @@ export class FireblocksService {
     const fbTx = await fbSigner.sign(payload, 'KSM', fbNote);
 
     if (!fbTx.signedMessages?.[0]?.signature?.fullSig) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
@@ -801,7 +809,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -843,7 +851,7 @@ export class FireblocksService {
     const signature = fbTx?.signedMessages?.[0]?.signature;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/eth/transaction/prepare', {
@@ -856,7 +864,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -917,7 +925,7 @@ export class FireblocksService {
     const signature = fbTx?.signedMessages?.[0]?.signature;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/pol/transaction/prepare', {
@@ -930,7 +938,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -986,7 +994,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/ton/transaction/prepare', {
@@ -998,7 +1006,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -1035,7 +1043,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/xtz/transaction/prepare', {
@@ -1046,7 +1054,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -1083,7 +1091,7 @@ export class FireblocksService {
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const preparedTx = await this.client.POST('/near/transaction/prepare', {
@@ -1094,7 +1102,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {
@@ -1133,7 +1141,7 @@ export class FireblocksService {
     const fbTx = await fbSigner.sign(payload, 'TRX', fbNote);
 
     if (!fbTx.signedMessages?.[0]?.signature) {
-      throw new Error('Fireblocks signature is missing');
+      throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
     const signature = `${fbTx.signedMessages[0].signature.fullSig}0${fbTx.signedMessages[0].signature.v}`;
@@ -1146,7 +1154,7 @@ export class FireblocksService {
     });
 
     if (preparedTx.error) {
-      throw new Error('Failed to prepare transaction');
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
     return {

@@ -49,24 +49,25 @@ export class FireblocksSigner {
    * @param fbTx fireblocks transaction
    */
   protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
-    try {
-      let tx = fbTx;
-      while (tx.status !== 'COMPLETED') {
-        if (tx.status === 'BLOCKED' || tx.status === 'FAILED' || tx.status === 'CANCELLED') {
-          throw Error(`Fireblocks signer: the transaction has been ${tx.status}`);
-        }
-        if (tx.status === 'REJECTED') {
-          throw Error(
-            'Fireblocks signer: the transaction has been rejected, make sure that the TAP security policy is not blocking the transaction',
-          );
-        }
-        tx = (await this.fireblocks.transactions.getTransaction({ txId: fbTx.id as string })).data;
+    let tx = fbTx;
+    while (tx.status !== 'COMPLETED') {
+      // see https://developers.fireblocks.com/reference/transaction-substatuses#failed-substatuses
+      const ERRORS: Record<string, string> = {
+        BLOCKED: 'The transaction has been blocked by the TAP security policy.',
+        FAILED: 'The transaction has failed.',
+        CANCELLED: 'The transaction has been cancelled.',
+        REJECTED:
+          'The transaction has been rejected, make sure that the TAP security policy is not blocking the transaction.',
+      };
+      if (tx.status && tx.status in ERRORS) {
+        throw Error(ERRORS[tx.status]);
       }
-
-      return tx;
-    } catch (err) {
-      throw new Error(`Fireblocks signer (waitForTxCompletion): ${err}`);
+      // wait a bit before polling again
+      await new Promise((r) => setTimeout(r, 500));
+      tx = (await this.fireblocks.transactions.getTransaction({ txId: fbTx.id as string })).data;
     }
+
+    return tx;
   }
 
   /**
@@ -76,28 +77,24 @@ export class FireblocksSigner {
    * @param note optional fireblocks custom note
    */
   public async sign(payloadToSign: object, assetId?: FireblocksAssetId, note = ''): Promise<TransactionResponse> {
-    try {
-      const assetArgs = assetId
-        ? ({
-            assetId,
-            source: {
-              type: 'VAULT_ACCOUNT',
-              id: this.vaultId,
-            },
-          } satisfies Partial<TransactionRequest>)
-        : undefined;
+    const assetArgs = assetId
+      ? ({
+          assetId,
+          source: {
+            type: 'VAULT_ACCOUNT',
+            id: this.vaultId,
+          },
+        } satisfies Partial<TransactionRequest>)
+      : undefined;
 
-      const tx: TransactionRequest = {
-        ...assetArgs,
-        operation: 'RAW',
-        note,
-        extraParameters: payloadToSign,
-      };
-      const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
-      return await this.waitForTxCompletion(fbTx);
-    } catch (err) {
-      throw new Error(`Fireblocks signer (signWithFB): ${err}`);
-    }
+    const tx: TransactionRequest = {
+      ...assetArgs,
+      operation: 'RAW',
+      note,
+      extraParameters: payloadToSign,
+    };
+    const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
+    return await this.waitForTxCompletion(fbTx);
   }
 
   /**
@@ -111,31 +108,27 @@ export class FireblocksSigner {
     assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST6',
     note = '',
   ): Promise<TransactionResponse> {
-    try {
-      const tx: TransactionRequest = {
-        assetId: assetId,
-        operation: 'TYPED_MESSAGE',
-        source: {
-          type: 'VAULT_ACCOUNT',
-          id: this.vaultId,
+    const tx: TransactionRequest = {
+      assetId: assetId,
+      operation: 'TYPED_MESSAGE',
+      source: {
+        type: 'VAULT_ACCOUNT',
+        id: this.vaultId,
+      },
+      note,
+      extraParameters: {
+        rawMessageData: {
+          messages: [
+            {
+              content: eip712message,
+              type: 'EIP712',
+            },
+          ],
         },
-        note,
-        extraParameters: {
-          rawMessageData: {
-            messages: [
-              {
-                content: eip712message,
-                type: 'EIP712',
-              },
-            ],
-          },
-        },
-      };
-      const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
-      return await this.waitForTxCompletion(fbTx);
-    } catch (err) {
-      throw new Error(`Fireblocks signer (signWithFB): ${err}`);
-    }
+      },
+    };
+    const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
+    return await this.waitForTxCompletion(fbTx);
   }
 
   /**
@@ -155,29 +148,25 @@ export class FireblocksSigner {
     sendAmount = true,
     note = '',
   ): Promise<TransactionResponse> {
-    try {
-      const txArgs: TransactionRequest = {
-        assetId: assetId,
-        operation: 'CONTRACT_CALL',
-        source: {
-          type: 'VAULT_ACCOUNT',
-          id: this.vaultId,
-        },
-        destination: {
-          type: 'EXTERNAL_WALLET',
-          id: destinationId,
-        },
-        amount: tx.amount_wei && sendAmount ? formatEther(BigInt(tx.amount_wei), 'wei') : '0',
-        note,
-        extraParameters: payloadToSign,
-        gasLimit: tx.gas_limit,
-        priorityFee: formatUnits(BigInt(tx.max_priority_fee_per_gas_wei), 9),
-        maxFee: formatUnits(BigInt(tx.max_fee_per_gas_wei), 9),
-      };
-      const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: txArgs })).data;
-      return await this.waitForTxCompletion(fbTx);
-    } catch (err) {
-      throw new Error(`Fireblocks signer (signAndBroadcastWithFB): ${err}`);
-    }
+    const txArgs: TransactionRequest = {
+      assetId: assetId,
+      operation: 'CONTRACT_CALL',
+      source: {
+        type: 'VAULT_ACCOUNT',
+        id: this.vaultId,
+      },
+      destination: {
+        type: 'EXTERNAL_WALLET',
+        id: destinationId,
+      },
+      amount: tx.amount_wei && sendAmount ? formatEther(BigInt(tx.amount_wei), 'wei') : '0',
+      note,
+      extraParameters: payloadToSign,
+      gasLimit: tx.gas_limit,
+      priorityFee: formatUnits(BigInt(tx.max_priority_fee_per_gas_wei), 9),
+      maxFee: formatUnits(BigInt(tx.max_fee_per_gas_wei), 9),
+    };
+    const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: txArgs })).data;
+    return await this.waitForTxCompletion(fbTx);
   }
 }
