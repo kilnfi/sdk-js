@@ -1111,7 +1111,7 @@ export class FireblocksService {
     tx: components['schemas']['TRXUnsignedTx'],
     note?: string,
   ): Promise<{
-    signed_tx: { data: components['schemas']['TRXSignedTx'] };
+    signed_tx: { data: components['schemas']['TRXPreparedTx'] };
     fireblocks_tx: TransactionResponse;
   }> {
     const payload = {
