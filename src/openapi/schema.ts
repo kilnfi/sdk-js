@@ -6975,6 +6975,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/trx/transaction/cancel-unstake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Unstake transaction
+         * @description Craft an cancel unstake transaction to Cancel unstakings, all unstaked funds still in the waiting period will be re-staked, or withdrawn if the passed the lockup period.
+         */
+        post: operations["postTrxCancelUnstakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/trx/transaction/withdraw-unstaked": {
         parameters: {
             query?: never;
@@ -12748,7 +12768,7 @@ export interface components {
              */
             restake_rewards: boolean;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address?: string;
@@ -12765,7 +12785,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -14455,7 +14475,7 @@ export interface components {
              */
             restake_rewards: boolean;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address?: string;
@@ -14472,7 +14492,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -16162,7 +16182,7 @@ export interface components {
              */
             restake_rewards: boolean;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address?: string;
@@ -16179,7 +16199,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -20904,7 +20924,7 @@ export interface components {
              */
             restake_rewards: boolean;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address?: string;
@@ -20921,7 +20941,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -24005,7 +24025,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -25729,7 +25749,7 @@ export interface components {
              */
             restake_rewards: boolean;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address?: string;
@@ -25746,7 +25766,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -27434,7 +27454,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -29134,7 +29154,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -30836,7 +30856,7 @@ export interface components {
              */
             restake_rewards: boolean;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address?: string;
@@ -30853,7 +30873,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -32553,7 +32573,7 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/Interop/chains.json
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
@@ -33839,7 +33859,7 @@ export interface components {
              */
             unsigned_tx_serialized: string;
         };
-        TRXSignedTx: {
+        TRXPreparedTx: {
             /**
              * @description Signed serialized transaction
              * @example 0a750a02238e2208b63bcc4a1991f66a40d0c1989cbf325a57083612530a34747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e467265657a6542616c616e63655632436f6e7472616374121b0a154102e07e61860efd34e1bdedcb5b485da75407d8f110c0843d70f08fb99abf321241f19adddba846d1fae9233d872048b04a7b003b7757816b5f601d2a08b00f99901b25ec8e6b906a46165a25ece7f8b9e138b755a9d5aca2c880ba8dbaaf8f8a8400
@@ -33867,9 +33887,9 @@ export interface components {
             owner_address: string;
             /**
              * @description Amount of TRX to stake in sun
-             * @example 10000
+             * @example 100000
              */
-            amount_sun: string;
+            amount_sun: number;
             /**
              * @description Resource to obtain
              * @example BANDWIDTH
@@ -33885,15 +33905,22 @@ export interface components {
             owner_address: string;
             /**
              * @description Amount of TRX to unstake in sun
-             * @example 10000
+             * @example 100000
              */
-            amount_sun: string;
+            amount_sun: number;
             /**
              * @description Resource to release
              * @example BANDWIDTH
              * @enum {string}
              */
             resource: "BANDWIDTH" | "ENERGY";
+        };
+        TRXCraftCancelUnstakeTxPayload: {
+            /**
+             * @description Wallet address of the owner
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            owner_address: string;
         };
         TRXCraftWithdrawUnstakedTxPayload: {
             /**
@@ -33910,9 +33937,13 @@ export interface components {
             owner_address: string;
             /**
              * @description Number of votes to cast
-             * @example 1
+             * @example {
+             *       "TQzd66b9EFVHJfZK5AmiVhBjtJvXGeSPPZ": 1
+             *     }
              */
-            votes?: string;
+            votes?: {
+                [key: string]: number;
+            };
         };
         TRXCraftWithdrawRewardsTxPayload: {
             /**
@@ -33938,7 +33969,7 @@ export interface components {
              * @description Signed serialized transaction
              * @example 0a026554220847c22aa98d1f46a94090ee9ba0be325a6a080412660a30747970652e676f6f676c65617069732e636f6d2f70726f6f746f636f6c2e566f74655769746e7373616c6c656454787061796c6f616412320a154102e07e61860efd34e1bdedcb5b485da75407d8f112190a1541a4ce68cfcdd27884bde52cec653354048e0aa989100170b0e1fef6bd32
              */
-            signed_tx_serialized: string;
+            tx_serialized: string;
         };
         TRXStake: {
             /**
@@ -52209,6 +52240,54 @@ export interface operations {
             };
         };
     };
+    postTrxCancelUnstakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TRXCraftCancelUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postTrxWithdrawUnstakedTx: {
         parameters: {
             query?: never;
@@ -52374,7 +52453,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["TRXSignedTx"];
+                        data: components["schemas"]["TRXPreparedTx"];
                     };
                 };
             };
