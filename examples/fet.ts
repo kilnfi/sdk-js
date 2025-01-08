@@ -1,4 +1,4 @@
-import { Kiln, KILN_VALIDATORS, omToUom } from '../src/kiln.ts';
+import { fetToAfet, Kiln, KILN_VALIDATORS } from '../src/kiln.ts';
 import type { FireblocksIntegration } from '../src/fireblocks.ts';
 import { loadEnv } from './env.ts';
 
@@ -38,12 +38,12 @@ if (!fireblocksPubkey) {
 // Craft the transaction
 //
 console.log('Crafting transaction...');
-const txRequest = await k.client.POST('/om/transaction/stake', {
+const txRequest = await k.client.POST('/fet/transaction/stake', {
   body: {
     account_id: kilnAccountId,
     pubkey: fireblocksPubkey,
-    validator: KILN_VALIDATORS.OM.mainnet.KILN,
-    amount_uom: omToUom('0.01').toString(),
+    validator: KILN_VALIDATORS.FET.mainnet.KILN,
+    amount_afet: fetToAfet('0.01').toString(),
     restake_rewards: false,
   },
 });
@@ -61,7 +61,7 @@ console.log('\n\n\n');
 console.log('Signing transaction...');
 const signRequest = await (async () => {
   try {
-    return await k.fireblocks.signOmTx(vault, txRequest.data.data);
+    return await k.fireblocks.signFetTx(vault, txRequest.data.data);
   } catch (err) {
     console.log('Failed to sign transaction:', err);
     process.exit(1);
@@ -74,7 +74,7 @@ console.log('\n\n\n');
 // Broadcast the transaction
 //
 console.log('Broadcasting transaction...');
-const broadcastedRequest = await k.client.POST('/om/transaction/broadcast', {
+const broadcastedRequest = await k.client.POST('/fet/transaction/broadcast', {
   body: {
     tx_serialized: signRequest.signed_tx.data.signed_tx_serialized,
   },

@@ -65,4 +65,34 @@ export const KILN_VALIDATORS = {
       KILN: 'zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe',
     },
   },
+  KAVA: {
+    mainnet: {
+      KILN: 'kavavaloper1djqecw6nn5tydxq0shan7srv8j65clsf79myt8',
+    },
+  },
+  TIA: {
+    mainnet: {
+      KILN: 'celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu',
+    },
+  },
+  DYDX: {
+    mainnet: {
+      KILN: 'dydxvaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3elj2jte',
+    },
+  },
+  INJ: {
+    mainnet: {
+      KILN: 'injvaloper1rf0fczrw2gnhuju86kmjtku4dvf9dcc2mpe7pe',
+    },
+  },
+  OM: {
+    mainnet: {
+      KILN: 'mantravaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ram37xw',
+    },
+  },
+  OSMO: {
+    mainnet: {
+      INTEROP: 'osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy',
+    },
+  },
 };
