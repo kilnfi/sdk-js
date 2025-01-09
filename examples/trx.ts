@@ -34,7 +34,7 @@ if (!fireblocksPubkey) {
 console.log('Crafting transaction...');
 const txRequest = await k.client.POST('/trx/transaction/stake', {
   body: {
-    account_id: '9d7b0e32-203d-4b1d-9ff1-99ccae420c7f',
+    account_id: kilnAccountId,
     owner_address: 'TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7',
     amount_sun: Number(trxToSun('1')),
     resource: 'BANDWIDTH',
