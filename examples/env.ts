@@ -24,7 +24,12 @@ export const loadEnv = async () => {
     process.exit(1);
   }
 
-  const fireblocksApiSecret = await Bun.file('fireblocks_secret_prod.key').text();
+  if (!Bun.env.FIREBLOCKS_SECRET_FILENAME) {
+    console.log('FIREBLOCKS_SECRET_FILENAME is required');
+    process.exit(1);
+  }
+
+  const fireblocksApiSecret = await Bun.file(Bun.env.FIREBLOCKS_SECRET_FILENAME).text();
 
   return {
     kilnApiUrl: Bun.env.KILN_API_URL,
