@@ -20,11 +20,18 @@ const vault: FireblocksIntegration = {
 };
 
 //
-// Get the pubkey from Fireblocks
+// Get the wallet address from Fireblocks
 //
-const fireblocksPubkey = (await k.fireblocks.getPubkey(vault, 'TRX')).publicKey;
-if (!fireblocksPubkey) {
-  console.log('Failed to get pubkey');
+const fireblocksWallet = (
+  await k.fireblocks.getSdk(vault).vaults.getVaultAccountAssetAddressesPaginated({
+    vaultAccountId: vault.vaultId,
+    assetId: 'TRX',
+    limit: 1,
+  })
+).data.addresses?.[0].address;
+
+if (!fireblocksWallet) {
+  console.log('Failed to get fireblocks wallet');
   process.exit(0);
 }
 
@@ -35,7 +42,7 @@ console.log('Crafting transaction...');
 const txRequest = await k.client.POST('/trx/transaction/stake', {
   body: {
     account_id: kilnAccountId,
-    owner_address: 'TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7',
+    owner_address: fireblocksWallet,
     amount_sun: Number(trxToSun('1')),
     resource: 'BANDWIDTH',
   },
