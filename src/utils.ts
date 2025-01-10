@@ -79,6 +79,12 @@ export const omToUom = (om: string): bigint => {
 };
 
 /**
+ * Convert CRO to basecro
+ */
+export const croToBasecro = (cro: string): bigint => {
+  return parseUnits(cro, 8);
+};
+/**
  * Convert uZETA to ZETA
  */
 export const uzetaToZeta = (uzeta: bigint): string => {
@@ -202,6 +208,13 @@ export const ukavaToKava = (ukava: bigint): string => {
  */
 export const uomToOm = (uom: bigint): string => {
   return formatUnits(uom, 6);
+};
+
+/**
+ * Convert basecro to CRO
+ */
+export const basecroToCro = (basecro: bigint): string => {
+  return formatUnits(basecro, 8);
 };
 
 /**

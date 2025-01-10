@@ -507,6 +507,61 @@ export class FireblocksService {
   }
 
   /**
+   * Sign a CRO transaction on Fireblocks
+   */
+  async signCroTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['CROUnsignedTx'] | components['schemas']['CROStakeUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['CROSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            derivationPath: [44, 394, integration.vaultId, 0, 0],
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: 'SHA256',
+            },
+          },
+        ],
+        algorithm: SignedMessageAlgorithmEnum.EcdsaSecp256K1,
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'CRO tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, undefined, fbNote);
+    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+
+    if (!signature) {
+      throw new Error(ERRORS.MISSING_SIGNATURE);
+    }
+
+    const preparedTx = await this.client.POST('/cro/transaction/prepare', {
+      body: {
+        pubkey: tx.pubkey,
+        tx_body: tx.tx_body,
+        tx_auth_info: tx.tx_auth_info,
+        signature: signature,
+      },
+    });
+
+    if (preparedTx.error) {
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
    * Sign a NOBLE transaction on Fireblocks
    */
   async signNobleTx(
