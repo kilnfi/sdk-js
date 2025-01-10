@@ -90,6 +90,11 @@ export const KILN_VALIDATORS = {
       KILN: 'mantravaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ram37xw',
     },
   },
+  CRO: {
+    mainnet: {
+      KILN: 'crocncl1lqm9hhzuqgutgswlff5yf9kmn7vx6pmksk4kvs',
+    },
+  },
   OSMO: {
     mainnet: {
       INTEROP: 'osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy',
