@@ -20,66 +20,81 @@ bun install @kilnfi/sdk
 In order to use this sdk, you will need a kiln api token.
 Please contact support@kiln.fi to get one.
 
-```typescript
-import { Kiln } from "@kilnfi/sdk";
-
-const k = new Kiln({
-  baseUrl: "https://api.kiln.fi",
-  apiToken: "kiln_xxx",
-});
-```
-
-
 ## Example: Stake 1 NEAR using Fireblocks raw signing
 ```typescript
-import { Kiln } from "@kilnfi/sdk";
-import type { Integration } from "@kilnfi/sdk/lib/types/integrations";
-import fs from "node:fs";
-import 'dotenv/config'
+import { Kiln, KILN_VALIDATORS } from '@kilnfi/sdk';
+import type { FireblocksIntegration } from '@kilnfi/sdk/fireblocks.ts';
+import { loadEnv } from './env.ts';
+import { parseUnits } from "viem";
 
+const k = new Kiln({
+  baseUrl: 'https://api.kiln.fi/v1',
+  apiToken: process.env.KILN_API_TOKEN,
+});
 
 const apiSecret = fs.readFileSync(__dirname + '/fireblocks_secret.key', 'utf8');
 
-const stake = async () => {
-  // Kiln client configuration
-  const k = new Kiln({
-    baseUrl: 'https://api.testnet.kiln.fi',
-    apiToken: process.env.KILN_API_KEY,
-  });
-
-  // Fireblocks vault configuration
-  const vault: Integration = {
-    provider: 'fireblocks',
-    fireblocksApiKey: process.env.FIREBLOCKS_API_KEY,
-    fireblocksSecretKey: apiSecret,
-    vaultId: 14
-  };
-
-  // Craft staking tx
-  const tx = await k.client.POST(
-    '/v1/near/transaction/stake',
-    {
-      body: {
-        account_id: 'd3f1b917-72b1-4982-a4dd-93fce579a708',
-        wallet: 'c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f',
-        pool_id: 'kiln.pool.f863973.m0',
-        amount_yocto: '1000000000000000000000000',
-      }
-    }
-  );
-
-  // Sign tx with Fireblocks
-  const signResponse = await k.fireblocks.signNearTx(vault, tx.data.data, "NEAR_TEST");
-
-  // Broadcast tx
-  const broadcastedTx = await k.client.POST("/v1/near/transaction/broadcast", {
-    body: {
-      signed_tx_serialized: signResponse.signed_tx.data.signed_tx_serialized,
-    }
-  });
+const vault: FireblocksIntegration = {
+  config: {
+    apiKey: process.env.FIREBLOCKS_API_KEY,
+    secretKey: apiSecret,
+    basePath: 'https://api.fireblocks.io/v1',
+  },
+  vaultId: process.env.FIREBLOCKS_VAULT_ID,
 };
 
-stake();
+//
+// Craft the transaction
+//
+console.log('Crafting transaction...');
+const txRequest = await k.client.POST('/near/transaction/stake', {
+  body: {
+    account_id: kilnAccountId,
+    wallet: 'c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f',
+    pool_id: KILN_VALIDATORS.NEAR.mainnet.KILN,
+    amount_yocto: parseUnits('1', 24).toString(),
+  },
+});
+if (txRequest.error) {
+  console.log('Failed to craft transaction:', txRequest);
+  process.exit(1);
+} else {
+  console.log('Crafted transaction:', txRequest.data);
+}
+console.log('\n\n\n');
+
+//
+// Sign the transaction
+//
+console.log('Signing transaction...');
+const signRequest = await (async () => {
+  try {
+    // @ts-ignore
+    return await k.fireblocks.signNearTx(vault, txRequest.data.data, "NEAR_TEST");
+  } catch (err) {
+    console.log('Failed to sign transaction:', err);
+    process.exit(1);
+  }
+})();
+console.log('Signed transaction:', signRequest);
+console.log('\n\n\n');
+
+//
+// Broadcast the transaction
+//
+console.log('Broadcasting transaction...');
+const broadcastedRequest = await k.client.POST('/near/transaction/broadcast', {
+  body: {
+    signed_tx_serialized: signRequest.signed_tx.data.signed_tx_serialized,
+  },
+});
+if (broadcastedRequest.error) {
+  console.log('Failed to broadcast transaction:', broadcastedRequest);
+  process.exit(1);
+} else {
+  console.log('Broadcasted transaction:', broadcastedRequest.data);
+}
+
 ```
 Find complete examples in the `examples` directory.
 
