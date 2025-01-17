@@ -7155,6 +7155,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/trx/accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Accounts
+         * @description Get TRX accounts
+         */
+        get: operations["getTrxAccounts"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/trx/stakes": {
         parameters: {
             query?: never;
@@ -7164,7 +7184,7 @@ export interface paths {
         };
         /**
          * Stakes
-         * @description Get the status of TRX stakes
+         * @description Get TRX stakes
          */
         get: operations["getTrxStakes"];
         put?: never;
@@ -7329,6 +7349,23 @@ export interface paths {
          * @description Broadcast a signed transaction to the blockchain.
          */
         post: operations["postTrxBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/positions/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all positions */
+        get: operations["listPositions"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -10285,6 +10322,12 @@ export interface components {
             wallet: string;
         };
         XTZCraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
             /**
              * @description Wallet signing the transaction
              * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
@@ -34128,7 +34171,7 @@ export interface components {
         TRXCraftStakeTxPayload: {
             /**
              * Format: uuid
-             * @description Kiln Account ID to stake into
+             * @description Kiln Account ID
              * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
              */
             account_id: string;
@@ -34182,6 +34225,12 @@ export interface components {
             owner_address: string;
         };
         TRXCraftVoteTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
             /**
              * @description Wallet address of the owner
              * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
@@ -34256,6 +34305,52 @@ export interface components {
              */
             updated_at: string;
         };
+        TRXAccount: {
+            /**
+             * @description Wallet address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            wallet: string;
+            /**
+             * @description Available balance in sun
+             * @example 4000000
+             */
+            available_balance: number;
+            /**
+             * @description Available balance in sun
+             * @example 3000000
+             */
+            claimable_rewards: number;
+            /**
+             * @description Frozen TRX for bandwidth in sun
+             * @example 1000000
+             */
+            frozen_bandwidth?: number;
+            /**
+             * @description Frozen TRX for energy in sun
+             * @example 1000000
+             */
+            frozen_energy?: number;
+            /** @description Votes */
+            votes: {
+                /**
+                 * @description super representative address
+                 * @example TQzd66b9EFVHJfZK5AmiVhBjtJvXGeSPPZ
+                 */
+                address?: string;
+                /**
+                 * @description Vote count
+                 * @example 4
+                 */
+                count?: number;
+            }[];
+            /**
+             * Format: date-time
+             * @description Last updated timestamp
+             * @example 2021-01-01T00:00:00Z
+             */
+            updated_at: string;
+        };
         TRXStake: {
             /**
              * @description Wallet address
@@ -34278,6 +34373,121 @@ export interface components {
              * @example 2021-01-01T00:00:00Z
              */
             updated_at: string;
+        };
+        BasePosition: {
+            /** @description The balance associated with the position. */
+            balance: string;
+            /**
+             * Format: int32
+             * @description The number of decimals for the position's asset.
+             */
+            decimals: number;
+            /** @description The chain ID where the position is located. */
+            chain_id: string;
+        };
+        ETHPosition: components["schemas"]["BasePosition"] & {
+            /**
+             * @description The type of the position, such as ETH, ERC20, or PRODUCT.
+             * @enum {string}
+             */
+            type: "ETH";
+        };
+        ERC20Position: components["schemas"]["BasePosition"] & {
+            /**
+             * @description The type of the position, such as ETH, ERC20, or PRODUCT.
+             * @enum {string}
+             */
+            type: "ERC20";
+            /** @description The address of the ERC20 asset. */
+            asset_address: string;
+            /** @description The icon URL of the ERC20 asset. */
+            asset_icon: string;
+            /** @description The symbol of the ERC20 asset. */
+            asset_symbol: string;
+            /**
+             * Format: double
+             * @description The price of the ERC20 asset in USD.
+             */
+            asset_price_usd: number;
+        };
+        ProductPosition: components["schemas"]["BasePosition"] & {
+            /**
+             * @description The type of the position, such as ETH, ERC20, or PRODUCT.
+             * @enum {string}
+             */
+            type: "PRODUCT";
+            /** @description The name of the product. */
+            product: string;
+            /** @description The address of the product. */
+            product_address: string;
+            /** @description The total rewards earned by the product. */
+            total_rewards: string;
+            /** @description The total amount deposited into the product. */
+            total_deposited_amount: string;
+            /** @description The total amount withdrawn from the product. */
+            total_withdrawn_amount: string;
+            /**
+             * Format: double
+             * @description The net reward rate of the product.
+             */
+            nrr: number;
+            /**
+             * Format: double
+             * @description The gross reward rate of the product.
+             */
+            grr: number;
+            additional_rewards: {
+                /**
+                 * @description The type of the additional reward.
+                 * @enum {string}
+                 */
+                type: "UNSPECIFIED" | "ETH" | "ERC20" | "PRODUCT";
+                /** @description The address of the reward asset. */
+                asset_address: string;
+                /** @description The balance of the reward asset. */
+                balance: string;
+                /**
+                 * Format: int32
+                 * @description The number of decimals for the reward asset.
+                 */
+                asset_decimals: number;
+                /** @description The icon URL of the reward asset. */
+                asset_icon: string;
+                /** @description The symbol of the reward asset. */
+                asset_symbol: string;
+                /**
+                 * Format: double
+                 * @description The price of the reward asset in USD.
+                 */
+                asset_price_usd: number;
+                /**
+                 * Format: int32
+                 * @description The chain ID of the reward asset.
+                 */
+                chain_id: number;
+            }[];
+        };
+        Summary: {
+            /**
+             * Format: double
+             * @description The total USD value of all positions.
+             */
+            total_usd: number;
+            /**
+             * Format: double
+             * @description The total USD value of all product positions.
+             */
+            product_total_usd: number;
+            /**
+             * Format: double
+             * @description The total USD value of all asset positions.
+             */
+            assets_total_usd: number;
+            /**
+             * Format: double
+             * @description The total USD earned across all positions.
+             */
+            total_earned_usd: number;
         };
     };
     responses: never;
@@ -34569,6 +34779,16 @@ export interface components {
         /** @description Wallet address */
         TONGetWalletInfoParam: string;
         TRXWalletsParam: string;
+        /**
+         * @description The wallet address to filter positions by.
+         * @example 0x1234567890123456789012345678901234567890
+         */
+        POSITIONWalletParam: string;
+        /**
+         * @description The chain IDs to filter positions by.
+         * @example 1,10,137
+         */
+        POSITIONChainIDParam: string;
     };
     requestBodies: never;
     headers: never;
@@ -52953,6 +53173,51 @@ export interface operations {
             };
         };
     };
+    getTrxAccounts: {
+        parameters: {
+            query?: {
+                wallet?: components["parameters"]["TRXWalletsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXAccount"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getTrxStakes: {
         parameters: {
             query?: {
@@ -53358,6 +53623,63 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["TRXBroadcastedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listPositions: {
+        parameters: {
+            query: {
+                /**
+                 * @description The wallet address to filter positions by.
+                 * @example 0x1234567890123456789012345678901234567890
+                 */
+                wallet: components["parameters"]["POSITIONWalletParam"];
+                /**
+                 * @description The chain IDs to filter positions by.
+                 * @example 1,10,137
+                 */
+                chain_id?: components["parameters"]["POSITIONChainIDParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A list of positions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: {
+                            summary: components["schemas"]["Summary"];
+                            positions: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
+                        };
                     };
                 };
             };
