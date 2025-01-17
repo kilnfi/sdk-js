@@ -3555,6 +3555,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/near/transaction/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Status
+         * @description Get the status of a transaction
+         */
+        get: operations["getNearTxStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/near/transaction/decode": {
         parameters: {
             query?: never;
@@ -20095,6 +20115,215 @@ export interface components {
              * @example c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f
              */
             tx_hash: string;
+        };
+        NEARTxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status?: "success" | "error";
+            /**
+             * @description Transaction receipt. Object shape can be found [here](https://github.com/near/near-api-js/blob/c49fd67535baa5163b29ca7a43f585bfcfbe16e6/packages/types/src/provider/response.ts#L79)
+             * @example {
+             *       "final_execution_status": "FINAL",
+             *       "receipts_outcome": [
+             *         {
+             *           "block_hash": "GWvGFZW6yFk2wbcm1nks4BDisSANiRkD1yVQN1FQvwgo",
+             *           "id": "EP52R2jvvqz131WZeSjkDL2562eHHaeRABBTKunqAHbx",
+             *           "outcome": {
+             *             "executor_id": "ognuf.testnet",
+             *             "gas_burnt": 1047451194208,
+             *             "logs": [],
+             *             "metadata": {
+             *               "gas_profile": [
+             *                 {
+             *                   "cost": "BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "2647681110"
+             *                 },
+             *                 {
+             *                   "cost": "CONTRACT_LOADING_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "35445963"
+             *                 },
+             *                 {
+             *                   "cost": "CONTRACT_LOADING_BYTES",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "9139185050"
+             *                 },
+             *                 {
+             *                   "cost": "READ_MEMORY_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "5219726400"
+             *                 },
+             *                 {
+             *                   "cost": "READ_MEMORY_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "7602666"
+             *                 },
+             *                 {
+             *                   "cost": "READ_REGISTER_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "7551495558"
+             *                 },
+             *                 {
+             *                   "cost": "READ_REGISTER_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "48689628"
+             *                 },
+             *                 {
+             *                   "cost": "STORAGE_HAS_KEY_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "54039896625"
+             *                 },
+             *                 {
+             *                   "cost": "STORAGE_HAS_KEY_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "30790845"
+             *                 },
+             *                 {
+             *                   "cost": "STORAGE_READ_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "56356845749"
+             *                 },
+             *                 {
+             *                   "cost": "STORAGE_READ_KEY_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "30952533"
+             *                 },
+             *                 {
+             *                   "cost": "STORAGE_READ_VALUE_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "72943052"
+             *                 },
+             *                 {
+             *                   "cost": "WASM_INSTRUCTION",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "2919138288"
+             *                 },
+             *                 {
+             *                   "cost": "WRITE_MEMORY_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "8411384583"
+             *                 },
+             *                 {
+             *                   "cost": "WRITE_MEMORY_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "1345543368"
+             *                 },
+             *                 {
+             *                   "cost": "WRITE_REGISTER_BASE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "8596567458"
+             *                 },
+             *                 {
+             *                   "cost": "WRITE_REGISTER_BYTE",
+             *                   "cost_category": "WASM_HOST_COST",
+             *                   "gas_used": "1877972616"
+             *                 }
+             *               ],
+             *               "version": 3
+             *             },
+             *             "receipt_ids": [
+             *               "8RzWUcubqXZYvVTjJUTJptx7ggh5DXEMA86J6B3P5odQ"
+             *             ],
+             *             "status": {
+             *               "SuccessValue": ""
+             *             },
+             *             "tokens_burnt": "104745119420800000000"
+             *           },
+             *           "proof": [
+             *             {
+             *               "direction": "Left",
+             *               "hash": "2jzRXjWTCVR3ZBhMg4Lg3NzG2BUXxVd5PmazKPxGi5Ri"
+             *             },
+             *             {
+             *               "direction": "Right",
+             *               "hash": "8n5m2mMZso44PV696BVFyKSkC8RKqQSuF2QdjQBwKSP1"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "block_hash": "Dp3Ra6eEbWwaVueDUDxGsvU6os2RtKTmMPxbQUF1jccm",
+             *           "id": "8RzWUcubqXZYvVTjJUTJptx7ggh5DXEMA86J6B3P5odQ",
+             *           "outcome": {
+             *             "executor_id": "ognuf.testnet",
+             *             "gas_burnt": 223182562500,
+             *             "logs": [],
+             *             "metadata": {
+             *               "gas_profile": [],
+             *               "version": 3
+             *             },
+             *             "receipt_ids": [],
+             *             "status": {
+             *               "SuccessValue": ""
+             *             },
+             *             "tokens_burnt": "0"
+             *           },
+             *           "proof": [
+             *             {
+             *               "direction": "Right",
+             *               "hash": "F6EbMPDCmbCQcETysyY64SP6wWn9PeiVXd7UvYgL41Ws"
+             *             }
+             *           ]
+             *         }
+             *       ],
+             *       "status": {
+             *         "SuccessValue": ""
+             *       },
+             *       "transaction": {
+             *         "actions": [
+             *           {
+             *             "FunctionCall": {
+             *               "args": "AQEBAAAAygEAAArFAwqCAgoCCAsQ4qcDGLPbz7C3u76AGCIg7c4UiAafMSjANXcZnXF+qiYsZ8T13WsVlZb4zljSyTQqIPBf\\/7yKE9GX9+RWD9lgD58gGs1I\\/Lks9hDpOFlbflBHMiBuNAuc\\/7N6mJylROa7eAoseJAdP7M3OHaFEaMGF6+gHTogAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCIN6zZHR5a8o1BmGlOOQHhQwNmSuCwwBl\\/Nf861pRpRwZUhSrbPuuNT\\/OdRZRpiGGh1dGWu5LelogmaPcCwS114x7FyVESiXxEtoO6Nv1n4YkGXn8bV44jJ5iDG1pbml0aWEtdGVzdBJAPp\\/i5lZVxvHHoT5uLn3J+0qYJIhP9Wvf+PnO09c8GetU1ipLI1MrDFVHkcPDQmywTTb7e+hOCBeiKlaEB5nrBxp8CjwKFKts+641P851FlGmIYaHV0Za7kt6EiIKIAQUikAhf8C3GBlyykKRuZGB8EkIICrh77u8L7e1IZfCGAESPAoUq2z7rjU\\/znUWUaYhhodXRlruS3oSIgogBBSKQCF\\/wLcYGXLKQpG5kYHwSQggKuHvu7wvt7Uhl8IYARIA",
+             *               "deposit": "0",
+             *               "gas": 20000000000000,
+             *               "method_name": "submit"
+             *             }
+             *           }
+             *         ],
+             *         "hash": "3SjLFkpdymyyF4asqkBaRStoJCVxc72ovZkEzFHMCGY5",
+             *         "nonce": 175227951646938,
+             *         "priority_fee": 0,
+             *         "public_key": "ed25519:4m7opXRc5hEpQvUFtseFedtvN6uVKfJtzht428xxtZq1",
+             *         "receiver_id": "ognuf.testnet",
+             *         "signature": "ed25519:3TpmHAoLNMGXo69XhoP2UtZkWcet9VxKyYJ8iCyY2RdxngcimUfrgSDPrCvakLMTUdChdxwBLJv7RPV5yT9vqt3U",
+             *         "signer_id": "ognuf.testnet"
+             *       },
+             *       "transaction_outcome": {
+             *         "block_hash": "GWvGFZW6yFk2wbcm1nks4BDisSANiRkD1yVQN1FQvwgo",
+             *         "id": "3SjLFkpdymyyF4asqkBaRStoJCVxc72ovZkEzFHMCGY5",
+             *         "outcome": {
+             *           "executor_id": "ognuf.testnet",
+             *           "gas_burnt": 309119332716,
+             *           "logs": [],
+             *           "metadata": {
+             *             "gas_profile": null,
+             *             "version": 1
+             *           },
+             *           "receipt_ids": [
+             *             "EP52R2jvvqz131WZeSjkDL2562eHHaeRABBTKunqAHbx"
+             *           ],
+             *           "status": {
+             *             "SuccessReceiptId": "EP52R2jvvqz131WZeSjkDL2562eHHaeRABBTKunqAHbx"
+             *           },
+             *           "tokens_burnt": "30911933271600000000"
+             *         },
+             *         "proof": [
+             *           {
+             *             "direction": "Right",
+             *             "hash": "7y9tJ8nbh3QWT2ASECNtJFx8C1M8ao2bC5JqYv5DK7fm"
+             *           },
+             *           {
+             *             "direction": "Right",
+             *             "hash": "8n5m2mMZso44PV696BVFyKSkC8RKqQSuF2QdjQBwKSP1"
+             *           }
+             *         ]
+             *       }
+             *     }
+             */
+            receipt?: Record<string, never>;
         };
         NEARTx: {
             /**
@@ -37964,6 +38193,8 @@ export interface operations {
             query?: {
                 /** @description Comma-separated list of stake addresses */
                 stake_accounts?: components["parameters"]["SOLStakeAccountsParam"];
+                /** @description Comma-separated list of validator addresses */
+                validators?: components["parameters"]["SOLValidatorsParam"];
                 /** @description Comma-separated list of wallets addresses */
                 wallets?: components["parameters"]["SOLWalletsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
@@ -38056,10 +38287,10 @@ export interface operations {
                 stake_accounts?: components["parameters"]["SOLStakeAccountsParam"];
                 /** @description Comma-separated list of wallets addresses */
                 wallets?: components["parameters"]["SOLWalletsParam"];
+                /** @description Comma-separated list of validator addresses */
+                validators?: components["parameters"]["SOLValidatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
-                /** @description The format of the response. Defaults to `daily` */
-                format?: components["parameters"]["SOLRewardsFormatParam"];
             };
             header?: never;
             path?: never;
@@ -43880,6 +44111,54 @@ export interface operations {
                         data: components["schemas"]["NEARBroadcastedTx"];
                     };
                 };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getNearTxStatus: {
+        parameters: {
+            query: {
+                /** @description Hash of the transaction */
+                tx_hash: string;
+                /** @description NEAR account ID */
+                wallet: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["NEARTxStatus"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Unauthorized */
             401: {
