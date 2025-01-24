@@ -7559,19 +7559,19 @@ export interface components {
              * @enum {string}
              */
             token: "DYDX";
-            total_rewards: {
+            total_rewards_usdc: {
                 /**
                  * Format: float
                  * @description Total rewards earned in USDC for this protocol
                  * @example 10896.4568
                  */
-                amount_usdc: number;
+                amount: number;
                 /**
                  * Format: float
                  * @description Total USD of USDC rewards earned for this protocol
                  * @example 1896.4568
                  */
-                amount_usdc_usd: number;
+                amount_usd: number;
             };
         };
         ETHPortfolio: components["schemas"]["BasePortfolio"] & {
@@ -10359,6 +10359,18 @@ export interface components {
              */
             amount_mutez: string;
         };
+        XTZCraftUnstakeTxPayload: {
+            /**
+             * @description Wallet signing the transaction
+             * @example tz1QQZKGt3ouyd7x8JUDwcvRyxzsmD7CFbMd
+             */
+            wallet: string;
+            /**
+             * @description Amount to stake in mutez (1 XTZ = 1000000 mutez)
+             * @example 1000000
+             */
+            amount_mutez: string;
+        };
         XTZPrepareTxPayload: {
             /**
              * @description Unsigned serialized transaction
@@ -11248,7 +11260,7 @@ export interface components {
              * @description Commission amount in Lamport for MEV rewards
              * @example 10000000
              */
-            mev_commission: number;
+            mev_commission: string;
             /**
              * @description Active balance in Lamport after rewards computing
              * @example 1000
@@ -34665,36 +34677,7 @@ export interface components {
              * @description The gross reward rate of the product.
              */
             grr: number;
-            additional_rewards: {
-                /**
-                 * @description The type of the additional reward.
-                 * @enum {string}
-                 */
-                type: "UNSPECIFIED" | "ETH" | "ERC20" | "PRODUCT";
-                /** @description The address of the reward asset. */
-                asset_address: string;
-                /** @description The balance of the reward asset. */
-                balance: string;
-                /**
-                 * Format: int32
-                 * @description The number of decimals for the reward asset.
-                 */
-                asset_decimals: number;
-                /** @description The icon URL of the reward asset. */
-                asset_icon: string;
-                /** @description The symbol of the reward asset. */
-                asset_symbol: string;
-                /**
-                 * Format: double
-                 * @description The price of the reward asset in USD.
-                 */
-                asset_price_usd: number;
-                /**
-                 * Format: int32
-                 * @description The chain ID of the reward asset.
-                 */
-                chain_id: number;
-            }[];
+            additional_rewards: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
         };
         Summary: {
             /**
@@ -34812,6 +34795,8 @@ export interface components {
         ATOMDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         ATOMAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        ATOMPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34826,6 +34811,8 @@ export interface components {
         CRODelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         CROAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        CROPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34840,6 +34827,8 @@ export interface components {
         OMDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         OMAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        OMPrecisionParam: "chain" | "micro" | "atto";
         ADAStakeAddressesParam: string;
         ADAWalletsParam: string;
         ADAPoolIDsParam: string;
@@ -34889,6 +34878,8 @@ export interface components {
         OSMODelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         OSMOAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        OSMOPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of wallets addresses */
         EGLDWalletsParam: string[];
         /** @description Comma-separated list of validator contract addresses */
@@ -34925,6 +34916,8 @@ export interface components {
         DYDXDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         DYDXAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        DYDXPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34939,6 +34932,8 @@ export interface components {
         TIADelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         TIAAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        TIAPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34953,6 +34948,8 @@ export interface components {
         ZETADelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         ZETAAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        ZETAPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34967,6 +34964,8 @@ export interface components {
         KAVADelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         KAVAAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        KAVAPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34981,6 +34980,8 @@ export interface components {
         FETDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         FETAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        FETPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -34995,6 +34996,8 @@ export interface components {
         INJDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         INJAuthzFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        INJPrecisionParam: "chain" | "micro" | "atto";
         /** @description The format of the response. Defaults to `daily` */
         TONRewardsFormatParam: "daily" | "epoch";
         /** @description Comma-separated list of nominator addresses */
@@ -37750,7 +37753,7 @@ export interface operations {
         /** @description Transaction to craft */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["XTZCraftStakeTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["XTZCraftUnstakeTxPayload"];
             };
         };
         responses: {
@@ -38809,6 +38812,8 @@ export interface operations {
                 delegators?: components["parameters"]["ATOMDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["ATOMPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -38921,6 +38926,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["ATOMPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -38985,6 +38992,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["ATOMPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -39561,6 +39570,8 @@ export interface operations {
                 delegators?: components["parameters"]["CRODelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["CROPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -39673,6 +39684,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["CROPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -39737,6 +39750,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["CROPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -40422,6 +40437,8 @@ export interface operations {
                 delegators?: components["parameters"]["OMDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["OMPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -40534,6 +40551,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["OMPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -40598,6 +40617,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["OMPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -44194,7 +44215,102 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json; charset=utf-8": Record<string, never>;
+                    "application/json; charset=utf-8": {
+                        /**
+                         * @description Decoded transaction
+                         * @example {
+                         *       "signerId": "373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e",
+                         *       "publicKey": {
+                         *         "keyType": 0,
+                         *         "data": {
+                         *           "0": 55,
+                         *           "1": 60,
+                         *           "2": 111,
+                         *           "3": 142,
+                         *           "4": 132,
+                         *           "5": 198,
+                         *           "6": 130,
+                         *           "7": 42,
+                         *           "8": 159,
+                         *           "9": 135,
+                         *           "10": 3,
+                         *           "11": 95,
+                         *           "12": 101,
+                         *           "13": 204,
+                         *           "14": 207,
+                         *           "15": 137,
+                         *           "16": 158,
+                         *           "17": 239,
+                         *           "18": 63,
+                         *           "19": 205,
+                         *           "20": 238,
+                         *           "21": 97,
+                         *           "22": 7,
+                         *           "23": 112,
+                         *           "24": 65,
+                         *           "25": 169,
+                         *           "26": 62,
+                         *           "27": 24,
+                         *           "28": 5,
+                         *           "29": 186,
+                         *           "30": 178,
+                         *           "31": 78
+                         *         }
+                         *       },
+                         *       "nonce": "5af5d11fa826",
+                         *       "receiverId": "kiln.poolv1.near",
+                         *       "blockHash": {
+                         *         "0": 167,
+                         *         "1": 84,
+                         *         "2": 152,
+                         *         "3": 238,
+                         *         "4": 15,
+                         *         "5": 237,
+                         *         "6": 56,
+                         *         "7": 108,
+                         *         "8": 51,
+                         *         "9": 53,
+                         *         "10": 40,
+                         *         "11": 95,
+                         *         "12": 147,
+                         *         "13": 70,
+                         *         "14": 114,
+                         *         "15": 179,
+                         *         "16": 134,
+                         *         "17": 238,
+                         *         "18": 102,
+                         *         "19": 50,
+                         *         "20": 54,
+                         *         "21": 47,
+                         *         "22": 173,
+                         *         "23": 43,
+                         *         "24": 205,
+                         *         "25": 95,
+                         *         "26": 197,
+                         *         "27": 147,
+                         *         "28": 20,
+                         *         "29": 149,
+                         *         "30": 227,
+                         *         "31": 131
+                         *       },
+                         *       "actions": [
+                         *         {
+                         *           "functionCall": {
+                         *             "methodName": "deposit_and_stake",
+                         *             "args": [
+                         *               123,
+                         *               125
+                         *             ],
+                         *             "gas": "0110d9316ec000",
+                         *             "deposit": "152d02c7e14af6800000"
+                         *           },
+                         *           "enum": "functionCall"
+                         *         }
+                         *       ]
+                         *     }
+                         */
+                        data: Record<string, never>;
+                    };
                 };
             };
             /** @description Invalid parameters */
@@ -44237,6 +44353,8 @@ export interface operations {
                 delegators?: components["parameters"]["OSMODelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["OSMOPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -44349,6 +44467,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["OSMOPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -44413,6 +44533,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["OSMOPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -47415,6 +47537,8 @@ export interface operations {
                 delegators?: components["parameters"]["DYDXDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["DYDXPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -47527,6 +47651,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["DYDXPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -47591,6 +47717,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["DYDXPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -48226,6 +48354,8 @@ export interface operations {
                 delegators?: components["parameters"]["TIADelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["TIAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -48338,6 +48468,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["TIAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -48402,6 +48534,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["TIAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -48980,6 +49114,8 @@ export interface operations {
                 delegators?: components["parameters"]["ZETADelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["ZETAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -49092,6 +49228,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["ZETAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -49156,6 +49294,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["ZETAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -49793,6 +49933,8 @@ export interface operations {
                 delegators?: components["parameters"]["KAVADelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["KAVAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -49905,6 +50047,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["KAVAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -49969,6 +50113,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["KAVAPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -50654,6 +50800,8 @@ export interface operations {
                 delegators?: components["parameters"]["FETDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["FETPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -50766,6 +50914,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["FETPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -50830,6 +50980,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["FETPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -51515,6 +51667,8 @@ export interface operations {
                 delegators?: components["parameters"]["INJDelegatorsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["INJPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -51627,6 +51781,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
                 include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["INJPrecisionParam"];
             };
             header?: never;
             path?: never;
@@ -51691,6 +51847,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["INJPrecisionParam"];
             };
             header?: never;
             path?: never;
