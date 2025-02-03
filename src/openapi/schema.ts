@@ -703,6 +703,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/defi/extra-rewards/morpho": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Morpho extra rewards
+         * @description Get Morpho extra rewards
+         */
+        get: operations["getDefiMorphoExtraRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/defi/transaction/claim/extra-rewards/morpho": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Craft claim Morpho rewards
+         * @description Craft claim Morpho rewards transaction
+         */
+        get: operations["getDefiCraftClaimMorphoRewardsTransaction"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/defi/operations": {
         parameters: {
             query?: never;
@@ -7175,26 +7215,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/trx/accounts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Accounts
-         * @description Get TRX accounts
-         */
-        get: operations["getTrxAccounts"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/trx/stakes": {
         parameters: {
             query?: never;
@@ -7692,7 +7712,7 @@ export interface components {
              * @description Error message if some protocol data could not be retrieved
              * @example We could not fetch data for the following protocols: TON
              */
-            error?: string;
+            error: string | null;
             /**
              * Format: date-time
              * @description Date at which the account portfolio was last updated. The portfolio is cached for 24h. However it gets updated every time a stake is added or deleted from the account.
@@ -9296,6 +9316,79 @@ export interface components {
              * @example 220379047
              */
             updated_at_block: number;
+        };
+        DefiMorphoClaimReward: {
+            /**
+             * @description Address of the rewards owner
+             * @example 0x356c33675674691ad6b8ac92ecfb91960c5d2c30
+             */
+            wallet: string;
+            /**
+             * @description Address of the asset reward
+             * @example 0x58D97B57BB95320F9a05dC918Aef65434969c2B2
+             */
+            asset: string;
+            /** @description Address of the contract to interract with */
+            to: string;
+            /** @description Calldata of the transaction */
+            data: string;
+            /**
+             * @description Value of the transaction
+             * @example 0
+             */
+            value: string;
+            /**
+             * @description Chain id of the transaction
+             * @example 1
+             */
+            chain_id: string;
+        };
+        DefiMorphoExtraReward: {
+            /**
+             * @description Address of the rewards owner
+             * @example 0x356c33675674691ad6b8ac92ecfb91960c5d2c30
+             */
+            wallet: string;
+            /**
+             * @description Address of the asset reward
+             * @example 0x58D97B57BB95320F9a05dC918Aef65434969c2B2
+             */
+            asset: string;
+            /**
+             * @description Symbol of the asset reward
+             * @example MORPHO
+             */
+            asset_symbol: string;
+            /**
+             * @description Number of decimals of this reward asset
+             * @example 18
+             */
+            asset_decimals: string;
+            /**
+             * @description Total rewards in the lowest unit of the asset (ie `asset_amount * 10**asset_decimals`)
+             * @example 100123
+             */
+            total: string;
+            /**
+             * @description Total amount of this asset that can be claimed by the wallet in the lowest unit of the asset (ie `asset_amount * 10**asset_decimals`)
+             * @example 1231343
+             */
+            claimable: string;
+            /**
+             * @description Total amount of this asset that is already accounted for but can't be claimed by the wallet for now in the lowest unit of the asset (ie `asset_amount * 10**asset_decimals`)
+             * @example 345453
+             */
+            claimable_next: string;
+            /**
+             * @description Chain name
+             * @example eth
+             */
+            chain: string;
+            /**
+             * @description Chain id
+             * @example 1
+             */
+            chain_id: number;
         };
         DefiOperation: {
             /**
@@ -34216,6 +34309,33 @@ export interface components {
              */
             vesting_contract_address?: string;
         };
+        TONStakeTonWhalesTxPayload: {
+            /**
+             * @description Kiln Account ID
+             * @example d3f1b917-72b1-4982-a4dd-93fce579a708
+             */
+            account_id: string;
+            /**
+             * @description Wallet address
+             * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+             */
+            wallet: string;
+            /**
+             * @description Amount in nanoton. Minimum is 12000000000 nanoton (1.2 TON)
+             * @example 1000000000000000
+             */
+            amount_nanoton: string;
+            /**
+             * @description Pool destination address (optional). If not specified, the Kiln TON whales pool with the lowest balance will be used as destination.
+             * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+             */
+            pool_address?: string;
+            /**
+             * @description Vesting contract address (optional), to be used when staking from a vesting contract
+             * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+             */
+            vesting_contract_address?: string;
+        };
         TONTx: {
             /**
              * @description Hex encoded transaction data that need to be covered by signature
@@ -34546,7 +34666,7 @@ export interface components {
              */
             updated_at: string;
         };
-        TRXAccount: {
+        TRXStake: {
             /**
              * @description Wallet address
              * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
@@ -34566,12 +34686,38 @@ export interface components {
              * @description Frozen TRX for bandwidth in sun
              * @example 1000000
              */
-            frozen_bandwidth?: number;
+            frozen_bandwidth: number;
             /**
              * @description Frozen TRX for energy in sun
              * @example 1000000
              */
-            frozen_energy?: number;
+            frozen_energy: number;
+            /**
+             * Format: date-time
+             * @description Last withdraw timestamp
+             * @example 2021-01-01T00:00:00Z
+             */
+            last_withdraw_at: string;
+            /** @description Unstaking TRX */
+            unstaking: {
+                /**
+                 * @description Resource type
+                 * @example BANDWIDTH
+                 * @enum {string}
+                 */
+                resource?: "BANDWIDTH" | "ENERGY";
+                /**
+                 * @description Amount of TRX unstaking
+                 * @example 1000000
+                 */
+                amount?: number;
+                /**
+                 * Format: date-time
+                 * @description end of the waiting period
+                 * @example 2021-01-01T00:00:00Z
+                 */
+                expire?: string;
+            }[];
             /** @description Votes */
             votes: {
                 /**
@@ -34586,28 +34732,10 @@ export interface components {
                 count?: number;
             }[];
             /**
-             * Format: date-time
-             * @description Last updated timestamp
-             * @example 2021-01-01T00:00:00Z
+             * @description Withdrawable balance in sun
+             * @example 2000000
              */
-            updated_at: string;
-        };
-        TRXStake: {
-            /**
-             * @description Wallet address
-             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
-             */
-            wallet: string;
-            /**
-             * @description Validator address
-             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
-             */
-            validator: string;
-            /**
-             * @description Staked balance in sun
-             * @example 10000
-             */
-            balance: string;
+            withdrawable_balance: number;
             /**
              * Format: date-time
              * @description Last updated timestamp
@@ -34751,6 +34879,8 @@ export interface components {
         ETHIncludeEigenLayerParam: boolean;
         /** @description Comma-separated list of validators' consensus layer indexes */
         ETHValidatorIndexesParam: number[];
+        /** @description Comma-separated list of chain ids */
+        DefiChainIdsParam: string[];
         /** @description Comma-separated list of vault addresses prefixed by chain identifier: `eth`, `arb`, `bsc`, `matic`, `op` */
         DefiVaultsParam: string[];
         /** @description Comma-separated list of wallet addresses */
@@ -36846,6 +36976,116 @@ export interface operations {
                          *       ]
                          *     }
                          */
+                        errors?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getDefiMorphoExtraRewards: {
+        parameters: {
+            query: {
+                /** @description Comma-separated list of wallet addresses */
+                wallets?: components["parameters"]["DefiWalletParam"];
+                /** @description Comma-separated list of chain ids */
+                chain_ids: components["parameters"]["DefiChainIdsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["DefiMorphoExtraReward"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid parameters */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /** @description Error message */
+                        message?: string;
+                        /** @description Details of all the errors */
+                        errors?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getDefiCraftClaimMorphoRewardsTransaction: {
+        parameters: {
+            query: {
+                /** @description Comma-separated list of wallet addresses */
+                wallets?: components["parameters"]["DefiWalletParam"];
+                /** @description Comma-separated list of chain ids */
+                chain_ids: components["parameters"]["DefiChainIdsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["DefiMorphoClaimReward"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid parameters */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /** @description Error message */
+                        message?: string;
+                        /** @description Details of all the errors */
                         errors?: Record<string, never>;
                     };
                 };
@@ -53051,7 +53291,7 @@ export interface operations {
         /** @description Stake transaction to create */
         requestBody: {
             content: {
-                "application/json; charset=utf-8": components["schemas"]["TONStakeTxPayload"];
+                "application/json; charset=utf-8": components["schemas"]["TONStakeTonWhalesTxPayload"];
             };
         };
         responses: {
@@ -53610,57 +53850,10 @@ export interface operations {
             };
         };
     };
-    getTrxAccounts: {
-        parameters: {
-            query?: {
-                wallet?: components["parameters"]["TRXWalletsParam"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful operation */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json; charset=utf-8": {
-                        data: components["schemas"]["TRXAccount"][];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     getTrxStakes: {
         parameters: {
             query?: {
-                wallet?: components["parameters"]["TRXWalletsParam"];
-                /** @description Comma-separated list of Kiln accounts identifiers */
-                accounts?: components["parameters"]["AccountsParam"];
+                wallets?: components["parameters"]["TRXWalletsParam"];
             };
             header?: never;
             path?: never;
