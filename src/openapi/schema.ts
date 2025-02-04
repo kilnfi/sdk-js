@@ -34352,6 +34352,26 @@ export interface components {
              * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
              */
             from: string;
+            /**
+             * @description Destination address
+             * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+             */
+            to: string;
+            /**
+             * @description Amount in nanoton
+             * @example 1000000000000000
+             */
+            amount: string;
+            /**
+             * @description Payload in boc base64 format.
+             * @example te6ccsEBAQEADAAMABQAAAAASGVsbG8hCaTc/g==
+             */
+            payload: string;
+            /**
+             * @description Unix timestamp when the transaction will expire (we set it to 60 min)
+             * @example 1738689966
+             */
+            valid_until: number;
         };
         TONUnstakeTxPayload: {
             /**
