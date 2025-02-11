@@ -1,4 +1,4 @@
-import { Kiln, KILN_VALIDATORS, tonToNanoton, zetaToAzeta } from "../src/kiln.ts";
+import { Kiln, tonToNanoton } from '../src/kiln.ts';
 import type { FireblocksIntegration } from '../src/fireblocks.ts';
 import { loadEnv } from './env.ts';
 
@@ -16,8 +16,24 @@ const vault: FireblocksIntegration = {
     secretKey: fireblocksApiSecret,
     basePath: 'https://api.fireblocks.io/v1',
   },
-  vaultId: fireblocksVaultId,
+  vaultId: '37', // mainnet QA Automated test UQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4w0V9
 };
+
+//
+// Get the wallet address from Fireblocks
+//
+const fireblocksWallet = (
+  await k.fireblocks.getSdk(vault).vaults.getVaultAccountAssetAddressesPaginated({
+    vaultAccountId: vault.vaultId,
+    assetId: 'TON',
+    limit: 1,
+  })
+).data.addresses?.[0].address;
+
+if (!fireblocksWallet) {
+  console.log('Failed to get fireblocks wallet');
+  process.exit(0);
+}
 
 //
 // Craft the transaction
@@ -27,7 +43,7 @@ const txRequest = await k.client.POST('/ton/transaction/stake-single-nomination-
   body: {
     account_id: kilnAccountId,
     pool_address: 'Ef8Fl22VmKm2kDqIWnPf3iNhCUz0cZkedMkZBNZ2D0jDxH9p',
-    wallet: 'UQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4w0V9',
+    wallet: fireblocksWallet,
     amount_nanoton: tonToNanoton('1.2').toString(),
   },
 });

@@ -134,10 +134,24 @@ export const planckToDot = (planck: bigint): string => {
 };
 
 /**
+ * Convert DOT to planck
+ */
+export const dotToPlanck = (dot: string): bigint => {
+  return parseUnits(dot, 10);
+};
+
+/**
  * Convert planck to KSM
  */
 export const planckToKsm = (planck: bigint): string => {
   return formatUnits(planck, 12);
+};
+
+/**
+ * Convert KSM to planck
+ */
+export const ksmToPlanck = (ksm: string): bigint => {
+  return parseUnits(ksm, 12);
 };
 
 /**
