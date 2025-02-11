@@ -1,4 +1,4 @@
-import { Kiln, trxToSun } from '../src/kiln.ts';
+import { dotToPlanck, Kiln } from '../src/kiln.ts';
 import type { FireblocksIntegration } from '../src/fireblocks.ts';
 import { loadEnv } from './env.ts';
 
@@ -25,7 +25,7 @@ const vault: FireblocksIntegration = {
 const fireblocksWallet = (
   await k.fireblocks.getSdk(vault).vaults.getVaultAccountAssetAddressesPaginated({
     vaultAccountId: vault.vaultId,
-    assetId: 'TRX',
+    assetId: 'DOT',
     limit: 1,
   })
 ).data.addresses?.[0].address;
@@ -39,12 +39,12 @@ if (!fireblocksWallet) {
 // Craft the transaction
 //
 console.log('Crafting transaction...');
-const txRequest = await k.client.POST('/trx/transaction/stake', {
+const txRequest = await k.client.POST('/dot/transaction/join-pool', {
   body: {
     account_id: kilnAccountId,
-    owner_address: fireblocksWallet,
-    amount_sun: Number(trxToSun('1')),
-    resource: 'BANDWIDTH',
+    member_account: fireblocksWallet,
+    amount_planck: dotToPlanck('1').toString(),
+    pool_id: '118',
   },
 });
 if (txRequest.error) {
@@ -61,7 +61,7 @@ console.log('\n\n\n');
 console.log('Signing transaction...');
 const signRequest = await (async () => {
   try {
-    return await k.fireblocks.signTrxTx(vault, txRequest.data.data);
+    return await k.fireblocks.signDotTx(vault, txRequest.data.data);
   } catch (err) {
     console.log('Failed to sign transaction:', err);
     process.exit(1);
@@ -74,7 +74,7 @@ console.log('\n\n\n');
 // Broadcast the transaction
 //
 console.log('Broadcasting transaction...');
-const broadcastedRequest = await k.client.POST('/trx/transaction/broadcast', {
+const broadcastedRequest = await k.client.POST('/dot/transaction/broadcast', {
   body: {
     tx_serialized: signRequest.signed_tx.data.signed_tx_serialized,
   },
