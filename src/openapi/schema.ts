@@ -7395,15 +7395,78 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/positions/": {
+    "/earn/assets/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** List all positions */
+        /**
+         * Assets
+         * @description Returns a list of assets.
+         */
+        get: operations["listAssets"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/earn/protocols/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Protocols
+         * @description Returns a list of protocols.
+         */
+        get: operations["listProtocols"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/earn/positions/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Positions
+         * @description Returns a list of positions.
+         */
         get: operations["listPositions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/earn/products/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Products
+         * @description Returns a list of products.
+         */
+        get: operations["listProducts"];
         put?: never;
         post?: never;
         delete?: never;
@@ -9272,17 +9335,27 @@ export interface components {
         };
         DefiStake: {
             /**
-             * @description Address of the stake owner
+             * @description Vault id of the stake (chainID_vaultAddress)
+             * @example 1_0x9ab5f9101a3c1b868e2c422e294cc2ee685551d5
+             */
+            vault_id: string;
+            /**
+             * @description Wallet address of the stake owner
              * @example 0x356c33675674691ad6b8ac92ecfb91960c5d2c30
              */
             owner: string;
             /**
-             * @description Current balance in the lowest unit of the token (ie asset_amount * 10**decimal)
+             * @description Current balance in the lowest unit of the deposit asset (ie USDC) (ie asset_amount * 10**decimal)
              * @example 1880000
              */
             current_balance: string;
             /**
-             * @description Total rewards in the lowest unit of the token (ie asset_amount * 10**decimal)
+             * @description Shares balance in the lowest unit of the vault share (ie mshUSDC) (ie shares_amount * 10**decimal)
+             * @example 1980000
+             */
+            shares_balance: string;
+            /**
+             * @description Total rewards in the lowest unit of the deposit asset (ie USDC) (ie asset_amount * 10**decimal)
              * @example 100000
              */
             total_rewards: string;
@@ -9311,6 +9384,11 @@ export interface components {
              * @example eth
              */
             chain: string;
+            /**
+             * @description Chain identifier
+             * @example 1
+             */
+            chain_id: number;
             /**
              * @description Last updated block number
              * @example 220379047
@@ -9341,7 +9419,7 @@ export interface components {
              * @description Chain id of the transaction
              * @example 1
              */
-            chain_id: string;
+            chain_id: number;
         };
         DefiMorphoExtraReward: {
             /**
@@ -9363,7 +9441,7 @@ export interface components {
              * @description Number of decimals of this reward asset
              * @example 18
              */
-            asset_decimals: string;
+            asset_decimals: number;
             /**
              * @description Total rewards in the lowest unit of the asset (ie `asset_amount * 10**asset_decimals`)
              * @example 100123
@@ -9391,6 +9469,11 @@ export interface components {
             chain_id: number;
         };
         DefiOperation: {
+            /**
+             * @description Vault id of the stake (chainID_vaultAddress)
+             * @example 1_0x9ab5f9101a3c1b868e2c422e294cc2ee685551d5
+             */
+            vault_id: string;
             /**
              * @description Operation type
              * @example withdrawal
@@ -9437,8 +9520,18 @@ export interface components {
              * @example eth
              */
             chain: string;
+            /**
+             * @description Chain identifier
+             * @example 1
+             */
+            chain_id: number;
         };
         DefiNetworkStats: {
+            /**
+             * @description Vault id of the stake (chainID_vaultAddress)
+             * @example 1_0x9ab5f9101a3c1b868e2c422e294cc2ee685551d5
+             */
+            vault_id: string;
             /**
              * @description Vault asset address
              * @example 0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8
@@ -9451,7 +9544,7 @@ export interface components {
             asset_icon: string;
             /**
              * @description Vault asset symbol
-             * @example skUSDC
+             * @example USDC
              */
             asset_symbol: string;
             /**
@@ -9532,6 +9625,30 @@ export interface components {
              * @example 220379047
              */
             updated_at_block: number;
+            /**
+             * @description Net reward rate of all additional rewards
+             * @example 7.763389587402344
+             */
+            additional_rewards_nrr?: number;
+            /** @description Additional rewards of the vault */
+            additional_rewards?: components["schemas"]["DefiNetworkStatsAdditionalRewards"][];
+        };
+        DefiNetworkStatsAdditionalRewards: {
+            /**
+             * @description Asset symbol of the additional rewards
+             * @example MORPHO
+             */
+            asset_symbol: string;
+            /**
+             * @description Asset address of the additional rewards
+             * @example 0x58D97B57BB95320F9a05dC918Aef65434969c2B2
+             */
+            asset: string;
+            /**
+             * @description Net reward rate of additional rewards of the vault
+             * @example 11.9430363
+             */
+            nrr: number;
         };
         ETHOnchainV2Stake: {
             /**
@@ -12012,7 +12129,7 @@ export interface components {
              * @description Hash of the transaction
              * @example sV6dgQyxByL66t9uTPmffitncWNmnkR8oEC1gQ29jPrKFHm9TkMGvS3TgcQeNz9pSN7913aPXe6MMHFS4xqTafL
              */
-            tx_hash?: string;
+            tx_hash: string;
         };
         SOLNonceAccount: {
             /**
@@ -17421,7 +17538,8 @@ export interface components {
              *       "pool_retire_count": 0,
              *       "asset_mint_or_burn_count": 0,
              *       "redeemer_count": 0,
-             *       "valid_contract": true
+             *       "valid_contract": true,
+             *       "epoch": 429
              *     }
              */
             receipt?: Record<string, never>;
@@ -22422,7 +22540,7 @@ export interface components {
              */
             address: string;
             /**
-             * @description The pool id associated to the stake address
+             * @description The pool id associated to the stake address. If set to 0, the stake is not associated to any pool.
              * @example 118
              */
             pool_id?: number;
@@ -22435,12 +22553,12 @@ export interface components {
              * @description Current unbonding balance in Planck. Only available for pool members.
              * @example 30004690613
              */
-            unbonding_balance?: string;
+            unbonding_balance: string;
             /**
              * @description Current withdrawable balance in Planck. Only available for pool members.
              * @example 30004690613
              */
-            withdrawable_balance?: string;
+            withdrawable_balance: string;
             /**
              * @description Total stake rewards in Planck
              * @example 37201548
@@ -22455,7 +22573,7 @@ export interface components {
              * @description Total withdrawable rewards in Planck. Only available for pool members. Total of rewards that can be claimed from the pool.
              * @example 37201548
              */
-            withdrawable_rewards?: string;
+            withdrawable_rewards: string;
             /**
              * @description State of the stake
              * @example active
@@ -23032,7 +23150,7 @@ export interface components {
              */
             address: string;
             /**
-             * @description The pool id associated to the stake address
+             * @description The pool id associated to the stake address. If set to 0, the stake is not associated to any pool.
              * @example 118
              */
             pool_id?: number;
@@ -23045,12 +23163,12 @@ export interface components {
              * @description Current unbonding balance in Planck. Only available for pool members.
              * @example 30004690613
              */
-            unbonding_balance?: string;
+            unbonding_balance: string;
             /**
              * @description Current withdrawable balance in Planck. Only available for pool members.
              * @example 30004690613
              */
-            withdrawable_balance?: string;
+            withdrawable_balance: string;
             /**
              * @description Total stake rewards in Planck
              * @example 37201548
@@ -23065,7 +23183,7 @@ export interface components {
              * @description Total withdrawable rewards in Planck. Only available for pool members. Total of rewards that can be claimed from the pool.
              * @example 37201548
              */
-            withdrawable_rewards?: string;
+            withdrawable_rewards: string;
             /**
              * @description State of the stake
              * @example active
@@ -34368,7 +34486,7 @@ export interface components {
              */
             payload: string;
             /**
-             * @description Unix timestamp when the transaction will expire (we set it to 60 min)
+             * @description Unix timestamp when the transaction will expire (we set it to 2 hours)
              * @example 1738689966
              */
             valid_until: number;
@@ -34563,9 +34681,9 @@ export interface components {
             owner_address: string;
             /**
              * @description Amount of TRX to stake in sun
-             * @example 100000
+             * @example 1000000
              */
-            amount_sun: number;
+            amount_sun: string;
             /**
              * @description Resource to obtain
              * @example BANDWIDTH
@@ -34581,9 +34699,9 @@ export interface components {
             owner_address: string;
             /**
              * @description Amount of TRX to unstake in sun
-             * @example 100000
+             * @example 1000000
              */
-            amount_sun: number;
+            amount_sun: string;
             /**
              * @description Resource to release
              * @example BANDWIDTH
@@ -34763,13 +34881,88 @@ export interface components {
              */
             updated_at: string;
         };
+        Asset: {
+            /** @description The address of the asset. */
+            address: string;
+            /** @description The symbol of the asset. */
+            symbol: string;
+            /** @description The number of decimals for the asset. */
+            decimals: number;
+            /**
+             * Format: double
+             * @description The price of the asset in USD.
+             */
+            price_usd: number;
+            /**
+             * @description The icon URL of the asset.
+             * @example https://raw.githubusercontent.com/kilnfi/public/main/icons/assets/1/0x050d94685c6b0477e1fc555888af6e2bb8dfbda5.png
+             */
+            icon: string;
+        };
+        Protocol: {
+            /** @description The ID of the protocol. */
+            id: string;
+            /** @description The protocol name. */
+            protocol: string;
+            /** @description The address of the protocol's asset. */
+            asset_address: string;
+            /** @description The number of decimals for the protocol's asset. */
+            asset_decimals: number;
+            /**
+             * Format: double
+             * @description The price of the protocol's asset in USD.
+             */
+            asset_price_usd: number;
+            /** @description The name of the protocol. */
+            protocol_name: string;
+            /** @description The icon URL of the protocol. */
+            icon: string;
+            /** @description The total value locked in USD. */
+            tvl_usd: string;
+            /**
+             * Format: double
+             * @description The gross reward rate.
+             */
+            grr: number;
+            /**
+             * Format: double
+             * @description The 30-day gross reward rate.
+             */
+            grr_30d: number;
+            /** @description The address of the protocol. */
+            address: string;
+            /** @description The chain ID where the protocol is located. */
+            chain_id: number;
+            /**
+             * Format: double
+             * @description The deposit rate.
+             */
+            deposit_rate: number;
+            /** @description The type of the protocol. */
+            type: string;
+            /** @description The block number when the protocol was last updated. */
+            updated_at_block: number;
+            additional_rewards: {
+                /** @description The symbol of the additional reward. */
+                symbol: string;
+                /** @description The address of the additional reward. */
+                address: string;
+                /**
+                 * Format: double
+                 * @description The net reward rate of the additional reward.
+                 */
+                nrr: number;
+                /**
+                 * @description The icon URL of the additional reward.
+                 * @example https://raw.githubusercontent.com/kilnfi/public/main/icons/assets/1/0x050d94685c6b0477e1fc555888af6e2bb8dfbda5.png
+                 */
+                icon_url: string;
+            }[];
+        };
         BasePosition: {
             /** @description The balance associated with the position. */
             balance: string;
-            /**
-             * Format: int32
-             * @description The number of decimals for the position's asset.
-             */
+            /** @description The number of decimals for the position's asset. */
             decimals: number;
             /** @description The chain ID where the position is located. */
             chain_id: string;
@@ -34827,6 +35020,62 @@ export interface components {
             grr: number;
             additional_rewards: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
         };
+        Product: {
+            /** @description The ID of the product. */
+            id: string;
+            /** @description The address of the product's asset. */
+            asset_address: string;
+            /**
+             * @description The symbol of the product's asset.
+             * @example ETH
+             */
+            asset_symbol: string;
+            /**
+             * @description The number of decimals for the product's asset.
+             * @example 18
+             */
+            asset_decimals: number;
+            /**
+             * Format: double
+             * @description The price of the product's asset in USD.
+             */
+            asset_price_usd: number;
+            /** @description The symbol of the product's share. */
+            share_symbol: string;
+            /** @description The total value locked in the product. */
+            tvl: string;
+            /** @description The protocol name. */
+            protocol: string;
+            /** @description The display name of the protocol. */
+            protocol_display_name: string;
+            /** @description The icon URL of the protocol. */
+            protocol_icon: string;
+            /** @description The total value locked in the protocol. */
+            protocol_tvl: string;
+            /** @description The supply limit of the protocol. */
+            protocol_supply_limit: string;
+            /**
+             * Format: double
+             * @description The gross reward rate of the product.
+             */
+            grr: number;
+            /**
+             * Format: double
+             * @description The net reward rate of the product.
+             */
+            nrr: number;
+            /** @description The address of the product. */
+            address: string;
+            /** @description The chain ID where the product is located. */
+            chain_id: number;
+            /**
+             * Format: double
+             * @description The deposit rate of the product.
+             */
+            deposit_rate: number;
+            /** @description The block number when the product was last updated. */
+            updated_at_block: number;
+        };
         Summary: {
             /**
              * Format: double
@@ -34876,7 +35125,7 @@ export interface components {
         RefreshParam: boolean;
         /** @description Organization id */
         OrganizationIdParam: string;
-        /** @description Comma-separated list of validators addresses */
+        /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
         ETHValidatorsParam: string[];
         /** @description operator address */
         ETHEigenLayerOperatorParam: string;
@@ -34903,6 +35152,8 @@ export interface components {
         DefiChainIdsParam: string[];
         /** @description Comma-separated list of vault addresses prefixed by chain identifier: `eth`, `arb`, `bsc`, `matic`, `op` */
         DefiVaultsParam: string[];
+        /** @description Comma-separated list of vault ids */
+        DefiVaultIdsParam: string[];
         /** @description Comma-separated list of wallet addresses */
         DefiWalletParam: string[];
         /** @description The address of the pooling integration */
@@ -35161,6 +35412,8 @@ export interface components {
         /** @description Wallet address */
         TONGetWalletInfoParam: string;
         TRXWalletsParam: string;
+        /** @description The addresses to filter assets by. */
+        EARNAddressesParam: string;
         /**
          * @description The wallet address to filter positions by.
          * @example 0x1234567890123456789012345678901234567890
@@ -35170,7 +35423,12 @@ export interface components {
          * @description The chain IDs to filter positions by.
          * @example 1,10,137
          */
-        POSITIONChainIDParam: string;
+        EARNChainIDParam: string;
+        /**
+         * @description The asset symbol to filter products by.
+         * @example ETH
+         */
+        PRODUCTAssetSymbolParam: string;
     };
     requestBodies: never;
     headers: never;
@@ -35588,7 +35846,7 @@ export interface operations {
     getEthStakes: {
         parameters: {
             query?: {
-                /** @description Comma-separated list of validators addresses */
+                /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
                 validators?: components["parameters"]["ETHValidatorsParam"];
                 /** @description Scope of validators to fetch (all network, all kiln keys) */
                 scope?: components["parameters"]["ETHScopeParam"];
@@ -35705,7 +35963,7 @@ export interface operations {
     getEthRewards: {
         parameters: {
             query?: {
-                /** @description Comma-separated list of validators addresses */
+                /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
                 validators?: components["parameters"]["ETHValidatorsParam"];
                 /** @description Scope of validators to fetch (all network, all kiln keys) */
                 scope?: components["parameters"]["ETHScopeParam"];
@@ -35768,7 +36026,7 @@ export interface operations {
     getEthOperations: {
         parameters: {
             query?: {
-                /** @description Comma-separated list of validators addresses */
+                /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
                 validators?: components["parameters"]["ETHValidatorsParam"];
                 /** @description Comma-separated list of wallets addresses */
                 wallets?: components["parameters"]["ETHWalletsParam"];
@@ -36243,7 +36501,7 @@ export interface operations {
     getEthReports: {
         parameters: {
             query?: {
-                /** @description Comma-separated list of validators addresses */
+                /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
                 validators?: components["parameters"]["ETHValidatorsParam"];
                 /** @description Comma-separated list of wallets addresses */
                 wallets?: components["parameters"]["ETHWalletsParam"];
@@ -36291,7 +36549,7 @@ export interface operations {
     getExitMessage: {
         parameters: {
             query?: {
-                /** @description Comma-separated list of validators addresses */
+                /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
                 validators?: components["parameters"]["ETHValidatorsParam"];
             };
             header?: never;
@@ -36946,11 +37204,13 @@ export interface operations {
     };
     getDefiStakes: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Comma-separated list of wallet addresses */
                 wallets?: components["parameters"]["DefiWalletParam"];
                 /** @description Comma-separated list of vault addresses prefixed by chain identifier: `eth`, `arb`, `bsc`, `matic`, `op` */
-                vaults: components["parameters"]["DefiVaultsParam"];
+                vaults?: components["parameters"]["DefiVaultsParam"];
+                /** @description Comma-separated list of vault ids */
+                vault_ids?: components["parameters"]["DefiVaultIdsParam"];
             };
             header?: never;
             path?: never;
@@ -37121,11 +37381,13 @@ export interface operations {
     };
     getDefiOperations: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Comma-separated list of wallet addresses */
                 wallets?: components["parameters"]["DefiWalletParam"];
                 /** @description Comma-separated list of vault addresses prefixed by chain identifier: `eth`, `arb`, `bsc`, `matic`, `op` */
-                vaults: components["parameters"]["DefiVaultsParam"];
+                vaults?: components["parameters"]["DefiVaultsParam"];
+                /** @description Comma-separated list of vault ids */
+                vault_ids?: components["parameters"]["DefiVaultIdsParam"];
             };
             header?: never;
             path?: never;
@@ -37210,9 +37472,11 @@ export interface operations {
     };
     getDefiNetworkStats: {
         parameters: {
-            query: {
+            query?: {
                 /** @description Comma-separated list of vault addresses prefixed by chain identifier: `eth`, `arb`, `bsc`, `matic`, `op` */
-                vaults: components["parameters"]["DefiVaultsParam"];
+                vaults?: components["parameters"]["DefiVaultsParam"];
+                /** @description Comma-separated list of vault ids */
+                vault_ids?: components["parameters"]["DefiVaultIdsParam"];
             };
             header?: never;
             path?: never;
@@ -54299,19 +54563,11 @@ export interface operations {
             };
         };
     };
-    listPositions: {
+    listAssets: {
         parameters: {
-            query: {
-                /**
-                 * @description The wallet address to filter positions by.
-                 * @example 0x1234567890123456789012345678901234567890
-                 */
-                wallet: components["parameters"]["POSITIONWalletParam"];
-                /**
-                 * @description The chain IDs to filter positions by.
-                 * @example 1,10,137
-                 */
-                chain_id?: components["parameters"]["POSITIONChainIDParam"];
+            query?: {
+                /** @description The addresses to filter assets by. */
+                addresses?: components["parameters"]["EARNAddressesParam"];
             };
             header?: never;
             path?: never;
@@ -54319,17 +54575,14 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description A list of positions */
+            /** @description A list of assets */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        data: {
-                            summary: components["schemas"]["Summary"];
-                            positions: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
-                        };
+                        assets: components["schemas"]["Asset"][];
                     };
                 };
             };
@@ -54353,6 +54606,139 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    listProtocols: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A list of protocols */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        protocols: components["schemas"]["Protocol"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listPositions: {
+        parameters: {
+            query: {
+                /**
+                 * @description The wallet address to filter positions by.
+                 * @example 0x1234567890123456789012345678901234567890
+                 */
+                wallet: components["parameters"]["POSITIONWalletParam"];
+                /**
+                 * @description The chain IDs to filter positions by.
+                 * @example 1,10,137
+                 */
+                chain_ids?: components["parameters"]["EARNChainIDParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A list of positions */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        summary: components["schemas"]["Summary"];
+                        positions: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    listProducts: {
+        parameters: {
+            query?: {
+                /**
+                 * @description The chain IDs to filter positions by.
+                 * @example 1,10,137
+                 */
+                chain_ids?: components["parameters"]["EARNChainIDParam"];
+                /**
+                 * @description The asset symbol to filter products by.
+                 * @example ETH
+                 */
+                asset_symbol?: components["parameters"]["PRODUCTAssetSymbolParam"];
+                /** @description The addresses to filter assets by. */
+                addresses?: components["parameters"]["EARNAddressesParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description A list of products */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: components["schemas"]["Product"][];
+                    };
+                };
             };
         };
     };
