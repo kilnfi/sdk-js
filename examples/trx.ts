@@ -43,7 +43,7 @@ const txRequest = await k.client.POST('/trx/transaction/stake', {
   body: {
     account_id: kilnAccountId,
     owner_address: fireblocksWallet,
-    amount_sun: Number(trxToSun('1')),
+    amount_sun: trxToSun('1').toString(),
     resource: 'BANDWIDTH',
   },
 });
