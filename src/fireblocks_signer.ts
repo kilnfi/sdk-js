@@ -24,7 +24,6 @@ export type FireblocksAssetId =
   | 'ADA'
   | 'NEAR_TEST'
   | 'NEAR'
-  | 'XTZ_TEST'
   | 'XTZ'
   | 'DOT'
   | 'KSM'
