@@ -1076,7 +1076,6 @@ export class FireblocksService {
   async signXtzTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['XTZUnsignedTx'],
-    assetId: 'XTZ_TEST' | 'XTZ',
     note?: string,
   ): Promise<{
     signed_tx: { data: components['schemas']['XTZSignedTx'] };
@@ -1094,7 +1093,7 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
+    const fbTx = await fbSigner.sign(payload, 'XTZ', fbNote);
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
