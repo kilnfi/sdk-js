@@ -171,6 +171,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link ETH stakes to a Kiln account
          */
         post: operations["postEthStakes"];
@@ -1226,6 +1227,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Create Solana stakes and linked them to a Kiln account
          */
         post: operations["postSolStakes"];
@@ -1531,6 +1533,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link an ATOM stake to a Kiln account
          */
         post: operations["postAtomStakes"];
@@ -1816,6 +1819,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link an Cronos stake to a Kiln account
          */
         post: operations["postCroStakes"];
@@ -2140,6 +2144,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link a Mantra stake to a Kiln account
          */
         post: operations["postOmStakes"];
@@ -2464,6 +2469,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link ADA stakes to a Kiln account
          */
         post: operations["postAdaStakes"];
@@ -2708,6 +2714,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link BBN stakes to a Kiln account
          */
         post: operations["postBbnStakes"];
@@ -3099,6 +3106,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link POL stakes to a Kiln account
          */
         post: operations["postPolStakes"];
@@ -3406,6 +3414,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Create NEAR stakes and linked them to a Kiln account
          */
         post: operations["postNEARStakes"];
@@ -3650,6 +3659,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link an OSMO stake to a Kiln account
          */
         post: operations["postOsmoStakes"];
@@ -4939,6 +4949,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/validators": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Kiln validator details for a given network
+         * @description Get Kiln validators
+         */
+        get: operations["getValidators"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/dydx/stakes": {
         parameters: {
             query?: never;
@@ -4954,6 +4984,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link a DYDX stake to a Kiln account
          */
         post: operations["postCelsdydxStakes"];
@@ -5258,6 +5289,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link an CELESTIA stake to a Kiln account
          */
         post: operations["postCelstiaStakes"];
@@ -5542,6 +5574,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link a ZetaChain stake to a Kiln account
          */
         post: operations["postZetachainStakes"];
@@ -5846,6 +5879,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link a Kava stake to a Kiln account
          */
         post: operations["postKavaStakes"];
@@ -6170,6 +6204,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link a FETCH stake to a Kiln account
          */
         post: operations["postFetchStakes"];
@@ -6494,6 +6529,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link a Inj stake to a Kiln account
          */
         post: operations["postInjStakes"];
@@ -6758,6 +6794,7 @@ export interface paths {
         put?: never;
         /**
          * Create stakes
+         * @deprecated
          * @description Link an TON stake to a Kiln account
          */
         post: operations["postTonStakes"];
@@ -7285,7 +7322,7 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Unstake transaction
+         * Cancel unstake transaction
          * @description Craft an cancel unstake transaction to Cancel unstakings, all unstaked funds still in the waiting period will be re-staked, or withdrawn if the passed the lockup period.
          */
         post: operations["postTrxCancelUnstakeTx"];
@@ -7633,7 +7670,7 @@ export interface components {
              * @example NEAR
              * @enum {string}
              */
-            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO";
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO" | "TRX";
         };
         DYDXPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
@@ -8269,6 +8306,120 @@ export interface components {
              */
             message_signature: string;
         };
+        ETHOperationWithdrawalRequested: {
+            /**
+             * @description type of the operation
+             * @example withdrawal_requested
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Hash of the transaction
+             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used by the transaction in WEI
+             * @example 2700999916653262
+             */
+            tx_gas_used: string;
+            /**
+             * @description Effective gas price used for this TX in WEI
+             * @example 1499997889
+             */
+            tx_effective_gas_price?: string;
+            /**
+             * @description Address of the sender of the transaction
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            tx_sender: string;
+            /**
+             * @description Ordered list of smart-contracts in the calling chain
+             * @example [
+             *       "0x1e68238cE926DEC62b3FBC99AB06eB1D85CE0270",
+             *       "0x43244f90814b31dec250de24df5bb023eB1D85CE"
+             *     ]
+             */
+            proxies?: string[];
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Base fee used for this block in WEI
+             * @example 7
+             */
+            block_base_fee?: string;
+            /**
+             * @description Amount in WEI of the withdrawal
+             * @example 32000000000000000000000
+             */
+            amount: string;
+            /**
+             * @description Fee in WEI of the withdrawal
+             * @example 32000000000000000000000
+             */
+            fee: string;
+        };
+        ETHOperationWithdrawalProcessed: {
+            /**
+             * @description type of the operation
+             * @example withdrawal_processed
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Amount in WEI of the withdrawal
+             * @example 32000000000000000000000
+             */
+            amount: string;
+        };
         ETHStake: {
             /**
              * @description Public key of the validator
@@ -8432,6 +8583,47 @@ export interface components {
             estimated_next_skimming_at?: string;
             /** @description Set if an exit was requested for this stake. This is only applicable to kiln stakes until EIP-7002 (Pectra upgrade). */
             exit_requested?: boolean;
+            pending_consolidations?: {
+                /**
+                 * @description Address of the stake that will be consolidated
+                 * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+                 */
+                from?: string;
+                /**
+                 * @description Address of the stake that will receive the consolidation
+                 * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+                 */
+                to?: string;
+                /**
+                 * @description Estimation of the slot where the consolidation will be processed
+                 * @example 15955054
+                 */
+                estimated_processed_slot?: number;
+                /**
+                 * Format: date-time
+                 * @description Estimation of when the consolidation will be processed
+                 * @example 2023-01-14T01:13:59Z
+                 */
+                estimated_processed_date?: string;
+            }[];
+            pending_withdrawals?: {
+                /**
+                 * @description Amount in WEI of the withdrawal
+                 * @example 32000000000000000000000
+                 */
+                amount?: string;
+                /**
+                 * @description Estimation of the slot where the withdrawal will be processed
+                 * @example 15955054
+                 */
+                estimated_processed_slot?: number;
+                /**
+                 * Format: date-time
+                 * @description Estimation of when the withdrawal will be processed
+                 * @example 2023-01-14T01:13:59Z
+                 */
+                estimated_processed_date?: string;
+            }[];
         };
         PostETHStakesPayload: {
             stakes: {
@@ -9639,6 +9831,11 @@ export interface components {
              * @example MORPHO
              */
             asset_symbol: string;
+            /**
+             * @description Asset decimals of the additional rewards
+             * @example 18
+             */
+            asset_decimals: number;
             /**
              * @description Asset address of the additional rewards
              * @example 0x58D97B57BB95320F9a05dC918Aef65434969c2B2
@@ -11439,6 +11636,11 @@ export interface components {
              * @example 3.407
              */
             net_apy: number;
+            /**
+             * @description Gross annual percentage yield from MEV rewards
+             * @example 2.603
+             */
+            mev_gross_apy: number;
             /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
             rewards_usd?: number;
             /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
@@ -11481,6 +11683,11 @@ export interface components {
              * @example 3.407
              */
             net_apy: number;
+            /**
+             * @description Gross annual percentage yield from MEV rewards
+             * @example 2.603
+             */
+            mev_gross_apy: number;
         };
         SOLOperationCreateAccountWithSeed: {
             /**
@@ -12353,17 +12560,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -13359,48 +13566,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uATOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uATOM
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uATOM
              * @example 10841
@@ -13412,48 +13619,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uATOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uATOM
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uATOM
              * @example 10841
@@ -13465,38 +13672,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uATOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
@@ -13506,12 +13713,12 @@ export interface components {
              * @description Delegator address
              * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uATOM
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uATOM
              * @example 10841
@@ -13528,43 +13735,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uATOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uATOM
              * @example 10841
@@ -13576,33 +13783,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uATOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
@@ -13640,44 +13847,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uATOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
@@ -13687,7 +13894,82 @@ export interface components {
                  * @description Delegator address
                  * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uATOM
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uATOM
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uATOM
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        ATOMOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uATOM
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example cosmosvaloper1uxlf7mvr8nep3gm7udf2u9remms2jyjqvwdul2
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example cosmos1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uATOM
                  * @example 3000000
@@ -14060,17 +14342,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -15066,48 +15348,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in basecro
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in basecro
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in basecro
              * @example 10841
@@ -15119,48 +15401,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in basecro
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in basecro
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in basecro
              * @example 10841
@@ -15172,38 +15454,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in basecro
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
@@ -15213,12 +15495,12 @@ export interface components {
              * @description Delegator address
              * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in basecro
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in basecro
              * @example 10841
@@ -15235,43 +15517,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in basecro
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in basecro
              * @example 10841
@@ -15283,33 +15565,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in basecro
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
@@ -15347,44 +15629,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in basecro
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
@@ -15394,7 +15676,82 @@ export interface components {
                  * @description Delegator address
                  * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in basecro
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in basecro
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in basecro
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        CROOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in basecro
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example cro1egww25see7x6pg2lp2mhmnd5s6smzlfmdlwm0h
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in basecro
                  * @example 3000000
@@ -15779,17 +16136,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -16785,48 +17142,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uOM
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uOM
              * @example 10841
@@ -16838,48 +17195,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uOM
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uOM
              * @example 10841
@@ -16891,38 +17248,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
@@ -16932,12 +17289,12 @@ export interface components {
              * @description Delegator address
              * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOM
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uOM
              * @example 10841
@@ -16954,43 +17311,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uOM
              * @example 10841
@@ -17002,33 +17359,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
@@ -17066,44 +17423,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOM
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
@@ -17113,7 +17470,82 @@ export interface components {
                  * @description Delegator address
                  * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOM
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uOM
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uOM
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        OMOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uOM
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example mantra156h4wqz5p0xuj48cn0cv2sg8q9p2y3nycg3h3a
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOM
                  * @example 3000000
@@ -17598,6 +18030,16 @@ export interface components {
              * @example pool1u4x4ly6qyx9fs9k2lt7f9hpa2gftd52fee67jcmuhnt7qqae3x0
              */
             pool_id: string;
+            /**
+             * @description Active saturation of the pool
+             * @example 0.8
+             */
+            active_pool_saturation: string;
+            /**
+             * @description Live saturation of the pool
+             * @example 0.82
+             */
+            live_pool_saturation: string;
             /**
              * @description Current stake balance in Lovelace
              * @example 30004690613
@@ -20731,17 +21173,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -21737,48 +22179,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOSMO
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uOSMO
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uOSMO
              * @example 10841
@@ -21790,48 +22232,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOSMO
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uOSMO
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uOSMO
              * @example 10841
@@ -21843,38 +22285,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOSMO
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
@@ -21884,12 +22326,12 @@ export interface components {
              * @description Delegator address
              * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOSMO
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uOSMO
              * @example 10841
@@ -21906,43 +22348,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOSMO
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uOSMO
              * @example 10841
@@ -21954,33 +22396,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOSMO
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
@@ -22018,44 +22460,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uOSMO
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
@@ -22065,7 +22507,82 @@ export interface components {
                  * @description Delegator address
                  * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOSMO
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uOSMO
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uOSMO
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        OSMOOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uOSMO
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example osmo1lnc548nmxqukrvd9czw4tq5vn6kapndg2hzhr3
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uOSMO
                  * @example 3000000
@@ -23753,6 +24270,49 @@ export interface components {
              */
             member_account: string;
         };
+        Validator: {
+            /**
+             * @description Public address of the validator
+             * @example fetchvaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ryjvncp
+             */
+            address: string;
+            /**
+             * @description Token Symbol for the chain
+             * @example FET
+             */
+            token_symbol: string;
+            /**
+             * @description Token name for the chain
+             * @example fetch
+             */
+            token_name: string;
+            /**
+             * @description Validator name
+             * @example Kiln
+             */
+            name: string;
+            /**
+             * @description Explorer URL to view the validator
+             * @example https://www.mintscan.io/fetchai/validators/fetchvaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ryjvncp
+             */
+            url: string;
+            /**
+             * @description Network this validator is active on (mainnet, testnet)
+             * @example mainnet
+             */
+            network: string;
+            /**
+             * Format: date-time
+             * @description Date at which the validator was created
+             * @example 2023-02-06T21:48:11.038Z
+             */
+            creation_time: string;
+            /**
+             * @description Commission rate for the validator in percent (10 = 10%)
+             * @example 10
+             */
+            public_commission_rate_percent: number;
+        };
         DYDXStake: {
             /**
              * @description Public key of the validator
@@ -23834,17 +24394,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -24831,48 +25391,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uDYDX
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uDYDX
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uDYDX
              * @example 10841
@@ -24884,48 +25444,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uDYDX
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uDYDX
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uDYDX
              * @example 10841
@@ -24937,38 +25497,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uDYDX
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -24978,12 +25538,12 @@ export interface components {
              * @description Delegator address
              * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uDYDX
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uDYDX
              * @example 10841
@@ -25000,43 +25560,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uDYDX
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uDYDX
              * @example 10841
@@ -25048,33 +25608,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uDYDX
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
@@ -25112,44 +25672,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uDYDX
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -25159,7 +25719,82 @@ export interface components {
                  * @description Delegator address
                  * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uDYDX
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uDYDX
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uDYDX
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        DYDXOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uDYDX
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example dydxvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example dydx1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uDYDX
                  * @example 3000000
@@ -25556,17 +26191,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -26562,48 +27197,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uTIA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uTIA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uTIA
              * @example 10841
@@ -26615,48 +27250,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uTIA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uTIA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uTIA
              * @example 10841
@@ -26668,38 +27303,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uTIA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -26709,12 +27344,12 @@ export interface components {
              * @description Delegator address
              * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uTIA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uTIA
              * @example 10841
@@ -26731,43 +27366,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uTIA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uTIA
              * @example 10841
@@ -26779,33 +27414,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uTIA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
@@ -26843,44 +27478,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uTIA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -26890,7 +27525,82 @@ export interface components {
                  * @description Delegator address
                  * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uTIA
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uTIA
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uTIA
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        TIAOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uTIA
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example celestia1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uTIA
                  * @example 3000000
@@ -27263,17 +27973,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -28250,48 +28960,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uZETA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uZETA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uZETA
              * @example 10841
@@ -28303,48 +29013,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uZETA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uZETA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uZETA
              * @example 10841
@@ -28356,38 +29066,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uZETA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
@@ -28397,12 +29107,12 @@ export interface components {
              * @description Delegator address
              * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uZETA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uZETA
              * @example 10841
@@ -28419,43 +29129,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uZETA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uZETA
              * @example 10841
@@ -28467,33 +29177,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uZETA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
@@ -28531,44 +29241,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uZETA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
@@ -28578,7 +29288,82 @@ export interface components {
                  * @description Delegator address
                  * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uZETA
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uZETA
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uZETA
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        ZETAOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uZETA
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example zeta1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uZETA
                  * @example 3000000
@@ -28963,17 +29748,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -29950,48 +30735,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uKAVA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uKAVA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uKAVA
              * @example 10841
@@ -30003,48 +30788,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uKAVA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uKAVA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uKAVA
              * @example 10841
@@ -30056,38 +30841,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uKAVA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
@@ -30097,12 +30882,12 @@ export interface components {
              * @description Delegator address
              * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uKAVA
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uKAVA
              * @example 10841
@@ -30119,43 +30904,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uKAVA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uKAVA
              * @example 10841
@@ -30167,33 +30952,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uKAVA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
@@ -30231,44 +31016,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uKAVA
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
@@ -30278,7 +31063,82 @@ export interface components {
                  * @description Delegator address
                  * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uKAVA
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uKAVA
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uKAVA
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        KAVAOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uKAVA
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example kava1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3e93u460
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uKAVA
                  * @example 3000000
@@ -30663,17 +31523,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -31669,48 +32529,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uFET
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uFET
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uFET
              * @example 10841
@@ -31722,48 +32582,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uFET
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uFET
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uFET
              * @example 10841
@@ -31775,38 +32635,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uFET
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -31816,12 +32676,12 @@ export interface components {
              * @description Delegator address
              * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uFET
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uFET
              * @example 10841
@@ -31838,43 +32698,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uFET
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uFET
              * @example 10841
@@ -31886,33 +32746,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uFET
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
@@ -31950,44 +32810,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uFET
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -31997,7 +32857,82 @@ export interface components {
                  * @description Delegator address
                  * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uFET
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uFET
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uFET
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        FETOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uFET
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example fetchvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example fetch1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uFET
                  * @example 3000000
@@ -32382,17 +33317,17 @@ export interface components {
                  * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
                  * @example granter
                  */
-                source?: string;
+                source: string;
                 /**
                  * @description Block at which the unbonding was created
                  * @example 15000000
                  */
-                creation_height?: number;
+                creation_height: number;
                 /**
                  * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
                  * @example Staking.MsgDelegate
                  */
-                permission?: string;
+                permission: string;
                 /**
                  * Format: date-time
                  * @description Exact time at which the permissions will be revoked
@@ -33369,48 +34304,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgDelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uINJ
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount added to the staked balance in uINJ
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uINJ
              * @example 10841
@@ -33422,48 +34357,48 @@ export interface components {
              * @description Operation type
              * @example staking.MsgUndelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uINJ
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount removed from the staked balance in uINJ
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed alongside the operation in uINJ
              * @example 10841
@@ -33475,38 +34410,38 @@ export interface components {
              * @description Operation type
              * @example staking.MsgBeginRedelegate
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uINJ
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Destination validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Source validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -33516,12 +34451,12 @@ export interface components {
              * @description Delegator address
              * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Amount moved from the source validator staked balance to the destination validator staked balance in uINJ
              * @example 3000000
              */
-            amount?: string;
+            amount: string;
             /**
              * @description Rewards auto-claimed from the destination validator alongside the operation in uINJ
              * @example 10841
@@ -33538,43 +34473,43 @@ export interface components {
              * @description Operation type
              * @example distr.MsgWithdrawDelegatorReward
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uINJ
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
-            validator_address?: string;
+            validator_address: string;
             /**
              * @description Delegator address
              * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
              */
-            delegator_address?: string;
+            delegator_address: string;
             /**
              * @description Rewards claimed alongside the operation in uINJ
              * @example 10841
@@ -33586,33 +34521,33 @@ export interface components {
              * @description Operation type
              * @example Authz.Grant
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uINJ
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             /**
              * @description Recipient of the permissions
              * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
@@ -33650,44 +34585,44 @@ export interface components {
              * @description Operation type
              * @example Authz.Exec
              */
-            type?: string;
+            type: string;
             /**
              * Format: date-time
              * @description Date of the operation
              * @example 2023-06-22T15:35:01.892644Z
              */
-            time?: string;
+            time: string;
             /**
              * @description Transaction block
              * @example 15828207
              */
-            block?: number;
+            block: number;
             /**
              * @description Transaction hash
              * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
              */
-            tx_hash?: string;
+            tx_hash: string;
             /**
              * @description Gas used for the whole transaction in uINJ
              * @example 186733
              */
-            tx_gas_used?: string;
+            tx_gas_used: string;
             /**
              * @description Index of the message in the transaction
              * @example 0
              */
-            message_index?: number;
+            message_index: number;
             executed_operations?: {
                 /**
                  * @description Operation type
                  * @example staking.Delegate
                  */
-                type?: string;
+                type: string;
                 /**
                  * @description Destination validator address
                  * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
                  */
-                validator_address?: string;
+                validator_address: string;
                 /**
                  * @description Source validator address
                  * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -33697,7 +34632,82 @@ export interface components {
                  * @description Delegator address
                  * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
                  */
-                delegator_address?: string;
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uINJ
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uINJ
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uINJ
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        INJOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uINJ
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+                 */
+                delegator_address: string;
                 /**
                  * @description Amount moved from the source validator staked balance to the destination validator staked balance in uINJ
                  * @example 3000000
@@ -34843,18 +35853,18 @@ export interface components {
                  * @example BANDWIDTH
                  * @enum {string}
                  */
-                resource?: "BANDWIDTH" | "ENERGY";
+                resource: "BANDWIDTH" | "ENERGY";
                 /**
                  * @description Amount of TRX unstaking
                  * @example 1000000
                  */
-                amount?: number;
+                amount: number;
                 /**
                  * Format: date-time
                  * @description end of the waiting period
                  * @example 2021-01-01T00:00:00Z
                  */
-                expire?: string;
+                expire: string;
             }[];
             /** @description Votes */
             votes: {
@@ -34862,12 +35872,12 @@ export interface components {
                  * @description super representative address
                  * @example TQzd66b9EFVHJfZK5AmiVhBjtJvXGeSPPZ
                  */
-                address?: string;
+                address: string;
                 /**
                  * @description Vote count
                  * @example 4
                  */
-                count?: number;
+                count: number;
             }[];
             /**
              * @description Withdrawable balance in sun
@@ -35196,6 +36206,8 @@ export interface components {
         ATOMDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         ATOMAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        ATOMWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         ATOMPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35212,6 +36224,8 @@ export interface components {
         CRODelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         CROAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        CROWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         CROPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35228,6 +36242,8 @@ export interface components {
         OMDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         OMAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        OMWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         OMPrecisionParam: "chain" | "micro" | "atto";
         ADAStakeAddressesParam: string;
@@ -35279,6 +36295,8 @@ export interface components {
         OSMODelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         OSMOAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        OSMOWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         OSMOPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of wallets addresses */
@@ -35317,6 +36335,8 @@ export interface components {
         DYDXDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         DYDXAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        DYDXWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         DYDXPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35333,6 +36353,8 @@ export interface components {
         TIADelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         TIAAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        TIAWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         TIAPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35349,6 +36371,8 @@ export interface components {
         ZETADelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         ZETAAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        ZETAWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         ZETAPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35365,6 +36389,8 @@ export interface components {
         KAVADelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         KAVAAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        KAVAWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         KAVAPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35381,6 +36407,8 @@ export interface components {
         FETDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         FETAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        FETWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         FETPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of validators addresses, these addresses
@@ -35397,6 +36425,8 @@ export interface components {
         INJDelegatorsParam: string[];
         /** @description whether or not the operation returned will include authz operations, defaults to false */
         INJAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        INJWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         INJPrecisionParam: "chain" | "micro" | "atto";
         /** @description The format of the response. Defaults to `daily` */
@@ -36055,7 +37085,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"])[];
+                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"] | components["schemas"]["ETHOperationWithdrawalRequested"] | components["schemas"]["ETHOperationWithdrawalProcessed"])[];
                     };
                 };
             };
@@ -39518,6 +40548,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["ATOMPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["ATOMWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -39532,7 +40564,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ATOMOperationDelegate"] | components["schemas"]["ATOMOperationUndelegate"] | components["schemas"]["ATOMOperationRedelegate"] | components["schemas"]["ATOMOperationWithdrawRewards"] | components["schemas"]["ATOMOperationGrant"] | components["schemas"]["ATOMOperationExec"])[];
+                        data?: (components["schemas"]["ATOMOperationDelegate"] | components["schemas"]["ATOMOperationUndelegate"] | components["schemas"]["ATOMOperationRedelegate"] | components["schemas"]["ATOMOperationWithdrawRewards"] | components["schemas"]["ATOMOperationGrant"] | components["schemas"]["ATOMOperationExec"] | components["schemas"]["ATOMOperationContract"])[];
                     };
                 };
             };
@@ -40276,6 +41308,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["CROPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["CROWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -40290,7 +41324,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: (components["schemas"]["CROOperationDelegate"] | components["schemas"]["CROOperationUndelegate"] | components["schemas"]["CROOperationRedelegate"] | components["schemas"]["CROOperationWithdrawRewards"] | components["schemas"]["CROOperationGrant"] | components["schemas"]["CROOperationExec"])[];
+                        data?: (components["schemas"]["CROOperationDelegate"] | components["schemas"]["CROOperationUndelegate"] | components["schemas"]["CROOperationRedelegate"] | components["schemas"]["CROOperationWithdrawRewards"] | components["schemas"]["CROOperationGrant"] | components["schemas"]["CROOperationExec"] | components["schemas"]["CROOperationContract"])[];
                     };
                 };
             };
@@ -41143,6 +42177,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["OMPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["OMWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -41157,7 +42193,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: (components["schemas"]["OMOperationDelegate"] | components["schemas"]["OMOperationUndelegate"] | components["schemas"]["OMOperationRedelegate"] | components["schemas"]["OMOperationWithdrawRewards"] | components["schemas"]["OMOperationGrant"] | components["schemas"]["OMOperationExec"])[];
+                        data?: (components["schemas"]["OMOperationDelegate"] | components["schemas"]["OMOperationUndelegate"] | components["schemas"]["OMOperationRedelegate"] | components["schemas"]["OMOperationWithdrawRewards"] | components["schemas"]["OMOperationGrant"] | components["schemas"]["OMOperationExec"] | components["schemas"]["OMOperationContract"])[];
                     };
                 };
             };
@@ -45059,6 +46095,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["OSMOPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["OSMOWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -45073,7 +46111,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["OSMOOperationDelegate"] | components["schemas"]["OSMOOperationUndelegate"] | components["schemas"]["OSMOOperationRedelegate"] | components["schemas"]["OSMOOperationWithdrawRewards"] | components["schemas"]["OSMOOperationGrant"] | components["schemas"]["OSMOOperationExec"])[];
+                        data?: (components["schemas"]["OSMOOperationDelegate"] | components["schemas"]["OSMOOperationUndelegate"] | components["schemas"]["OSMOOperationRedelegate"] | components["schemas"]["OSMOOperationWithdrawRewards"] | components["schemas"]["OSMOOperationGrant"] | components["schemas"]["OSMOOperationExec"] | components["schemas"]["OSMOOperationContract"])[];
                     };
                 };
             };
@@ -48044,6 +49082,49 @@ export interface operations {
             };
         };
     };
+    getValidators: {
+        parameters: {
+            query?: {
+                /** @description Network to get validators for (mainnet, testnet) */
+                network?: "mainnet" | "testnet";
+                /** @description Comma-separated list of protocol token symbol to filter by */
+                protocols?: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data: {
+                            validators: unknown[];
+                        };
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getDydxStakes: {
         parameters: {
             query?: {
@@ -48243,6 +49324,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["DYDXPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["DYDXWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -48257,7 +49340,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["DYDXOperationDelegate"] | components["schemas"]["DYDXOperationUndelegate"] | components["schemas"]["DYDXOperationRedelegate"] | components["schemas"]["DYDXOperationWithdrawRewards"] | components["schemas"]["DYDXOperationGrant"] | components["schemas"]["DYDXOperationExec"])[];
+                        data?: (components["schemas"]["DYDXOperationDelegate"] | components["schemas"]["DYDXOperationUndelegate"] | components["schemas"]["DYDXOperationRedelegate"] | components["schemas"]["DYDXOperationWithdrawRewards"] | components["schemas"]["DYDXOperationGrant"] | components["schemas"]["DYDXOperationExec"] | components["schemas"]["DYDXOperationContract"])[];
                     };
                 };
             };
@@ -49060,6 +50143,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["TIAPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["TIAWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -49074,7 +50159,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["TIAOperationDelegate"] | components["schemas"]["TIAOperationUndelegate"] | components["schemas"]["TIAOperationRedelegate"] | components["schemas"]["TIAOperationWithdrawRewards"] | components["schemas"]["TIAOperationGrant"] | components["schemas"]["TIAOperationExec"])[];
+                        data?: (components["schemas"]["TIAOperationDelegate"] | components["schemas"]["TIAOperationUndelegate"] | components["schemas"]["TIAOperationRedelegate"] | components["schemas"]["TIAOperationWithdrawRewards"] | components["schemas"]["TIAOperationGrant"] | components["schemas"]["TIAOperationExec"] | components["schemas"]["TIAOperationContract"])[];
                     };
                 };
             };
@@ -49820,6 +50905,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["ZETAPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["ZETAWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -49834,7 +50921,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ZETAOperationDelegate"] | components["schemas"]["ZETAOperationUndelegate"] | components["schemas"]["ZETAOperationRedelegate"] | components["schemas"]["ZETAOperationWithdrawRewards"] | components["schemas"]["ZETAOperationGrant"] | components["schemas"]["ZETAOperationExec"])[];
+                        data?: (components["schemas"]["ZETAOperationDelegate"] | components["schemas"]["ZETAOperationUndelegate"] | components["schemas"]["ZETAOperationRedelegate"] | components["schemas"]["ZETAOperationWithdrawRewards"] | components["schemas"]["ZETAOperationGrant"] | components["schemas"]["ZETAOperationExec"] | components["schemas"]["ZETAOperationContract"])[];
                     };
                 };
             };
@@ -50639,6 +51726,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["KAVAPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["KAVAWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -50653,7 +51742,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: (components["schemas"]["KAVAOperationDelegate"] | components["schemas"]["KAVAOperationUndelegate"] | components["schemas"]["KAVAOperationRedelegate"] | components["schemas"]["KAVAOperationWithdrawRewards"] | components["schemas"]["KAVAOperationGrant"] | components["schemas"]["KAVAOperationExec"])[];
+                        data?: (components["schemas"]["KAVAOperationDelegate"] | components["schemas"]["KAVAOperationUndelegate"] | components["schemas"]["KAVAOperationRedelegate"] | components["schemas"]["KAVAOperationWithdrawRewards"] | components["schemas"]["KAVAOperationGrant"] | components["schemas"]["KAVAOperationExec"] | components["schemas"]["KAVAOperationContract"])[];
                     };
                 };
             };
@@ -51506,6 +52595,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["FETPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["FETWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -51520,7 +52611,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["FETOperationDelegate"] | components["schemas"]["FETOperationUndelegate"] | components["schemas"]["FETOperationRedelegate"] | components["schemas"]["FETOperationWithdrawRewards"] | components["schemas"]["FETOperationGrant"] | components["schemas"]["FETOperationExec"])[];
+                        data?: (components["schemas"]["FETOperationDelegate"] | components["schemas"]["FETOperationUndelegate"] | components["schemas"]["FETOperationRedelegate"] | components["schemas"]["FETOperationWithdrawRewards"] | components["schemas"]["FETOperationGrant"] | components["schemas"]["FETOperationExec"] | components["schemas"]["FETOperationContract"])[];
                     };
                 };
             };
@@ -52373,6 +53464,8 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description Precision to use when formatting amounts */
                 precision?: components["parameters"]["INJPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["INJWasmFlagParam"];
             };
             header?: never;
             path?: never;
@@ -52387,7 +53480,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["INJOperationDelegate"] | components["schemas"]["INJOperationUndelegate"] | components["schemas"]["INJOperationRedelegate"] | components["schemas"]["INJOperationWithdrawRewards"] | components["schemas"]["INJOperationGrant"] | components["schemas"]["INJOperationExec"])[];
+                        data?: (components["schemas"]["INJOperationDelegate"] | components["schemas"]["INJOperationUndelegate"] | components["schemas"]["INJOperationRedelegate"] | components["schemas"]["INJOperationWithdrawRewards"] | components["schemas"]["INJOperationGrant"] | components["schemas"]["INJOperationExec"] | components["schemas"]["INJOperationContract"])[];
                     };
                 };
             };
@@ -54138,6 +55231,8 @@ export interface operations {
         parameters: {
             query?: {
                 wallets?: components["parameters"]["TRXWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
             };
             header?: never;
             path?: never;
