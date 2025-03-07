@@ -6884,6 +6884,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ton/vesting-contract-owner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Vesting contract owner
+         * @description Get the owner address of a TON vesting contract
+         */
+        get: operations["getTonVestingContractOwner"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ton/balance": {
         parameters: {
             query?: never;
@@ -7426,86 +7446,6 @@ export interface paths {
          * @description Broadcast a signed transaction to the blockchain.
          */
         post: operations["postTrxBroadcastTx"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/earn/assets/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Assets
-         * @description Returns a list of assets.
-         */
-        get: operations["listAssets"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/earn/protocols/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Protocols
-         * @description Returns a list of protocols.
-         */
-        get: operations["listProtocols"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/earn/positions/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Positions
-         * @description Returns a list of positions.
-         */
-        get: operations["listPositions"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/earn/products/": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * Products
-         * @description Returns a list of products.
-         */
-        get: operations["listProducts"];
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -8306,120 +8246,6 @@ export interface components {
              */
             message_signature: string;
         };
-        ETHOperationWithdrawalRequested: {
-            /**
-             * @description type of the operation
-             * @example withdrawal_requested
-             */
-            type: string;
-            /**
-             * Format: date-time
-             * @description Time of the operation
-             * @example 2023-01-14T01:13:59Z
-             */
-            time: string;
-            /**
-             * @description Validator address of the operation
-             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
-             */
-            validator_address: string;
-            /**
-             * @description Index of the public key of the validator
-             * @example 1
-             */
-            validator_index: number;
-            /**
-             * @description Hash of the transaction
-             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
-             */
-            tx_hash: string;
-            /**
-             * @description Gas used by the transaction in WEI
-             * @example 2700999916653262
-             */
-            tx_gas_used: string;
-            /**
-             * @description Effective gas price used for this TX in WEI
-             * @example 1499997889
-             */
-            tx_effective_gas_price?: string;
-            /**
-             * @description Address of the sender of the transaction
-             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
-             */
-            tx_sender: string;
-            /**
-             * @description Ordered list of smart-contracts in the calling chain
-             * @example [
-             *       "0x1e68238cE926DEC62b3FBC99AB06eB1D85CE0270",
-             *       "0x43244f90814b31dec250de24df5bb023eB1D85CE"
-             *     ]
-             */
-            proxies?: string[];
-            /**
-             * @description Slot of the deposit
-             * @example 15955054
-             */
-            slot: number;
-            /**
-             * @description Block number containing the transaction
-             * @example 15955054
-             */
-            block: number;
-            /**
-             * @description Base fee used for this block in WEI
-             * @example 7
-             */
-            block_base_fee?: string;
-            /**
-             * @description Amount in WEI of the withdrawal
-             * @example 32000000000000000000000
-             */
-            amount: string;
-            /**
-             * @description Fee in WEI of the withdrawal
-             * @example 32000000000000000000000
-             */
-            fee: string;
-        };
-        ETHOperationWithdrawalProcessed: {
-            /**
-             * @description type of the operation
-             * @example withdrawal_processed
-             */
-            type: string;
-            /**
-             * Format: date-time
-             * @description Time of the operation
-             * @example 2023-01-14T01:13:59Z
-             */
-            time: string;
-            /**
-             * @description Validator address of the operation
-             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
-             */
-            validator_address: string;
-            /**
-             * @description Index of the public key of the validator
-             * @example 1
-             */
-            validator_index: number;
-            /**
-             * @description Slot of the deposit
-             * @example 15955054
-             */
-            slot: number;
-            /**
-             * @description Block number containing the transaction
-             * @example 15955054
-             */
-            block: number;
-            /**
-             * @description Amount in WEI of the withdrawal
-             * @example 32000000000000000000000
-             */
-            amount: string;
-        };
         ETHStake: {
             /**
              * @description Public key of the validator
@@ -8583,47 +8409,6 @@ export interface components {
             estimated_next_skimming_at?: string;
             /** @description Set if an exit was requested for this stake. This is only applicable to kiln stakes until EIP-7002 (Pectra upgrade). */
             exit_requested?: boolean;
-            pending_consolidations?: {
-                /**
-                 * @description Address of the stake that will be consolidated
-                 * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
-                 */
-                from?: string;
-                /**
-                 * @description Address of the stake that will receive the consolidation
-                 * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
-                 */
-                to?: string;
-                /**
-                 * @description Estimation of the slot where the consolidation will be processed
-                 * @example 15955054
-                 */
-                estimated_processed_slot?: number;
-                /**
-                 * Format: date-time
-                 * @description Estimation of when the consolidation will be processed
-                 * @example 2023-01-14T01:13:59Z
-                 */
-                estimated_processed_date?: string;
-            }[];
-            pending_withdrawals?: {
-                /**
-                 * @description Amount in WEI of the withdrawal
-                 * @example 32000000000000000000000
-                 */
-                amount?: string;
-                /**
-                 * @description Estimation of the slot where the withdrawal will be processed
-                 * @example 15955054
-                 */
-                estimated_processed_slot?: number;
-                /**
-                 * Format: date-time
-                 * @description Estimation of when the withdrawal will be processed
-                 * @example 2023-01-14T01:13:59Z
-                 */
-                estimated_processed_date?: string;
-            }[];
         };
         PostETHStakesPayload: {
             stakes: {
@@ -35518,7 +35303,7 @@ export interface components {
              */
             amount_nanoton?: string;
             /**
-             * @description Vesting contract address (optional), to be used when unstaking from a vesting contract. Note that it is not possible to do partial unstake when staking from a vesting contract - only full withdraw are possible in such case.
+             * @description Vesting contract address (optional), to be used when unstaking from a vesting contract.
              * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
              */
             vesting_contract_address?: string;
@@ -35891,223 +35676,6 @@ export interface components {
              */
             updated_at: string;
         };
-        Asset: {
-            /** @description The address of the asset. */
-            address: string;
-            /** @description The symbol of the asset. */
-            symbol: string;
-            /** @description The number of decimals for the asset. */
-            decimals: number;
-            /**
-             * Format: double
-             * @description The price of the asset in USD.
-             */
-            price_usd: number;
-            /**
-             * @description The icon URL of the asset.
-             * @example https://raw.githubusercontent.com/kilnfi/public/main/icons/assets/1/0x050d94685c6b0477e1fc555888af6e2bb8dfbda5.png
-             */
-            icon: string;
-        };
-        Protocol: {
-            /** @description The ID of the protocol. */
-            id: string;
-            /** @description The protocol name. */
-            protocol: string;
-            /** @description The address of the protocol's asset. */
-            asset_address: string;
-            /** @description The number of decimals for the protocol's asset. */
-            asset_decimals: number;
-            /**
-             * Format: double
-             * @description The price of the protocol's asset in USD.
-             */
-            asset_price_usd: number;
-            /** @description The name of the protocol. */
-            protocol_name: string;
-            /** @description The icon URL of the protocol. */
-            icon: string;
-            /** @description The total value locked in USD. */
-            tvl_usd: string;
-            /**
-             * Format: double
-             * @description The gross reward rate.
-             */
-            grr: number;
-            /**
-             * Format: double
-             * @description The 30-day gross reward rate.
-             */
-            grr_30d: number;
-            /** @description The address of the protocol. */
-            address: string;
-            /** @description The chain ID where the protocol is located. */
-            chain_id: number;
-            /**
-             * Format: double
-             * @description The deposit rate.
-             */
-            deposit_rate: number;
-            /** @description The type of the protocol. */
-            type: string;
-            /** @description The block number when the protocol was last updated. */
-            updated_at_block: number;
-            additional_rewards: {
-                /** @description The symbol of the additional reward. */
-                symbol: string;
-                /** @description The address of the additional reward. */
-                address: string;
-                /**
-                 * Format: double
-                 * @description The net reward rate of the additional reward.
-                 */
-                nrr: number;
-                /**
-                 * @description The icon URL of the additional reward.
-                 * @example https://raw.githubusercontent.com/kilnfi/public/main/icons/assets/1/0x050d94685c6b0477e1fc555888af6e2bb8dfbda5.png
-                 */
-                icon_url: string;
-            }[];
-        };
-        BasePosition: {
-            /** @description The balance associated with the position. */
-            balance: string;
-            /** @description The number of decimals for the position's asset. */
-            decimals: number;
-            /** @description The chain ID where the position is located. */
-            chain_id: string;
-        };
-        ETHPosition: components["schemas"]["BasePosition"] & {
-            /**
-             * @description The type of the position, such as ETH, ERC20, or PRODUCT.
-             * @enum {string}
-             */
-            type: "ETH";
-        };
-        ERC20Position: components["schemas"]["BasePosition"] & {
-            /**
-             * @description The type of the position, such as ETH, ERC20, or PRODUCT.
-             * @enum {string}
-             */
-            type: "ERC20";
-            /** @description The address of the ERC20 asset. */
-            asset_address: string;
-            /** @description The icon URL of the ERC20 asset. */
-            asset_icon: string;
-            /** @description The symbol of the ERC20 asset. */
-            asset_symbol: string;
-            /**
-             * Format: double
-             * @description The price of the ERC20 asset in USD.
-             */
-            asset_price_usd: number;
-        };
-        ProductPosition: components["schemas"]["BasePosition"] & {
-            /**
-             * @description The type of the position, such as ETH, ERC20, or PRODUCT.
-             * @enum {string}
-             */
-            type: "PRODUCT";
-            /** @description The name of the product. */
-            product: string;
-            /** @description The address of the product. */
-            product_address: string;
-            /** @description The total rewards earned by the product. */
-            total_rewards: string;
-            /** @description The total amount deposited into the product. */
-            total_deposited_amount: string;
-            /** @description The total amount withdrawn from the product. */
-            total_withdrawn_amount: string;
-            /**
-             * Format: double
-             * @description The net reward rate of the product.
-             */
-            nrr: number;
-            /**
-             * Format: double
-             * @description The gross reward rate of the product.
-             */
-            grr: number;
-            additional_rewards: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
-        };
-        Product: {
-            /** @description The ID of the product. */
-            id: string;
-            /** @description The address of the product's asset. */
-            asset_address: string;
-            /**
-             * @description The symbol of the product's asset.
-             * @example ETH
-             */
-            asset_symbol: string;
-            /**
-             * @description The number of decimals for the product's asset.
-             * @example 18
-             */
-            asset_decimals: number;
-            /**
-             * Format: double
-             * @description The price of the product's asset in USD.
-             */
-            asset_price_usd: number;
-            /** @description The symbol of the product's share. */
-            share_symbol: string;
-            /** @description The total value locked in the product. */
-            tvl: string;
-            /** @description The protocol name. */
-            protocol: string;
-            /** @description The display name of the protocol. */
-            protocol_display_name: string;
-            /** @description The icon URL of the protocol. */
-            protocol_icon: string;
-            /** @description The total value locked in the protocol. */
-            protocol_tvl: string;
-            /** @description The supply limit of the protocol. */
-            protocol_supply_limit: string;
-            /**
-             * Format: double
-             * @description The gross reward rate of the product.
-             */
-            grr: number;
-            /**
-             * Format: double
-             * @description The net reward rate of the product.
-             */
-            nrr: number;
-            /** @description The address of the product. */
-            address: string;
-            /** @description The chain ID where the product is located. */
-            chain_id: number;
-            /**
-             * Format: double
-             * @description The deposit rate of the product.
-             */
-            deposit_rate: number;
-            /** @description The block number when the product was last updated. */
-            updated_at_block: number;
-        };
-        Summary: {
-            /**
-             * Format: double
-             * @description The total USD value of all positions.
-             */
-            total_usd: number;
-            /**
-             * Format: double
-             * @description The total USD value of all product positions.
-             */
-            product_total_usd: number;
-            /**
-             * Format: double
-             * @description The total USD value of all asset positions.
-             */
-            assets_total_usd: number;
-            /**
-             * Format: double
-             * @description The total USD earned across all positions.
-             */
-            total_earned_usd: number;
-        };
     };
     responses: never;
     parameters: {
@@ -36441,24 +36009,9 @@ export interface components {
         TONTxHashParam: string;
         /** @description Wallet address */
         TONGetWalletInfoParam: string;
+        /** @description Vesting contract address */
+        TONGetVestingContractOwnerParam: string;
         TRXWalletsParam: string;
-        /** @description The addresses to filter assets by. */
-        EARNAddressesParam: string;
-        /**
-         * @description The wallet address to filter positions by.
-         * @example 0x1234567890123456789012345678901234567890
-         */
-        POSITIONWalletParam: string;
-        /**
-         * @description The chain IDs to filter positions by.
-         * @example 1,10,137
-         */
-        EARNChainIDParam: string;
-        /**
-         * @description The asset symbol to filter products by.
-         * @example ETH
-         */
-        PRODUCTAssetSymbolParam: string;
     };
     requestBodies: never;
     headers: never;
@@ -37085,7 +36638,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"] | components["schemas"]["ETHOperationWithdrawalRequested"] | components["schemas"]["ETHOperationWithdrawalProcessed"])[];
+                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"])[];
                     };
                 };
             };
@@ -54271,6 +53824,58 @@ export interface operations {
             };
         };
     };
+    getTonVestingContractOwner: {
+        parameters: {
+            query: {
+                /** @description Vesting contract address */
+                vesting_contract_address: components["parameters"]["TONGetVestingContractOwnerParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: {
+                            /**
+                             * @description Owner address of the vesting contract
+                             * @example EQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4wxi4
+                             */
+                            address: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postTonGetBalance: {
         parameters: {
             query?: never;
@@ -55655,185 +55260,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
-            };
-        };
-    };
-    listAssets: {
-        parameters: {
-            query?: {
-                /** @description The addresses to filter assets by. */
-                addresses?: components["parameters"]["EARNAddressesParam"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description A list of assets */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        assets: components["schemas"]["Asset"][];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    listProtocols: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description A list of protocols */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        protocols: components["schemas"]["Protocol"][];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    listPositions: {
-        parameters: {
-            query: {
-                /**
-                 * @description The wallet address to filter positions by.
-                 * @example 0x1234567890123456789012345678901234567890
-                 */
-                wallet: components["parameters"]["POSITIONWalletParam"];
-                /**
-                 * @description The chain IDs to filter positions by.
-                 * @example 1,10,137
-                 */
-                chain_ids?: components["parameters"]["EARNChainIDParam"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description A list of positions */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        summary: components["schemas"]["Summary"];
-                        positions: (components["schemas"]["ETHPosition"] | components["schemas"]["ERC20Position"] | components["schemas"]["ProductPosition"])[];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    listProducts: {
-        parameters: {
-            query?: {
-                /**
-                 * @description The chain IDs to filter positions by.
-                 * @example 1,10,137
-                 */
-                chain_ids?: components["parameters"]["EARNChainIDParam"];
-                /**
-                 * @description The asset symbol to filter products by.
-                 * @example ETH
-                 */
-                asset_symbol?: components["parameters"]["PRODUCTAssetSymbolParam"];
-                /** @description The addresses to filter assets by. */
-                addresses?: components["parameters"]["EARNAddressesParam"];
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description A list of products */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        data: components["schemas"]["Product"][];
-                    };
-                };
             };
         };
     };
