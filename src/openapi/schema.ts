@@ -3484,6 +3484,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/near/epochs-info": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get epochs info
+         * @description Get current and next epochs info
+         */
+        get: operations["getNEAREpochsInfo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/near/network-stats": {
         parameters: {
             query?: never;
@@ -20887,6 +20907,38 @@ export interface components {
              */
             tx: Record<string, never>;
         };
+        NEAREpochsInfo: {
+            /**
+             * @description Current epoch number
+             * @example 3043
+             */
+            current_epoch: number;
+            /**
+             * @description Current epoch start timestamp
+             * @example 2025-03-07T02:31:59.394Z
+             */
+            current_epoch_start_ts: string;
+            /**
+             * @description Current epoch start height
+             * @example 141277911
+             */
+            current_epoch_start_height: number;
+            /**
+             * @description Next epoch number
+             * @example 3044
+             */
+            next_epoch: number;
+            /**
+             * @description Next epoch estimated start timestamp
+             * @example 2025-03-07T16:10:26.255Z
+             */
+            next_epoch_estimated_start_ts: string;
+            /**
+             * @description Next epoch estimated start height
+             * @example 141321111
+             */
+            next_epoch_estimated_start_height: number;
+        };
         OSMOStake: {
             /**
              * @description Public key of the validator
@@ -35021,6 +35073,50 @@ export interface components {
              */
             updated_at: string;
         };
+        TONWalletInfo: {
+            /**
+             * @description Indicates if the address is a wallet
+             * @example true
+             */
+            wallet: boolean;
+            /**
+             * @description Balance of the wallet in nanoton
+             * @example 1000000
+             */
+            balance: string;
+            /**
+             * @description Current state of the wallet
+             * @example active
+             * @enum {string}
+             */
+            account_state: "uninitialized" | "active";
+            last_transaction_id: {
+                /** @example internal.transactionId */
+                "@type": string;
+                /** @example 54784142000001 */
+                lt: string;
+                /**
+                 * @description Base64-encoded hash of the last transaction
+                 * @example LO4ZcnQf4CGvlI9f9pqR9sAhf5fXGbJbTHXvpxBnArY=
+                 */
+                hash: string;
+            };
+            /**
+             * @description Type of wallet (only present if wallet=true)
+             * @example wallet v4 r2
+             */
+            wallet_type?: string;
+            /**
+             * @description Sequence number of the wallet (only present if wallet=true)
+             * @example 82
+             */
+            seqno?: number;
+            /**
+             * @description Unique wallet ID (only present if wallet=true)
+             * @example 698983191
+             */
+            wallet_id?: number;
+        };
         TONPrepareTxPayload: {
             /**
              * @description Hex encoded unsigned transaction
@@ -45021,6 +45117,42 @@ export interface operations {
             };
         };
     };
+    getNEAREpochsInfo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["NEAREpochsInfo"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getNEARNetworkStats: {
         parameters: {
             query?: never;
@@ -53791,13 +53923,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: {
-                            /**
-                             * @description Status of the wallet
-                             * @example active
-                             */
-                            status: string;
-                        };
+                        data: components["schemas"]["TONWalletInfo"];
                     };
                 };
             };
