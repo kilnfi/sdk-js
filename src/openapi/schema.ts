@@ -56,6 +56,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/accounts/{id}/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Account Stakes
+         * @description Add stakes to an account
+         */
+        post: operations["postAccountStakes"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/accounts/{id}/portfolio": {
         parameters: {
             query?: never;
@@ -3484,7 +3504,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/near/epochs-info": {
+    "/near/epoch-infos": {
         parameters: {
             query?: never;
             header?: never;
@@ -3492,10 +3512,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get epochs info
+         * Get epoch infos
          * @description Get current and next epochs info
          */
-        get: operations["getNEAREpochsInfo"];
+        get: operations["getNEAREpochInfos"];
         put?: never;
         post?: never;
         delete?: never;
@@ -6924,6 +6944,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ton/single-nominator-contract-owner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Single nominator contract owner
+         * @description Get the owner address of a TON single nominator contract
+         */
+        get: operations["getTonSingleNominatorContractOwner"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ton/balance": {
         parameters: {
             query?: never;
@@ -7517,16 +7557,23 @@ export interface components {
              * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
              */
             id: string;
-            /** @description List of tags associated with the stake */
-            tags: string[];
-            /** @description Stake metadata */
-            metadata: Record<string, never>;
+            /**
+             * @description Stake identifiers, e.g. contract address.
+             * @example 0x8b3c9a781dbfa14879c9dacbb54c3401710fc5b0b8191b9ed33ecfb86c91b08bb878b79c27596f3d665046666d27c09e
+             */
+            stake_id: string;
             /**
              * @description Protocol name
              * @example ethereum
              * @enum {string}
              */
-            protocol: "ethereum" | "solana" | "near" | "tezos" | "cardano" | "cosmos" | "matic";
+            protocol: "near" | "ethereum" | "cosmos" | "polygon" | "cardano" | "osmosis" | "tezos" | "polkadot" | "kusama" | "solana" | "dydx" | "celestia" | "multiversx" | "zetachain" | "injective" | "fetch" | "ton" | "kava" | "babylon" | "cronos" | "mantra" | "sui" | "tron";
+            /**
+             * Format: date-time
+             * @description Deleted at timestamp (null if not deleted)
+             * @example null
+             */
+            deleted_at: string | null;
             /**
              * Format: date-time
              * @description Creation date
@@ -20384,6 +20431,11 @@ export interface components {
              * @example 1000000000000000000000000
              */
             amount?: string;
+            /**
+             * @description Associated epoch
+             * @example 3401
+             */
+            epoch?: number;
         };
         NEARRewardByDay: {
             /**
@@ -20907,7 +20959,7 @@ export interface components {
              */
             tx: Record<string, never>;
         };
-        NEAREpochsInfo: {
+        NEAREpochInfos: {
             /**
              * @description Current epoch number
              * @example 3043
@@ -35945,6 +35997,8 @@ export interface components {
         NEAREndEpochParam: number;
         /** @description The format of the response. Defaults to `daily` */
         NEARRewardsFormatParam: "daily" | "epoch";
+        /** @description Hash of the transaction */
+        NEARTxHashParam: string;
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -36107,6 +36161,8 @@ export interface components {
         TONGetWalletInfoParam: string;
         /** @description Vesting contract address */
         TONGetVestingContractOwnerParam: string;
+        /** @description Single nominator contract address */
+        TONGetSingleNominatorContractOwnerParam: string;
         TRXWalletsParam: string;
     };
     requestBodies: never;
@@ -36309,6 +36365,59 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data?: components["schemas"]["Account"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postAccountStakes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Account id */
+                id: components["parameters"]["AccountIdParam"];
+            };
+            cookie?: never;
+        };
+        /** @description Stakes to add */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": {
+                    /** @description List of stake ids to add */
+                    stake_ids: string[];
+                    /**
+                     * @description Protocol name
+                     * @example ETH
+                     * @enum {string}
+                     */
+                    protocol: "NEAR" | "ETH" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "DYDX" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BBN" | "CRO" | "OM" | "SUI" | "TRX";
+                };
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CoreStake"][];
                     };
                 };
             };
@@ -45026,6 +45135,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Hash of the transaction */
+                tx_hash?: components["parameters"]["NEARTxHashParam"];
             };
             header?: never;
             path?: never;
@@ -45117,7 +45228,7 @@ export interface operations {
             };
         };
     };
-    getNEAREpochsInfo: {
+    getNEAREpochInfos: {
         parameters: {
             query?: never;
             header?: never;
@@ -45133,7 +45244,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["NEAREpochsInfo"];
+                        data: components["schemas"]["NEAREpochInfos"];
                     };
                 };
             };
@@ -53972,6 +54083,58 @@ export interface operations {
                         data: {
                             /**
                              * @description Owner address of the vesting contract
+                             * @example EQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4wxi4
+                             */
+                            address: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTonSingleNominatorContractOwner: {
+        parameters: {
+            query: {
+                /** @description Single nominator contract address */
+                single_nominator_contract_address: components["parameters"]["TONGetSingleNominatorContractOwnerParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: {
+                            /**
+                             * @description Owner address of the single nominator contract
                              * @example EQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4wxi4
                              */
                             address: string;
