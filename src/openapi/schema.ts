@@ -764,6 +764,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/defi/transaction/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Approve Transaction
+         * @description Generates an approval transaction that allows a specified vault to deposit a given ERC20 asset on behalf of the user. This is a prerequisite for interacting with Kiln DeFi Vaults as they require asset allowances before deposits.
+         */
+        post: operations["postDefiCraftApproveTransaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/defi/transaction/deposit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Deposit Transaction
+         * @description Generates a deposit transaction that allows a specified vault to receive a given ERC20 asset from the user.
+         */
+        post: operations["postDefiCraftDepositTransaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/defi/transaction/withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdraw Transaction
+         * @description Generates a withdrawal transaction that allows a user to withdraw a specified ERC20 asset from a given vault.
+         */
+        post: operations["postDefiCraftWithdrawTransaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/defi/operations": {
         parameters: {
             query?: never;
@@ -7679,6 +7739,56 @@ export interface components {
              */
             token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO" | "TRX";
         };
+        XTZPortfolio: components["schemas"]["BasePortfolio"] & {
+            /**
+             * @description Token name
+             * @example XTZ
+             * @enum {string}
+             */
+            token: "XTZ";
+            total_delegated: {
+                /**
+                 * Format: float
+                 * @description Total delegated balance in XTZ for this protocol
+                 * @example 1896.4568
+                 */
+                amount: number;
+                /**
+                 * Format: float
+                 * @description Total USD value of delegated balance in XTZ for this protocol
+                 * @example 10896.4568
+                 */
+                amount_usd: number;
+            };
+            total_delegated_rewards: {
+                /**
+                 * Format: float
+                 * @description Total delegated rewards earned in XTZ for this protocol
+                 * @example 1896.4568
+                 */
+                amount: number;
+                /**
+                 * Format: float
+                 * @description Total USD value of delegated rewards earned for this protocol
+                 * @example 10896.4568
+                 */
+                amount_usd: number;
+            };
+            total_staked_rewards: {
+                /**
+                 * Format: float
+                 * @description Total staked rewards earned in XTZ for this protocol
+                 * @example 1896.4568
+                 */
+                amount: number;
+                /**
+                 * Format: float
+                 * @description Total USD value of staked rewards earned for this protocol
+                 * @example 10896.4568
+                 */
+                amount_usd: number;
+            };
+        };
         DYDXPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
              * @description Token name
@@ -7814,7 +7924,7 @@ export interface components {
              */
             total_active_stakes: number;
             /** @description List of protocols staked within the account */
-            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["DYDXPortfolio"] | components["schemas"]["ETHPortfolio"])[];
+            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["DYDXPortfolio"] | components["schemas"]["ETHPortfolio"] | components["schemas"]["XTZPortfolio"])[];
             /**
              * @description Error message if some protocol data could not be retrieved
              * @example We could not fetch data for the following protocols: TON
@@ -9698,6 +9808,140 @@ export interface components {
              * @example 11.9430363
              */
             nrr: number;
+        };
+        DefiTransaction: {
+            /**
+             * @description Address of the transaction sender
+             * @example 0x356c33675674691ad6b8ac92ecfb91960c5d2c30
+             */
+            wallet: string;
+            /**
+             * @description Contract address of the transaction recipient
+             * @example 0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852
+             */
+            to: string;
+            /**
+             * @description Hex encoded contract data to be sent with the transaction
+             * @example 0xca0bfcce0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000002600000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000309696c02ec4dbb99f714e26ff1acdf6b258d36dcbad7b8b549553bc99b94ea639cd247f31683564995afd48568c1b6edd00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020010000000000000000000000bc86717bad3f8ccf86d2882a6bc351c94580a994000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060a3869da2ed5cc558f016d59fc5ceb0cac28e58743836aa3cf146221f1ef0b959e3cc5c589e05e171f1473596aadf36411767ad92edaae421ba0291bd7568267b3faabc3ab6ed9ddfc048ea6640370977f16f4f626a0e567a11ba25acdc520bb000000000000000000000000000000000000000000000000000000000000000012dd65914dda46639df6344701de54ac3ebe34a4b230262d3017fcd6c29954452
+             */
+            data: string;
+            /**
+             * @description Amount of ETH to send in wei
+             * @example 0
+             */
+            value: string | null;
+            /**
+             * @description Nonce of the transaction
+             * @example 1
+             */
+            nonce: number;
+            /**
+             * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit
+             * @example 140244
+             */
+            gas_limit: number;
+            /**
+             * @description Chain ID of the network
+             * @example 1
+             */
+            chain_id: number;
+        };
+        DefiCraftApproveTxPayload: {
+            /**
+             * @description The Ethereum address of the user initiating the approval.
+             * @example 0x991c468AbcE2b4DD627a6210C145373EbABdd186
+             */
+            wallet: string;
+            /**
+             * @description The contract address of the ERC20 token being approved for deposit. For Kiln DeFi It will be the asset address you will get from the /network-stats route for the vault you want to deposit into.
+             * @example 0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d
+             */
+            asset: string;
+            /**
+             * @description The unique identifier of the blockchain network where the transaction is executed (e.g., 1 for Ethereum Mainnet).
+             * @example 1
+             */
+            chain_id: number;
+            /**
+             * @description The contract address of the vault that will receive the asset deposit authorization.
+             * @example 0x6e90b52a5eab4e4a08135dcf8c93abdf6cae9c91
+             */
+            vault: string;
+            /**
+             * @description Amount to approve in the lowest unit of the asset (ie amount * 10**asset_decimals)
+             * @example 10000000000000000
+             */
+            amount: string;
+            /**
+             * @description If true, bypasses existing approval checks and proceeds with creating a new approval transaction regardless of current allowance.
+             * @default false
+             * @example false
+             */
+            ignore_checks: boolean;
+        };
+        DefiCraftDepositTxPayload: {
+            /**
+             * @description The Ethereum address of the user initiating the deposit.
+             * @example 0x991c468AbcE2b4DD627a6210C145373EbABdd186
+             */
+            wallet: string;
+            /**
+             * @description The contract address of the ERC20 token being deposited. For Kiln DeFi, it will be the asset address you will get from the /network-stats route for the vault you want to deposit into.
+             * @example 0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d
+             */
+            asset: string;
+            /**
+             * @description The unique identifier of the blockchain network where the transaction is executed (e.g., 1 for Ethereum Mainnet).
+             * @example 1
+             */
+            chain_id: number;
+            /**
+             * @description The contract address of the vault that you will deposit into.
+             * @example 0x6e90b52a5eab4e4a08135dcf8c93abdf6cae9c91
+             */
+            vault: string;
+            /**
+             * @description Amount to deposit into the vault in the lowest unit of the asset (ie amount * 10**asset_decimals).
+             * @example 10000000000000000
+             */
+            amount: string;
+            /**
+             * @description If true, bypasses existing deposit checks and proceeds with creating a new deposit transaction regardless of current balance.
+             * @default false
+             * @example false
+             */
+            ignore_checks: boolean;
+        };
+        DefiCraftWithdrawTxPayload: {
+            /**
+             * @description The Ethereum address of the user initiating the withdrawal.
+             * @example 0x991c468AbcE2b4DD627a6210C145373EbABdd186
+             */
+            wallet: string;
+            /**
+             * @description The unique identifier of the blockchain network where the transaction is executed (e.g., 1 for Ethereum Mainnet).
+             * @example 1
+             */
+            chain_id: number;
+            /**
+             * @description The contract address of the vault that you will withdraw from.
+             * @example 0x6e90b52a5eab4e4a08135dcf8c93abdf6cae9c91
+             */
+            vault: string;
+            /**
+             * @description Amount to withdraw from the vault in the lowest unit of the asset (ie amount * 10**asset_decimals). If you want to withdraw the maximum amount, you can use the string "max".
+             * @example [
+             *       "10000000000000000",
+             *       "max"
+             *     ]
+             */
+            amount: string;
+            /**
+             * @description If true, bypasses existing withdrawal checks and creates a new withdrawal transaction regardless of the current balance in the vault.
+             * @default false
+             * @example false
+             */
+            ignore_checks: boolean;
         };
         ETHOnchainV2Stake: {
             /**
@@ -38134,6 +38378,178 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["DefiMorphoClaimReward"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid parameters */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /** @description Error message */
+                        message?: string;
+                        /** @description Details of all the errors */
+                        errors?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postDefiCraftApproveTransaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payload containing the necessary parameters to craft the approval transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DefiCraftApproveTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["DefiTransaction"];
+                    };
+                };
+            };
+            /** @description The amount is already approved */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid parameters */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /** @description Error message */
+                        message?: string;
+                        /** @description Details of all the errors */
+                        errors?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postDefiCraftDepositTransaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payload containing the necessary parameters to craft the deposit transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DefiCraftDepositTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["DefiTransaction"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid parameters */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /** @description Error message */
+                        message?: string;
+                        /** @description Details of all the errors */
+                        errors?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postDefiCraftWithdrawTransaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Payload containing the necessary parameters to craft the withdrawal transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["DefiCraftWithdrawTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["DefiTransaction"];
                     };
                 };
             };
