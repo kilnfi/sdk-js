@@ -7132,6 +7132,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ton/transaction/decode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Decoding
+         * @description Decode a serialized transaction
+         */
+        get: operations["getTonTxDecoding"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ton/transaction/stake-single-nomination-pool": {
         parameters: {
             query?: never;
@@ -7404,6 +7424,26 @@ export interface paths {
          * @description Get TRX stakes
          */
         get: operations["getTrxStakes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rewards
+         * @description Get historical rewards of TRX stakes
+         */
+        get: operations["getTrxRewards"];
         put?: never;
         post?: never;
         delete?: never;
@@ -7737,7 +7777,7 @@ export interface components {
              * @example NEAR
              * @enum {string}
              */
-            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO" | "TRX";
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO" | "TRX";
         };
         XTZPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
@@ -7924,7 +7964,7 @@ export interface components {
              */
             total_active_stakes: number;
             /** @description List of protocols staked within the account */
-            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["DYDXPortfolio"] | components["schemas"]["ETHPortfolio"] | components["schemas"]["XTZPortfolio"])[];
+            protocols: (components["schemas"]["DefaultPortfolio"] | components["schemas"]["XTZPortfolio"] | components["schemas"]["DYDXPortfolio"] | components["schemas"]["ETHPortfolio"])[];
             /**
              * @description Error message if some protocol data could not be retrieved
              * @example We could not fetch data for the following protocols: TON
@@ -9836,10 +9876,10 @@ export interface components {
              */
             nonce: number;
             /**
-             * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit
+             * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit. The value will be null if the parameter `skip_gas_estimation` is set to true.
              * @example 140244
              */
-            gas_limit: number;
+            gas_limit: number | null;
             /**
              * @description Chain ID of the network
              * @example 1
@@ -9877,7 +9917,7 @@ export interface components {
              * @default false
              * @example false
              */
-            ignore_checks: boolean;
+            skip_gas_estimation: boolean;
         };
         DefiCraftDepositTxPayload: {
             /**
@@ -9910,7 +9950,7 @@ export interface components {
              * @default false
              * @example false
              */
-            ignore_checks: boolean;
+            skip_gas_estimation: boolean;
         };
         DefiCraftWithdrawTxPayload: {
             /**
@@ -9941,7 +9981,7 @@ export interface components {
              * @default false
              * @example false
              */
-            ignore_checks: boolean;
+            skip_gas_estimation: boolean;
         };
         ETHOnchainV2Stake: {
             /**
@@ -10392,6 +10432,18 @@ export interface components {
              * @example 2023-01-14T01:13:59Z
              */
             updated_at: string;
+            /** @description Available balance for withdrawal in mutez */
+            available_balance: string;
+            /** @description Unstaked balance in mutez */
+            unstaked_balance: string;
+            /** @description Balance that can be finalized in mutez */
+            finalizable_balance: string;
+            /**
+             * Format: date-time
+             * @description Date at which the stake was staked
+             * @example 2023-01-14T01:13:59Z
+             */
+            staked_at?: string;
         };
         XTZRewardByDay: {
             /**
@@ -36068,6 +36120,39 @@ export interface components {
              */
             updated_at: string;
         };
+        TRXReward: {
+            /**
+             * @description Wallet address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            wallet: string;
+            /**
+             * Format: date-time
+             * @description Date of the reward
+             * @example 2025-03-21 18:10:27.816999375 +0000 UTC
+             */
+            date: string;
+            /**
+             * @description Rewards in TRX
+             * @example 0.0024145
+             */
+            rewards: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 4.5
+             */
+            net_apy: number;
+            /**
+             * @description Total wallet votes
+             * @example 4
+             */
+            wallet_votes: number;
+            /**
+             * @description Total validator votes
+             * @example 100
+             */
+            validator_votes: number;
+        };
     };
     responses: never;
     parameters: {
@@ -54920,6 +55005,50 @@ export interface operations {
             };
         };
     };
+    getTonTxDecoding: {
+        parameters: {
+            query: {
+                /** @description Raw transaction to decode */
+                tx_serialized: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": Record<string, never>;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postTonStakeSingleNominationPoolTx: {
         parameters: {
             query?: never;
@@ -55558,6 +55687,57 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["TRXStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTrxRewards: {
+        parameters: {
+            query?: {
+                wallets?: components["parameters"]["TRXWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXReward"][];
                     };
                 };
             };
