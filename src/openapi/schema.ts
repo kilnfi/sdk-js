@@ -6924,6 +6924,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ton/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of TON stakes
+         */
+        get: operations["getTonOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ton/network-stats": {
         parameters: {
             query?: never;
@@ -35834,6 +35854,100 @@ export interface components {
              */
             address: string;
         };
+        TONOperation: {
+            /**
+             * @description Operation type
+             * @example stake
+             */
+            type: string;
+            /**
+             * @description Operation data
+             * @example {
+             *       "Text": "d"
+             *     }
+             */
+            data?: Record<string, never>;
+            /**
+             * @description Operation value
+             * @example 1000000000000000
+             */
+            value: string;
+            /**
+             * @description Source address
+             * @example UQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4w0V9
+             */
+            source: string;
+            /**
+             * @description Destination address
+             * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+             */
+            destination: string;
+            /**
+             * @description Pool address
+             * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+             */
+            pool: string;
+            /**
+             * @description Operation direction
+             * @example out
+             */
+            direction: string;
+            /**
+             * @description Forward fees
+             * @example 1000000000000000
+             */
+            fwd_fees: string;
+            /**
+             * @description IHR fees
+             * @example 1000000000000000
+             */
+            ihr_fees: string;
+            /**
+             * @description Operation hash
+             * @example 1000000000000000
+             */
+            hash: string;
+            /**
+             * @description Transaction hash
+             * @example 1000000000000000
+             */
+            tx_hash: string;
+            /**
+             * @description Transaction status
+             * @example success
+             */
+            tx_status: string;
+            /**
+             * @description Transaction timestamp
+             * @example 2023-01-15T01:13:59Z
+             */
+            tx_timestamp: string;
+            /**
+             * @description Transaction block
+             * @example 1000000000000000
+             */
+            tx_block: string;
+            /**
+             * @description Transaction total fees
+             * @example 1000000000000000
+             */
+            tx_total_fees: string;
+            /**
+             * @description Transaction storage fees
+             * @example 100000000
+             */
+            tx_storage_fees: string;
+            /**
+             * @description Transaction gas fees
+             * @example 1000000000000000
+             */
+            tx_gas_fees: string;
+            /**
+             * @description Transaction forward fees
+             * @example 1000000000000000
+             */
+            tx_fwd_fees: string;
+        };
         NOBLEGetBalancePayload: {
             /**
              * @description Wallet address
@@ -35980,7 +36094,7 @@ export interface components {
              *       "TQzd66b9EFVHJfZK5AmiVhBjtJvXGeSPPZ": 1
              *     }
              */
-            votes?: {
+            votes: {
                 [key: string]: number;
             };
         };
@@ -36051,24 +36165,24 @@ export interface components {
             wallet: string;
             /**
              * @description Available balance in sun
-             * @example 4000000
+             * @example 32647466
              */
-            available_balance: number;
+            available_balance: string;
             /**
-             * @description Available balance in sun
-             * @example 3000000
+             * @description Available rewards in sun
+             * @example 13749
              */
-            claimable_rewards: number;
+            claimable_rewards: string;
             /**
              * @description Frozen TRX for bandwidth in sun
              * @example 1000000
              */
-            frozen_bandwidth: number;
+            frozen_bandwidth: string;
             /**
              * @description Frozen TRX for energy in sun
              * @example 1000000
              */
-            frozen_energy: number;
+            frozen_energy: string;
             /**
              * Format: date-time
              * @description Last withdraw timestamp
@@ -36087,7 +36201,7 @@ export interface components {
                  * @description Amount of TRX unstaking
                  * @example 1000000
                  */
-                amount: number;
+                amount: string;
                 /**
                  * Format: date-time
                  * @description end of the waiting period
@@ -36106,13 +36220,13 @@ export interface components {
                  * @description Vote count
                  * @example 4
                  */
-                count: number;
+                count: string;
             }[];
             /**
              * @description Withdrawable balance in sun
              * @example 2000000
              */
-            withdrawable_balance: number;
+            withdrawable_balance: string;
             /**
              * Format: date-time
              * @description Last updated timestamp
@@ -36122,19 +36236,14 @@ export interface components {
         };
         TRXReward: {
             /**
-             * @description Wallet address
-             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
-             */
-            wallet: string;
-            /**
-             * Format: date-time
-             * @description Date of the reward
-             * @example 2025-03-21 18:10:27.816999375 +0000 UTC
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2025-03-21
              */
             date: string;
             /**
-             * @description Rewards in TRX
-             * @example 0.0024145
+             * @description Accumulated rewards in sun during the day
+             * @example 1000000
              */
             rewards: string;
             /**
@@ -36143,15 +36252,25 @@ export interface components {
              */
             net_apy: number;
             /**
-             * @description Total wallet votes
+             * @description Stake balance in sun used to vote for Kiln at the end of day
              * @example 4
              */
-            wallet_votes: number;
+            effective_balance: string;
             /**
-             * @description Total validator votes
-             * @example 100
+             * @description Number of votes for kiln validator at the end of day
+             * @example validator_votes
              */
-            validator_votes: number;
+            validator_votes: string;
+            /**
+             * @description Estimated value of the effective balance of that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko.
+             * @example 4407596.22
+             */
+            effective_balance_usd?: number;
+            /**
+             * @description Estimated value of rewards generated in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko.
+             * @example 0.22
+             */
+            rewards_usd?: number;
         };
     };
     responses: never;
@@ -54432,6 +54551,60 @@ export interface operations {
             };
         };
     };
+    getTonOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of nominator addresses */
+                nominators?: components["parameters"]["TONNominatorsParam"];
+                /** @description Comma-separated list of pool addresses */
+                pools?: components["parameters"]["TONPoolsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TONOperation"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getTonNetworkStats: {
         parameters: {
             query?: never;
@@ -55723,6 +55896,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
             };
             header?: never;
             path?: never;
