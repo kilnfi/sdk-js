@@ -36233,6 +36233,11 @@ export interface components {
              * @example 2021-01-01T00:00:00Z
              */
             updated_at: string;
+            /**
+             * @description Total rewards earned from kiln validator in sun
+             * @example 135375
+             */
+            rewards: string;
         };
         TRXReward: {
             /**
@@ -36253,7 +36258,7 @@ export interface components {
             net_apy: number;
             /**
              * @description Stake balance in sun used to vote for Kiln at the end of day
-             * @example 4
+             * @example 4000000
              */
             effective_balance: string;
             /**
