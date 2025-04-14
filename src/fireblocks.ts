@@ -879,7 +879,7 @@ export class FireblocksService {
   async signEthTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ETHUnsignedTx'],
-    assetId: 'ETH_TEST6' | 'ETH',
+    assetId: 'ETH_TEST_HOODI' | 'ETH',
     note?: string,
   ): Promise<{
     signed_tx: { data: components['schemas']['ETHSignedTx'] };
@@ -934,7 +934,7 @@ export class FireblocksService {
   async signAndBroadcastEthTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ETHUnsignedTx'],
-    assetId: 'ETH_TEST6' | 'ETH',
+    assetId: 'ETH_TEST_HOODI' | 'ETH',
     fireblocksDestinationId: string,
     note?: string,
   ) {
