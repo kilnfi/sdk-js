@@ -15,7 +15,7 @@ export type FireblocksAssetId =
   | 'SOL_TEST'
   | 'SOL'
   | 'ETH_TEST5'
-  | 'ETH_TEST6'
+  | 'ETH_TEST_HOODI'
   | 'ETH'
   | 'ATOM_COS'
   | 'OSMO_TEST'
@@ -104,7 +104,7 @@ export class FireblocksSigner {
    */
   public async signTypedMessage(
     eip712message: object,
-    assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST6',
+    assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST_HOODI',
     note = '',
   ): Promise<TransactionResponse> {
     const tx: TransactionRequest = {
