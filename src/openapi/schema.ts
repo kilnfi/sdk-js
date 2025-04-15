@@ -7432,6 +7432,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/trx/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Excel Reports
+         * @description Generates an Excel report sheet for your stakes and rewards
+         */
+        get: operations["getTrxReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/trx/stakes": {
         parameters: {
             query?: never;
@@ -7503,7 +7523,7 @@ export interface paths {
         put?: never;
         /**
          * Unstake transaction
-         * @description Craft an unstake transaction to unstake TRX, releases bandwidth or energy, and voting rights.
+         * @description Craft an unstake transaction to unstake TRX, releases bandwidth or energy, and voting rights. Only a maximum of 32 ongoing unstaking operations are allowed at the same time.
          */
         post: operations["postTrxUnstakeTx"];
         delete?: never;
@@ -7626,6 +7646,26 @@ export interface paths {
          * @description Broadcast a signed transaction to the blockchain.
          */
         post: operations["postTrxBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/trx/transaction/decode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Decoding
+         * @description Decode a serialized transaction
+         */
+        get: operations["getTrxTxDecoding"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -18208,6 +18248,11 @@ export interface components {
              * @example 0.82
              */
             live_pool_saturation: string;
+            /**
+             * @description Estimated amount of Lovelace until pool reaches 100% saturation
+             * @example 123456789
+             */
+            free_space_estimation: string;
             /**
              * @description Current stake balance in Lovelace
              * @example 30004690613
@@ -55844,6 +55889,51 @@ export interface operations {
             };
         };
     };
+    getTrxReports: {
+        parameters: {
+            query?: {
+                wallets?: components["parameters"]["TRXWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getTrxStakes: {
         parameters: {
             query?: {
@@ -56325,6 +56415,29 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    getTrxTxDecoding: {
+        parameters: {
+            query: {
+                /** @description Raw transaction to decode */
+                tx_serialized: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": Record<string, never>;
+                };
             };
         };
     };
