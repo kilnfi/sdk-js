@@ -23397,21 +23397,6 @@ export interface components {
              * @example 3.05
              */
             net_apy: number;
-            /**
-             * @description Stake balance in USD at the time of reward.
-             * @example 0.0001
-             */
-            active_balance_usd?: number;
-            /**
-             * @description Net reward amount in USD. This can be verified on chain in an explorer.
-             * @example 0.0001
-             */
-            net_rewards_usd?: number;
-            /**
-             * @description Gross reward amount in USD. This is the amount generated before validator fees. Only available for kiln validator's nominators. Default to 0 if not available.
-             * @example 0.0001
-             */
-            gross_rewards_usd?: number;
         };
         DOTRewardByDay: {
             /**
@@ -24007,21 +23992,6 @@ export interface components {
              * @example 3.05
              */
             net_apy: number;
-            /**
-             * @description Stake balance in USD at the time of reward.
-             * @example 0.0001
-             */
-            active_balance_usd?: number;
-            /**
-             * @description Net reward amount in USD. This can be verified on chain in an explorer.
-             * @example 0.0001
-             */
-            net_rewards_usd?: number;
-            /**
-             * @description Gross reward amount in USD. This is the amount generated before validator fees. Only available for kiln validator's nominators. Default to 0 if not available.
-             * @example 0.0001
-             */
-            gross_rewards_usd?: number;
         };
         KSMRewardByDay: {
             /**
@@ -36229,6 +36199,16 @@ export interface components {
              */
             frozen_energy: string;
             /**
+             * @description Delegated frozen TRX for bandwidth in sun
+             * @example 1000000
+             */
+            delegated_frozen_bandwidth: string;
+            /**
+             * @description Delegated frozen TRX for energy in sun
+             * @example 1000000
+             */
+            delegated_frozen_energy: string;
+            /**
              * Format: date-time
              * @description Last withdraw timestamp
              * @example 2021-01-01T00:00:00Z
@@ -36528,6 +36508,10 @@ export interface components {
         DOTPoolIDsParam: number;
         /** @description The format of the response. Defaults to `daily` */
         DOTRewardsFormatParam: "daily" | "era";
+        /** @description The era from which we want to fetch rewards. Must be used with `format=era` */
+        DOTStartEraParam: number;
+        /** @description The era until which we want to fetch rewards. Must be used with `format=era` */
+        DOTEndEraParam: number;
         KSMAddressesParam: string;
         KSMValidatorsParam: string;
         /** @description Current page to look-up entries. Defaults to 1. If the number of entries returned is lesser than `page_size`, it means it's the last page and there are no more entries. */
@@ -36537,6 +36521,10 @@ export interface components {
         KSMPoolIDsParam: number;
         /** @description The format of the response. Defaults to `daily` */
         KSMRewardsFormatParam: "daily" | "era";
+        /** @description The era from which we want to fetch rewards. Must be used with `format=era` */
+        KSMStartEraParam: number;
+        /** @description The era until which we want to fetch rewards. Must be used with `format=era` */
+        KSMEndEraParam: number;
         /** @description Comma-separated list of validators addresses, these addresses
          *     are matched with the corresponding delegator addresses. To
          *     fetch a specific stake, pass your wallet address and the
@@ -47425,6 +47413,12 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description The format of the response. Defaults to `daily` */
                 format?: components["parameters"]["DOTRewardsFormatParam"];
+                /** @description The era from which we want to fetch rewards. Must be used with `format=era` */
+                start_era?: components["parameters"]["DOTStartEraParam"];
+                /** @description The era until which we want to fetch rewards. Must be used with `format=era` */
+                end_era?: components["parameters"]["DOTEndEraParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
             };
             header?: never;
             path?: never;
@@ -47523,6 +47517,9 @@ export interface operations {
                 addresses?: components["parameters"]["DOTAddressesParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                validators?: components["parameters"]["DOTValidatorsParam"];
+                /** @description The format of the response. Defaults to `daily` */
+                format?: components["parameters"]["DOTRewardsFormatParam"];
             };
             header?: never;
             path?: never;
@@ -48517,6 +48514,12 @@ export interface operations {
                 end_date?: components["parameters"]["EndDateParam"];
                 /** @description The format of the response. Defaults to `daily` */
                 format?: components["parameters"]["KSMRewardsFormatParam"];
+                /** @description The era from which we want to fetch rewards. Must be used with `format=era` */
+                start_era?: components["parameters"]["KSMStartEraParam"];
+                /** @description The era until which we want to fetch rewards. Must be used with `format=era` */
+                end_era?: components["parameters"]["KSMEndEraParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
             };
             header?: never;
             path?: never;
@@ -48615,6 +48618,9 @@ export interface operations {
                 addresses?: components["parameters"]["KSMAddressesParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                validators?: components["parameters"]["KSMValidatorsParam"];
+                /** @description The format of the response. Defaults to `daily` */
+                format?: components["parameters"]["KSMRewardsFormatParam"];
             };
             header?: never;
             path?: never;
