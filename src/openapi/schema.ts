@@ -36189,6 +36189,11 @@ export interface components {
              */
             claimable_rewards: string;
             /**
+             * @description Frozen v1 TRX in sun
+             * @example 1000000
+             */
+            frozen_v1_balance: string;
+            /**
              * @description Frozen TRX for bandwidth in sun
              * @example 1000000
              */
