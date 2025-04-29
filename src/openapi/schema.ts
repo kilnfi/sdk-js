@@ -1763,6 +1763,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/atom/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Cosmos
+         */
+        post: operations["postAtomRevokeRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/atom/transaction/unstake": {
         parameters: {
             query?: never;
@@ -2063,6 +2083,26 @@ export interface paths {
          * @description Generates a restake rewards transaction on Cronos
          */
         post: operations["postCroRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/cro/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Cronos
+         */
+        post: operations["postCroRevokeRestakeRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2388,6 +2428,26 @@ export interface paths {
          * @description Generates a restake rewards transaction on Mantra
          */
         post: operations["postOmRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/om/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Mantra
+         */
+        post: operations["postOmRevokeRestakeRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -3903,6 +3963,26 @@ export interface paths {
          * @description Generates a restake rewards transaction on Osmosis
          */
         post: operations["postOsmoRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/osmo/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Osmosis
+         */
+        post: operations["postOsmoRevokeRestakeRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5539,6 +5619,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/tia/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Celestia
+         */
+        post: operations["postTiaRevokeRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/tia/transaction/unstake": {
         parameters: {
             query?: never;
@@ -6169,6 +6269,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/kava/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Kava
+         */
+        post: operations["postKavaRevokeRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/kava/transaction/redelegate": {
         parameters: {
             query?: never;
@@ -6307,7 +6427,7 @@ export interface paths {
          * @deprecated
          * @description Link a FETCH stake to a Kiln account
          */
-        post: operations["postFetchStakes"];
+        post: operations["postFetStakes"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6427,7 +6547,7 @@ export interface paths {
          * Stake Transaction
          * @description Generates a delegate transaction on Fetch
          */
-        post: operations["postFetchStakeTx"];
+        post: operations["postFetStakeTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6447,7 +6567,7 @@ export interface paths {
          * Withdraw Rewards Transaction
          * @description Generates a withdraw rewards transaction on Fetch
          */
-        post: operations["postFetchWithdrawRewardsTx"];
+        post: operations["postFetWithdrawRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6467,7 +6587,27 @@ export interface paths {
          * Restake Rewards Transaction
          * @description Generates a restake rewards transaction on Fetch
          */
-        post: operations["postFetchRestakeRewardsTx"];
+        post: operations["postFetRestakeRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/fet/transaction/revoke-restake-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Restake Rewards Transaction
+         * @description Generates a revoke restake rewards authorization transaction on Fetch.ai
+         */
+        post: operations["postFetRevokeRestakeRewardsTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6487,7 +6627,7 @@ export interface paths {
          * Unstake Transaction
          * @description Generates an undelegate transaction on Fetch
          */
-        post: operations["postFetchUnstakeTx"];
+        post: operations["postFetUnstakeTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6507,7 +6647,7 @@ export interface paths {
          * Send Transaction
          * @description Generates a send transaction on Fetch
          */
-        post: operations["postFetchSendTx"];
+        post: operations["postFetSendTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6527,7 +6667,7 @@ export interface paths {
          * Redelegate Transaction
          * @description Generates a redelegate transaction on Fetch to move a stake from a validator to another without going through the 21 days unbonding period.
          */
-        post: operations["postFetchRedelegateTx"];
+        post: operations["postFetRedelegateTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6547,7 +6687,7 @@ export interface paths {
          * Prepare Transaction
          * @description Prepare an unsigned transaction for broadcast by adding signatures to it
          */
-        post: operations["postFetchPrepareTx"];
+        post: operations["postFetPrepareTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -6567,7 +6707,7 @@ export interface paths {
          * Broadcast Transaction
          * @description Broadcast a signed transaction to the Fetch network
          */
-        post: operations["postFetchBroadcastTx"];
+        post: operations["postFetBroadcastTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -13730,6 +13870,18 @@ export interface components {
              */
             grantee_address: string;
         };
+        ATOMCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
         ATOMCraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
@@ -15506,6 +15658,18 @@ export interface components {
              * @example crocncl10skwvezaqkngyw9uyskzsqe2cu8jc2ysrrndry
              */
             validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        CROCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
             /**
              * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
@@ -17300,6 +17464,18 @@ export interface components {
              * @example mantravaloper1qum83utf8833n4f857w98dxc5w8qlnq9eeew4g
              */
             validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        OMCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
             /**
              * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
@@ -22385,6 +22561,18 @@ export interface components {
              */
             grantee_address: string;
         };
+        OSMOCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
         OSMOCraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
@@ -25557,6 +25745,18 @@ export interface components {
              */
             grantee_address: string;
         };
+        DYDXCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
         DYDXCraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
@@ -27373,6 +27573,18 @@ export interface components {
              */
             grantee_address: string;
         };
+        TIACraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
         TIACraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
@@ -29130,6 +29342,18 @@ export interface components {
              * @example zetavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
             validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        ZETACraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
             /**
              * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
@@ -30905,6 +31129,18 @@ export interface components {
              * @example kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe
              */
             validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        KAVACraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
             /**
              * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
@@ -32705,6 +32941,18 @@ export interface components {
              */
             grantee_address: string;
         };
+        FETCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
         FETCraftWithdrawRewardsTxPayload: {
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
@@ -34474,6 +34722,18 @@ export interface components {
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
             validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        INJCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
             /**
              * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
@@ -41248,6 +41508,54 @@ export interface operations {
             };
         };
     };
+    postAtomRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ATOMCraftRevokeRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ATOMUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postAtomUnstakeTx: {
         parameters: {
             query?: never;
@@ -42030,6 +42338,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["CROCraftRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["CROUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postCroRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["CROCraftRevokeRestakeRewardsTxPayload"];
             };
         };
         responses: {
@@ -42899,6 +43255,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["OMCraftRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["OMUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postOmRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["OMCraftRevokeRestakeRewardsTxPayload"];
             };
         };
         responses: {
@@ -46796,6 +47200,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["OSMOCraftRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["OSMOUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postOsmoRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["OSMOCraftRevokeRestakeRewardsTxPayload"];
             };
         };
         responses: {
@@ -50899,6 +51351,54 @@ export interface operations {
             };
         };
     };
+    postTiaRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["TIACraftRevokeRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TIAUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postTiaUnstakeTx: {
         parameters: {
             query?: never;
@@ -52589,6 +53089,54 @@ export interface operations {
             };
         };
     };
+    postKavaRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["KAVACraftRevokeRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["KAVAUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postKavaRedelegateTx: {
         parameters: {
             query?: never;
@@ -52933,7 +53481,7 @@ export interface operations {
             };
         };
     };
-    postFetchStakes: {
+    postFetStakes: {
         parameters: {
             query?: never;
             header?: never;
@@ -53266,7 +53814,7 @@ export interface operations {
             };
         };
     };
-    postFetchStakeTx: {
+    postFetStakeTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53314,7 +53862,7 @@ export interface operations {
             };
         };
     };
-    postFetchWithdrawRewardsTx: {
+    postFetWithdrawRewardsTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53362,7 +53910,7 @@ export interface operations {
             };
         };
     };
-    postFetchRestakeRewardsTx: {
+    postFetRestakeRewardsTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53410,7 +53958,55 @@ export interface operations {
             };
         };
     };
-    postFetchUnstakeTx: {
+    postFetRevokeRestakeRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["FETCraftRevokeRestakeRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["FETUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postFetUnstakeTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53458,7 +54054,7 @@ export interface operations {
             };
         };
     };
-    postFetchSendTx: {
+    postFetSendTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53506,7 +54102,7 @@ export interface operations {
             };
         };
     };
-    postFetchRedelegateTx: {
+    postFetRedelegateTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53554,7 +54150,7 @@ export interface operations {
             };
         };
     };
-    postFetchPrepareTx: {
+    postFetPrepareTx: {
         parameters: {
             query?: never;
             header?: never;
@@ -53602,7 +54198,7 @@ export interface operations {
             };
         };
     };
-    postFetchBroadcastTx: {
+    postFetBroadcastTx: {
         parameters: {
             query?: never;
             header?: never;
