@@ -36576,6 +36576,8 @@ export interface components {
         PaginationPageParam: number;
         /** @description Number of entries to list per page. Only used when `current_page` is specified */
         PaginationPageSizeParam: number;
+        /** @description Comma-separated list of data types to include in the reporting (stakes, rewards, operations). */
+        DataTypesParam: ("stakes" | "rewards" | "operations")[];
         /** @description Comma-separated list of states to filter on (unknown, unstaked, deposit_in_progress, pending_initialized, pending_queued, active_ongoing, active_exiting, active_slashed, exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done). Not available with the `scope` parameter */
         FilterStatesParam: ("unknown" | "unstaked" | "deposit_in_progress" | "pending_initialized" | "pending_queued" | "active_ongoing" | "active_exiting" | "active_slashed" | "exited_unslashed" | "exited_slashed" | "withdrawal_possible" | "withdrawal_done")[];
         /** @description Get data from this date (YYYY-MM-DD) */
@@ -38040,12 +38042,22 @@ export interface operations {
     getEthReports: {
         parameters: {
             query?: {
-                /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
+                /** @description Comma-separated list of validators addresses. Recommended limit is 200. Not available if `data_types` doesn't include 'stakes'.*/
                 validators?: components["parameters"]["ETHValidatorsParam"];
                 /** @description Comma-separated list of wallets addresses */
                 wallets?: components["parameters"]["ETHWalletsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
+                /** @description Scope of validators to fetch (all network, or kiln keys) */
+                scope?: components["parameters"]["ETHScopeParam"];
+                /** @description Comma-separated list of data types to include in the reporting (stakes, rewards, operations). */
+                data_types?: components["parameters"]["DataTypesParam"];
+                /** @description Comma-separated list of stake states to filter on (unknown, unstaked, deposit_in_progress, pending_initialized, pending_queued, active_ongoing, active_exiting, active_slashed, exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done). Not available with the `scope` parameter. */
+                filter_states?: components["parameters"]["FilterStatesParam"];
+                /** @description Get data from this date (YYYY-MM-DD). Only filters rewards and operations. */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD). Only filters rewards and operations. */
+                end_date?: components["parameters"]["EndDateParam"];
             };
             header?: never;
             path?: never;
