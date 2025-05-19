@@ -9844,10 +9844,9 @@ export interface components {
             amount_wei: string;
             /**
              * @description Enable compounding withdrawal
-             * @default false
              * @example false
              */
-            compounding_withdrawal: boolean;
+            compounding_withdrawal?: boolean;
             /**
              * @description Ethereum fee-recipient address for execution rewards.
              *     Uses the `wallet` both for consensus and execution rewards if not specified.
