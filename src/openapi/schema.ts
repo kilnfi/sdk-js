@@ -402,6 +402,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/eth/transaction/deposit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Deposit Transaction
+         * @description Generates an Ethereum deposit transaction
+         */
+        post: operations["postEthDepositTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eth/transaction/withdrawal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdrawal Transaction
+         * @description Generates an Ethereum withdrawal transaction
+         */
+        post: operations["postEthWithdrawalTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eth/transaction/consolidate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Consolidate Transaction
+         * @description Generates an Ethereum consolidation transaction
+         */
+        post: operations["postEthConsolidateTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eth/transaction/enable-compounding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Enable Compounding Transaction
+         * @description Generates an Ethereum enable compounding transaction
+         */
+        post: operations["postEthEnableCompoundingTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/eth/transaction/decode": {
         parameters: {
             query?: never;
@@ -8663,6 +8743,112 @@ export interface components {
              */
             message_signature: string;
         };
+        ETHOperationWithdrawalRequest: {
+            /**
+             * @description type of the operation
+             * @example withdrawal_request
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Hash of the transaction
+             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
+             */
+            tx_hash: string;
+            /**
+             * @description Address of the sender of the transaction
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            tx_sender: string;
+            /**
+             * @description Gas used by the transaction in WEI
+             * @example 2700999916653262
+             */
+            tx_gas_used: string;
+            /**
+             * @description Effective gas price used for this TX in WEI
+             * @example 1499997889
+             */
+            tx_effective_gas_price?: string;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Base fee used for this block in WEI
+             * @example 7
+             */
+            block_base_fee?: string;
+            /**
+             * @description Amount in WEI requested to be withdrawn
+             * @example 32000000000000000000000
+             */
+            amount: string;
+            /**
+             * @description Fee, in WEI, paid to the withdrawal contract
+             * @example 32000000000000000000000
+             */
+            fee: string;
+        };
+        ETHOperationProcessedWithdrawalRequest: {
+            /**
+             * @description type of the operation
+             * @example processed_withdrawal_request
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Time of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Validator address of the operation
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            validator_address: string;
+            /**
+             * @description Index of the public key of the validator
+             * @example 1
+             */
+            validator_index: number;
+            /**
+             * @description Slot of the deposit
+             * @example 15955054
+             */
+            slot: number;
+            /**
+             * @description Block number containing the transaction
+             * @example 15955054
+             */
+            block: number;
+            /**
+             * @description Amount in WEI requested to be withdrawn
+             * @example 32000000000000000000000
+             */
+            amount: string;
+        };
         ETHStake: {
             /**
              * @description Public key of the validator
@@ -8826,6 +9012,68 @@ export interface components {
             estimated_next_skimming_at?: string;
             /** @description Set if an exit was requested for this stake. This is only applicable to kiln stakes until EIP-7002 (Pectra upgrade). */
             exit_requested?: boolean;
+            /** @description Array containing all consolidations that will affect the validator that haven't been applied yet */
+            pending_consolidations?: {
+                /**
+                 * @description Public key of the validator from which the funds will move out
+                 * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+                 */
+                from: string;
+                /**
+                 * @description Public key of the validator which will receive the funds
+                 * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+                 */
+                to: string;
+                /**
+                 * @description Estimation of when the consolidation will be effective
+                 * @example 16397387
+                 */
+                estimated_processed_slot: number;
+                /**
+                 * Format: date-time
+                 * @description Estimation of when the validator's CL rewards will be skimmed
+                 * @example 2023-01-14T01:13:59Z
+                 */
+                estimated_processed_date: string;
+            }[];
+            /** @description Array containing all withdrawals that will affect the validator that haven't been applied yet */
+            pending_withdrawals?: {
+                /**
+                 * @description Amount being withdrawn in wei
+                 * @example 32076187808000000000
+                 */
+                amount: string;
+                /**
+                 * @description Estimation of when the consolidation will be effective
+                 * @example 16397387
+                 */
+                estimated_processed_slot: number;
+                /**
+                 * Format: date-time
+                 * @description Estimation of when the validator's CL rewards will be skimmed
+                 * @example 2023-01-14T01:13:59Z
+                 */
+                estimated_processed_date: string;
+            }[];
+            /** @description Array containing all deposits that will affect the validator that haven't been applied yet */
+            pending_deposits?: {
+                /**
+                 * @description Amount being deposited in wei
+                 * @example 32076187808000000000
+                 */
+                amount: string;
+                /**
+                 * @description Estimation of when the consolidation will be effective
+                 * @example 16397387
+                 */
+                estimated_processed_slot?: number;
+                /**
+                 * Format: date-time
+                 * @description Estimation of when the validator's CL rewards will be skimmed
+                 * @example 2023-01-14T01:13:59Z
+                 */
+                estimated_processed_date?: string;
+            }[];
         };
         PostETHStakesPayload: {
             stakes: {
@@ -8950,6 +9198,16 @@ export interface components {
              * @example 2023-01-14T01:13:59Z
              */
             updated_at: string;
+            /**
+             * @description Estimated fee, in WEI, to be paid to the withdrawal contract
+             * @example 1234
+             */
+            withdrawal_request_fee: string;
+            /**
+             * @description Estimated fee, in WEI, to be paid to the consolidation contract
+             * @example 1234
+             */
+            consolidation_request_fee: string;
         };
         ETHKilnStats: {
             gross_apy: {
@@ -9577,10 +9835,26 @@ export interface components {
              */
             wallet: string;
             /**
-             * @description Amount to stake in WEI (must be a multiple of "32000000000000000000")
+             * @description Amount to stake in WEI.
+             *     - If `compounding_withdrawal` is **false**, must be a multiple of "32000000000000000000" (32 ETH).
+             *     - If `compounding_withdrawal` is **true**, can be any value from "32000000000000000000" (32 ETH) up to "2048000000000000000000" (2048 ETH) (must be a whole number, i.e., a multiple of 10^18).
+             *
              * @example 32000000000000000000
              */
             amount_wei: string;
+            /**
+             * @description Enable compounding withdrawal
+             * @default false
+             * @example false
+             */
+            compounding_withdrawal: boolean;
+            /**
+             * @description Ethereum fee-recipient address for execution rewards.
+             *     Uses the `wallet` both for consensus and execution rewards if not specified.
+             *
+             * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
+             */
+            fee_recipient_address?: string;
         };
         ETHCraftRequestExitTxPayload: {
             /**
@@ -9595,6 +9869,69 @@ export interface components {
              *     ]
              */
             validators: string[];
+        };
+        ETHCraftDepositTxPayload: {
+            /**
+             * @description Wallet address making the deposit
+             * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
+             */
+            wallet: string;
+            /**
+             * @description Amount to deposit in WEI (must be at least 1000000000000000000 WEI)
+             * @example 32000000000000000000
+             */
+            amount_wei: string;
+            /**
+             * @description Public key of the validator
+             * @example 0x95373bcf8e2c64e1c373a6e534c002f210adbcc84c5abda3b6306677e171430ae50781a51c9f579a47622e334dba2412
+             */
+            pubkey: string;
+        };
+        ETHCraftWithdrawalTxPayload: {
+            /**
+             * @description Wallet address to withdraw to
+             * @example 0x8Cfe45475955606A9586d11360eFE0172BBC51B6
+             */
+            wallet: string;
+            /**
+             * @description Validator public key
+             * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
+             */
+            pubkey: string;
+            /**
+             * @description Amount to withdraw in WEI
+             * @example 1000000000000000000
+             */
+            amount_wei: string;
+        };
+        ETHCraftConsolidateTxPayload: {
+            /**
+             * @description Wallet address that request the consolidation
+             * @example 0x8Cfe45475955606A9586d11360eFE0172BBC51B6
+             */
+            wallet: string;
+            /**
+             * @description Source validator public key
+             * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
+             */
+            source_pubkey: string;
+            /**
+             * @description Target validator public key
+             * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
+             */
+            target_pubkey: string;
+        };
+        ETHCraftEnableCompoundingTxPayload: {
+            /**
+             * @description Wallet address that request the enable compounding
+             * @example 0x8Cfe45475955606A9586d11360eFE0172BBC51B6
+             */
+            wallet: string;
+            /**
+             * @description Validator public key
+             * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
+             */
+            pubkey: string;
         };
         ETHPrepareTxPayload: {
             /**
@@ -10020,10 +10357,20 @@ export interface components {
              */
             updated_at_block: number;
             /**
+             * @description Performance fee of the vault
+             * @example 0.1
+             */
+            performance_fee: number;
+            /**
              * @description Net reward rate of all additional rewards
              * @example 7.763389587402344
              */
             additional_rewards_nrr?: number;
+            /**
+             * @description Gross reward rate of all additional rewards
+             * @example 14.9287953383104
+             */
+            additional_rewards_grr?: number;
             /** @description Additional rewards of the vault */
             additional_rewards?: components["schemas"]["DefiNetworkStatsAdditionalRewards"][];
         };
@@ -10048,6 +10395,11 @@ export interface components {
              * @example 11.9430363
              */
             nrr: number;
+            /**
+             * @description Gross reward rate of additional rewards of the vault
+             * @example 14.9287953383104
+             */
+            grr: number;
         };
         DefiTransaction: {
             /**
@@ -10644,6 +10996,19 @@ export interface components {
              * @example 2023-01-14T01:13:59Z
              */
             staked_at?: string;
+            unstakes?: {
+                /**
+                 * @description Amount of the unstake in mutez
+                 * @example 1500000000
+                 */
+                amount: string;
+                /**
+                 * Format: date-time
+                 * @description Date at which the unstake is finalizable
+                 * @example 2023-01-14T01:13:59Z
+                 */
+                finalizable_at: string;
+            }[];
         };
         XTZRewardByDay: {
             /**
@@ -34650,6 +35015,11 @@ export interface components {
              */
             pubkey: string;
             /**
+             * @description Wallet Address. It is mandatory to provide this field for INJ protocol. Since the INJ protocol does support multiple pubkey derivation (secp256k1 and eth_secp256k1), this field will allow us to securely verify the validity of the address.
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
+            /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
@@ -34667,6 +35037,11 @@ export interface components {
              * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
              */
             account_id: string;
+            /**
+             * @description Wallet Address. It is mandatory to provide this field for INJ protocol. Since the INJ protocol does support multiple pubkey derivation (secp256k1 and eth_secp256k1), this field will allow us to securely verify the validity of the address.
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
             /**
              * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
@@ -34701,6 +35076,11 @@ export interface components {
              */
             pubkey: string;
             /**
+             * @description Wallet Address. It is mandatory to provide this field for INJ protocol. Since the INJ protocol does support multiple pubkey derivation (secp256k1 and eth_secp256k1), this field will allow us to securely verify the validity of the address.
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
+            /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
              */
@@ -34717,6 +35097,11 @@ export interface components {
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
              */
             pubkey: string;
+            /**
+             * @description Wallet Address. It is mandatory to provide this field for INJ protocol. Since the INJ protocol does support multiple pubkey derivation (secp256k1 and eth_secp256k1), this field will allow us to securely verify the validity of the address.
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
             /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -34739,6 +35124,11 @@ export interface components {
              * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
              */
             grantee_address: string;
+            /**
+             * @description Wallet Address. It is mandatory to provide this field for INJ protocol. Since the INJ protocol does support multiple pubkey derivation (secp256k1 and eth_secp256k1), this field will allow us to securely verify the validity of the address.
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
         };
         INJCraftWithdrawRewardsTxPayload: {
             /**
@@ -34746,6 +35136,11 @@ export interface components {
              * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
              */
             pubkey: string;
+            /**
+             * @description Wallet Address. It is mandatory to provide this field for INJ protocol. Since the INJ protocol does support multiple pubkey derivation (secp256k1 and eth_secp256k1), this field will allow us to securely verify the validity of the address.
+             * @example inj1djqecw6nn5tydxq0shan7srv8j65clsf7vypl6
+             */
+            address: string;
             /**
              * @description Validator address
              * @example injvaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu
@@ -37594,7 +37989,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"])[];
+                        data?: (components["schemas"]["ETHOperationDeposit"] | components["schemas"]["ETHOperationConsensusWithdrawal"] | components["schemas"]["ETHOperationExecutionReward"] | components["schemas"]["ETHOperationKilnExitRequest"] | components["schemas"]["ETHOperationLidoExitRequest"] | components["schemas"]["ETHOperationRioExitRequest"] | components["schemas"]["ETHOperationVoluntaryExit"] | components["schemas"]["ETHOperationWithdrawalRequest"] | components["schemas"]["ETHOperationProcessedWithdrawalRequest"])[];
                     };
                 };
             };
@@ -37956,6 +38351,198 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["ETHCraftRequestExitTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthDepositTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHCraftDepositTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthWithdrawalTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHCraftWithdrawalTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthConsolidateTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHCraftConsolidateTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ETHUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthEnableCompoundingTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHCraftEnableCompoundingTxPayload"];
             };
         };
         responses: {
@@ -38604,6 +39191,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "No rewards to claim."
+                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
@@ -38667,6 +39257,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "No checkpoint proofs to process."
+                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
