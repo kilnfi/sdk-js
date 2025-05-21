@@ -792,7 +792,7 @@ export class FireblocksService {
       rawMessageData: {
         messages: [
           {
-            content: tx.unsigned_tx_payload.substring(2),
+            content: tx.unsigned_tx_serialized.substring(2),
           },
         ],
       },
@@ -840,7 +840,7 @@ export class FireblocksService {
       rawMessageData: {
         messages: [
           {
-            content: tx.unsigned_tx_payload.substring(2),
+            content: tx.unsigned_tx_serialized.substring(2),
           },
         ],
       },
