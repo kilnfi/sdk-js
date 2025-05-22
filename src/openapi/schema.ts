@@ -24258,10 +24258,39 @@ export interface components {
         };
         DOTUnsignedTx: {
             /**
+             * @description Hash of the unsigned transaction payload to sign
+             * @example 0x27010000e1f505000000000000000000000000c5026c0000e1510f001a00000091b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3fd5fa68be2d12fa7d1e7aaa62781baffb8a0d8e5cf18b81931828eda0c2dce3f00
+             */
+            unsigned_tx_payload: string;
+            /**
              * @description Unsigned serialized transaction
-             * @example 0x2903004e77db4fdd2080ccba70b9f7afc969e995678eaab353b500973eaed30306071a0700e87648178502480000c8550f001a000000b0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe79f554cf30021735b24b20f5667fef7ffbc54bfc353fe12fda45920ad568f480011bb8290876bf473d9dc8dd6449f652be67145c0fb6c8cb0df1e2589058a79d0c
+             * @example 7b227370656356657273696f6e223a2230783030306635316531222c227472616e73616374696f6e56657273696f6e223a2230783030303030303161222c2261646472657373223a2231763970757652376b5244446d596e637a597442674e636a3775364564436742337042754135455437546848386e66222c2261737365744964223a6e756c6c2c22626c6f636b48617368223a22307866643566613638626532643132666137643165376161613632373831626166666238613064386535636631386238313933313832386564613063326463653366222c22626c6f636b4e756d626572223a2230783030303030303030222c22657261223a22307863353032222c2267656e6573697348617368223a22307839316231373162623135386532643338343866613233613966316332353138326662386532303331336232633165623439323139646137613730636539306333222c226d6574616461746148617368223a6e756c6c2c226d6574686f64223a2230783237303130303030653166353035303030303030303030303030303030303030303030303030222c226d6f6465223a302c226e6f6e6365223a2230783030303030303162222c227369676e6564457874656e73696f6e73223a5b5d2c22746970223a2230783030303030303030303030303030303030303030303030303030303030303030222c2276657273696f6e223a342c22776974685369676e65645472616e73616374696f6e223a66616c73657d
              */
             unsigned_tx_serialized: string;
+            /**
+             * @description Transaction payload
+             * @example {
+             *       "blockHash": "0x28c36af0145fcb9c878851016179049f057988bc805990732fda56d45c48e125",
+             *       "eraPeriod": 64,
+             *       "genesisHash": "0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e",
+             *       "metadataRpc": "0x",
+             *       "method": {
+             *         "args": {
+             *           "value": "1000000000000",
+             *           "payee": {
+             *             "account": "5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj"
+             *           }
+             *         },
+             *         "name": "bond",
+             *         "pallet": "staking"
+             *       },
+             *       "nonce": 71,
+             *       "specVersion": 9430,
+             *       "tip": 0,
+             *       "transactionVersion": 22
+             *     }
+             */
+            unsigned_tx: Record<string, never>;
         };
         DOTCraftBondTxPayload: {
             /**
@@ -24824,10 +24853,39 @@ export interface components {
         };
         KSMUnsignedTx: {
             /**
+             * @description Hash of the unsigned transaction payload to sign
+             * @example 0x27010000e1f505000000000000000000000000c5026c0000e1510f001a00000091b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3fd5fa68be2d12fa7d1e7aaa62781baffb8a0d8e5cf18b81931828eda0c2dce3f00
+             */
+            unsigned_tx_payload: string;
+            /**
              * @description Unsigned serialized transaction
-             * @example 0x2903004e77db4fdd2080ccba70b9f7afc969e995678eaab353b500973eaed30306071a0700e87648178502480000c8550f001a000000b0a8d493285c2df73290dfb7e61f870f17b41801197a149ca93654499ea3dafe79f554cf30021735b24b20f5667fef7ffbc54bfc353fe12fda45920ad568f480011bb8290876bf473d9dc8dd6449f652be67145c0fb6c8cb0df1e2589058a79d0c
+             * @example 7b227370656356657273696f6e223a2230783030306635316531222c227472616e73616374696f6e56657273696f6e223a2230783030303030303161222c2261646472657373223a2231763970757652376b5244446d596e637a597442674e636a3775364564436742337042754135455437546848386e66222c2261737365744964223a6e756c6c2c22626c6f636b48617368223a22307866643566613638626532643132666137643165376161613632373831626166666238613064386535636631386238313933313832386564613063326463653366222c22626c6f636b4e756d626572223a2230783030303030303030222c22657261223a22307863353032222c2267656e6573697348617368223a22307839316231373162623135386532643338343866613233613966316332353138326662386532303331336232633165623439323139646137613730636539306333222c226d6574616461746148617368223a6e756c6c2c226d6574686f64223a2230783237303130303030653166353035303030303030303030303030303030303030303030303030222c226d6f6465223a302c226e6f6e6365223a2230783030303030303162222c227369676e6564457874656e73696f6e73223a5b5d2c22746970223a2230783030303030303030303030303030303030303030303030303030303030303030222c2276657273696f6e223a342c22776974685369676e65645472616e73616374696f6e223a66616c73657d
              */
             unsigned_tx_serialized: string;
+            /**
+             * @description Transaction payload
+             * @example {
+             *       "blockHash": "0x28c36af0145fcb9c878851016179049f057988bc805990732fda56d45c48e125",
+             *       "eraPeriod": 64,
+             *       "genesisHash": "0xe143f23803ac50e8f6f8e62695d1ce9e4e1d68aa36c1cd2cfd15340213f3423e",
+             *       "metadataRpc": "0x",
+             *       "method": {
+             *         "args": {
+             *           "value": "1000000000000",
+             *           "payee": {
+             *             "account": "5DK8ShqtyuVk2w4qrF9HwaBJoiZV1byQs5ARZ3df2Pt8V6Vj"
+             *           }
+             *         },
+             *         "name": "bond",
+             *         "pallet": "staking"
+             *       },
+             *       "nonce": 71,
+             *       "specVersion": 9430,
+             *       "tip": 0,
+             *       "transactionVersion": 22
+             *     }
+             */
+            unsigned_tx: Record<string, never>;
         };
         KSMCraftBondTxPayload: {
             /**
@@ -39139,9 +39197,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {
-                     *       "message": "No rewards to claim."
-                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
@@ -39205,9 +39260,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {
-                     *       "message": "No checkpoint proofs to process."
-                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
