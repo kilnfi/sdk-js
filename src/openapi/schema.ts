@@ -2919,7 +2919,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/bbn/stakes": {
+    "/btc/baby/transaction/btc-lock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * BTC Lock Transaction for Babylon Staking
+         * @description Craft a Bitcoin transaction that locks the stake in the self-custodial Bitcoin staking script
+         */
+        post: operations["postBtcBabyStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/stakes": {
         parameters: {
             query?: never;
             header?: never;
@@ -2928,56 +2948,31 @@ export interface paths {
         };
         /**
          * Stakes
-         * @description BBN
+         * @description Get BTCBABY stakes
          */
-        get: operations["getBbnStakes"];
+        get: operations["getBtcBabyStakes"];
         put?: never;
-        /**
-         * Create stakes
-         * @deprecated
-         * @description Link BBN stakes to a Kiln account
-         */
-        post: operations["postBbnStakes"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/bbn/transaction/stake": {
+    "/btc/baby/rewards": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
         /**
-         * Stake Transaction
-         * @description Craft a staking transaction to stake your bitcoin
+         * Rewards
+         * @description Get BTCBABY rewards
          */
-        post: operations["postBbnStakeTx"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/bbn/transaction/broadcast": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
+        get: operations["getBtcBabyRewards"];
         put?: never;
-        /**
-         * Broadcast Transaction
-         * @description Broadcast a signed transaction to the Babylon network
-         */
-        post: operations["postBbnBroadcastTx"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -19118,40 +19113,24 @@ export interface components {
              */
             updated_at: string;
         };
-        BBNUnsignedTx: {
+        BTCUnsignedTx: {
             /**
-             * @description Unsigned serialized transaction
-             * @example 70736274ff0100cf02000000016b5253d7d86352e1d3f1eba7a1ebf6216477e4a945d1b879833eb10a3a60653e0200000000fdffffff0350c3000000000000225120b712455a29769599d30a5b589cfea040ca2a5f3b22c403d26667664a442cedfd0000000000000000496a476262623400bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d7600964aca090000000000160014d21aac5179517528f2f158769086c50ea90c73db000000000001011f5b940a0000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             * @description Unsigned serialized staking psbt transaction
+             * @example 02000000032b040121be522a6916c0b77341c3edd0215356a13e60ab33cc3872d05fa03fac0200000000ffffffffba5d26dcc8a1614cb3ceb917c60d22cb18e039f0b0bc1ed6961aa593f1395b220100000000ffffffffb63808f9c6776a1510086506f6c1ab0b01dc32e01f9ee4adc8acf94e500440e40000000000ffffffff0260ae0a00000000002251204aa0a2b6edfe0230220f799ea05bee3223f38f145d4183beeecb308571604ff1a104010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
              */
-            unsigned_tx_serialized: string;
+            unsigned_tx_stakingPsbt: string;
+            /**
+             * @description Unsigned serialized slashing psbt transaction
+             * @example 70736274ff0100670200000001fdd26102509e6c1fa9382900a152b10da836210101915e3a4392ef2e3e29ea550000000000ffffffff02bc02000000000000000425090000000000225120a3dda02ff1f607b3389ea774665d81eb8856ad3116d58d9e6498c45c2effb579000000000001012b60ae0a00000000002251204aa0a2b6edfe0230220f799ea05bee3223f38f145d4183beeecb308571604ff14215c050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac07e5daef5dd3182a3d658179b50c692ad1e15958c1c8976dcbcc44739174cf57afd790120bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6ad20053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76ad2023b29f89b45f4af41588dcaf0ca572ada32872a88224f311373917f1b37d08d1ac204b15848e495a3a62283daaadb3f458a00859fe48e321f0121ebabbdd6698f9faba208242640732773249312c47ca7bdb50ca79f15f2ecc32b9c83ceebba44fb74df7ba20cbdd028cfe32c1c1f2d84bfec71e19f92df509bba7b8ad31ca6c1a134fe09204ba20d3c79b99ac4d265c2f97ac11e3232c07a598b020cf56c6f055472c893c0967aeba20d45c70d28f169e1f0c7f4a78e2bc73497afe585b70aa897955989068f3350aaaba20de13fc96ea6899acbdc5db3afaa683f62fe35b60ff6eb723dad28a11d2b12f8cba20e36200aaa8dce9453567bba108bdc51f7f1174b97a65e4dc4402fc5de779d41cba20f178fcce82f95c524b53b077e6180bd2d779a9057fdff4255a0af95af918cee0ba569cc001172050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0000000
+             */
+            unsigned_tx_slashingPsbt: string;
+            /**
+             * @description Unsigned serialized slashing psbt transaction
+             * @example 70736274ff0100670200000001195faa8d5514762200bbefb738794124fac2f0ee290bd9b22f6c361046a018510000000000ffffffff02b202000000000000008eff080000000000225120eff0d6723e2b7d46686d8845daeaf87bf9535c696797e7126a0a043758c13537000000000001012be0880a00000000002251209d72a49d910440ad248e9ae188810fb9b7cd84dbf59ebdde78d5a37b417c526a4215c050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac05c335d658b45f10fe21b84fcd29b9280c3cd35613bdd000f01b82493ce9f5915fd790120bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6ad20053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76ad2023b29f89b45f4af41588dcaf0ca572ada32872a88224f311373917f1b37d08d1ac204b15848e495a3a62283daaadb3f458a00859fe48e321f0121ebabbdd6698f9faba208242640732773249312c47ca7bdb50ca79f15f2ecc32b9c83ceebba44fb74df7ba20cbdd028cfe32c1c1f2d84bfec71e19f92df509bba7b8ad31ca6c1a134fe09204ba20d3c79b99ac4d265c2f97ac11e3232c07a598b020cf56c6f055472c893c0967aeba20d45c70d28f169e1f0c7f4a78e2bc73497afe585b70aa897955989068f3350aaaba20de13fc96ea6899acbdc5db3afaa683f62fe35b60ff6eb723dad28a11d2b12f8cba20e36200aaa8dce9453567bba108bdc51f7f1174b97a65e4dc4402fc5de779d41cba20f178fcce82f95c524b53b077e6180bd2d779a9057fdff4255a0af95af918cee0ba569cc001172050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0000000
+             */
+            unsigned_tx_unbondingSlashingPsbt: string;
         };
-        BBNBroadcastTxPayload: {
-            /**
-             * @description Kiln Account ID
-             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-             */
-            account_id?: string;
-            /**
-             * @description Signed serialized transaction
-             * @example 0300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000063b2b5ef76d483b695bc3b954d9a372ca5f744e00279c8578bc4268d570b701a037fac575ae16bb3ba5702b8d5bd9930953453e2d628368f83a11ab5896d20bbcae0b4a119860afd99da20f3462ba15d8bd1528d73724b83e8cc4cee00787df28a181783c264113ef1870bae5a90987fc5cfcdffaddf23c7dcfd7585c13d10b0301080c373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e1bb5f70b4d3ae65feb6d20587f62ccc8d5e720e99abe3d4415972bbf74a8a88a51f5f3871e65b84cc393458d0f23a413184cf2bb7093ae4e2c99d55b39a575c5f98e3135fcb53e71e6fafcb4da3a3cc36af1c76a1a7e72aa12eae1346d724c6c00000000000000000000000000000000000000000000000000000000000000004792650d1e9a4fe99721617c7d47c8712c14c20a76bf043368c6528c9090531a06a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc00000000006a1d817a502050b680791e6ce6db88e1e5b7150f61fc6790a4eb4d10000000006a7d51718c774c928566398691d5eb68b5eb8a39b4b6d5c73555b210000000006a7d517192c568ee08a845f73d29788cf035c3145b21ab344d8062ea940000006a7d517192c5c51218cc94c3d4af17f58daee089ba1fd44e3dbd98a0000000006a7d517193584d0feed9bb3431d13206be544281b57b8566cc5375ff4000000f0973e76495f3ffc65798a529de5cba4ec7f47f17669c9fa256923f099a1cda304040303090204040000000402000134000000000080c6a47e8d0300c80000000000000006a1d8179137542a983437bdfe2a7ab2557f535c8a78722b68a49dc0000000000602010a7400000000373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e373c6f8e84c6822a9f87035f65cccf899eef3fcdee61077041a93e1805bab24e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006060105080b07000402000000
-             */
-            tx_serialized: string;
-        };
-        BBNPostStakesPayload: {
-            stakes: {
-                /**
-                 * @description Transaction id of the stake
-                 * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
-                 */
-                tx_id: string;
-            }[];
-            /**
-             * @description Kiln Account ID
-             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-             */
-            account_id: string;
-        };
-        BBNCraftStakeTxPayload: {
+        BTCCraftBABYLockTxPayload: {
             /**
              * Format: uuid
              * @description Kiln Account ID to stake into
@@ -19179,16 +19158,9 @@ export interface components {
              */
             fee_rate: number;
         };
-        BBNTxHash: {
+        BTCBABYStake: {
             /**
-             * @description Transaction id
-             * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
-             */
-            tx_id: string;
-        };
-        BBNStake: {
-            /**
-             * @description The status of the stake
+             * @description The status of the stake (status will be "NEED_TRANSITION" if the stake has been activated on v1 and needs to be transitioned to v2)
              * @example status
              */
             status: string;
@@ -19223,10 +19195,38 @@ export interface components {
              */
             activated_at: string;
             /**
-             * @description The amount of points the stake as earned
+             * @description The amount of rewards available for the stake in BABY
              * @example 15
              */
-            points: number;
+            available_rewards: number;
+            /**
+             * @description The BBN address of the stake
+             * @example bbn1zmcwa265fy2mxhgl9avlwfrvhrprdm85mpcej4
+             */
+            bbn_address: string;
+            /**
+             * @description The BTC block height at which the stake started
+             * @example 800000
+             */
+            start_height: number;
+        };
+        BTCBABYReward: {
+            /**
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2023-01-15
+             */
+            date: string;
+            /**
+             * @description Accumulated rewards in BABY during the day
+             * @example 3575891083876864200000
+             */
+            rewards: string;
+            /**
+             * @description Staked balance in BTC at the end of the day
+             * @example 6300000000000000000000000
+             */
+            balance: string;
         };
         MATICStake: {
             /**
@@ -19505,7 +19505,7 @@ export interface components {
             /**
              * @description Event emitted by a ValidatorShare contract when burning shares.
              *     This can happen through the sellVoucher_new method.
-             * @example share_burned
+             * @example share_burned_with_id
              */
             type?: string;
             /**
@@ -19723,7 +19723,7 @@ export interface components {
             /**
              * @description Event emitted by a ValidatorShare contract when one of its delegators unstake MATIC for which shares were burned previously.
              *     This can happen through the unstakeClaimTokens_new.
-             * @example delegator_unstaked
+             * @example delegator_unstaked_with_id
              */
             type?: string;
             /**
@@ -19866,7 +19866,7 @@ export interface components {
             /**
              * @description Event emitted by a ValidatorShare contract when one of its delegators transfers its shares to another address.
              *     This can happen through the transfer method.
-             * @example delegator_claimed_rewards
+             * @example shares_transfer
              */
             type?: string;
             /**
@@ -34119,17 +34119,17 @@ export interface components {
              */
             undelegated_block?: number;
             /**
-             * @description Total rewards accumulated by this stake since its first ever delegation in uINJ. Includes currently available rewards not yet withdrawn.
+             * @description Total rewards accumulated by this stake since its first ever delegation in INJ. Includes currently available rewards not yet withdrawn.
              * @example 735573808534727891000000
              */
             rewards: string;
             /**
-             * @description Available rewards in uINJ that can be withdrawn from this stake
+             * @description Available rewards in INJ that can be withdrawn from this stake
              * @example 36748808534727891000000
              */
             available_rewards: string;
             /**
-             * @description Staked balance on this stake in uINJ
+             * @description Staked balance on this stake in INJ
              * @example 6300000000000000000000000
              */
             balance: string;
@@ -35031,7 +35031,7 @@ export interface components {
              */
             validator: string;
             /**
-             * @description Amount to unstake in uINJ. Omit to unstake all the delegated amount
+             * @description Amount to unstake in INJ. Omit to unstake all the delegated amount
              * @example 1000000000000000000000000
              */
             amount_inj?: string;
@@ -35064,7 +35064,7 @@ export interface components {
              */
             validator_destination: string;
             /**
-             * @description Amount to redelegate in uINJ
+             * @description Amount to redelegate in INJ
              * @example 1000000000000000000000000
              */
             amount_inj?: string;
@@ -35161,12 +35161,12 @@ export interface components {
              */
             date: string;
             /**
-             * @description Accumulated rewards in uINJ during the day
+             * @description Accumulated rewards in INJ during the day
              * @example 3575891083876864200000
              */
             rewards: string;
             /**
-             * @description Staked balance in uINJ at the end of the day
+             * @description Staked balance in INJ at the end of the day
              * @example 6300000000000000000000000
              */
             balance: string;
@@ -35203,7 +35203,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35223,12 +35223,12 @@ export interface components {
              */
             delegator_address: string;
             /**
-             * @description Amount added to the staked balance in uINJ
+             * @description Amount added to the staked balance in INJ
              * @example 3000000
              */
             amount: string;
             /**
-             * @description Rewards auto-claimed alongside the operation in uINJ
+             * @description Rewards auto-claimed alongside the operation in INJ
              * @example 10841
              */
             withdraw_rewards?: string;
@@ -35256,7 +35256,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35276,12 +35276,12 @@ export interface components {
              */
             delegator_address: string;
             /**
-             * @description Amount removed from the staked balance in uINJ
+             * @description Amount removed from the staked balance in INJ
              * @example 3000000
              */
             amount: string;
             /**
-             * @description Rewards auto-claimed alongside the operation in uINJ
+             * @description Rewards auto-claimed alongside the operation in INJ
              * @example 10841
              */
             withdraw_rewards?: string;
@@ -35309,7 +35309,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35334,17 +35334,17 @@ export interface components {
              */
             delegator_address: string;
             /**
-             * @description Amount moved from the source validator staked balance to the destination validator staked balance in uINJ
+             * @description Amount moved from the source validator staked balance to the destination validator staked balance in INJ
              * @example 3000000
              */
             amount: string;
             /**
-             * @description Rewards auto-claimed from the destination validator alongside the operation in uINJ
+             * @description Rewards auto-claimed from the destination validator alongside the operation in INJ
              * @example 10841
              */
             withdraw_rewards?: string;
             /**
-             * @description Rewards auto-claimed from the source validator alongside the operation in uINJ
+             * @description Rewards auto-claimed from the source validator alongside the operation in INJ
              * @example 10841
              */
             withdraw_rewards_source?: string;
@@ -35372,7 +35372,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35392,7 +35392,7 @@ export interface components {
              */
             delegator_address: string;
             /**
-             * @description Rewards claimed alongside the operation in uINJ
+             * @description Rewards claimed alongside the operation in INJ
              * @example 10841
              */
             withdraw_rewards?: string;
@@ -35420,7 +35420,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35484,7 +35484,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35515,17 +35515,17 @@ export interface components {
                  */
                 delegator_address: string;
                 /**
-                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uINJ
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in INJ
                  * @example 3000000
                  */
                 amount?: string;
                 /**
-                 * @description Rewards auto-claimed from the destination validator alongside the operation in uINJ
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in INJ
                  * @example 10841
                  */
                 withdraw_rewards?: string;
                 /**
-                 * @description Rewards auto-claimed from the source validator alongside the operation in uINJ
+                 * @description Rewards auto-claimed from the source validator alongside the operation in INJ
                  * @example 10841
                  */
                 withdraw_rewards_source?: string;
@@ -35554,7 +35554,7 @@ export interface components {
              */
             tx_hash: string;
             /**
-             * @description Gas used for the whole transaction in uINJ
+             * @description Gas used for the whole transaction in INJ
              * @example 186733
              */
             tx_gas_used: string;
@@ -35590,17 +35590,17 @@ export interface components {
                  */
                 delegator_address: string;
                 /**
-                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uINJ
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in INJ
                  * @example 3000000
                  */
                 amount?: string;
                 /**
-                 * @description Rewards auto-claimed from the destination validator alongside the operation in uINJ
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in INJ
                  * @example 10841
                  */
                 withdraw_rewards?: string;
                 /**
-                 * @description Rewards auto-claimed from the source validator alongside the operation in uINJ
+                 * @description Rewards auto-claimed from the source validator alongside the operation in INJ
                  * @example 10841
                  */
                 withdraw_rewards_source?: string;
@@ -37119,8 +37119,8 @@ export interface components {
         ADAPaginationPageParam: number;
         /** @description Number of entries to list per page. Defaults to `100`. specified */
         ADAPaginationPageSizeParam: number;
-        BBNWalletsParam: string;
-        BBNTxIDsParam: string;
+        BTCBABYWalletsParam: string;
+        BTCBABYTxIDsParam: string;
         /** @description Comma-separated list of wallets addresses */
         MATICWalletsParam: string[];
         /** @description Comma-separated list of validators' indexes */
@@ -39197,6 +39197,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "No rewards to claim."
+                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
@@ -39260,6 +39263,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /** @example {
+                     *       "message": "No checkpoint proofs to process."
+                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
@@ -44894,11 +44900,59 @@ export interface operations {
             };
         };
     };
-    getBbnStakes: {
+    postBtcBabyStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BTCCraftBABYLockTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BTCUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getBtcBabyStakes: {
         parameters: {
             query?: {
-                wallets?: components["parameters"]["BBNWalletsParam"];
-                tx_ids?: components["parameters"]["BBNTxIDsParam"];
+                wallets?: components["parameters"]["BTCBABYWalletsParam"];
+                tx_ids?: components["parameters"]["BTCBABYTxIDsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
             };
@@ -44915,7 +44969,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["BBNStake"][];
+                        data: components["schemas"]["BTCBABYStake"][];
                     };
                 };
             };
@@ -44942,67 +44996,23 @@ export interface operations {
             };
         };
     };
-    postBbnStakes: {
+    getBtcBabyRewards: {
         parameters: {
-            query?: never;
+            query?: {
+                wallets?: components["parameters"]["BTCBABYWalletsParam"];
+                tx_ids?: components["parameters"]["BTCBABYTxIDsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Stakes to create */
-        requestBody: {
-            content: {
-                "application/json; charset=utf-8": components["schemas"]["BBNPostStakesPayload"];
-            };
-        };
-        responses: {
-            /** @description Successful operation */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json; charset=utf-8": {
-                        data: components["schemas"]["CoreStake"];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    postBbnStakeTx: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Transaction to craft */
-        requestBody: {
-            content: {
-                "application/json; charset=utf-8": components["schemas"]["BBNCraftStakeTxPayload"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Successful operation */
             200: {
@@ -45011,55 +45021,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["BBNUnsignedTx"];
-                    };
-                };
-            };
-            /** @description Invalid parameters */
-            400: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Unauthorized */
-            401: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Internal server error */
-            500: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    postBbnBroadcastTx: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /** @description Transaction to broadcast */
-        requestBody: {
-            content: {
-                "application/json; charset=utf-8": components["schemas"]["BBNBroadcastTxPayload"];
-            };
-        };
-        responses: {
-            /** @description Successful operation */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json; charset=utf-8": {
-                        data: components["schemas"]["BBNTxHash"];
+                        data: components["schemas"]["BTCBABYReward"][];
                     };
                 };
             };
