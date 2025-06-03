@@ -8052,7 +8052,7 @@ export interface components {
              * @example NEAR
              * @enum {string}
              */
-            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC" | "OM" | "CRO" | "TRX";
+            token: "NEAR" | "ATOM" | "POL" | "ADA" | "OSMO" | "DOT" | "KSM" | "SOL" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC/BABY" | "OM" | "CRO" | "TRX";
         };
         XTZPortfolio: components["schemas"]["BasePortfolio"] & {
             /**
@@ -19227,6 +19227,10 @@ export interface components {
              * @example 6300000000000000000000000
              */
             balance: string;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            rewards_usd?: string;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            balance_usd?: string;
         };
         MATICStake: {
             /**
@@ -36765,7 +36769,7 @@ export interface components {
              */
             owner_address: string;
             /**
-             * @description Number of votes to cast
+             * @description A map of Super Representative (SR) addresses with the number of votes to cast for each. The key is a string representing the SR's address, and the value is an integer indicating how many votes to assign to that SR.
              * @example {
              *       "TQzd66b9EFVHJfZK5AmiVhBjtJvXGeSPPZ": 1
              *     }
@@ -37557,7 +37561,7 @@ export interface operations {
                      * @example ETH
                      * @enum {string}
                      */
-                    protocol: "NEAR" | "ETH" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "DYDX" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BBN" | "CRO" | "OM" | "SUI" | "TRX";
+                    protocol: "NEAR" | "ETH" | "ATOM" | "POL" | "ADA" | "OSMO" | "XTZ" | "DOT" | "KSM" | "SOL" | "DYDX" | "TIA" | "EGLD" | "ZETA" | "INJ" | "FET" | "TON" | "KAVA" | "BTC/BABY" | "CRO" | "OM" | "SUI" | "TRX";
                 };
             };
         };
@@ -45007,6 +45011,8 @@ export interface operations {
                 start_date?: components["parameters"]["StartDateParam"];
                 /** @description Get data to this date (YYYY-MM-DD) */
                 end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
             };
             header?: never;
             path?: never;
