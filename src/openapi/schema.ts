@@ -7707,6 +7707,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/trx/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of TRX stakes.
+         */
+        get: operations["getTrxOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/trx/transaction/stake": {
         parameters: {
             query?: never;
@@ -36972,6 +36992,62 @@ export interface components {
              */
             rewards_usd?: number;
         };
+        TRXOperations: {
+            /**
+             * @description Transaction id
+             * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
+             */
+            tx_id: string;
+            /**
+             * @description Block number of the event
+             * @example 15828207
+             */
+            block_number: number;
+            /**
+             * @description Operation type
+             * @example FreezeBalanceV2Contract
+             */
+            type: string;
+            /**
+             * @description Wallet address
+             * @example TAERHY5gyzDRmAaeqqa6C4Fuyc9HLnnHx7
+             */
+            wallet: string;
+            /** @description Votes */
+            votes: {
+                /**
+                 * @description super representative address
+                 * @example TQzd66b9EFVHJfZK5AmiVhBjtJvXGeSPPZ
+                 */
+                address: string;
+                /**
+                 * @description Vote count
+                 * @example 4
+                 */
+                count: string;
+            }[];
+            /**
+             * @description Frozen TRX in sun
+             * @example 1000000
+             */
+            frozen_balance: string;
+            /**
+             * @description Unfreeze TRX in sun
+             * @example 1000000
+             */
+            unfreeze_balance: string;
+            /**
+             * @description Resource type
+             * @example BANDWIDTH
+             * @enum {string}
+             */
+            resource: "BANDWIDTH" | "ENERGY";
+            /**
+             * @description Operation timestamp (RFC3339 format)
+             * @example 2025-05-30T11:59:01+00:00
+             */
+            timestamp: string;
+        };
     };
     responses: never;
     parameters: {
@@ -57176,6 +57252,57 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["TRXReward"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTrxOperations: {
+        parameters: {
+            query?: {
+                wallets?: components["parameters"]["TRXWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXOperations"][];
                     };
                 };
             };
