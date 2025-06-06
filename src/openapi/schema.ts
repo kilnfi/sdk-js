@@ -7887,6 +7887,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/trx/transaction/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Status
+         * @description Get the status of a transaction by tx hash
+         */
+        get: operations["getTrxTxStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/trx/transaction/decode": {
         parameters: {
             query?: never;
@@ -9932,16 +9952,25 @@ export interface components {
              */
             wallet: string;
             /**
-             * @description Source validator public key
-             * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
-             */
-            source_pubkey: string;
-            /**
              * @description Target validator public key
              * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
              */
             target_pubkey: string;
-        };
+        } & ({
+            /**
+             * @description Source validator public key
+             * @example 0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3
+             */
+            source_pubkey: string;
+        } | {
+            /**
+             * @description Source validator public keys
+             * @example [
+             *       "0x8457a1bc8e54bced96a3ba40858f2d4769ad3672524250c62594f5c862704c638bf1c8519b18269259c9b0d2c13276b3"
+             *     ]
+             */
+            source_pubkeys: string[];
+        });
         ETHCraftEnableCompoundingTxPayload: {
             /**
              * @description Wallet address that request the enable compounding
@@ -19229,6 +19258,16 @@ export interface components {
              * @example 800000
              */
             start_height: number;
+            /**
+             * @description The hex representation of the staking transaction
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            staking_tx_hex: string;
+            /**
+             * @description The hex representation of the unstaking transaction
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            unstaking_tx_hex: string;
         };
         BTCBABYReward: {
             /**
@@ -36954,6 +36993,37 @@ export interface components {
              */
             rewards: string;
         };
+        /** @example {
+         *       "ret": [
+         *         {
+         *           "contractRet": "SUCCESS"
+         *         }
+         *       ],
+         *       "signature": [
+         *         "350952b9523d7e61838eaac8157a2737cdf92f913fc51b6735f974818d08b90908ffe5bd7463ea3d9661cc3c5fe0efd82160fe01a3069cef3e2a84070258062b1b"
+         *       ],
+         *       "txID": "130751638ddd8b8e642718dc02da9b7f6115bb2297a7e37312b21848b199eee4",
+         *       "raw_data": {
+         *         "contract": [
+         *           {
+         *             "parameter": {
+         *               "value": {
+         *                 "owner_address": "41c0dc1d58fdad3bb6a19c1bce1856d0e1e02bda91",
+         *                 "unfreeze_balance": 4000000
+         *               },
+         *               "type_url": "type.googleapis.com/protocol.UnfreezeBalanceV2Contract"
+         *             },
+         *             "type": "UnfreezeBalanceV2Contract"
+         *           }
+         *         ],
+         *         "ref_block_bytes": "5600",
+         *         "ref_block_hash": "fdcbad92d379f7f7",
+         *         "expiration": 1745416992000,
+         *         "timestamp": 1745416932000
+         *       },
+         *       "raw_data_hex": "0a0256002208fdcbad92d379f7f74080ead697e6325a5a083712560a36747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e556e667265657a6542616c616e63655632436f6e7472616374121c0a1541c0dc1d58fdad3bb6a19c1bce1856d0e1e02bda91108092f40170a095d397e632"
+         *     } */
+        TRXTxStatus: Record<string, never>;
         TRXReward: {
             /**
              * Format: date
@@ -36992,7 +37062,7 @@ export interface components {
              */
             rewards_usd?: number;
         };
-        TRXOperations: {
+        TRXOperation: {
             /**
              * @description Transaction id
              * @example 2e2127d3697df687b73367c1877fbb3e336d85d5068b822ba9c78a020b00bd88
@@ -37030,18 +37100,23 @@ export interface components {
              * @description Frozen TRX in sun
              * @example 1000000
              */
-            frozen_balance: string;
+            frozen_balance?: string;
             /**
              * @description Unfreeze TRX in sun
              * @example 1000000
              */
-            unfreeze_balance: string;
+            unfreeze_balance?: string;
+            /**
+             * @description TRX rewards withdrawn in sun
+             * @example 1000000
+             */
+            withdraw_rewards_amount?: string;
             /**
              * @description Resource type
              * @example BANDWIDTH
              * @enum {string}
              */
-            resource: "BANDWIDTH" | "ENERGY";
+            resource?: "BANDWIDTH" | "ENERGY";
             /**
              * @description Operation timestamp (RFC3339 format)
              * @example 2025-05-30T11:59:01+00:00
@@ -38591,7 +38666,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["ETHUnsignedTx"];
+                        data: components["schemas"]["ETHUnsignedTx"] | components["schemas"]["ETHUnsignedTx"][];
                     };
                 };
             };
@@ -57302,7 +57377,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["TRXOperations"][];
+                        data: components["schemas"]["TRXOperation"][];
                     };
                 };
             };
@@ -57687,6 +57762,52 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["TRXBroadcastedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTrxTxStatus: {
+        parameters: {
+            query: {
+                /** @description Hash of the transaction */
+                tx_hash: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["TRXTxStatus"];
                     };
                 };
             };
