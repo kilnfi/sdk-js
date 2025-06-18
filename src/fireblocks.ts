@@ -304,7 +304,7 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
-            derivationPath: [44, 118, integration.vaultId, 0, 0],
+            derivationPath: [44, 118, Number(integration.vaultId), 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
@@ -359,7 +359,7 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
-            derivationPath: [44, 118, integration.vaultId, 0, 0],
+            derivationPath: [44, 118, Number(integration.vaultId), 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
@@ -467,7 +467,7 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
-            derivationPath: [44, 459, integration.vaultId, 0, 0],
+            derivationPath: [44, 459, Number(integration.vaultId), 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
@@ -522,7 +522,7 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
-            derivationPath: [44, 394, integration.vaultId, 0, 0],
+            derivationPath: [44, 394, Number(integration.vaultId), 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
@@ -577,7 +577,7 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
-            derivationPath: [44, 118, integration.vaultId, 0, 0],
+            derivationPath: [44, 118, Number(integration.vaultId), 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
@@ -738,7 +738,7 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
-            derivationPath: [44, 118, integration.vaultId, 0, 0],
+            derivationPath: [44, 118, Number(integration.vaultId), 0, 0],
             preHash: {
               content: tx.unsigned_tx_serialized,
               hashAlgorithm: 'SHA256',
