@@ -1,6 +1,6 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
@@ -17,7 +17,11 @@
       "default": "./build/cjs/kiln.js"
     }
   },
-  "files": ["package.json", "build", "src"],
+  "files": [
+    "package.json",
+    "build",
+    "src"
+  ],
   "scripts": {
     "lint": "biome check ./src",
     "format": "biome check ./src --write --unsafe",
@@ -27,7 +31,15 @@
     "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./build/cjs  --removeComments --verbatimModuleSyntax false && printf '{\"type\":\"commonjs\"}' > ./build/cjs/package.json",
     "build:types": "tsc --project ./tsconfig.build.json --module esnext --declarationDir ./build/types --emitDeclarationOnly --declaration --declarationMap"
   },
-  "keywords": ["sdk", "js", "eth", "sol", "xtz", "validators", "staking"],
+  "keywords": [
+    "sdk",
+    "js",
+    "eth",
+    "sol",
+    "xtz",
+    "validators",
+    "staking"
+  ],
   "author": "Kiln",
   "bugs": {
     "url": "https://github.com/kilnfi/sdk-js/issues"
