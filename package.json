@@ -17,7 +17,11 @@
       "default": "./build/cjs/kiln.js"
     }
   },
-  "files": ["package.json", "build", "src"],
+  "files": [
+    "package.json",
+    "build",
+    "src"
+  ],
   "scripts": {
     "lint": "biome check ./src",
     "format": "biome check ./src --write --unsafe",
