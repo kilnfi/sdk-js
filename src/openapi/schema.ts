@@ -2779,6 +2779,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ada/kiln-pools-infos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Kiln Pools Infos
+         * @description Get the list of Kiln pools with their information
+         */
+        get: operations["getAdaKilnPoolsInfos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ada/transaction/stake": {
         parameters: {
             query?: never;
@@ -19161,6 +19181,33 @@ export interface components {
              * @example 2023-08-09T11:41:36Z
              */
             updated_at: string;
+        };
+        ADAPoolInfo: {
+            /**
+             * @description The pool id
+             * @example pool10rdglgh4pzvkf936p2m669qzarr9dusrhmmz9nultm3uvq4eh5k
+             */
+            pool_id: string;
+            /**
+             * @description The pool name
+             * @example KILN0
+             */
+            name: string;
+            /**
+             * @description Active saturation of the pool
+             * @example 0.8
+             */
+            active_saturation: string;
+            /**
+             * @description Live saturation of the pool
+             * @example 0.82
+             */
+            live_saturation: string;
+            /**
+             * @description Estimated amount of Lovelace until pool reaches 100% saturation
+             * @example 123456789
+             */
+            free_space_estimation: string;
         };
         BTCUnsignedTx: {
             /**
@@ -36992,38 +37039,40 @@ export interface components {
              * @example 135375
              */
             rewards: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 4.624432989690719
+             */
+            net_apy: number;
         };
-        /** @example {
-         *       "ret": [
-         *         {
-         *           "contractRet": "SUCCESS"
-         *         }
-         *       ],
-         *       "signature": [
-         *         "350952b9523d7e61838eaac8157a2737cdf92f913fc51b6735f974818d08b90908ffe5bd7463ea3d9661cc3c5fe0efd82160fe01a3069cef3e2a84070258062b1b"
-         *       ],
-         *       "txID": "130751638ddd8b8e642718dc02da9b7f6115bb2297a7e37312b21848b199eee4",
-         *       "raw_data": {
-         *         "contract": [
-         *           {
-         *             "parameter": {
-         *               "value": {
-         *                 "owner_address": "41c0dc1d58fdad3bb6a19c1bce1856d0e1e02bda91",
-         *                 "unfreeze_balance": 4000000
-         *               },
-         *               "type_url": "type.googleapis.com/protocol.UnfreezeBalanceV2Contract"
-         *             },
-         *             "type": "UnfreezeBalanceV2Contract"
-         *           }
-         *         ],
-         *         "ref_block_bytes": "5600",
-         *         "ref_block_hash": "fdcbad92d379f7f7",
-         *         "expiration": 1745416992000,
-         *         "timestamp": 1745416932000
-         *       },
-         *       "raw_data_hex": "0a0256002208fdcbad92d379f7f74080ead697e6325a5a083712560a36747970652e676f6f676c65617069732e636f6d2f70726f746f636f6c2e556e667265657a6542616c616e63655632436f6e7472616374121c0a1541c0dc1d58fdad3bb6a19c1bce1856d0e1e02bda91108092f40170a095d397e632"
-         *     } */
-        TRXTxStatus: Record<string, never>;
+        TRXTxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status?: "success" | "error";
+            /**
+             * @description Details of the transaction, including the fees and virtual machine events. Object shape can be found [here](https://github.com/tronprotocol/tronweb/blob/master/src/types/Trx.ts#L258)
+             * @example {
+             *       "id": "0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2",
+             *       "fee": 4110,
+             *       "blockNumber": 7000000,
+             *       "blockTimeStamp": 1551102291000,
+             *       "contractResult": [
+             *         ""
+             *       ],
+             *       "contract_address": "41eb8f23b15acbc0245a4dbbd820b9bde368b02d61",
+             *       "receipt": {
+             *         "origin_energy_usage": 38627,
+             *         "energy_usage_total": 38627,
+             *         "net_fee": 4110,
+             *         "result": "SUCCESS"
+             *       }
+             *     }
+             */
+            info?: Record<string, never>;
+        };
         TRXReward: {
             /**
              * Format: date
@@ -44707,6 +44756,40 @@ export interface operations {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["ADANetworkStats"];
                     };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAdaKilnPoolsInfos: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": components["schemas"]["ADAPoolInfo"][];
                 };
             };
             /** @description Unauthorized */
