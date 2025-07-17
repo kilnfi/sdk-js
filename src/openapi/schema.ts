@@ -10795,6 +10795,11 @@ export interface components {
         };
         DefiCraftDepositTxPayload: {
             /**
+             * @description Kiln Account ID to link the deposit to
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id?: string;
+            /**
              * @description The Ethereum address of the user initiating the deposit.
              * @example 0x991c468AbcE2b4DD627a6210C145373EbABdd186
              */
