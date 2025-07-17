@@ -944,6 +944,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/eth/onchain/v1/fee": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * OnChain V1 fee
+         * @description Get the rewards fees of Ethereum OnChain V1 (Dedicated staking +32ETH) integration contracts
+         *
+         */
+        get: operations["getEthOnChainV1Fee"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/eth/onchain/v1/keys": {
         parameters: {
             query?: never;
@@ -954,10 +975,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Validation On-Chain V1 Keys
-         * @description Create Ethereum validation keys for the Kiln On-Chain V1
+         * Validation OnChain V1 Keys
+         * @description Create Ethereum validation keys for the Kiln OnChain V1
          *     smart-contract suite. This route is for Ethereum operators
-         *     only of the Kiln On-Chain V1 smart-contract. Use `/v1/eth/keys`
+         *     only of the Kiln OnChain V1 smart-contract. Use `/v1/eth/keys`
          *     if you want to use classic native staking.
          *
          */
@@ -978,11 +999,11 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Validation On-Chain V2 Keys
-         * @description Create Ethereum validation keys for the Kiln On-Chain V2
+         * Validation Pooling (Onchain v2) Keys
+         * @description Create Ethereum validation keys for the Kiln Pooling (Onchain v2)
          *     smart-contract suite. This route is for Ethereum operators
-         *     only of the Kiln On-Chain V2 (vSuite) smart-contract of type vNFT. Use `/v1/eth/keys` if
-         *     you want to use  Kiln On-Chain V2 of type vPool (ERC20) or classic native staking.
+         *     only of the Kiln Pooling (Onchain v2) smart-contract of type vNFT. Use `/v1/eth/keys` if
+         *     you want to use  Kiln Pooling (Onchain v2) of type vPool (ERC20) or classic native staking.
          *
          */
         post: operations["postEthVSuiteKeys"];
@@ -1000,8 +1021,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * On-Chain V2 Stakes
-         * @description Get the status of Ethereum OnChain V2 (vSuite) stakes
+         * Pooling (Onchain v2) Stakes
+         * @description Get the status of Ethereum Pooling (Onchain v2) stakes
          */
         get: operations["getEthOnchainV2Stakes"];
         put?: never;
@@ -1020,8 +1041,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * On-Chain V2 Operations
-         * @description Get the operations of Ethereum OnChain V2 (vSuite) operations
+         * Pooling (Onchain v2) Operations
+         * @description Get the operations of Ethereum Pooling (Onchain v2) operations
          */
         get: operations["getEthOnchainV2Operations"];
         put?: never;
@@ -1040,8 +1061,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * On-Chain V2 Rewards
-         * @description Get historical rewards of Ethereum OnChain V2 (vSuite) daily rewards
+         * Pooling (Onchain v2) Rewards
+         * @description Get historical rewards of Ethereum Pooling (Onchain v2) daily rewards
          */
         get: operations["getEthOnchainV2Rewards"];
         put?: never;
@@ -1060,8 +1081,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * On-Chain V2 Network Stats
-         * @description Get the network stats of Ethereum OnChain V2 (vSuite) integration
+         * Pooling (Onchain v2) Network Stats
+         * @description Get the network stats of Ethereum Pooling (Onchain v2) integration
          */
         get: operations["getEthOnchainV2NetworkStats"];
         put?: never;
@@ -1080,12 +1101,78 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * On-Chain V2 Exit Tickets
-         * @description Get the exit tickets of Ethereum OnChain V2 (vSuite) integration
+         * Pooling (Onchain v2) Exit Tickets
+         * @description Get the exit tickets of Ethereum Pooling (Onchain v2) integration
          */
         get: operations["getEthOnchainV2ExitTickets"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eth/onchain/v2/transaction/stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pooling (Onchain v2) Stake Transaction
+         * @description Create a transaction to stake in the Kiln Pooling (Onchain v2) (vSuite) smart-contract.
+         *     This route is for Ethereum operators only of the Kiln Pooling (Onchain v2) (vSuite) smart-contract of type vPool (ERC20).
+         *
+         */
+        post: operations["postEthOnchainV2StakeTransaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eth/onchain/v2/transaction/request-exit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pooling (Onchain v2) Request Exit Transaction
+         * @description Create a transaction to request an exit in the Kiln Pooling (Onchain v2) smart-contract.
+         *     This route is for Ethereum operators only of the Kiln Pooling (Onchain v2) smart-contract of type vPool (ERC20).
+         *
+         */
+        post: operations["postEthOnchainV2RequestExitTransaction"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/eth/onchain/v2/transaction/multi-claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pooling (Onchain v2) Multi-Claim Transaction
+         * @description Create a transaction to claim rewards in the Kiln Pooling (Onchain v2) smart-contract.
+         *     This route is for Ethereum operators only of the Kiln Pooling (Onchain v2) smart-contract of type vPool (ERC20).
+         *
+         */
+        post: operations["postEthOnchainV2MultiClaimTransaction"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2953,6 +3040,166 @@ export interface paths {
          * @description Craft a Bitcoin transaction that locks the stake in the self-custodial Bitcoin staking script
          */
         post: operations["postBtcBabyStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/baby-register-stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Babylon Register Stake Transaction for BTC Staking
+         * @description Craft a Babylon transaction to pre register the BTC stake in the Babylon Chain
+         */
+        post: operations["postBtcBabyRegisterStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/baby-withdraw-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Craft BABY Withdraw Rewards Transaction
+         * @description Craft a Babylon transaction to withdraw rewards from BTC staking.
+         */
+        post: operations["postBtcBabyWithdrawRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/btc-unbond": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Craft BTC Unbond Transaction
+         * @description Craft a Bitcoin unbond transaction for Babylon staking.
+         */
+        post: operations["postBtcBabyCraftUnbondTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/btc-prepare-signed-unbond": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare Signed BTC Unbonding Transaction
+         * @description This endpoint processes a signed Bitcoin unbonding transaction (in PSBT format) and finalizes it by adding the required covenant signatures. The finalized transaction can then be broadcast to the Bitcoin network to complete the unbonding process.
+         */
+        post: operations["postBtcBabyPrepareSignedUnbondTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/btc-withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Craft BTC Withdraw Transaction
+         * @description Craft a Bitcoin withdrawal transaction for Babylon staking.
+         */
+        post: operations["postBtcBabyCraftWithdrawTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/btc-broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast BTC Transaction
+         * @description Broadcast a signed transaction to the Bitcoin network
+         */
+        post: operations["postBtcBabyBroadcastBtcTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/baby-broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast BABY Transaction
+         * @description Broadcast a signed transaction to the Babylon network
+         */
+        post: operations["postBtcBabyBroadcastBabyTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/btc/baby/transaction/baby-prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare BABY Transaction
+         * @description Prepare a BABY unsigned transaction for broadcast by adding signatures to it
+         */
+        post: operations["postBtcBabyPrepareTx"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5440,7 +5687,7 @@ export interface paths {
         put?: never;
         /**
          * Redelegate Transaction
-         * @description Generates a redelegate transaction on DYDX to move a stake from a validator to another without going through the 30 days unbonding period.
+         * @description Generates a redelegate transaction on DYDX to move a stake from a validator to another without going through the 21 days unbonding period.
          */
         post: operations["postDydxRedelegateTx"];
         delete?: never;
@@ -8995,12 +9242,12 @@ export interface components {
              */
             rewards?: string;
             /**
-             * @description For Kiln On-Chain stakes only, the amount of execution rewards in WEI that can be withdrawn.
+             * @description For Kiln OnChain stakes only, the amount of execution rewards in WEI that can be withdrawn.
              * @example 76187808000000000
              */
             claimable_execution_rewards?: string;
             /**
-             * @description For Kiln On-Chain stakes only, the amount of consensus rewards in WEI that can be withdrawn.
+             * @description For Kiln OnChain stakes only, the amount of consensus rewards in WEI that can be withdrawn.
              * @example 76187808000000000
              */
             claimable_consensus_rewards?: string;
@@ -10956,6 +11203,99 @@ export interface components {
              * @example 1725530777795
              */
             estimated_claimable_at: number | null;
+        };
+        ETHOnchainV2CreateTransactionData: {
+            /**
+             * @description Address of the rewards owner
+             * @example 0x356c33675674691ad6b8ac92ecfb91960c5d2c30
+             */
+            wallet: string;
+            /** @description Address of the contract to interract with */
+            to: string;
+            /** @description Calldata of the transaction */
+            data: string;
+            /**
+             * @description Value of the transaction
+             * @example 0
+             */
+            value: string;
+            /**
+             * @description Nonce of the transaction
+             * @example 0
+             */
+            nonce: number;
+            /**
+             * @description Gas limit of the transaction
+             * @example 21000
+             */
+            gas_limit: number;
+            /**
+             * @description Chain id of the transaction
+             * @example 1
+             */
+            chain_id: number;
+        };
+        ETHOnchainV2StakeTransactionPayload: {
+            /**
+             * @description Address of the wallet to stake from
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            wallet: string;
+            /**
+             * @description Address of the integration to stake in
+             * @example 0x5db5235b5c7e247488784986e58019fffd98fda4
+             */
+            integration_address: string;
+            /**
+             * @description Amount to stake in WEI
+             * @example 1000000000000000000
+             */
+            amount_wei: string;
+            /**
+             * @description Whether to skip gas estimation for the transaction
+             * @example false
+             */
+            skip_gas_estimation: boolean;
+        };
+        ETHOnchainV2RequestExitTransactionPayload: {
+            /**
+             * @description Address of the wallet to stake from
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            wallet: string;
+            /**
+             * @description Address of the integration to stake in
+             * @example 0x5db5235b5c7e247488784986e58019fffd98fda4
+             */
+            integration_address: string;
+            /**
+             * @description Amount to stake in WEI
+             * @example 1000000000000000000
+             */
+            amount_wei: string;
+            /**
+             * @description Whether to skip gas estimation for the transaction
+             * @example false
+             */
+            skip_gas_estimation: boolean;
+        };
+        ETHOnchainV2MultiClaimTransactionPayload: {
+            /**
+             * @description Address of the wallet to claim from
+             * @example 0x41bf25fc8c52d292bd66d3bcecd8a919ecb9ef88
+             */
+            wallet: string;
+            /** @description List of addresses of the exit queues to claim from */
+            exit_queue_addresses: string[];
+            /** @description List of ticket IDs to claim from, each item should be an array of ticket IDs for each exit queue */
+            ticket_ids: number[][];
+            /** @description List of cask IDs to claim from */
+            cask_ids: number[][];
+            /**
+             * @description Whether to skip gas estimation for the transaction
+             * @example false
+             */
+            skip_gas_estimation: boolean;
         };
         XTZStake: {
             /**
@@ -19212,19 +19552,24 @@ export interface components {
         BTCUnsignedTx: {
             /**
              * @description Unsigned serialized staking psbt transaction
-             * @example 02000000032b040121be522a6916c0b77341c3edd0215356a13e60ab33cc3872d05fa03fac0200000000ffffffffba5d26dcc8a1614cb3ceb917c60d22cb18e039f0b0bc1ed6961aa593f1395b220100000000ffffffffb63808f9c6776a1510086506f6c1ab0b01dc32e01f9ee4adc8acf94e500440e40000000000ffffffff0260ae0a00000000002251204aa0a2b6edfe0230220f799ea05bee3223f38f145d4183beeecb308571604ff1a104010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             * @example 70736274ff010...
              */
-            unsigned_tx_stakingPsbt: string;
+            unsigned_staking_psbt_hex: string;
             /**
              * @description Unsigned serialized slashing psbt transaction
-             * @example 70736274ff0100670200000001fdd26102509e6c1fa9382900a152b10da836210101915e3a4392ef2e3e29ea550000000000ffffffff02bc02000000000000000425090000000000225120a3dda02ff1f607b3389ea774665d81eb8856ad3116d58d9e6498c45c2effb579000000000001012b60ae0a00000000002251204aa0a2b6edfe0230220f799ea05bee3223f38f145d4183beeecb308571604ff14215c050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac07e5daef5dd3182a3d658179b50c692ad1e15958c1c8976dcbcc44739174cf57afd790120bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6ad20053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76ad2023b29f89b45f4af41588dcaf0ca572ada32872a88224f311373917f1b37d08d1ac204b15848e495a3a62283daaadb3f458a00859fe48e321f0121ebabbdd6698f9faba208242640732773249312c47ca7bdb50ca79f15f2ecc32b9c83ceebba44fb74df7ba20cbdd028cfe32c1c1f2d84bfec71e19f92df509bba7b8ad31ca6c1a134fe09204ba20d3c79b99ac4d265c2f97ac11e3232c07a598b020cf56c6f055472c893c0967aeba20d45c70d28f169e1f0c7f4a78e2bc73497afe585b70aa897955989068f3350aaaba20de13fc96ea6899acbdc5db3afaa683f62fe35b60ff6eb723dad28a11d2b12f8cba20e36200aaa8dce9453567bba108bdc51f7f1174b97a65e4dc4402fc5de779d41cba20f178fcce82f95c524b53b077e6180bd2d779a9057fdff4255a0af95af918cee0ba569cc001172050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0000000
+             * @example 70736274ff010...
              */
-            unsigned_tx_slashingPsbt: string;
+            unsigned_slashing_psbt_hex: string;
             /**
              * @description Unsigned serialized slashing psbt transaction
-             * @example 70736274ff0100670200000001195faa8d5514762200bbefb738794124fac2f0ee290bd9b22f6c361046a018510000000000ffffffff02b202000000000000008eff080000000000225120eff0d6723e2b7d46686d8845daeaf87bf9535c696797e7126a0a043758c13537000000000001012be0880a00000000002251209d72a49d910440ad248e9ae188810fb9b7cd84dbf59ebdde78d5a37b417c526a4215c050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac05c335d658b45f10fe21b84fcd29b9280c3cd35613bdd000f01b82493ce9f5915fd790120bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6ad20053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76ad2023b29f89b45f4af41588dcaf0ca572ada32872a88224f311373917f1b37d08d1ac204b15848e495a3a62283daaadb3f458a00859fe48e321f0121ebabbdd6698f9faba208242640732773249312c47ca7bdb50ca79f15f2ecc32b9c83ceebba44fb74df7ba20cbdd028cfe32c1c1f2d84bfec71e19f92df509bba7b8ad31ca6c1a134fe09204ba20d3c79b99ac4d265c2f97ac11e3232c07a598b020cf56c6f055472c893c0967aeba20d45c70d28f169e1f0c7f4a78e2bc73497afe585b70aa897955989068f3350aaaba20de13fc96ea6899acbdc5db3afaa683f62fe35b60ff6eb723dad28a11d2b12f8cba20e36200aaa8dce9453567bba108bdc51f7f1174b97a65e4dc4402fc5de779d41cba20f178fcce82f95c524b53b077e6180bd2d779a9057fdff4255a0af95af918cee0ba569cc001172050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0000000
+             * @example 70736274ff010...
              */
-            unsigned_tx_unbondingSlashingPsbt: string;
+            unsigned_unbonding_slashing_psbt_hex: string;
+            /**
+             * @description Unsigned serialized unbonding transaction in hex format
+             * @example 02000000032b0...
+             */
+            unsigned_unbonding_tx_hex: string;
         };
         BTCCraftBABYLockTxPayload: {
             /**
@@ -19238,6 +19583,8 @@ export interface components {
              * @example 03bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6
              */
             public_key: string;
+            /** @description List of finality provider public keys */
+            finality_provider_btc_pks_hex: string[];
             /**
              * @description Amount of BTC to lock up in satoshi unit
              * @example 100000
@@ -19253,6 +19600,67 @@ export interface components {
              * @example 10
              */
             fee_rate: number;
+        };
+        BABYCraftBTCWithdrawTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /** @description The BTC transaction hash of the stake. */
+            stake_tx_hash: string;
+            /** @description The fee rate in satoshis per byte. */
+            fee_rate: number;
+        };
+        BABYPrepareSignedUnbondTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID associated with the unbonding transaction.
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description The BTC transaction hash of the stake.
+             * @example fc5e606725329c590945ac585f5907d911012a424879cabe46993fc7cc0b7117
+             */
+            stake_tx_hash: string;
+            /**
+             * @description The signed unbonding transaction in PSBT format (hex-encoded).
+             * @example 70736274ff0100670200000001195faa8d5514762200bbefb738794124fac2f0ee290bd9b22f6c361046a018510000000000ffffffff02b202000000000000008eff080000000000225120eff0d6723e2b7d46686d8845daeaf87bf9535c696797e7126a0a043758c13537000000000001012be0880a00000000002251209d72a49d910440ad248e9ae188810fb9b7cd84dbf59ebdde78d5a37b417c526a4215c050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac05c335d658b45f10fe21b84fcd29b9280c3cd35613bdd000f01b82493ce9f5915fd790120bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6ad20053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76ad2023b29f89b45f4af41588dcaf0ca572ada32872a88224f311373917f1b37d08d1ac204b15848e495a3a62283daaadb3f458a00859fe48e321f0121ebabbdd6698f9faba208242640732773249312c47ca7bdb50ca79f15f2ecc32b9c83ceebba44fb74df7ba20cbdd028cfe32c1c1f2d84bfec71e19f92df509bba7b8ad31ca6c1a134fe09204ba20d3c79b99ac4d265c2f97ac11e3232c07a598b020cf56c6f055472c893c0967aeba20d45c70d28f169e1f0c7f4a78e2bc73497afe585b70aa897955989068f3350aaaba20de13fc96ea6899acbdc5db3afaa683f62fe35b60ff6eb723dad28a11d2b12f8cba20e36200aaa8dce9453567bba108bdc51f7f1174b97a65e4dc4402fc5de779d41cba20f178fcce82f95c524b53b077e6180bd2d779a9057fdff4255a0af95af918cee0ba569cc001172050929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0000000
+             */
+            signed_unbonding_psbt_hex: string;
+        };
+        BABYCraftBTCUnbondTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID associated with the unbonding transaction.
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description The BTC transaction hash of the stake.
+             * @example fc5e606725329c590945ac585f5907d911012a424879cabe46993fc7cc0b7117
+             */
+            stake_tx_hash: string;
+        };
+        BABYCraftBABYWithdrawRewardsTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID associated with the rewards withdrawal transaction.
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description The public key of the BABY wallet used for rewards withdrawal.
+             * @example 03bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6
+             */
+            baby_public_key: string;
+            /**
+             * @description The BABY wallet address to withdraw rewards to.
+             * @example bbn1zmcwa265fy2mxhgl9avlwfrvhrprdm85mpcej4
+             */
+            baby_address: string;
         };
         BTCBABYStake: {
             /**
@@ -19279,7 +19687,7 @@ export interface components {
              * @description The public key of the finality provider
              * @example 053107172a3d5a2715754cd5793efdcf5e54364b855ed2305819e372aa685d76
              */
-            finality_provider: string;
+            finality_providers: string;
             /**
              * @description The amount of block for which the stake is blocked
              * @example 150
@@ -19337,6 +19745,1852 @@ export interface components {
             rewards_usd?: string;
             /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
             balance_usd?: string;
+        };
+        BABYCraftBTCRegisterStakeTxPayload: {
+            /**
+             * @description The Bitcoin address associated with the stake.
+             * @example bc1q6gd2c5te296j3uh3tpmfppk9p65scu7m53kx93
+             */
+            btc_address: string;
+            /**
+             * @description Wallet public key in compressed 33 bytes format.
+             * @example 03bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6
+             */
+            btc_public_key: string;
+            /**
+             * @description The public key of the BABY wallet used for staking.
+             * @example 03bb37a6d29e7fc8eb6726243c08a0f85d431602ddcd669bf33c74ec85ee8f42b6
+             */
+            baby_public_key: string;
+            /**
+             * @description The BABY wallet address to register the stake with.
+             * @example bbn1zmcwa265fy2mxhgl9avlwfrvhrprdm85mpcej4
+             */
+            baby_address: string;
+            /**
+             * @description A cryptographic signature proving ownership of the Babylon address (`baby_address`) by the Bitcoin signer (`btc_address`). It ensures the Babylon address is authorized for staking operations. Use ECDSA or BIP322 signature type. You should sign the bytes of the bech32 address.
+             * @example 3045022100d21aac5179517528f2f158769086c50ea90c73db00000000002251209d72a49d910440ad248e9ae188810fb9b7cd84dbf59ebdde78d5a37b417c526
+             */
+            baby_address_proof_of_possession_hex: string;
+            /**
+             * @description Signed BTC staking transaction in hex format.
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            signed_staking_tx_hex: string;
+            /**
+             * @description Signed BTC slashing transaction in hex format.
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            signed_slashing_tx_hex: string;
+            /**
+             * @description Signed BTC unbonding slashing transaction in hex format.
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            signed_unbonding_slashing_tx_hex: string;
+            /**
+             * @description Amount of BTC to lock up in satoshi unit (should be the same as the amount in the btc-lock transaction).
+             * @example 100000
+             */
+            amount_satoshi: number;
+            /**
+             * @description Amount of blocks your BTC will remain locked (should be the same as the time_lock in the btc-lock transaction).
+             * @example 150
+             */
+            time_lock: number;
+            /**
+             * @description Unsigned unbonding transaction in hex format.
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            unsigned_unbonding_tx_hex: string;
+        };
+        BTCBroadcastTxPayload: {
+            /**
+             * @description Signed transaction serialized in hex
+             * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+             */
+            tx_serialized: string;
+        };
+        BTCTxHash: {
+            /**
+             * @description The hash of the broadcasted BTC transaction
+             * @example fc5e606725329c590945ac585f5907d911012a424879cabe46993fc7cc0b7117
+             */
+            tx_hash: string;
+        };
+        BABYStake: {
+            /**
+             * @description Public key of the validator
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address: string;
+            /**
+             * @description Public key of the delegator
+             * @example bbn1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            delegator_address: string;
+            /**
+             * Format: date-time
+             * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 2023-06-16T03:13:23.058547Z
+             */
+            delegated_at?: string;
+            /**
+             * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 15739267
+             */
+            delegated_block?: number;
+            /**
+             * Format: date-time
+             * @description Date of undelegation for the stake
+             * @example 2023-07-14T03:56:13.561156Z
+             */
+            undelegated_at?: string;
+            /**
+             * @description Block of undelegation for the stake
+             * @example 16126416
+             */
+            undelegated_block?: number;
+            /**
+             * @description Total rewards accumulated by this stake since its first ever delegation in ubbn. Includes currently available rewards not yet withdrawn.
+             * @example 735573808534727891000000
+             */
+            rewards: string;
+            /**
+             * @description Available rewards in ubbn that can be withdrawn from this stake
+             * @example 36748808534727891000000
+             */
+            available_rewards: string;
+            /**
+             * @description Staked balance on this stake in ubbn
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 5.76
+             */
+            net_apy: number;
+            /**
+             * @description State of the BABY stake
+             * @example active
+             * @enum {string}
+             */
+            state: "active" | "deactivating" | "inactive";
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at?: string;
+            /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
+            permissions: {
+                /**
+                 * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
+                 * @example granter
+                 */
+                source: string;
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height: number;
+                /**
+                 * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+                 * @example Staking.MsgDelegate
+                 */
+                permission: string;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the permissions will be revoked
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                expires_at?: string | null;
+                /**
+                 * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "bbnvaloper1xyz",
+                 *       "bbnvaloper1abc"
+                 *     ]
+                 */
+                allow_list?: string[] | null;
+                /**
+                 * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "bbnvaloper1xyz",
+                 *       "bbnvaloper1abc"
+                 *     ]
+                 */
+                deny_list?: string[] | null;
+            }[];
+            /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
+            unbondings: {
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height: number;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the unbonding will take effect
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                completion_time: string;
+                /**
+                 * @description Amount currently associated with the unbonding (slashes included)
+                 * @example 129300
+                 */
+                balance: string;
+                /**
+                 * @description Amount expected at creation (slashes non-included)
+                 * @example 150300
+                 */
+                initial_balance: string;
+            }[];
+        };
+        PostBABYStakesPayload: {
+            stakes: {
+                /**
+                 * @description Stake id {validator_address}_{delegator_address}
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4_bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4}
+                 */
+                stakeId?: string;
+            }[];
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id: string;
+        };
+        BABYStakeMessage: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.MsgDelegate
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "delegatorAddress": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *       "validatorAddress": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *       "amount": {
+             *         "denom": "ubbn",
+             *         "amount": "1000000"
+             *       }
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        BABYStakeMessageRestake: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.StakeAuthorization
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "allowList": {
+             *         "address": [
+             *           "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4"
+             *         ]
+             *       },
+             *       "AuthorizationType": 1
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        BABYStakeUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "ubbn",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description List of messages included in the transaction.
+             * @example [
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *         "value": {
+             *           "delegatorAddress": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *           "validatorAddress": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *           "amount": {
+             *             "denom": "ubbn",
+             *             "amount": "1000000"
+             *           }
+             *         }
+             *       }
+             *     ]
+             */
+            messages: components["schemas"]["BABYStakeMessage"][];
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        BABYUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Message included in the transaction
+             * @example {
+             *       "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *       "value": {
+             *         "delegatorAddress": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *         "validatorAddress": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *         "amount": {
+             *           "denom": "ubbn",
+             *           "amount": "1000000"
+             *         }
+             *       }
+             *     }
+             */
+            message: Record<string, never>;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "ubbn",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        BABYSignedTx: {
+            /**
+             * @description Serialized signed transaction in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signed_tx_serialized: string;
+        };
+        BABYTxHash: {
+            /**
+             * @description Hash of the transaction
+             * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
+             */
+            tx_hash: string;
+        };
+        BABYPrepareTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Transaction signature serialized in hex
+             * @example 191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signature: string;
+        };
+        BABYBroadcastTxPayload: {
+            /**
+             * @description Signed transaction serialized in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            tx_serialized: string;
+        };
+        BABYTxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status?: "success" | "error";
+            /**
+             * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
+             * @example {
+             *       "height": 16007296,
+             *       "txIndex": 0,
+             *       "hash": "2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB",
+             *       "code": 0,
+             *       "events": [
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "bbn17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "bbn17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "fee",
+             *               "value": "5000ubbn"
+             *             },
+             *             {
+             *               "key": "fee_payer",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "acc_seq",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev/33"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "signature",
+             *               "value": "GR+HpU3Or7arml8RKhNETKN+SaAp5TG7ITAf1y6dOQMEx2PMpal2CmMdyFcF3WsItQ9f/31d6Nc7LOvR9MO2oA=="
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "action",
+             *               "value": "/cosmos.staking.v1beta1.MsgDelegate"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "bbn1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "bbn1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "bbn1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "withdraw_rewards",
+             *           "attributes": [
+             *             {
+             *               "key": "amount",
+             *               "value": "5ubbn"
+             *             },
+             *             {
+             *               "key": "validator",
+             *               "value": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "bbn1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000ubbn"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "delegate",
+             *           "attributes": [
+             *             {
+             *               "key": "validator",
+             *               "value": "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000ubbn"
+             *             },
+             *             {
+             *               "key": "new_shares",
+             *               "value": "100000.000000000000000000"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "module",
+             *               "value": "staking"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         }
+             *       ],
+             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5ubbn\"},{\"key\":\"receiver\",\"value\":\"bbn1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000ubbn\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"bbn1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5ubbn\"},{\"key\":\"spender\",\"value\":\"bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000ubbn\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4\"},{\"key\":\"amount\",\"value\":\"100000ubbn\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"bbn1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"bbn19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"bbn1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5ubbn\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5ubbn\"},{\"key\":\"validator\",\"value\":\"bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4\"}]}]}]",
+             *       "tx": {
+             *         "0": 10,
+             *         "1": 160,
+             *         "2": 1,
+             *         "3": 10,
+             *         "4": 157,
+             *         "5": 1,
+             *         "6": 10,
+             *         "7": 35,
+             *         "8": 47,
+             *         "9": 99,
+             *         "10": 111,
+             *         "11": 115,
+             *         "12": 109,
+             *         "13": 111,
+             *         "14": 115,
+             *         "15": 46,
+             *         "16": 115,
+             *         "17": 116,
+             *         "18": 97,
+             *         "19": 107,
+             *         "20": 105,
+             *         "21": 110,
+             *         "22": 103,
+             *         "23": 46,
+             *         "24": 118,
+             *         "25": 49,
+             *         "26": 98,
+             *         "27": 101,
+             *         "28": 116,
+             *         "29": 97,
+             *         "30": 49,
+             *         "31": 46,
+             *         "32": 77,
+             *         "33": 115,
+             *         "34": 103,
+             *         "35": 68,
+             *         "36": 101,
+             *         "37": 108,
+             *         "38": 101,
+             *         "39": 103,
+             *         "40": 97,
+             *         "41": 116,
+             *         "42": 101,
+             *         "43": 18,
+             *         "44": 118,
+             *         "45": 10,
+             *         "46": 45,
+             *         "47": 99,
+             *         "48": 111,
+             *         "49": 115,
+             *         "50": 109,
+             *         "51": 111,
+             *         "52": 115,
+             *         "53": 49,
+             *         "54": 57,
+             *         "55": 99,
+             *         "56": 57,
+             *         "57": 102,
+             *         "58": 100,
+             *         "59": 104,
+             *         "60": 52,
+             *         "61": 56,
+             *         "62": 56,
+             *         "63": 118,
+             *         "64": 113,
+             *         "65": 106,
+             *         "66": 99,
+             *         "67": 108,
+             *         "68": 108,
+             *         "69": 116,
+             *         "70": 119,
+             *         "71": 112,
+             *         "72": 54,
+             *         "73": 56,
+             *         "74": 106,
+             *         "75": 109,
+             *         "76": 53,
+             *         "77": 48,
+             *         "78": 121,
+             *         "79": 100,
+             *         "80": 119,
+             *         "81": 121,
+             *         "82": 104,
+             *         "83": 51,
+             *         "84": 54,
+             *         "85": 106,
+             *         "86": 113,
+             *         "87": 101,
+             *         "88": 97,
+             *         "89": 116,
+             *         "90": 101,
+             *         "91": 118,
+             *         "92": 18,
+             *         "93": 52,
+             *         "94": 99,
+             *         "95": 111,
+             *         "96": 115,
+             *         "97": 109,
+             *         "98": 111,
+             *         "99": 115,
+             *         "100": 118,
+             *         "101": 97,
+             *         "102": 108,
+             *         "103": 111,
+             *         "104": 112,
+             *         "105": 101,
+             *         "106": 114,
+             *         "107": 49,
+             *         "108": 54,
+             *         "109": 121,
+             *         "110": 115,
+             *         "111": 48,
+             *         "112": 101,
+             *         "113": 103,
+             *         "114": 57,
+             *         "115": 51,
+             *         "116": 53,
+             *         "117": 109,
+             *         "118": 107,
+             *         "119": 113,
+             *         "120": 112,
+             *         "121": 107,
+             *         "122": 121,
+             *         "123": 100,
+             *         "124": 107,
+             *         "125": 103,
+             *         "126": 102,
+             *         "127": 99,
+             *         "128": 106,
+             *         "129": 57,
+             *         "130": 97,
+             *         "131": 103,
+             *         "132": 101,
+             *         "133": 50,
+             *         "134": 97,
+             *         "135": 117,
+             *         "136": 56,
+             *         "137": 108,
+             *         "138": 57,
+             *         "139": 54,
+             *         "140": 110,
+             *         "141": 97,
+             *         "142": 101,
+             *         "143": 114,
+             *         "144": 101,
+             *         "145": 57,
+             *         "146": 26,
+             *         "147": 15,
+             *         "148": 10,
+             *         "149": 5,
+             *         "150": 117,
+             *         "151": 97,
+             *         "152": 116,
+             *         "153": 111,
+             *         "154": 109,
+             *         "155": 18,
+             *         "156": 6,
+             *         "157": 49,
+             *         "158": 48,
+             *         "159": 48,
+             *         "160": 48,
+             *         "161": 48,
+             *         "162": 48,
+             *         "163": 18,
+             *         "164": 103,
+             *         "165": 10,
+             *         "166": 80,
+             *         "167": 10,
+             *         "168": 70,
+             *         "169": 10,
+             *         "170": 31,
+             *         "171": 47,
+             *         "172": 99,
+             *         "173": 111,
+             *         "174": 115,
+             *         "175": 109,
+             *         "176": 111,
+             *         "177": 115,
+             *         "178": 46,
+             *         "179": 99,
+             *         "180": 114,
+             *         "181": 121,
+             *         "182": 112,
+             *         "183": 116,
+             *         "184": 111,
+             *         "185": 46,
+             *         "186": 115,
+             *         "187": 101,
+             *         "188": 99,
+             *         "189": 112,
+             *         "190": 50,
+             *         "191": 53,
+             *         "192": 54,
+             *         "193": 107,
+             *         "194": 49,
+             *         "195": 46,
+             *         "196": 80,
+             *         "197": 117,
+             *         "198": 98,
+             *         "199": 75,
+             *         "200": 101,
+             *         "201": 121,
+             *         "202": 18,
+             *         "203": 35,
+             *         "204": 10,
+             *         "205": 33,
+             *         "206": 3,
+             *         "207": 156,
+             *         "208": 228,
+             *         "209": 123,
+             *         "210": 42,
+             *         "211": 129,
+             *         "212": 61,
+             *         "213": 19,
+             *         "214": 135,
+             *         "215": 97,
+             *         "216": 49,
+             *         "217": 169,
+             *         "218": 195,
+             *         "219": 190,
+             *         "220": 119,
+             *         "221": 232,
+             *         "222": 196,
+             *         "223": 175,
+             *         "224": 164,
+             *         "225": 158,
+             *         "226": 148,
+             *         "227": 135,
+             *         "228": 68,
+             *         "229": 171,
+             *         "230": 190,
+             *         "231": 225,
+             *         "232": 31,
+             *         "233": 147,
+             *         "234": 158,
+             *         "235": 42,
+             *         "236": 66,
+             *         "237": 15,
+             *         "238": 70,
+             *         "239": 18,
+             *         "240": 4,
+             *         "241": 10,
+             *         "242": 2,
+             *         "243": 8,
+             *         "244": 1,
+             *         "245": 24,
+             *         "246": 33,
+             *         "247": 18,
+             *         "248": 19,
+             *         "249": 10,
+             *         "250": 13,
+             *         "251": 10,
+             *         "252": 5,
+             *         "253": 117,
+             *         "254": 97,
+             *         "255": 116,
+             *         "256": 111,
+             *         "257": 109,
+             *         "258": 18,
+             *         "259": 4,
+             *         "260": 53,
+             *         "261": 48,
+             *         "262": 48,
+             *         "263": 48,
+             *         "264": 16,
+             *         "265": 224,
+             *         "266": 167,
+             *         "267": 18,
+             *         "268": 26,
+             *         "269": 64,
+             *         "270": 25,
+             *         "271": 31,
+             *         "272": 135,
+             *         "273": 165,
+             *         "274": 77,
+             *         "275": 206,
+             *         "276": 175,
+             *         "277": 182,
+             *         "278": 171,
+             *         "279": 154,
+             *         "280": 95,
+             *         "281": 17,
+             *         "282": 42,
+             *         "283": 19,
+             *         "284": 68,
+             *         "285": 76,
+             *         "286": 163,
+             *         "287": 126,
+             *         "288": 73,
+             *         "289": 160,
+             *         "290": 41,
+             *         "291": 229,
+             *         "292": 49,
+             *         "293": 187,
+             *         "294": 33,
+             *         "295": 48,
+             *         "296": 31,
+             *         "297": 215,
+             *         "298": 46,
+             *         "299": 157,
+             *         "300": 57,
+             *         "301": 3,
+             *         "302": 4,
+             *         "303": 199,
+             *         "304": 99,
+             *         "305": 204,
+             *         "306": 165,
+             *         "307": 169,
+             *         "308": 118,
+             *         "309": 10,
+             *         "310": 99,
+             *         "311": 29,
+             *         "312": 200,
+             *         "313": 87,
+             *         "314": 5,
+             *         "315": 221,
+             *         "316": 107,
+             *         "317": 8,
+             *         "318": 181,
+             *         "319": 15,
+             *         "320": 95,
+             *         "321": 255,
+             *         "322": 125,
+             *         "323": 93,
+             *         "324": 232,
+             *         "325": 215,
+             *         "326": 59,
+             *         "327": 44,
+             *         "328": 235,
+             *         "329": 209,
+             *         "330": 244,
+             *         "331": 195,
+             *         "332": 182,
+             *         "333": 160
+             *       },
+             *       "gasUsed": 167798,
+             *       "gasWanted": 300000
+             *     }
+             */
+            receipt?: Record<string, never>;
+        };
+        BABYCraftUnstakeTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator: string;
+            /**
+             * @description Amount to unstake in ubbn. Omit to unstake all the delegated amount
+             * @example 1000000000000000000000000
+             */
+            amount_ubbn?: string;
+        };
+        BABYCraftRedelegateTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to which the new stake will be linked
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator source address of current stake
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_source: string;
+            /**
+             * @description Validator destination address to which redelegate the stake
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_destination: string;
+            /**
+             * @description Amount to redelegate in ubbn
+             * @example 1000000000000000000000000
+             */
+            amount_ubbn?: string;
+        };
+        BABYCraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator: string;
+            /**
+             * @description Amount to stake in ubbn
+             * @example 1000000000000000000000000
+             */
+            amount_ubbn: string;
+        };
+        BABYCraftRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        BABYCraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        BABYCraftWithdrawRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator: string;
+        };
+        BABYReward: {
+            /**
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2023-01-15
+             */
+            date: string;
+            /**
+             * @description Accumulated rewards in ubbn during the day
+             * @example 3575891083876864200000
+             */
+            rewards: string;
+            /**
+             * @description Staked balance in ubbn at the end of the day
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 20.76
+             */
+            net_apy: number;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            rewards_usd?: number;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            balance_usd?: number;
+        };
+        BABYOperationDelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgDelegate
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address: string;
+            /**
+             * @description Delegator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            delegator_address: string;
+            /**
+             * @description Amount added to the staked balance in ubbn
+             * @example 3000000
+             */
+            amount: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in ubbn
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        BABYOperationUndelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgUndelegate
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address: string;
+            /**
+             * @description Delegator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            delegator_address: string;
+            /**
+             * @description Amount removed from the staked balance in ubbn
+             * @example 3000000
+             */
+            amount: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in ubbn
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        BABYOperationRedelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgBeginRedelegate
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Destination validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address: string;
+            /**
+             * @description Source validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address_source?: string;
+            /**
+             * @description Delegator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            delegator_address: string;
+            /**
+             * @description Amount moved from the source validator staked balance to the destination validator staked balance in ubbn
+             * @example 3000000
+             */
+            amount: string;
+            /**
+             * @description Rewards auto-claimed from the destination validator alongside the operation in ubbn
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+            /**
+             * @description Rewards auto-claimed from the source validator alongside the operation in ubbn
+             * @example 10841
+             */
+            withdraw_rewards_source?: string;
+        };
+        BABYOperationWithdrawRewards: {
+            /**
+             * @description Operation type
+             * @example distr.MsgWithdrawDelegatorReward
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Validator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            validator_address: string;
+            /**
+             * @description Delegator address
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            delegator_address: string;
+            /**
+             * @description Rewards claimed alongside the operation in ubbn
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        BABYOperationGrant: {
+            /**
+             * @description Operation type
+             * @example Authz.Grant
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Recipient of the permissions
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            grantee?: string;
+            /**
+             * @description Owner of the stake giving the permissions
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            granter?: string;
+            /**
+             * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+             * @example Staking.MsgDelegate
+             */
+            permission?: string;
+            /**
+             * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *       "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4"
+             *     ]
+             */
+            allow_list?: string[] | null;
+            /**
+             * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4",
+             *       "bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4"
+             *     ]
+             */
+            deny_list?: string[] | null;
+        };
+        BABYOperationExec: {
+            /**
+             * @description Operation type
+             * @example Authz.Exec
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+                 */
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in ubbn
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in ubbn
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in ubbn
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        BABYOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in ubbn
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example bbn1ru8f3402rufr36mfnkfp3dxpjelt5umytf0xs4
+                 */
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in ubbn
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in ubbn
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in ubbn
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        BABYNetworkStats: {
+            /**
+             * @description Price of BABY in USD
+             * @example 10.53
+             */
+            baby_price_usd: number;
+            /**
+             * @description Number of validators in the network
+             * @example 100
+             */
+            nb_validators: number;
+            /**
+             * @description Gross annual percentage yield
+             * @example 4.5
+             */
+            network_gross_apy: number;
+            /**
+             * @description Supply of BABY currently staked
+             * @example 12.4
+             */
+            supply_staked_percent: number;
+            /**
+             * @description BABY inflation rate
+             * @example 3.5
+             */
+            inflation_rate: number;
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at: string;
+        };
+        /**
+         * @description Decoded transaction
+         * @example {
+         *       "authInfo": {
+         *         "signerInfos": [
+         *           {
+         *             "publicKey": {
+         *               "typeUrl": "/cosmos.crypto.secp256k1.PubKey",
+         *               "value": {
+         *                 "0": 10,
+         *                 "1": 33,
+         *                 "2": 3,
+         *                 "3": 156,
+         *                 "4": 228,
+         *                 "5": 123,
+         *                 "6": 42,
+         *                 "7": 129,
+         *                 "8": 61,
+         *                 "9": 19,
+         *                 "10": 135,
+         *                 "11": 97,
+         *                 "12": 49,
+         *                 "13": 169,
+         *                 "14": 195,
+         *                 "15": 190,
+         *                 "16": 119,
+         *                 "17": 232,
+         *                 "18": 196,
+         *                 "19": 175,
+         *                 "20": 164,
+         *                 "21": 158,
+         *                 "22": 148,
+         *                 "23": 135,
+         *                 "24": 68,
+         *                 "25": 171,
+         *                 "26": 190,
+         *                 "27": 225,
+         *                 "28": 31,
+         *                 "29": 147,
+         *                 "30": 158,
+         *                 "31": 42,
+         *                 "32": 66,
+         *                 "33": 15,
+         *                 "34": 70
+         *               }
+         *             },
+         *             "modeInfo": {
+         *               "single": {
+         *                 "mode": 1
+         *               }
+         *             },
+         *             "sequence": {
+         *               "low": 102,
+         *               "high": 0,
+         *               "unsigned": true
+         *             }
+         *           }
+         *         ],
+         *         "fee": {
+         *           "amount": [
+         *             {
+         *               "denom": "ubbn",
+         *               "amount": "5000"
+         *             }
+         *           ],
+         *           "gasLimit": {
+         *             "low": 2000000,
+         *             "high": 0,
+         *             "unsigned": true
+         *           },
+         *           "payer": "",
+         *           "granter": ""
+         *         }
+         *       },
+         *       "body": {
+         *         "messages": [
+         *           {
+         *             "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+         *             "value": {
+         *               "0": 10,
+         *               "1": 45,
+         *               "2": 99,
+         *               "3": 111,
+         *               "4": 115,
+         *               "5": 109,
+         *               "6": 111,
+         *               "7": 115,
+         *               "8": 49,
+         *               "9": 57,
+         *               "10": 99,
+         *               "11": 57,
+         *               "12": 102,
+         *               "13": 100,
+         *               "14": 104,
+         *               "15": 52,
+         *               "16": 56,
+         *               "17": 56,
+         *               "18": 118,
+         *               "19": 113,
+         *               "20": 106,
+         *               "21": 99,
+         *               "22": 108,
+         *               "23": 108,
+         *               "24": 116,
+         *               "25": 119,
+         *               "26": 112,
+         *               "27": 54,
+         *               "28": 56,
+         *               "29": 106,
+         *               "30": 109,
+         *               "31": 53,
+         *               "32": 48,
+         *               "33": 121,
+         *               "34": 100,
+         *               "35": 119,
+         *               "36": 121,
+         *               "37": 104,
+         *               "38": 51,
+         *               "39": 54,
+         *               "40": 106,
+         *               "41": 113,
+         *               "42": 101,
+         *               "43": 97,
+         *               "44": 116,
+         *               "45": 101,
+         *               "46": 118,
+         *               "47": 18,
+         *               "48": 52,
+         *               "49": 99,
+         *               "50": 111,
+         *               "51": 115,
+         *               "52": 109,
+         *               "53": 111,
+         *               "54": 115,
+         *               "55": 118,
+         *               "56": 97,
+         *               "57": 108,
+         *               "58": 111,
+         *               "59": 112,
+         *               "60": 101,
+         *               "61": 114,
+         *               "62": 49,
+         *               "63": 54,
+         *               "64": 121,
+         *               "65": 115,
+         *               "66": 48,
+         *               "67": 101,
+         *               "68": 103,
+         *               "69": 57,
+         *               "70": 51,
+         *               "71": 53,
+         *               "72": 109,
+         *               "73": 107,
+         *               "74": 113,
+         *               "75": 112,
+         *               "76": 107,
+         *               "77": 121,
+         *               "78": 100,
+         *               "79": 107,
+         *               "80": 103,
+         *               "81": 102,
+         *               "82": 99,
+         *               "83": 106,
+         *               "84": 57,
+         *               "85": 97,
+         *               "86": 103,
+         *               "87": 101,
+         *               "88": 50,
+         *               "89": 97,
+         *               "90": 117,
+         *               "91": 56,
+         *               "92": 108,
+         *               "93": 57,
+         *               "94": 54,
+         *               "95": 110,
+         *               "96": 97,
+         *               "97": 101,
+         *               "98": 114,
+         *               "99": 101,
+         *               "100": 57,
+         *               "101": 26,
+         *               "102": 16,
+         *               "103": 10,
+         *               "104": 5,
+         *               "105": 117,
+         *               "106": 97,
+         *               "107": 116,
+         *               "108": 111,
+         *               "109": 109,
+         *               "110": 18,
+         *               "111": 7,
+         *               "112": 49,
+         *               "113": 48,
+         *               "114": 48,
+         *               "115": 48,
+         *               "116": 48,
+         *               "117": 48,
+         *               "118": 48
+         *             }
+         *           }
+         *         ],
+         *         "memo": "",
+         *         "timeoutHeight": {
+         *           "low": 0,
+         *           "high": 0,
+         *           "unsigned": true
+         *         },
+         *         "extensionOptions": [],
+         *         "nonCriticalExtensionOptions": []
+         *       },
+         *       "signatures": [
+         *         {
+         *           "0": 116,
+         *           "1": 104,
+         *           "2": 101,
+         *           "3": 116,
+         *           "4": 97,
+         *           "5": 45,
+         *           "6": 116,
+         *           "7": 101,
+         *           "8": 115,
+         *           "9": 116,
+         *           "10": 110,
+         *           "11": 101,
+         *           "12": 116,
+         *           "13": 45,
+         *           "14": 48,
+         *           "15": 48,
+         *           "16": 49
+         *         }
+         *       ]
+         *     }
+         */
+        BABYTxDecoding: Record<string, never>;
+        BABYCraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example bbn1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in ubbn
+             * @example 1000000000000000000000000
+             */
+            amount_ubbn: string;
         };
         MATICStake: {
             /**
@@ -37156,6 +39410,11 @@ export interface components {
              */
             unfreeze_balance?: string;
             /**
+             * @description TRX withdrawn from unfreeze in sun
+             * @example 1000000
+             */
+            withdraw_unfreeze_amount?: string;
+            /**
              * @description TRX rewards withdrawn in sun
              * @example 1000000
              */
@@ -37230,6 +39489,8 @@ export interface components {
         DefiVaultIdsParam: string[];
         /** @description Comma-separated list of wallet addresses */
         DefiWalletParam: string[];
+        /** @description Comma-separated list of stake ids */
+        DefiStakeIdsParam: string[];
         /** @description The address of the pooling integration */
         ETHOnChainIntegrationParam: string;
         /** @description Comma-separated list of operation IDs */
@@ -37325,6 +39586,24 @@ export interface components {
         ADAPaginationPageSizeParam: number;
         BTCBABYWalletsParam: string;
         BTCBABYTxIDsParam: string;
+        /** @description Comma-separated list of validators addresses, these addresses
+         *     are matched with the corresponding delegator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        BABYValidatorsParam: string[];
+        /** @description Comma-separated list of delegator addresses, these addresses
+         *     are matched with the corresponding validator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        BABYDelegatorsParam: string[];
+        /** @description whether or not the operation returned will include authz operations, defaults to false */
+        BABYAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        BABYWasmFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        BABYPrecisionParam: "chain" | "micro" | "atto";
         /** @description Comma-separated list of wallets addresses */
         MATICWalletsParam: string[];
         /** @description Comma-separated list of validators' indexes */
@@ -39553,6 +41832,8 @@ export interface operations {
                 vaults?: components["parameters"]["DefiVaultsParam"];
                 /** @description Comma-separated list of vault ids */
                 vault_ids?: components["parameters"]["DefiVaultIdsParam"];
+                /** @description Comma-separated list of stake ids */
+                stake_ids?: components["parameters"]["DefiStakeIdsParam"];
             };
             header?: never;
             path?: never;
@@ -40049,6 +42330,58 @@ export interface operations {
             };
         };
     };
+    getEthOnChainV1Fee: {
+        parameters: {
+            query: {
+                /** @description Address of the OnchainV1 integration to get the fee from */
+                integration: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: {
+                            /**
+                             * @description Fee of the integration in percentage
+                             * @example 0.1
+                             */
+                            fee: number;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     postEthOnChainKeys: {
         parameters: {
             query?: never;
@@ -40364,6 +42697,144 @@ export interface operations {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["ETHOnchainV2ExitTicket"][];
                     };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthOnchainV2StakeTransaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Stake transaction payload */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHOnchainV2StakeTransactionPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": components["schemas"]["ETHOnchainV2CreateTransactionData"];
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthOnchainV2RequestExitTransaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Request exit transaction payload */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHOnchainV2RequestExitTransactionPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": components["schemas"]["ETHOnchainV2CreateTransactionData"];
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postEthOnchainV2MultiClaimTransaction: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Multi-claim transaction payload */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["ETHOnchainV2MultiClaimTransactionPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": components["schemas"]["ETHOnchainV2CreateTransactionData"];
                 };
             };
             /** @description Invalid parameters */
@@ -44789,7 +47260,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json; charset=utf-8": components["schemas"]["ADAPoolInfo"][];
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ADAPoolInfo"][];
+                    };
                 };
             };
             /** @description Unauthorized */
@@ -45160,6 +47633,402 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["BTCUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyRegisterStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYCraftBTCRegisterStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BABYUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyWithdrawRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Parameters required to craft a BABY rewards withdrawal transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYCraftBABYWithdrawRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BABYUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyCraftUnbondTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Parameters required to craft a BTC unbond transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYCraftBTCUnbondTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /**
+                         * @description Unsigned unbonding transaction in hex format.
+                         * @example 70736274ff010...
+                         */
+                        unsigned_unbonding_psbt_hex: string;
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyPrepareSignedUnbondTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Parameters required to prepare a signed BTC unbonding transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYPrepareSignedUnbondTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /**
+                         * @description Serialized unbonding transaction in hex format.
+                         * @example 0200000001d88b002ba8b868d5065d8363ebbf77c186733b787f69dd327212e20000000000ffffffff02a086010000000000160014d21aac5179517528f2f158769086c50ea90c73db00000000
+                         */
+                        serialized_unbonding_tx_hex: string;
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyCraftWithdrawTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Parameters required to craft a BTC withdrawal transaction. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYCraftBTCWithdrawTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /**
+                         * @description Unsigned PSBT for the BTC withdrawal transaction.
+                         * @example 70736274ff010...
+                         */
+                        unsigned_tx_withdraw_psbt: string;
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyBroadcastBtcTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BTCBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BTCTxHash"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyBroadcastBabyTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BABYTxHash"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postBtcBabyPrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to prepare */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["BABYPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["BABYSignedTx"];
                     };
                 };
             };
