@@ -10708,6 +10708,11 @@ export interface components {
              */
             asset: string;
             /**
+             * @description Asset icon of the additional rewards
+             * @example https://public.kiln.fi/icons/assets/usdc.svg
+             */
+            asset_icon: string;
+            /**
              * @description Net reward rate of additional rewards of the vault
              * @example 11.9430363
              */
@@ -38535,12 +38540,12 @@ export interface components {
              * @description Hex encoded signature
              * @example 58375aa7640d8f1f9023e30c156d58b1e07e76832814549b6067c03139f057c4b31ee4356fd5785693bbd163004a92fccf53c80c4f720e1cfcce05ba64603709
              */
-            signature?: string;
+            signature: string;
             /**
              * @description Address of the signer
              * @example UQBzQbAszir_fMErkktI7_8Xl2FkhlDUKE4iUGc9V66OMpp1
              */
-            from?: string;
+            from: string;
         };
         TONPreparedTx: {
             /**
