@@ -804,6 +804,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/defi/allowance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Allowance
+         * @description Get allowance of the wallet on the asset to deposit in the vault
+         */
+        get: operations["getDefiAllowance"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/defi/extra-rewards/morpho": {
         parameters: {
             query?: never;
@@ -8194,6 +8214,306 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/sui/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description Get the live view of SUI stakes
+         */
+        get: operations["getSuiStakes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rewards
+         * @description Get historical rewards by day of SUI stakes. Units are in MIST (10⁻⁹ SUI).
+         */
+        get: operations["getSuiRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of SUI stakes
+         */
+        get: operations["getSuiOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/network-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Network Stats
+         * @description Get some network statistics on SUI
+         */
+        get: operations["getSuiNetworkStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/unstake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Unstake Transaction
+         * @description Craft a unstake transaction.
+         */
+        post: operations["postSuiUnstakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stake Transaction
+         * @description Craft a stake transaction.
+         */
+        post: operations["postSuiStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send Transaction
+         * @description Craft a send transaction.
+         */
+        post: operations["postSuiSendTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/split-stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Split Stake Transaction
+         * @description Craft a split stake transaction.
+         */
+        post: operations["postSuiSplitStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/decode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Decode Transaction
+         * @description Decode a transaction.
+         */
+        post: operations["postSuiDecodeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast Transaction
+         * @description Broadcast a transaction.
+         */
+        post: operations["postSuiBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sui/transaction/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Transaction Status
+         * @description Get the status of a transaction.
+         */
+        post: operations["postSuiTxStatus"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description Get the status of Sei stakes. Units are in uSei (10⁻⁶ Sei).
+         */
+        get: operations["getSeiStakes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rewards
+         * @description Get historical rewards by day of Sei stakes. Units are in uSei (10⁻⁶ Sei).
+         */
+        get: operations["getSeiRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of Sei stakes. Units are in uSei (10⁻⁶ Sei).
+         */
+        get: operations["getSeiOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/network-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Network Stats
+         * @description Get some network statistics on Sei
+         */
+        get: operations["getSeiNetworkStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -8320,11 +8640,10 @@ export interface components {
                  */
                 amount_usd: number;
                 /**
-                 * Format: float
                  * @description Total balance of stakes in the native protocol token for this protocol
                  * @example 1896.4563
                  */
-                amount: number;
+                amount: string;
             };
             total_rewards: {
                 /**
@@ -8334,11 +8653,10 @@ export interface components {
                  */
                 amount_usd: number;
                 /**
-                 * Format: float
                  * @description Total rewards earned in the native protocol token for this protocol
                  * @example 1896.4568
                  */
-                amount: number;
+                amount: string;
             };
             /**
              * Format: float
@@ -8370,11 +8688,10 @@ export interface components {
             token: "XTZ";
             total_delegated: {
                 /**
-                 * Format: float
                  * @description Total delegated balance in XTZ for this protocol
                  * @example 1896.4568
                  */
-                amount: number;
+                amount: string;
                 /**
                  * Format: float
                  * @description Total USD value of delegated balance in XTZ for this protocol
@@ -8384,11 +8701,10 @@ export interface components {
             };
             total_delegated_rewards: {
                 /**
-                 * Format: float
                  * @description Total delegated rewards earned in XTZ for this protocol
                  * @example 1896.4568
                  */
-                amount: number;
+                amount: string;
                 /**
                  * Format: float
                  * @description Total USD value of delegated rewards earned for this protocol
@@ -8398,11 +8714,10 @@ export interface components {
             };
             total_staked_rewards: {
                 /**
-                 * Format: float
                  * @description Total staked rewards earned in XTZ for this protocol
                  * @example 1896.4568
                  */
-                amount: number;
+                amount: string;
                 /**
                  * Format: float
                  * @description Total USD value of staked rewards earned for this protocol
@@ -8420,11 +8735,10 @@ export interface components {
             token: "DYDX";
             total_rewards_usdc: {
                 /**
-                 * Format: float
                  * @description Total rewards earned in USDC for this protocol
                  * @example 10896.4568
                  */
-                amount: number;
+                amount: string;
                 /**
                  * Format: float
                  * @description Total USD of USDC rewards earned for this protocol
@@ -8451,7 +8765,7 @@ export interface components {
                  * @description Total amount of ETH staked in activating stakes
                  * @example 0
                  */
-                amount: number;
+                amount: string;
                 /**
                  * @description Total USD balance of ETH staked in activating stakes
                  * @example 0
@@ -8468,7 +8782,7 @@ export interface components {
                  * @description Total amount of ETH staked in exited stakes
                  * @example 32
                  */
-                amount: number;
+                amount: string;
                 /**
                  * @description Total USD balance of ETH staked in exited stakes
                  * @example 74914.9572243136
@@ -8485,7 +8799,7 @@ export interface components {
                  * @description Total amount of ETH staked in exiting stakes
                  * @example 0
                  */
-                amount: number;
+                amount: string;
                 /**
                  * @description Total USD balance of ETH staked in exiting stakes
                  * @example 0
@@ -8620,7 +8934,7 @@ export interface components {
              * @example active
              * @enum {string}
              */
-            status: "pending" | "active" | "disabled" | "deposit_paused";
+            status: "pending" | "active" | "disabled" | "deposit_paused" | "contract_paused";
             /**
              * @description Custom icon of the asset
              * @example https://example.com/icon.png
@@ -10003,6 +10317,13 @@ export interface components {
              * @example 1
              */
             number: number;
+            /** @description Amount of ETH to deposit per key. */
+            amount_per_key_in_eth?: number;
+            /**
+             * @description Enable compounding withdrawal
+             * @example false
+             */
+            compounding_withdrawal?: boolean;
             /**
              * @description Response format. Use `"cli_deposit"` for more information about each key.
              * @default batch_deposit
@@ -10143,6 +10464,11 @@ export interface components {
              * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
              */
             withdrawal_credentials?: string;
+            /**
+             * @description Number of validators to create when `compounding_withdrawal` is true. When `compounding_withdrawal` is false, this field is ignored and the number of validators is automatically calculated based on the amount (amount divided by 32 ETH).
+             * @example 1
+             */
+            number_of_validators?: number;
             /**
              * @description Amount to stake in WEI.
              *     - If `compounding_withdrawal` is **false**, must be a multiple of "32000000000000000000" (32 ETH).
@@ -11265,7 +11591,7 @@ export interface components {
              * @description Whether to skip gas estimation for the transaction
              * @example false
              */
-            skip_gas_estimation: boolean;
+            skip_gas_estimation?: boolean;
         };
         ETHOnchainV2RequestExitTransactionPayload: {
             /**
@@ -11287,7 +11613,7 @@ export interface components {
              * @description Whether to skip gas estimation for the transaction
              * @example false
              */
-            skip_gas_estimation: boolean;
+            skip_gas_estimation?: boolean;
         };
         ETHOnchainV2MultiClaimTransactionPayload: {
             /**
@@ -11305,7 +11631,7 @@ export interface components {
              * @description Whether to skip gas estimation for the transaction
              * @example false
              */
-            skip_gas_estimation: boolean;
+            skip_gas_estimation?: boolean;
         };
         XTZStake: {
             /**
@@ -39441,6 +39767,2312 @@ export interface components {
              */
             timestamp: string;
         };
+        SUIStake: {
+            /**
+             * @description Delegator (Stake) address
+             * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
+             */
+            address: string;
+            /**
+             * @description Current state of the stake
+             * @example active
+             * @enum {string}
+             */
+            state: "active" | "inactive";
+            /**
+             * @description Total rewards accumulated by this stake since its first ever delegation
+             * @example 9020446847418
+             */
+            net_rewards: string;
+            /**
+             * @description Total withdrawn rewards by this stake since its first ever delegation
+             * @example 9020446847418
+             */
+            withdrawn_rewards: string;
+            /**
+             * @description Total withdrawable rewards by this stake
+             * @example 0
+             */
+            withdrawable_rewards: string;
+            /**
+             * @description The amount of SUI currently staked
+             * @example 92908788559
+             */
+            active_balance: string;
+            /**
+             * @description The address of the validator this stake is delegated to
+             * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
+             */
+            validator_address: string;
+            /**
+             * Format: date-time
+             * @description Date at which the staking transaction was made
+             * @example 2023-01-14T01:13:59Z
+             */
+            delegated_at: string;
+            /**
+             * @description Epoch in which the delegation transaction was made
+             * @example 802
+             */
+            delegated_epoch: number;
+            /**
+             * Format: date-time
+             * @description Date at which the stake was activated
+             * @example 2023-01-14T01:13:59Z
+             */
+            activated_at: string;
+            /**
+             * @description Epoch in which the stake was activated.
+             * @example 803
+             */
+            activated_epoch: number;
+            /**
+             * @description Net annual percentage yield
+             * @example 2.02
+             */
+            net_apy: number;
+        };
+        SUIRewardByEpoch: {
+            /**
+             * @description Epoch ID
+             * @example 1715953195
+             */
+            epoch: string;
+            /**
+             * @description Epoch start date
+             * @example 2024-05-17T13:39:55Z
+             */
+            epoch_start_ts: string;
+            /**
+             * @description Rewards accumulated on the period
+             * @example 28936464584
+             */
+            net_rewards: string;
+            /**
+             * @description Staked balance at the start of the epoch
+             * @example 10001198470000
+             */
+            active_balance: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 2.02
+             */
+            net_apy: number;
+        };
+        SUIRewardByDay: {
+            /**
+             * @description Day for this reward entry
+             * @example 2024-05-17
+             */
+            date: string;
+            /**
+             * @description Rewards accumulated on the period
+             * @example 28936464584
+             */
+            net_rewards: string;
+            /**
+             * @description Staked balance at the start of the epoch
+             * @example 10001198470000
+             */
+            active_balance: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 2.02
+             */
+            net_apy: number;
+        };
+        SUITx: {
+            /**
+             * Format: base64
+             * @description Base64 encoded unsigned transaction bytes
+             * @example AAADAAgAypo7AAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUBAAAAAAAAAAEAICB5y1jzLIaN6w9PIPUJt/A0x76oTJZMsTFvd/yYdEW4AgIAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwpzdWlfc3lzdGVtEXJlcXVlc3RfYWRkX3N0YWtlAAMBAQADAAAAAAECABsdj13zFOK3uKhs/ir/eMwbwKDsykcidGrlIiYx0U9vAb1lwLRv3zApWP39ceVEVURV/ByIDOfs6Fp1KAqd+znhJX1lIAAAAAAgi96mN9CtXRCJLuwMs8wuuxzy4eMIGPG43Q0/VFtt0pcbHY9d8xTit7iobP4q/3jMG8Cg7MpHInRq5SImMdFPb+gDAAAAAAAA+FC7AAAAAAAA
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Transaction hash with 0x prefix
+             * @example 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Unsigned transaction data structure
+             * @example {
+             *       "version": 2,
+             *       "sender": "0x1b1d8f5df314e2b7b8a86cfe2aff78cc1bc0a0ecca4722746ae5222631d14f6f",
+             *       "expiration": {
+             *         "None": true,
+             *         "$kind": "None"
+             *       },
+             *       "gasData": {
+             *         "budget": "12275960",
+             *         "price": "1000",
+             *         "owner": "0x1b1d8f5df314e2b7b8a86cfe2aff78cc1bc0a0ecca4722746ae5222631d14f6f",
+             *         "payment": [
+             *           {
+             *             "objectId": "0xbd65c0b46fdf302958fdfd71e544554455fc1c880ce7ece85a75280a9dfb39e1",
+             *             "version": "543522085",
+             *             "digest": "AQzamME96Vp9i8rCpFxudAbk9dR76yLT4pfqeJXZUq1Y"
+             *           }
+             *         ]
+             *       },
+             *       "inputs": [
+             *         {
+             *           "Pure": {
+             *             "bytes": "AMqaOwAAAAA="
+             *           },
+             *           "$kind": "Pure"
+             *         },
+             *         {
+             *           "Object": {
+             *             "SharedObject": {
+             *               "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
+             *               "initialSharedVersion": "1",
+             *               "mutable": true
+             *             },
+             *             "$kind": "SharedObject"
+             *           },
+             *           "$kind": "Object"
+             *         },
+             *         {
+             *           "Pure": {
+             *             "bytes": "IHnLWPMsho3rD08g9Qm38DTHvqhMlkyxMW93/Jh0Rbg="
+             *           },
+             *           "$kind": "Pure"
+             *         }
+             *       ],
+             *       "commands": [
+             *         {
+             *           "SplitCoins": {
+             *             "coin": {
+             *               "GasCoin": true,
+             *               "$kind": "GasCoin"
+             *             },
+             *             "amounts": [
+             *               {
+             *                 "Input": 0,
+             *                 "$kind": "Input"
+             *               }
+             *             ]
+             *           },
+             *           "$kind": "SplitCoins"
+             *         },
+             *         {
+             *           "MoveCall": {
+             *             "package": "0x0000000000000000000000000000000000000000000000000000000000000003",
+             *             "module": "sui_system",
+             *             "function": "request_add_stake",
+             *             "typeArguments": [],
+             *             "arguments": [
+             *               {
+             *                 "Input": 1,
+             *                 "$kind": "Input"
+             *               },
+             *               {
+             *                 "NestedResult": [
+             *                   0,
+             *                   0
+             *                 ],
+             *                 "$kind": "NestedResult"
+             *               },
+             *               {
+             *                 "Input": 2,
+             *                 "$kind": "Input"
+             *               }
+             *             ]
+             *           },
+             *           "$kind": "MoveCall"
+             *         }
+             *       ]
+             *     }
+             */
+            unsigned_tx: Record<string, never>;
+        };
+        /**
+         * @description Decoded transaction
+         * @example {
+         *       "version": 2,
+         *       "sender": "0x1b1d8f5df314e2b7b8a86cfe2aff78cc1bc0a0ecca4722746ae5222631d14f6f",
+         *       "expiration": {
+         *         "None": true,
+         *         "$kind": "None"
+         *       },
+         *       "gasData": {
+         *         "budget": "12275960",
+         *         "price": "1000",
+         *         "owner": "0x1b1d8f5df314e2b7b8a86cfe2aff78cc1bc0a0ecca4722746ae5222631d14f6f",
+         *         "payment": [
+         *           {
+         *             "objectId": "0xbd65c0b46fdf302958fdfd71e544554455fc1c880ce7ece85a75280a9dfb39e1",
+         *             "version": "543522085",
+         *             "digest": "AQzamME96Vp9i8rCpFxudAbk9dR76yLT4pfqeJXZUq1Y"
+         *           }
+         *         ]
+         *       },
+         *       "inputs": [
+         *         {
+         *           "Pure": {
+         *             "bytes": "AMqaOwAAAAA="
+         *           },
+         *           "$kind": "Pure"
+         *         },
+         *         {
+         *           "Object": {
+         *             "SharedObject": {
+         *               "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
+         *               "initialSharedVersion": "1",
+         *               "mutable": true
+         *             },
+         *             "$kind": "SharedObject"
+         *           },
+         *           "$kind": "Object"
+         *         },
+         *         {
+         *           "Pure": {
+         *             "bytes": "IHnLWPMsho3rD08g9Qm38DTHvqhMlkyxMW93/Jh0Rbg="
+         *           },
+         *           "$kind": "Pure"
+         *         }
+         *       ],
+         *       "commands": [
+         *         {
+         *           "SplitCoins": {
+         *             "coin": {
+         *               "GasCoin": true,
+         *               "$kind": "GasCoin"
+         *             },
+         *             "amounts": [
+         *               {
+         *                 "Input": 0,
+         *                 "$kind": "Input"
+         *               }
+         *             ]
+         *           },
+         *           "$kind": "SplitCoins"
+         *         },
+         *         {
+         *           "MoveCall": {
+         *             "package": "0x0000000000000000000000000000000000000000000000000000000000000003",
+         *             "module": "sui_system",
+         *             "function": "request_add_stake",
+         *             "typeArguments": [],
+         *             "arguments": [
+         *               {
+         *                 "Input": 1,
+         *                 "$kind": "Input"
+         *               },
+         *               {
+         *                 "NestedResult": [
+         *                   0,
+         *                   0
+         *                 ],
+         *                 "$kind": "NestedResult"
+         *               },
+         *               {
+         *                 "Input": 2,
+         *                 "$kind": "Input"
+         *               }
+         *             ]
+         *           },
+         *           "$kind": "MoveCall"
+         *         }
+         *       ]
+         *     }
+         */
+        SUITxDecoding: Record<string, never>;
+        SUIBroadcastTx: {
+            /**
+             * @description Transaction digest
+             * @example 5PsjRK7iEuXQCeAT3XxZ3XV3UoyF8iTjJXfUc6u63WNc
+             */
+            digest: string;
+        };
+        SUITxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status: "success" | "error";
+            /**
+             * @description Error message
+             * @example Transaction failed
+             */
+            error: string;
+        };
+        SUIStakeTxPayload: {
+            /**
+             * @description Validator address
+             * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
+             */
+            validator_address: string;
+            /**
+             * @description Amount of SUI to stake
+             * @example 1817090696
+             */
+            amount: string;
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Sender address
+             * @example 0x2ade594485fb795616b74156c91097ec517a05ac488364dd3ad1ec5f536db3f4
+             */
+            sender: string;
+        };
+        SUIUnstakeTxPayload: {
+            /**
+             * @description Stake ID
+             * @example 0x73f9d77dd3e604a2ae6f9edc2e7c7df9ecda79202b038b315e79b74e93c09efd
+             */
+            stake_id: string;
+            /**
+             * @description Sender address
+             * @example 0x2ade594485fb795616b74156c91097ec517a05ac488364dd3ad1ec5f536db3f4
+             */
+            sender: string;
+        };
+        SUISendTxPayload: {
+            /**
+             * @description Sender address
+             * @example 0x2ade594485fb795616b74156c91097ec517a05ac488364dd3ad1ec5f536db3f4
+             */
+            sender: string;
+            /**
+             * @description Amount of SUI to send
+             * @example 1817090696
+             */
+            amount: string;
+            /**
+             * @description Recipient address
+             * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
+             */
+            to: string;
+        };
+        SUISplitStakeTxPayload: {
+            /**
+             * @description Stake ID
+             * @example 0x73f9d77dd3e604a2ae6f9edc2e7c7df9ecda79202b038b315e79b74e93c09efd
+             */
+            stake_id: string;
+            /**
+             * @description Amount of SUI to split
+             * @example 1817090696
+             */
+            amount: string;
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Sender address
+             * @example 0x2ade594485fb795616b74156c91097ec517a05ac488364dd3ad1ec5f536db3f4
+             */
+            sender: string;
+        };
+        SUIBroadcastTxPayload: {
+            /** @description Signed serialized transaction */
+            transaction: string;
+            /** @description Signature of the transaction */
+            signature: string;
+        };
+        SUIDecodeTxPayload: {
+            /**
+             * @description Base64 encoded unsigned transaction bytes
+             * @example AAADAAgAypo7AAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUBAAAAAAAAAAEAICB5y1jzLIaN6w9PIPUJt/A0x76oTJZMsTFvd/yYdEW4AgIAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwpzdWlfc3lzdGVtEXJlcXVlc3RfYWRkX3N0YWtlAAMBAQADAAAAAAECABsdj13zFOK3uKhs/ir/eMwbwKDsykcidGrlIiYx0U9vAb1lwLRv3zApWP39ceVEVURV/ByIDOfs6Fp1KAqd+znhJX1lIAAAAAAgi96mN9CtXRCJLuwMs8wuuxzy4eMIGPG43Q0/VFtt0pcbHY9d8xTit7iobP4q/3jMG8Cg7MpHInRq5SImMdFPb+gDAAAAAAAA+FC7AAAAAAAA
+             */
+            tx_serialized: string;
+        };
+        SUITxStatusPayload: {
+            /**
+             * @description Transaction digest
+             * @example 5PsjRK7iEuXQCeAT3XxZ3XV3UoyF8iTjJXfUc6u63WNc
+             */
+            digest: string;
+        };
+        SUINetworkStats: {
+            /**
+             * @description Gross annual percentage yield
+             * @example 4.5
+             */
+            network_gross_apy: number;
+            /**
+             * @description Supply of Sui currently staked
+             * @example 12.4
+             */
+            supply_staked_percent: number;
+            /**
+             * @description Number of active validators
+             * @example 402
+             */
+            nb_validators: number;
+            /**
+             * @description SUI price in USD
+             * @example 3.5
+             */
+            sui_price_usd: number;
+            /**
+             * @description SUI inflation rate
+             * @example 25.11560824007323
+             */
+            inflation_rate: number;
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at: string;
+        };
+        SUIOperation: {
+            /**
+             * @description Operation type
+             * @example 0x3::validator::StakingRequestEvent
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-01-14T01:13:59Z
+             */
+            time: string;
+            /**
+             * @description Transaction hash of the operation
+             * @example HmZ5x1GwauzkqW5LZQ33MLwbfn8krB7ujPdC9p4PLpcK
+             */
+            tx_hash: string;
+            /**
+             * @description Event index of the operation, as set in the transaction
+             * @example 0
+             */
+            event_index: number;
+            /**
+             * @description Address of the sender of the operation
+             * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
+             */
+            sender: string;
+            /**
+             * @description Package address of the operation
+             * @example 0x3
+             */
+            package: string;
+            /**
+             * @description Module of the operation
+             * @example validator
+             */
+            module: string;
+            /**
+             * @description Checkpoint at which the operation was executed
+             * @example 123
+             */
+            checkpoint: number;
+            /**
+             * @description Epoch at which the operation was executed
+             * @example 802
+             */
+            epoch: number;
+            /**
+             * Format: base64
+             * @description Base64-encoded payload data of the operation
+             */
+            data: string;
+        };
+        SEIStake: {
+            /**
+             * @description Public key of the validator
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address: string;
+            /**
+             * @description Public key of the delegator
+             * @example sei1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            delegator_address: string;
+            /**
+             * Format: date-time
+             * @description Date of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 2023-06-16T03:13:23.058547Z
+             */
+            delegated_at?: string;
+            /**
+             * @description Block of first delegation ever for the stake. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 15739267
+             */
+            delegated_block?: number;
+            /**
+             * Format: date-time
+             * @description Date of undelegation for the stake
+             * @example 2023-07-14T03:56:13.561156Z
+             */
+            undelegated_at?: string;
+            /**
+             * @description Block of undelegation for the stake
+             * @example 16126416
+             */
+            undelegated_block?: number;
+            /**
+             * @description Total rewards accumulated by this stake since its first ever delegation in uSEI. Includes currently available rewards not yet withdrawn.
+             * @example 735573808534727891000000
+             */
+            rewards: string;
+            /**
+             * @description Available rewards in uSEI that can be withdrawn from this stake
+             * @example 36748808534727891000000
+             */
+            available_rewards: string;
+            /**
+             * @description Staked balance on this stake in uSEI
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield. Unavailable for stakes older than [Theta v7 (12/04/2022)](https://github.com/cosmos/gaia/tree/main/docs/roadmap#cosmos-hub-summary).
+             * @example 5.76
+             */
+            net_apy: number;
+            /**
+             * @description State of the Sei stake
+             * @example active
+             * @enum {string}
+             */
+            state: "active" | "deactivating" | "inactive";
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at?: string;
+            /** @description permissions related to the stake currently active, ignored if there is no ongoing grants */
+            permissions: {
+                /**
+                 * @description whether the stake is recipient (grantee) or the giver (granter) of the permissions
+                 * @example granter
+                 */
+                source: string;
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height: number;
+                /**
+                 * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+                 * @example Staking.MsgDelegate
+                 */
+                permission: string;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the permissions will be revoked
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                expires_at?: string | null;
+                /**
+                 * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "seivaloper1xyz",
+                 *       "seivaloper1abc"
+                 *     ]
+                 */
+                allow_list?: string[] | null;
+                /**
+                 * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+                 * @example [
+                 *       "seivaloper1xyz",
+                 *       "seivaloper1abc"
+                 *     ]
+                 */
+                deny_list?: string[] | null;
+            }[];
+            /** @description unbondings currently active on the stakes. ignored if no unbondings are returned */
+            unbondings: {
+                /**
+                 * @description Block at which the unbonding was created
+                 * @example 15000000
+                 */
+                creation_height: number;
+                /**
+                 * Format: date-time
+                 * @description Exact time at which the unbonding will take effect
+                 * @example 2023-01-10T01:12:34Z
+                 */
+                completion_time: string;
+                /**
+                 * @description Amount currently associated with the unbonding (slashes included)
+                 * @example 129300
+                 */
+                balance: string;
+                /**
+                 * @description Amount expected at creation (slashes non-included)
+                 * @example 150300
+                 */
+                initial_balance: string;
+            }[];
+        };
+        PostSEIStakesPayload: {
+            stakes: {
+                /**
+                 * @description Stake id {validator_address}_{delegator_address}
+                 * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w_sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0}
+                 */
+                stakeId?: string;
+            }[];
+            /**
+             * @description Kiln Account ID
+             * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
+             */
+            account_id: string;
+        };
+        SEIStakeMessage: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.MsgDelegate
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "delegatorAddress": "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0",
+             *       "validatorAddress": "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w",
+             *       "amount": {
+             *         "denom": "usei",
+             *         "amount": "1000000"
+             *       }
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        SEIStakeMessageRestake: {
+            /**
+             * @description Type URL of the message
+             * @example /cosmos.staking.v1beta1.StakeAuthorization
+             */
+            typeUrl?: string;
+            /**
+             * @description Message value
+             * @example {
+             *       "allowList": {
+             *         "address": [
+             *           "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w"
+             *         ]
+             *       },
+             *       "AuthorizationType": 1
+             *     }
+             */
+            value?: Record<string, never>;
+        };
+        SEIStakeUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "usei",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description List of messages included in the transaction. The list contains one message for the staking delegation and one more message for rewards restaking in case specified as a parameter (`restake_rewards=true`).
+             * @example [
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *         "value": {
+             *           "delegatorAddress": "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0",
+             *           "validatorAddress": "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w",
+             *           "amount": {
+             *             "denom": "usei",
+             *             "amount": "1000000"
+             *           }
+             *         }
+             *       },
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.StakeAuthorization",
+             *         "allowList": {
+             *           "address": [
+             *             "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w"
+             *           ]
+             *         },
+             *         "AuthorizationType": 1
+             *       }
+             *     ]
+             */
+            messages: (components["schemas"]["SEIStakeMessage"] | components["schemas"]["SEIStakeMessageRestake"])[];
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        SEIUnsignedTx: {
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0adf010adc010a2a2f636f736d6f732e7374616b696e672e763162657461312e4d7367426567696e526564656c656761746512ad010a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f70657231307636777664656e65653872396c36776c73706863677572326c746c387a746b6672766a39611a34636f736d6f7376616c6f70657231796d7a336b6a7466397a6b666d6d3273326c7279376568307a6439657a33766335797030306622100a057561746f6d12073433313030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801186d12130a0d0a057561746f6d1204353030301080897a1a1174686574612d746573746e65742d30303120e0cd2a
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Hash of the unsigned transaction
+             * @example b6ce1c8185416ce7d42a8c39566a9a2b6b2361a55c04a1dba3dd7445a0e1e364
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Wallet compressed public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Message included in the transaction
+             * @example {
+             *       "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+             *       "value": {
+             *         "delegatorAddress": "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0",
+             *         "validatorAddress": "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w",
+             *         "amount": {
+             *           "denom": "usei",
+             *           "amount": "1000000"
+             *         }
+             *       }
+             *     }
+             */
+            message: Record<string, never>;
+            /**
+             * @description Fee included in the transaction. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/72da7971ee4fd77fec1bfef2ec1ba4f14f8c319d/packages/amino/src/signdoc.ts#L12)
+             * @example {
+             *       "amount": [
+             *         {
+             *           "denom": "usei",
+             *           "amount": "5000"
+             *         }
+             *       ],
+             *       "gas": "200000"
+             *     }
+             */
+            fee: Record<string, never>;
+            /**
+             * @description Chain ID
+             * @example cosmoshub-4
+             */
+            chain_id: string;
+            /**
+             * @description Account number
+             * @example 1234
+             */
+            account_number: number;
+        };
+        SEISignedTx: {
+            /**
+             * @description Serialized signed transaction in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signed_tx_serialized: string;
+        };
+        SEITxHash: {
+            /**
+             * @description Hash of the transaction
+             * @example 2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB
+             */
+            tx_hash: string;
+        };
+        SEIPrepareTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Transaction body serialized in hex
+             * @example 0a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d120731303030303030
+             */
+            tx_body: string;
+            /**
+             * @description Transaction auth info serialized in hex
+             * @example 0a2c0a2a0a28636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a716561746576120a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e6165726539
+             */
+            tx_auth_info: string;
+            /**
+             * @description Transaction signature serialized in hex
+             * @example 191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            signature: string;
+        };
+        SEIBroadcastTxPayload: {
+            /**
+             * @description Signed transaction serialized in hex
+             * @example 0aa1010a9e010a232f636f736d6f732e7374616b696e672e763162657461312e4d736744656c656761746512770a2d636f736d6f733139633966646834383876716a636c6c74777036386a6d3530796477796833366a7165617465761234636f736d6f7376616c6f706572313679733065673933356d6b71706b79646b6766636a39616765326175386c39366e61657265391a100a057561746f6d12073130303030303012670a500a460a1f2f636f736d6f732e63727970746f2e736563703235366b312e5075624b657912230a21039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f4612040a020801182012130a0d0a057561746f6d12043530303010e0a7121a40191f87a54dceafb6ab9a5f112a13444ca37e49a029e531bb21301fd72e9d390304c763cca5a9760a631dc85705dd6b08b50f5fff7d5de8d73b2cebd1f4c3b6a0
+             */
+            tx_serialized: string;
+        };
+        SEITxStatus: {
+            /**
+             * @description Transaction status
+             * @example success
+             * @enum {string}
+             */
+            status?: "success" | "error";
+            /**
+             * @description Transaction receipt. Only present if status is success. Object shape can be found [here](https://github.com/cosmos/cosmjs/blob/e8e65aa0c145616ccb58625c32bffe08b46ff574/packages/stargate/src/stargateclient.ts#L67)
+             * @example {
+             *       "height": 16007296,
+             *       "txIndex": 0,
+             *       "hash": "2B4F732E12D5D5AF1F907AD03B199167A718EDC6201DE5713143AB80990420CB",
+             *       "code": 0,
+             *       "events": [
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "sei17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "sei17xpfvakm2amg962yls6f84z3kell8c5lserqta"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5000usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "fee",
+             *               "value": "5000usei"
+             *             },
+             *             {
+             *               "key": "fee_payer",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "acc_seq",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev/33"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "tx",
+             *           "attributes": [
+             *             {
+             *               "key": "signature",
+             *               "value": "GR+HpU3Or7arml8RKhNETKN+SaAp5TG7ITAf1y6dOQMEx2PMpal2CmMdyFcF3WsItQ9f/31d6Nc7LOvR9MO2oA=="
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "action",
+             *               "value": "/cosmos.staking.v1beta1.MsgDelegate"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "sei1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "transfer",
+             *           "attributes": [
+             *             {
+             *               "key": "recipient",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "sei1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "5usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "sender",
+             *               "value": "sei1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "withdraw_rewards",
+             *           "attributes": [
+             *             {
+             *               "key": "amount",
+             *               "value": "5usei"
+             *             },
+             *             {
+             *               "key": "validator",
+             *               "value": "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_spent",
+             *           "attributes": [
+             *             {
+             *               "key": "spender",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "coin_received",
+             *           "attributes": [
+             *             {
+             *               "key": "receiver",
+             *               "value": "sei1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000usei"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "delegate",
+             *           "attributes": [
+             *             {
+             *               "key": "validator",
+             *               "value": "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w"
+             *             },
+             *             {
+             *               "key": "amount",
+             *               "value": "100000usei"
+             *             },
+             *             {
+             *               "key": "new_shares",
+             *               "value": "100000.000000000000000000"
+             *             }
+             *           ]
+             *         },
+             *         {
+             *           "type": "message",
+             *           "attributes": [
+             *             {
+             *               "key": "module",
+             *               "value": "staking"
+             *             },
+             *             {
+             *               "key": "sender",
+             *               "value": "sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev"
+             *             }
+             *           ]
+             *         }
+             *       ],
+             *       "rawLog": "[{\"events\":[{\"type\":\"coin_received\",\"attributes\":[{\"key\":\"receiver\",\"value\":\"sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"5usei\"},{\"key\":\"receiver\",\"value\":\"sei1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh\"},{\"key\":\"amount\",\"value\":\"100000usei\"}]},{\"type\":\"coin_spent\",\"attributes\":[{\"key\":\"spender\",\"value\":\"sei1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5usei\"},{\"key\":\"spender\",\"value\":\"sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"amount\",\"value\":\"100000usei\"}]},{\"type\":\"delegate\",\"attributes\":[{\"key\":\"validator\",\"value\":\"seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w\"},{\"key\":\"amount\",\"value\":\"100000usei\"},{\"key\":\"new_shares\",\"value\":\"100000.000000000000000000\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgDelegate\"},{\"key\":\"sender\",\"value\":\"sei1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"sei19c9fdh488vqjclltwp68jm50ydwyh36jqeatev\"},{\"key\":\"sender\",\"value\":\"sei1jv65s3grqf6v6jl3dp4t6c9t9rk99cd88lyufl\"},{\"key\":\"amount\",\"value\":\"5usei\"}]},{\"type\":\"withdraw_rewards\",\"attributes\":[{\"key\":\"amount\",\"value\":\"5usei\"},{\"key\":\"validator\",\"value\":\"seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w\"}]}]}]",
+             *       "tx": {
+             *         "0": 10,
+             *         "1": 160,
+             *         "2": 1,
+             *         "3": 10,
+             *         "4": 157,
+             *         "5": 1,
+             *         "6": 10,
+             *         "7": 35,
+             *         "8": 47,
+             *         "9": 99,
+             *         "10": 111,
+             *         "11": 115,
+             *         "12": 109,
+             *         "13": 111,
+             *         "14": 115,
+             *         "15": 46,
+             *         "16": 115,
+             *         "17": 116,
+             *         "18": 97,
+             *         "19": 107,
+             *         "20": 105,
+             *         "21": 110,
+             *         "22": 103,
+             *         "23": 46,
+             *         "24": 118,
+             *         "25": 49,
+             *         "26": 98,
+             *         "27": 101,
+             *         "28": 116,
+             *         "29": 97,
+             *         "30": 49,
+             *         "31": 46,
+             *         "32": 77,
+             *         "33": 115,
+             *         "34": 103,
+             *         "35": 68,
+             *         "36": 101,
+             *         "37": 108,
+             *         "38": 101,
+             *         "39": 103,
+             *         "40": 97,
+             *         "41": 116,
+             *         "42": 101,
+             *         "43": 18,
+             *         "44": 118,
+             *         "45": 10,
+             *         "46": 45,
+             *         "47": 99,
+             *         "48": 111,
+             *         "49": 115,
+             *         "50": 109,
+             *         "51": 111,
+             *         "52": 115,
+             *         "53": 49,
+             *         "54": 57,
+             *         "55": 99,
+             *         "56": 57,
+             *         "57": 102,
+             *         "58": 100,
+             *         "59": 104,
+             *         "60": 52,
+             *         "61": 56,
+             *         "62": 56,
+             *         "63": 118,
+             *         "64": 113,
+             *         "65": 106,
+             *         "66": 99,
+             *         "67": 108,
+             *         "68": 108,
+             *         "69": 116,
+             *         "70": 119,
+             *         "71": 112,
+             *         "72": 54,
+             *         "73": 56,
+             *         "74": 106,
+             *         "75": 109,
+             *         "76": 53,
+             *         "77": 48,
+             *         "78": 121,
+             *         "79": 100,
+             *         "80": 119,
+             *         "81": 121,
+             *         "82": 104,
+             *         "83": 51,
+             *         "84": 54,
+             *         "85": 106,
+             *         "86": 113,
+             *         "87": 101,
+             *         "88": 97,
+             *         "89": 116,
+             *         "90": 101,
+             *         "91": 118,
+             *         "92": 18,
+             *         "93": 52,
+             *         "94": 99,
+             *         "95": 111,
+             *         "96": 115,
+             *         "97": 109,
+             *         "98": 111,
+             *         "99": 115,
+             *         "100": 118,
+             *         "101": 97,
+             *         "102": 108,
+             *         "103": 111,
+             *         "104": 112,
+             *         "105": 101,
+             *         "106": 114,
+             *         "107": 49,
+             *         "108": 54,
+             *         "109": 121,
+             *         "110": 115,
+             *         "111": 48,
+             *         "112": 101,
+             *         "113": 103,
+             *         "114": 57,
+             *         "115": 51,
+             *         "116": 53,
+             *         "117": 109,
+             *         "118": 107,
+             *         "119": 113,
+             *         "120": 112,
+             *         "121": 107,
+             *         "122": 121,
+             *         "123": 100,
+             *         "124": 107,
+             *         "125": 103,
+             *         "126": 102,
+             *         "127": 99,
+             *         "128": 106,
+             *         "129": 57,
+             *         "130": 97,
+             *         "131": 103,
+             *         "132": 101,
+             *         "133": 50,
+             *         "134": 97,
+             *         "135": 117,
+             *         "136": 56,
+             *         "137": 108,
+             *         "138": 57,
+             *         "139": 54,
+             *         "140": 110,
+             *         "141": 97,
+             *         "142": 101,
+             *         "143": 114,
+             *         "144": 101,
+             *         "145": 57,
+             *         "146": 26,
+             *         "147": 15,
+             *         "148": 10,
+             *         "149": 5,
+             *         "150": 117,
+             *         "151": 97,
+             *         "152": 116,
+             *         "153": 111,
+             *         "154": 109,
+             *         "155": 18,
+             *         "156": 6,
+             *         "157": 49,
+             *         "158": 48,
+             *         "159": 48,
+             *         "160": 48,
+             *         "161": 48,
+             *         "162": 48,
+             *         "163": 18,
+             *         "164": 103,
+             *         "165": 10,
+             *         "166": 80,
+             *         "167": 10,
+             *         "168": 70,
+             *         "169": 10,
+             *         "170": 31,
+             *         "171": 47,
+             *         "172": 99,
+             *         "173": 111,
+             *         "174": 115,
+             *         "175": 109,
+             *         "176": 111,
+             *         "177": 115,
+             *         "178": 46,
+             *         "179": 99,
+             *         "180": 114,
+             *         "181": 121,
+             *         "182": 112,
+             *         "183": 116,
+             *         "184": 111,
+             *         "185": 46,
+             *         "186": 115,
+             *         "187": 101,
+             *         "188": 99,
+             *         "189": 112,
+             *         "190": 50,
+             *         "191": 53,
+             *         "192": 54,
+             *         "193": 107,
+             *         "194": 49,
+             *         "195": 46,
+             *         "196": 80,
+             *         "197": 117,
+             *         "198": 98,
+             *         "199": 75,
+             *         "200": 101,
+             *         "201": 121,
+             *         "202": 18,
+             *         "203": 35,
+             *         "204": 10,
+             *         "205": 33,
+             *         "206": 3,
+             *         "207": 156,
+             *         "208": 228,
+             *         "209": 123,
+             *         "210": 42,
+             *         "211": 129,
+             *         "212": 61,
+             *         "213": 19,
+             *         "214": 135,
+             *         "215": 97,
+             *         "216": 49,
+             *         "217": 169,
+             *         "218": 195,
+             *         "219": 190,
+             *         "220": 119,
+             *         "221": 232,
+             *         "222": 196,
+             *         "223": 175,
+             *         "224": 164,
+             *         "225": 158,
+             *         "226": 148,
+             *         "227": 135,
+             *         "228": 68,
+             *         "229": 171,
+             *         "230": 190,
+             *         "231": 225,
+             *         "232": 31,
+             *         "233": 147,
+             *         "234": 158,
+             *         "235": 42,
+             *         "236": 66,
+             *         "237": 15,
+             *         "238": 70,
+             *         "239": 18,
+             *         "240": 4,
+             *         "241": 10,
+             *         "242": 2,
+             *         "243": 8,
+             *         "244": 1,
+             *         "245": 24,
+             *         "246": 33,
+             *         "247": 18,
+             *         "248": 19,
+             *         "249": 10,
+             *         "250": 13,
+             *         "251": 10,
+             *         "252": 5,
+             *         "253": 117,
+             *         "254": 97,
+             *         "255": 116,
+             *         "256": 111,
+             *         "257": 109,
+             *         "258": 18,
+             *         "259": 4,
+             *         "260": 53,
+             *         "261": 48,
+             *         "262": 48,
+             *         "263": 48,
+             *         "264": 16,
+             *         "265": 224,
+             *         "266": 167,
+             *         "267": 18,
+             *         "268": 26,
+             *         "269": 64,
+             *         "270": 25,
+             *         "271": 31,
+             *         "272": 135,
+             *         "273": 165,
+             *         "274": 77,
+             *         "275": 206,
+             *         "276": 175,
+             *         "277": 182,
+             *         "278": 171,
+             *         "279": 154,
+             *         "280": 95,
+             *         "281": 17,
+             *         "282": 42,
+             *         "283": 19,
+             *         "284": 68,
+             *         "285": 76,
+             *         "286": 163,
+             *         "287": 126,
+             *         "288": 73,
+             *         "289": 160,
+             *         "290": 41,
+             *         "291": 229,
+             *         "292": 49,
+             *         "293": 187,
+             *         "294": 33,
+             *         "295": 48,
+             *         "296": 31,
+             *         "297": 215,
+             *         "298": 46,
+             *         "299": 157,
+             *         "300": 57,
+             *         "301": 3,
+             *         "302": 4,
+             *         "303": 199,
+             *         "304": 99,
+             *         "305": 204,
+             *         "306": 165,
+             *         "307": 169,
+             *         "308": 118,
+             *         "309": 10,
+             *         "310": 99,
+             *         "311": 29,
+             *         "312": 200,
+             *         "313": 87,
+             *         "314": 5,
+             *         "315": 221,
+             *         "316": 107,
+             *         "317": 8,
+             *         "318": 181,
+             *         "319": 15,
+             *         "320": 95,
+             *         "321": 255,
+             *         "322": 125,
+             *         "323": 93,
+             *         "324": 232,
+             *         "325": 215,
+             *         "326": 59,
+             *         "327": 44,
+             *         "328": 235,
+             *         "329": 209,
+             *         "330": 244,
+             *         "331": 195,
+             *         "332": 182,
+             *         "333": 160
+             *       },
+             *       "gasUsed": 167798,
+             *       "gasWanted": 300000
+             *     }
+             */
+            receipt?: Record<string, never>;
+        };
+        SEICraftUnstakeTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator: string;
+            /**
+             * @description Amount to unstake in uSEI. Omit to unstake all the delegated amount
+             * @example 1000000000000000000000000
+             */
+            amount_usei?: string;
+        };
+        SEICraftRedelegateTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to which the new stake will be linked
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator source address of current stake
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_source: string;
+            /**
+             * @description Validator destination address to which redelegate the stake
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_destination: string;
+            /**
+             * @description Amount to redelegate in uSEI
+             * @example 1000000000000000000000000
+             */
+            amount_usei?: string;
+        };
+        SEICraftStakeTxPayload: {
+            /**
+             * Format: uuid
+             * @description Kiln Account ID to stake into
+             * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
+             */
+            account_id: string;
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator: string;
+            /**
+             * @description Amount to stake in usei
+             * @example 1000000000000000000000000
+             */
+            amount_usei: string;
+            /**
+             * @description If enabled, the rewards will be automatically restaked
+             * @default false
+             */
+            restake_rewards: boolean;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address?: string;
+        };
+        SEICraftRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        SEICraftRevokeRestakeRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address: string;
+        };
+        SEICraftWithdrawRewardsTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator: string;
+        };
+        SEIReward: {
+            /**
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2023-01-15
+             */
+            date: string;
+            /**
+             * @description Accumulated rewards in uSEI during the day
+             * @example 3575891083876864200000
+             */
+            rewards: string;
+            /**
+             * @description Staked balance in uSEI at the end of the day
+             * @example 6300000000000000000000000
+             */
+            balance: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 20.76
+             */
+            net_apy: number;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            rewards_usd?: number;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGeckko. */
+            balance_usd?: number;
+        };
+        SEIOperationDelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgDelegate
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address: string;
+            /**
+             * @description Delegator address
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            delegator_address: string;
+            /**
+             * @description Amount added to the staked balance in uSEI
+             * @example 3000000
+             */
+            amount: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in uSEI
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        SEIOperationUndelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgUndelegate
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address: string;
+            /**
+             * @description Delegator address
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            delegator_address: string;
+            /**
+             * @description Amount removed from the staked balance in uSEI
+             * @example 3000000
+             */
+            amount: string;
+            /**
+             * @description Rewards auto-claimed alongside the operation in uSEI
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        SEIOperationRedelegate: {
+            /**
+             * @description Operation type
+             * @example staking.MsgBeginRedelegate
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Destination validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address: string;
+            /**
+             * @description Source validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address_source?: string;
+            /**
+             * @description Delegator address
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            delegator_address: string;
+            /**
+             * @description Amount moved from the source validator staked balance to the destination validator staked balance in uSEI
+             * @example 3000000
+             */
+            amount: string;
+            /**
+             * @description Rewards auto-claimed from the destination validator alongside the operation in uSEI
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+            /**
+             * @description Rewards auto-claimed from the source validator alongside the operation in uSEI
+             * @example 10841
+             */
+            withdraw_rewards_source?: string;
+        };
+        SEIOperationWithdrawRewards: {
+            /**
+             * @description Operation type
+             * @example distr.MsgWithdrawDelegatorReward
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Validator address
+             * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+             */
+            validator_address: string;
+            /**
+             * @description Delegator address
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            delegator_address: string;
+            /**
+             * @description Rewards claimed alongside the operation in uSEI
+             * @example 10841
+             */
+            withdraw_rewards?: string;
+        };
+        SEIOperationGrant: {
+            /**
+             * @description Operation type
+             * @example Authz.Grant
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description Recipient of the permissions
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            grantee?: string;
+            /**
+             * @description Owner of the stake giving the permissions
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            granter?: string;
+            /**
+             * @description Kind of permission been grantee, can be: "Staking.MsgDelegate", "Staking.MsgUndelegate", "Staking.MsgRedelegate" or "Distribution.MsgWithdrawDelegatorReward"
+             * @example Staking.MsgDelegate
+             */
+            permission?: string;
+            /**
+             * @description List of address on which the granted permission can be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0",
+             *       "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0"
+             *     ]
+             */
+            allow_list?: string[] | null;
+            /**
+             * @description List of address on which the granted permission cannot be applied (ie validator on which delegation is allowed)
+             * @example [
+             *       "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0",
+             *       "sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0"
+             *     ]
+             */
+            deny_list?: string[] | null;
+        };
+        SEIOperationExec: {
+            /**
+             * @description Operation type
+             * @example Authz.Exec
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+                 */
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uSEI
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uSEI
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uSEI
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        SEIOperationContract: {
+            /**
+             * @description Contract type
+             * @example wasm.Contract
+             */
+            type: string;
+            /**
+             * Format: date-time
+             * @description Date of the operation
+             * @example 2023-06-22T15:35:01.892644Z
+             */
+            time: string;
+            /**
+             * @description Transaction block
+             * @example 15828207
+             */
+            block: number;
+            /**
+             * @description Transaction hash
+             * @example 7DBC7C481A9A28961BDDF5BCDD47217A126EC0497017908453D71FACA9FA3506
+             */
+            tx_hash: string;
+            /**
+             * @description Gas used for the whole transaction in uSEI
+             * @example 186733
+             */
+            tx_gas_used: string;
+            /**
+             * @description Index of the message in the transaction
+             * @example 0
+             */
+            message_index: number;
+            /**
+             * @description address of the contract been called
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            contract: string;
+            executed_operations?: {
+                /**
+                 * @description Operation type
+                 * @example staking.Delegate
+                 */
+                type: string;
+                /**
+                 * @description Destination validator address
+                 * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+                 */
+                validator_address: string;
+                /**
+                 * @description Source validator address
+                 * @example seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w
+                 */
+                validator_address_source?: string;
+                /**
+                 * @description Delegator address
+                 * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+                 */
+                delegator_address: string;
+                /**
+                 * @description Amount moved from the source validator staked balance to the destination validator staked balance in uSEI
+                 * @example 3000000
+                 */
+                amount?: string;
+                /**
+                 * @description Rewards auto-claimed from the destination validator alongside the operation in uSEI
+                 * @example 10841
+                 */
+                withdraw_rewards?: string;
+                /**
+                 * @description Rewards auto-claimed from the source validator alongside the operation in uSEI
+                 * @example 10841
+                 */
+                withdraw_rewards_source?: string;
+            }[] | null;
+        };
+        SEINetworkStats: {
+            /**
+             * @description Price of Sei in USD
+             * @example 10.53
+             */
+            sei_price_usd: number;
+            /**
+             * @description Number of validators in the network
+             * @example 100
+             */
+            nb_validators: number;
+            /**
+             * @description Gross annual percentage yield
+             * @example 4.5
+             */
+            network_gross_apy: number;
+            /**
+             * @description Supply of Sei currently staked
+             * @example 12.4
+             */
+            supply_staked_percent: number;
+            /**
+             * @description Sei inflation rate
+             * @example 3.5
+             */
+            inflation_rate: number;
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at: string;
+        };
+        /**
+         * @description Decoded transaction
+         * @example {
+         *       "authInfo": {
+         *         "signerInfos": [
+         *           {
+         *             "publicKey": {
+         *               "typeUrl": "/cosmos.crypto.secp256k1.PubKey",
+         *               "value": {
+         *                 "0": 10,
+         *                 "1": 33,
+         *                 "2": 3,
+         *                 "3": 156,
+         *                 "4": 228,
+         *                 "5": 123,
+         *                 "6": 42,
+         *                 "7": 129,
+         *                 "8": 61,
+         *                 "9": 19,
+         *                 "10": 135,
+         *                 "11": 97,
+         *                 "12": 49,
+         *                 "13": 169,
+         *                 "14": 195,
+         *                 "15": 190,
+         *                 "16": 119,
+         *                 "17": 232,
+         *                 "18": 196,
+         *                 "19": 175,
+         *                 "20": 164,
+         *                 "21": 158,
+         *                 "22": 148,
+         *                 "23": 135,
+         *                 "24": 68,
+         *                 "25": 171,
+         *                 "26": 190,
+         *                 "27": 225,
+         *                 "28": 31,
+         *                 "29": 147,
+         *                 "30": 158,
+         *                 "31": 42,
+         *                 "32": 66,
+         *                 "33": 15,
+         *                 "34": 70
+         *               }
+         *             },
+         *             "modeInfo": {
+         *               "single": {
+         *                 "mode": 1
+         *               }
+         *             },
+         *             "sequence": {
+         *               "low": 102,
+         *               "high": 0,
+         *               "unsigned": true
+         *             }
+         *           }
+         *         ],
+         *         "fee": {
+         *           "amount": [
+         *             {
+         *               "denom": "usei",
+         *               "amount": "5000"
+         *             }
+         *           ],
+         *           "gasLimit": {
+         *             "low": 2000000,
+         *             "high": 0,
+         *             "unsigned": true
+         *           },
+         *           "payer": "",
+         *           "granter": ""
+         *         }
+         *       },
+         *       "body": {
+         *         "messages": [
+         *           {
+         *             "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
+         *             "value": {
+         *               "0": 10,
+         *               "1": 45,
+         *               "2": 99,
+         *               "3": 111,
+         *               "4": 115,
+         *               "5": 109,
+         *               "6": 111,
+         *               "7": 115,
+         *               "8": 49,
+         *               "9": 57,
+         *               "10": 99,
+         *               "11": 57,
+         *               "12": 102,
+         *               "13": 100,
+         *               "14": 104,
+         *               "15": 52,
+         *               "16": 56,
+         *               "17": 56,
+         *               "18": 118,
+         *               "19": 113,
+         *               "20": 106,
+         *               "21": 99,
+         *               "22": 108,
+         *               "23": 108,
+         *               "24": 116,
+         *               "25": 119,
+         *               "26": 112,
+         *               "27": 54,
+         *               "28": 56,
+         *               "29": 106,
+         *               "30": 109,
+         *               "31": 53,
+         *               "32": 48,
+         *               "33": 121,
+         *               "34": 100,
+         *               "35": 119,
+         *               "36": 121,
+         *               "37": 104,
+         *               "38": 51,
+         *               "39": 54,
+         *               "40": 106,
+         *               "41": 113,
+         *               "42": 101,
+         *               "43": 97,
+         *               "44": 116,
+         *               "45": 101,
+         *               "46": 118,
+         *               "47": 18,
+         *               "48": 52,
+         *               "49": 99,
+         *               "50": 111,
+         *               "51": 115,
+         *               "52": 109,
+         *               "53": 111,
+         *               "54": 115,
+         *               "55": 118,
+         *               "56": 97,
+         *               "57": 108,
+         *               "58": 111,
+         *               "59": 112,
+         *               "60": 101,
+         *               "61": 114,
+         *               "62": 49,
+         *               "63": 54,
+         *               "64": 121,
+         *               "65": 115,
+         *               "66": 48,
+         *               "67": 101,
+         *               "68": 103,
+         *               "69": 57,
+         *               "70": 51,
+         *               "71": 53,
+         *               "72": 109,
+         *               "73": 107,
+         *               "74": 113,
+         *               "75": 112,
+         *               "76": 107,
+         *               "77": 121,
+         *               "78": 100,
+         *               "79": 107,
+         *               "80": 103,
+         *               "81": 102,
+         *               "82": 99,
+         *               "83": 106,
+         *               "84": 57,
+         *               "85": 97,
+         *               "86": 103,
+         *               "87": 101,
+         *               "88": 50,
+         *               "89": 97,
+         *               "90": 117,
+         *               "91": 56,
+         *               "92": 108,
+         *               "93": 57,
+         *               "94": 54,
+         *               "95": 110,
+         *               "96": 97,
+         *               "97": 101,
+         *               "98": 114,
+         *               "99": 101,
+         *               "100": 57,
+         *               "101": 26,
+         *               "102": 16,
+         *               "103": 10,
+         *               "104": 5,
+         *               "105": 117,
+         *               "106": 97,
+         *               "107": 116,
+         *               "108": 111,
+         *               "109": 109,
+         *               "110": 18,
+         *               "111": 7,
+         *               "112": 49,
+         *               "113": 48,
+         *               "114": 48,
+         *               "115": 48,
+         *               "116": 48,
+         *               "117": 48,
+         *               "118": 48
+         *             }
+         *           }
+         *         ],
+         *         "memo": "",
+         *         "timeoutHeight": {
+         *           "low": 0,
+         *           "high": 0,
+         *           "unsigned": true
+         *         },
+         *         "extensionOptions": [],
+         *         "nonCriticalExtensionOptions": []
+         *       },
+         *       "signatures": [
+         *         {
+         *           "0": 116,
+         *           "1": 104,
+         *           "2": 101,
+         *           "3": 116,
+         *           "4": 97,
+         *           "5": 45,
+         *           "6": 116,
+         *           "7": 101,
+         *           "8": 115,
+         *           "9": 116,
+         *           "10": 110,
+         *           "11": 101,
+         *           "12": 116,
+         *           "13": 45,
+         *           "14": 48,
+         *           "15": 48,
+         *           "16": 49
+         *         }
+         *       ]
+         *     }
+         */
+        SEITxDecoding: Record<string, never>;
+        SEICraftSendTxPayload: {
+            /**
+             * @description Wallet public key (compressed or uncompressed), this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * @description Recipient address
+             * @example sei1mfdn23y2ydnp6j3l3f8rw6r2gzazrmprgxn5xl
+             */
+            to: string;
+            /**
+             * @description Amount to send in usei
+             * @example 1000000000000000000000000
+             */
+            amount_usei: string;
+        };
     };
     responses: never;
     parameters: {
@@ -39809,6 +42441,32 @@ export interface components {
         /** @description Single nominator contract address */
         TONGetSingleNominatorContractOwnerParam: string;
         TRXWalletsParam: string;
+        /** @description The format of the response. Defaults to `daily` */
+        SUIRewardsFormatParam: "daily" | "epoch";
+        /** @description Comma-separated list of delegator addresses */
+        SUIDelegatorsParam: string[];
+        /** @description Comma-separated list of validator addresses */
+        SUIValidatorsParam: string[];
+        /** @description Transaction hash */
+        SUITxHashParam: string;
+        /** @description Comma-separated list of validators addresses, these addresses
+         *     are matched with the corresponding delegator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        SEIValidatorsParam: string[];
+        /** @description Comma-separated list of delegator addresses, these addresses
+         *     are matched with the corresponding validator addresses. To
+         *     fetch a specific stake, pass your wallet address and the
+         *     validator address as parameters.
+         *      */
+        SEIDelegatorsParam: string[];
+        /** @description whether or not the operation returned will include authz operations, defaults to false */
+        SEIAuthzFlagParam: boolean;
+        /** @description whether or not the operation returned will include wasm operations, defaults to false */
+        SEIWasmFlagParam: boolean;
+        /** @description Precision to use when formatting amounts */
+        SEIPrecisionParam: "chain" | "micro" | "atto";
     };
     requestBodies: never;
     headers: never;
@@ -41889,6 +44547,76 @@ export interface operations {
                          *       ]
                          *     }
                          */
+                        errors?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getDefiAllowance: {
+        parameters: {
+            query: {
+                /** @description Wallet addresses */
+                wallet: string;
+                /** @description Chain id of the vault and the asset */
+                chain_id: number;
+                /** @description Vault address */
+                vault: string;
+                /** @description Asset address */
+                asset: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: {
+                            /**
+                             * @description Allowance of the wallet on the vault and the asset
+                             * @example 1000000000000000000000000000000000000000
+                             */
+                            allowance: string;
+                            /**
+                             * @description Decimals of the asset
+                             * @example 18
+                             */
+                            decimals: number;
+                        };
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Invalid parameters */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        /** @description Error message */
+                        message?: string;
+                        /** @description Details of all the errors */
                         errors?: Record<string, never>;
                     };
                 };
@@ -60816,6 +63544,772 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": Record<string, never>;
                 };
+            };
+        };
+    };
+    getSuiStakes: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of delegator addresses */
+                delegators?: components["parameters"]["SUIDelegatorsParam"];
+                /** @description Comma-separated list of validator addresses */
+                validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUIStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSuiRewards: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of delegator addresses */
+                delegators?: components["parameters"]["SUIDelegatorsParam"];
+                /** @description Comma-separated list of validator addresses */
+                validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description The format of the response. Defaults to `daily` */
+                format?: components["parameters"]["SUIRewardsFormatParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: (components["schemas"]["SUIRewardByDay"] | components["schemas"]["SUIRewardByEpoch"])[];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSuiOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of delegator addresses */
+                delegators?: components["parameters"]["SUIDelegatorsParam"];
+                /** @description Comma-separated list of validator addresses */
+                validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description Transaction hash */
+                tx_hash?: components["parameters"]["SUITxHashParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUIOperation"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSuiNetworkStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUINetworkStats"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiUnstakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Generate an unstake transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUIUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Generate a stake transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUIStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiSendTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Generate a send transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUISendTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiSplitStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Generate a split stake transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUISplitStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiDecodeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Decode a transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUIDecodeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITxDecoding"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Broadcast a transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUIBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUIBroadcastTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiTxStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the status of a transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUITxStatusPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITxStatus"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeiStakes: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["SEIValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["SEIDelegatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["SEIPrecisionParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeiRewards: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["SEIValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["SEIDelegatorsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["SEIPrecisionParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIReward"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeiOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validators addresses, these addresses
+                 *     are matched with the corresponding delegator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                validators?: components["parameters"]["SEIValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses, these addresses
+                 *     are matched with the corresponding validator addresses. To
+                 *     fetch a specific stake, pass your wallet address and the
+                 *     validator address as parameters.
+                 *      */
+                delegators?: components["parameters"]["SEIDelegatorsParam"];
+                /** @description whether or not the operation returned will include authz operations, defaults to false */
+                authz?: components["parameters"]["SEIAuthzFlagParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+                /** @description Precision to use when formatting amounts */
+                precision?: components["parameters"]["SEIPrecisionParam"];
+                /** @description whether or not the operation returned will include wasm operations, defaults to false */
+                wasm?: components["parameters"]["SEIWasmFlagParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: (components["schemas"]["SEIOperationDelegate"] | components["schemas"]["SEIOperationUndelegate"] | components["schemas"]["SEIOperationRedelegate"] | components["schemas"]["SEIOperationWithdrawRewards"] | components["schemas"]["SEIOperationGrant"] | components["schemas"]["SEIOperationExec"] | components["schemas"]["SEIOperationContract"])[];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeiNetworkStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEINetworkStats"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
