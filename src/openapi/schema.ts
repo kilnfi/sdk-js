@@ -8421,13 +8421,13 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
         /**
          * Transaction Status
-         * @description Get the status of a transaction.
+         * @description Get the status of a transaction
          */
-        post: operations["postSuiTxStatus"];
+        get: operations["getSuiTxStatus"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -64035,19 +64035,17 @@ export interface operations {
             };
         };
     };
-    postSuiTxStatus: {
+    getSuiTxStatus: {
         parameters: {
-            query?: never;
+            query: {
+                /** @description Hash of the transaction */
+                tx_hash: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** @description Get the status of a transaction on SUI. */
-        requestBody: {
-            content: {
-                "application/json; charset=utf-8": components["schemas"]["SUITxStatusPayload"];
-            };
-        };
+        requestBody?: never;
         responses: {
             /** @description Successful operation */
             200: {
