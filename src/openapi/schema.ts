@@ -40374,9 +40374,17 @@ export interface components {
             sender: string;
         };
         SUIBroadcastTxPayload: {
-            /** @description Signed serialized transaction */
-            transaction: string;
-            /** @description Signature of the transaction */
+            /**
+             * Format: base64
+             * @description Signed serialized transaction as base64 encoded bcs
+             * @example AAACAAgAypo7AAAAAAAg2+ZDD9PphmfRs1A4Aba3bIThZOG+V+8OS/Pjq3kbI9YCAgABAQAAAQEDAAAAAAEBABsdj13zFOK3uKhs/ir/eMwbwKDsykcidGrlIiYx0U9vAjWzex7zdLfWq8gj/oP81sYt3UJzyo4bDhvRJ7E1R/tVd1fpIAAAAAAgfCKhipjlwhR0OghzVijOV+b+CFucrTVw1y6LK+g4dXUM4X57NnqLr5kjWC0veDHxiAJG0cKrkJDEubjYQ6JXundX6SAAAAAAICh1unSYqH9yQqaJuKEftzLEGT5rqV7wHUD16BMQcmLAGx2PXfMU4re4qGz+Kv94zBvAoOzKRyJ0auUiJjHRT2/oAwAAAAAAAECrPAAAAAAAAA==
+             */
+            tx_serialized: string;
+            /**
+             * Format: base64
+             * @description Base64 encoded signature of the transaction
+             * @example AMQ2b2LwCWca7IK5hY1lnzkhRwb4nkYCTA3on08RpMEA6myGSgTWmBH2KDLZmaXzSXI+++VCNKrP3dCzBZvM3gRzTJq3RpEQpcj32BYljGTj4jFrXXGGPohME56ZK2MBDw==
+             */
             signature: string;
         };
         SUIDecodeTxPayload: {
