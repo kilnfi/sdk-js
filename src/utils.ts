@@ -322,3 +322,17 @@ export const trxToSun = (trx: string): bigint => {
 export const sunToTrx = (trx: bigint): string => {
   return formatUnits(trx, 6);
 };
+
+/**
+ * Convert SEI to usei
+ */
+export const seiToUsei = (sei: string): bigint => {
+  return parseUnits(sei, 6);
+};
+
+/**
+ * Convert usei to sei
+ */
+export const useiToSei = (usei: bigint): string => {
+  return formatUnits(usei, 6);
+};
