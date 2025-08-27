@@ -8514,6 +8514,206 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/sei/balance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Get balance
+         * @description Get balance of a Sei account
+         */
+        post: operations["postSeiGetBalance"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/stake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Stake Transaction
+         * @description Generates a delegate transaction on Sei
+         */
+        post: operations["postSeiStakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/withdraw-rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Withdraw Rewards Transaction
+         * @description Generates a withdraw rewards transaction on Sei
+         */
+        post: operations["postSeiWithdrawRewardsTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/unstake": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Unstake Transaction
+         * @description Generates an undelegate transaction on Sei
+         */
+        post: operations["postSeiUnstakeTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/redelegate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Redelegate Transaction
+         * @description Generates a redelegate transaction on Sei to move a stake from a validator to another without going through the 21 days unbonding period.
+         */
+        post: operations["postSeiRedelegateTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare Transaction
+         * @description Prepare an unsigned transaction for broadcast by adding signatures to it
+         */
+        post: operations["postSeiPrepareTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/broadcast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Broadcast Transaction
+         * @description Broadcast a signed transaction to the Sei network
+         */
+        post: operations["postSeiBroadcastTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Send Transaction
+         * @description Generates a send transaction on Sei
+         */
+        post: operations["postSeiSendTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Status
+         * @description Get the status of a transaction
+         */
+        get: operations["getSeiTxStatus"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sei/transaction/decode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Transaction Decoding
+         * @description Decode a transaction
+         */
+        get: operations["getSeiTxDecoding"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -40509,7 +40709,7 @@ export interface components {
              */
             fee: Record<string, never>;
             /**
-             * @description List of messages included in the transaction. The list contains one message for the staking delegation and one more message for rewards restaking in case specified as a parameter (`restake_rewards=true`).
+             * @description List of messages included in the transaction.
              * @example [
              *       {
              *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
@@ -40521,19 +40721,10 @@ export interface components {
              *             "amount": "1000000"
              *           }
              *         }
-             *       },
-             *       {
-             *         "typeUrl": "/cosmos.staking.v1beta1.StakeAuthorization",
-             *         "allowList": {
-             *           "address": [
-             *             "seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w"
-             *           ]
-             *         },
-             *         "AuthorizationType": 1
              *       }
              *     ]
              */
-            messages: (components["schemas"]["SEIStakeMessage"] | components["schemas"]["SEIStakeMessageRestake"])[];
+            messages: components["schemas"]["SEIStakeMessage"][];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -41292,16 +41483,6 @@ export interface components {
              * @example 1000000000000000000000000
              */
             amount_usei: string;
-            /**
-             * @description If enabled, the rewards will be automatically restaked
-             * @default false
-             */
-            restake_rewards: boolean;
-            /**
-             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
-             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
-             */
-            grantee_address?: string;
         };
         SEICraftRestakeRewardsTxPayload: {
             /**
@@ -42080,6 +42261,18 @@ export interface components {
              * @example 1000000000000000000000000
              */
             amount_usei: string;
+        };
+        SEIGetBalancePayload: {
+            /**
+             * @description Wallet address
+             * @example sei10fkn5afpvg8q3wfl987smpg9e9ye7nxg8fgeg0
+             */
+            address: string;
+            /**
+             * @description The denomination of the balance to query
+             * @example uSEI
+             */
+            denom: string;
         };
     };
     responses: never;
@@ -64302,6 +64495,493 @@ export interface operations {
                         data: components["schemas"]["SEINetworkStats"];
                     };
                 };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiGetBalance: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Account to query */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEIGetBalancePayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: {
+                            /**
+                             * @description The balance of the account
+                             * @example 1000000
+                             */
+                            amount: string;
+                            /**
+                             * @description The denomination of the balance
+                             * @example uSEI
+                             */
+                            denom: string;
+                        };
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiStakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEICraftStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIStakeUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiWithdrawRewardsTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEICraftWithdrawRewardsTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiUnstakeTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEICraftUnstakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiRedelegateTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEICraftRedelegateTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiPrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to prepare */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEIPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEISignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiBroadcastTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to broadcast */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEIBroadcastTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEITxHash"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSeiSendTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Transaction to craft */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SEICraftSendTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SEIUnsignedTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeiTxStatus: {
+        parameters: {
+            query: {
+                /** @description Hash of the transaction */
+                tx_hash: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["SEITxStatus"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeiTxDecoding: {
+        parameters: {
+            query: {
+                /** @description Raw transaction to decode */
+                tx_serialized: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data?: components["schemas"]["SEITxDecoding"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Unauthorized */
             401: {
