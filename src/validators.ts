@@ -100,4 +100,9 @@ export const KILN_VALIDATORS = {
       INTEROP: 'osmovaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7rq8p8gy',
     },
   },
+  SEI: {
+    mainnet: {
+      KILN: 'seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w',
+    },
+  },
 };
