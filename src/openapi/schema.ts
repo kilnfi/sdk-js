@@ -40305,10 +40305,10 @@ export interface components {
              */
             validator_address: string;
             /**
-             * @description Amount of SUI to stake
+             * @description Amount of SUI in mist to stake
              * @example 1817090696
              */
-            amount: string;
+            amount_mist: string;
             /**
              * Format: uuid
              * @description Kiln Account ID to stake into
@@ -40340,10 +40340,10 @@ export interface components {
              */
             sender: string;
             /**
-             * @description Amount of SUI to send
+             * @description Amount of SUI in mist to send
              * @example 1817090696
              */
-            amount: string;
+            amount_mist: string;
             /**
              * @description Recipient address
              * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
@@ -40357,10 +40357,10 @@ export interface components {
              */
             stake_id: string;
             /**
-             * @description Amount of SUI to split
+             * @description Amount of SUI in mist to split
              * @example 1817090696
              */
-            amount: string;
+            amount_mist: string;
             /**
              * Format: uuid
              * @description Kiln Account ID to stake into
