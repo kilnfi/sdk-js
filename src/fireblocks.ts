@@ -21,6 +21,7 @@ export type FireblocksIntegration = (
 const ERRORS = {
   MISSING_SIGNATURE: 'An error occurred while attempting to retrieve the signature from Fireblocks.',
   FAILED_TO_PREPARE: 'An error occurred while attempting to add the signature to the transaction.',
+  MISSING_PUBLIC_KEY: 'An error occurred while attempting to retrieve the public key from Fireblocks.',
 };
 
 export class FireblocksService {
@@ -1259,6 +1260,56 @@ export class FireblocksService {
         tx_body: tx.tx_body,
         tx_auth_info: tx.tx_auth_info,
         signature: signature,
+      },
+    });
+
+    if (preparedTx.error) {
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  async signSuiTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['SUITx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['SUIBroadcastTxPayload'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash.substring(2),
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'SUI tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'SUI', fbNote);
+    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+    const fbPubkey = fbTx.signedMessages?.[0]?.publicKey;
+
+    if (!signature) {
+      throw new Error(ERRORS.MISSING_SIGNATURE);
+    }
+
+    if (!fbPubkey) {
+      throw new Error(ERRORS.MISSING_PUBLIC_KEY);
+    }
+
+    const preparedTx = await this.client.POST('/sui/transaction/prepare', {
+      body: {
+        pubkey: fbPubkey,
+        signature: signature,
+        tx_serialized: tx.unsigned_tx_serialized,
       },
     });
 
