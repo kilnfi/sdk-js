@@ -336,3 +336,17 @@ export const seiToUsei = (sei: string): bigint => {
 export const useiToSei = (usei: bigint): string => {
   return formatUnits(usei, 6);
 };
+
+/**
+ * Convert SUI to mist
+ */
+export const suiToMist = (sui: string): bigint => {
+  return parseUnits(sui, 9);
+};
+
+/**
+ * Convert mist to SUI
+ */
+export const mistToSui = (mist: bigint): string => {
+  return formatUnits(mist, 9);
+};

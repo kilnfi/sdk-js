@@ -105,4 +105,9 @@ export const KILN_VALIDATORS = {
       KILN: 'seivaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3eqkjc8w',
     },
   },
+  SUI: {
+    mainnet: {
+      KILN: '0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6',
+    },
+  },
 };
