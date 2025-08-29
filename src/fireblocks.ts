@@ -1304,16 +1304,13 @@ export class FireblocksService {
     }
     const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
 
-    const preparedTx = await fetch('http://localhost:3001/v1/algo/prepare', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    // @ts-expect-error
+    const preparedTx = await this.client.POST('/algo/prepare', {
+      body: {
         unsigned_tx_serialized: tx.unsigned_tx_serialized,
         signature: signature,
-      }),
-    }).then(async (res) => ({ data: await res.json() }));
+      },
+    });
 
     if (preparedTx.error) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
