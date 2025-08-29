@@ -37,7 +37,8 @@ export type FireblocksAssetId =
   | 'TRX'
   | 'BTC'
   | 'SEI'
-  | 'SUI';
+  | 'SUI'
+  | 'ALGO';
 
 export class FireblocksSigner {
   constructor(

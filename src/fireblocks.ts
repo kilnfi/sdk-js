@@ -1273,6 +1273,9 @@ export class FireblocksService {
     };
   }
 
+  /**
+   * Sign a SUI transaction on Fireblocks
+   */
   async signSuiTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['SUITx'],
@@ -1312,6 +1315,59 @@ export class FireblocksService {
         tx_serialized: tx.unsigned_tx_serialized,
       },
     });
+
+    if (preparedTx.error) {
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign a Algo transaction on Fireblocks
+   */
+  async signAlgoTx(
+    integration: FireblocksIntegration,
+    // biome-ignore lint/suspicious/noExplicitAny: TODO specs
+    tx: any,
+    note?: string,
+  ): Promise<{
+    // biome-ignore lint/suspicious/noExplicitAny: TODO specs
+    signed_tx: any;
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'ALGO tx from @kilnfi/sdk';
+    const fbTx = await fbSigner.sign(payload, 'ALGO', fbNote);
+
+    if (!fbTx.signedMessages?.[0]?.signature) {
+      throw new Error(ERRORS.MISSING_SIGNATURE);
+    }
+    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+
+    const preparedTx = await fetch('http://localhost:3001/v1/algo/prepare', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        unsigned_tx_serialized: tx.unsigned_tx_serialized,
+        signature: signature,
+      }),
+    }).then(async (res) => ({ data: await res.json() }));
 
     if (preparedTx.error) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
