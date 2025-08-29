@@ -39,17 +39,15 @@ if (!fireblocksWallet) {
 // Craft the transaction
 //
 console.log('Crafting transaction...');
-// const txRequest = await k.client.POST('/algo/stake', {
-const txRequest = await fetch('http://localhost:3001/v1/algo/stake', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
+// @ts-expect-error
+const txRequest = await k.client.POST('/algo/send', {
+  body: {
+    account_id: kilnAccountId,
     amount_micro_algo: '10000',
-    sender_address: 'SK4UCVAGW2QXRJJ65DFCKEEW2XVLGNT6DW3XQIXPN4RWDH3EFJ2C7LEMLU',
-  }),
-}).then(async (res) => ({ data: await res.json() }));
+    sender_address: fireblocksWallet,
+    receiver_address: fireblocksWallet,
+  },
+});
 
 if (txRequest.error) {
   console.log('Failed to craft transaction:', txRequest);
@@ -65,6 +63,7 @@ console.log('\n\n\n');
 console.log('Signing transaction...');
 const signRequest = await (async () => {
   try {
+    // @ts-expect-error
     return await k.fireblocks.signAlgoTx(vault, txRequest.data.data);
   } catch (err) {
     console.log('Failed to sign transaction:', err);
@@ -78,15 +77,12 @@ console.log('\n\n\n');
 // Broadcast the transaction
 //
 console.log('Broadcasting transaction...');
-const broadcastedRequest = await fetch('http://localhost:3001/v1/algo/broadcast', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
+// @ts-expect-error
+const broadcastedRequest = await k.client.POST('/algo/broadcast', {
+  body: {
     tx_serialized: signRequest.signed_tx.data.signed_tx_serialized,
-  }),
-}).then(async (res) => ({ data: await res.json() }));
+  },
+});
 
 if (broadcastedRequest.error) {
   console.log('Failed to broadcast transaction:', broadcastedRequest);
