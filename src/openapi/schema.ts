@@ -8414,6 +8414,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/sui/transaction/prepare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Prepare Transaction
+         * @description Prepare a transaction.
+         */
+        post: operations["postSuiPrepareTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sui/transaction/status": {
         parameters: {
             query?: never;
@@ -40005,16 +40025,6 @@ export interface components {
              */
             net_rewards: string;
             /**
-             * @description Total withdrawn rewards by this stake since its first ever delegation
-             * @example 9020446847418
-             */
-            withdrawn_rewards: string;
-            /**
-             * @description Total withdrawable rewards by this stake
-             * @example 0
-             */
-            withdrawable_rewards: string;
-            /**
              * @description The amount of SUI currently staked
              * @example 92908788559
              */
@@ -40051,6 +40061,11 @@ export interface components {
              * @example 2.02
              */
             net_apy: number;
+            /**
+             * @description Stake Object ID involved in the operation
+             * @example 0x23f9f0342c9ee0c7e74df0dc6655d2ae672ae08fe12dc4ac2d604074687555a3
+             */
+            stake_id: string;
         };
         SUIRewardByEpoch: {
             /**
@@ -40305,6 +40320,20 @@ export interface components {
              */
             digest: string;
         };
+        SUIPrepareTx: {
+            /**
+             * Format: base64
+             * @description Serialized transaction as base64 encoded bcs
+             * @example AAACAAgAypo7AAAAAAAg2+ZDD9PphmfRs1A4Aba3bIThZOG+V+8OS/Pjq3kbI9YCAgABAQAAAQEDAAAAAAEBABsdj13zFOK3uKhs/ir/eMwbwKDsykcidGrlIiYx0U9vAjWzex7zdLfWq8gj/oP81sYt3UJzyo4bDhvRJ7E1R/tVd1fpIAAAAAAgfCKhipjlwhR0OghzVijOV+b+CFucrTVw1y6LK+g4dXUM4X57NnqLr5kjWC0veDHxiAJG0cKrkJDEubjYQ6JXundX6SAAAAAAICh1unSYqH9yQqaJuKEftzLEGT5rqV7wHUD16BMQcmLAGx2PXfMU4re4qGz+Kv94zBvAoOzKRyJ0auUiJjHRT2/oAwAAAAAAAECrPAAAAAAAAA==
+             */
+            tx_serialized: string;
+            /**
+             * Format: base64
+             * @description Base64-encoded Sui serialized signature.
+             * @example AMQ2b2LwCWca7IK5hY1lnzkhRwb4nkYCTA3on08RpMEA6myGSgTWmBH2KDLZmaXzSXI<insert>VCNKrP3dCzBZvM3gRzTJq3RpEQpcj32BYljGTj4jFrXXGGPohME56ZK2MBDw==
+             */
+            serialized_signature: string;
+        };
         SUITxStatus: {
             /**
              * @description Transaction status
@@ -40396,14 +40425,33 @@ export interface components {
         SUIBroadcastTxPayload: {
             /**
              * Format: base64
-             * @description Signed serialized transaction as base64 encoded bcs
+             * @description Serialized transaction as base64 encoded bcs
              * @example AAACAAgAypo7AAAAAAAg2+ZDD9PphmfRs1A4Aba3bIThZOG+V+8OS/Pjq3kbI9YCAgABAQAAAQEDAAAAAAEBABsdj13zFOK3uKhs/ir/eMwbwKDsykcidGrlIiYx0U9vAjWzex7zdLfWq8gj/oP81sYt3UJzyo4bDhvRJ7E1R/tVd1fpIAAAAAAgfCKhipjlwhR0OghzVijOV+b+CFucrTVw1y6LK+g4dXUM4X57NnqLr5kjWC0veDHxiAJG0cKrkJDEubjYQ6JXundX6SAAAAAAICh1unSYqH9yQqaJuKEftzLEGT5rqV7wHUD16BMQcmLAGx2PXfMU4re4qGz+Kv94zBvAoOzKRyJ0auUiJjHRT2/oAwAAAAAAAECrPAAAAAAAAA==
              */
             tx_serialized: string;
             /**
              * Format: base64
-             * @description Base64 encoded signature of the transaction
+             * @description Base64-encoded Sui serialized signature.
              * @example AMQ2b2LwCWca7IK5hY1lnzkhRwb4nkYCTA3on08RpMEA6myGSgTWmBH2KDLZmaXzSXI+++VCNKrP3dCzBZvM3gRzTJq3RpEQpcj32BYljGTj4jFrXXGGPohME56ZK2MBDw==
+             */
+            serialized_signature: string;
+        };
+        SUIPrepareTxPayload: {
+            /**
+             * @description Wallet public key, this is different than the wallet address
+             * @example 039ce47b2a813d13876131a9c3be77e8c4afa49e948744abbee11f939e2a420f46
+             */
+            pubkey: string;
+            /**
+             * Format: base64
+             * @description Serialized transaction as base64 encoded bcs
+             * @example AAACAAgAypo7AAAAAAAg2+ZDD9PphmfRs1A4Aba3bIThZOG+V+8OS/Pjq3kbI9YCAgABAQAAAQEDAAAAAAEBABsdj13zFOK3uKhs/ir/eMwbwKDsykcidGrlIiYx0U9vAjWzex7zdLfWq8gj/oP81sYt3UJzyo4bDhvRJ7E1R/tVd1fpIAAAAAAgfCKhipjlwhR0OghzVijOV+b+CFucrTVw1y6LK+g4dXUM4X57NnqLr5kjWC0veDHxiAJG0cKrkJDEubjYQ6JXundX6SAAAAAAICh1unSYqH9yQqaJuKEftzLEGT5rqV7wHUD16BMQcmLAGx2PXfMU4re4qGz+Kv94zBvAoOzKRyJ0auUiJjHRT2/oAwAAAAAAAECrPAAAAAAAAA==
+             */
+            tx_serialized: string;
+            /**
+             * Format: base64
+             * @description Hex-encoded raw signature bytes.
+             * @example a11afeea9af497fdae1caa2c02cf5f1b964251093ee7acd47a7193d991c64eefb3d9879a3fa3015f2003b0d61b95bdf9de1f5f155fac6be4bbe058cdcda4c60b
              */
             signature: string;
         };
@@ -40506,6 +40554,11 @@ export interface components {
              * @description Base64-encoded payload data of the operation
              */
             data: string;
+            /**
+             * @description Stake Object ID involved in the operation
+             * @example 0x23f9f0342c9ee0c7e74df0dc6655d2ae672ae08fe12dc4ac2d604074687555a3
+             */
+            stake_id: string;
         };
         SEIStake: {
             /**
@@ -42668,6 +42721,8 @@ export interface components {
         SUIDelegatorsParam: string[];
         /** @description Comma-separated list of validator addresses */
         SUIValidatorsParam: string[];
+        /** @description Comma-separated list of stake object ids */
+        SUIStakeIdsParam: string[];
         /** @description Transaction hash */
         SUITxHashParam: string;
         /** @description Comma-separated list of validators addresses, these addresses
@@ -63775,6 +63830,8 @@ export interface operations {
                 delegators?: components["parameters"]["SUIDelegatorsParam"];
                 /** @description Comma-separated list of validator addresses */
                 validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description Comma-separated list of stake object ids */
+                stake_ids?: components["parameters"]["SUIStakeIdsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
             };
@@ -63825,6 +63882,8 @@ export interface operations {
                 delegators?: components["parameters"]["SUIDelegatorsParam"];
                 /** @description Comma-separated list of validator addresses */
                 validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description Comma-separated list of stake object ids */
+                stake_ids?: components["parameters"]["SUIStakeIdsParam"];
                 /** @description The format of the response. Defaults to `daily` */
                 format?: components["parameters"]["SUIRewardsFormatParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
@@ -63883,6 +63942,8 @@ export interface operations {
                 delegators?: components["parameters"]["SUIDelegatorsParam"];
                 /** @description Comma-separated list of validator addresses */
                 validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description Comma-separated list of stake object ids */
+                stake_ids?: components["parameters"]["SUIStakeIdsParam"];
                 /** @description Transaction hash */
                 tx_hash?: components["parameters"]["SUITxHashParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
@@ -64230,6 +64291,54 @@ export interface operations {
                 content: {
                     "application/json; charset=utf-8": {
                         data: components["schemas"]["SUIBroadcastTx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiPrepareTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Prepare a transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUIPrepareTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUIPrepareTx"];
                     };
                 };
             };
