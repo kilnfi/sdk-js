@@ -46,7 +46,7 @@ const txRequest = await fetch('http://localhost:3001/v1/algo/stake', {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    amount_micro_algo: '1', // schema expects string per the error
+    amount_micro_algo: '10000',
     sender_address: 'SK4UCVAGW2QXRJJ65DFCKEEW2XVLGNT6DW3XQIXPN4RWDH3EFJ2C7LEMLU',
   }),
 }).then(async (res) => ({ data: await res.json() }));
@@ -84,7 +84,7 @@ const broadcastedRequest = await fetch('http://localhost:3001/v1/algo/broadcast'
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    tx_serialized: txRequest.data.data.unsigned_tx_serialized,
+    tx_serialized: signRequest.signed_tx.data.signed_tx_serialized,
   }),
 }).then(async (res) => ({ data: await res.json() }));
 
