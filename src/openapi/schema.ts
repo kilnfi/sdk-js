@@ -8254,6 +8254,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/sui/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Reports
+         * @description Get reports on Sui staking
+         */
+        get: operations["getSuiReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sui/operations": {
         parameters: {
             query?: never;
@@ -40093,6 +40113,10 @@ export interface components {
              * @example 2.02
              */
             net_apy: number;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
+            rewards_usd: number;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
+            active_balance_usd: number;
         };
         SUIRewardByDay: {
             /**
@@ -63910,6 +63934,56 @@ export interface operations {
                     "application/json; charset=utf-8": {
                         data: (components["schemas"]["SUIRewardByDay"] | components["schemas"]["SUIRewardByEpoch"])[];
                     };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSuiReports: {
+        parameters: {
+            query?: {
+                /** @description Comma-separated list of validator addresses */
+                validators?: components["parameters"]["SUIValidatorsParam"];
+                /** @description Comma-separated list of delegator addresses */
+                delegators?: components["parameters"]["SUIDelegatorsParam"];
+                /** @description Comma-separated list of stake object ids */
+                stake_ids?: components["parameters"]["SUIStakeIdsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
                 };
             };
             /** @description Invalid parameters */
