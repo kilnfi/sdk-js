@@ -40113,10 +40113,6 @@ export interface components {
              * @example 2.02
              */
             net_apy: number;
-            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
-            rewards_usd: number;
-            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
-            active_balance_usd: number;
         };
         SUIRewardByDay: {
             /**
@@ -40139,6 +40135,10 @@ export interface components {
              * @example 2.02
              */
             net_apy: number;
+            /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
+            rewards_usd: number;
+            /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
+            active_balance_usd: number;
         };
         SUITx: {
             /**
