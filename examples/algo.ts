@@ -39,6 +39,7 @@ if (!fireblocksWallet) {
 // Craft the transaction
 //
 console.log('Crafting transaction...');
+
 // @ts-expect-error
 const txRequest = await k.client.POST('/algo/send', {
   body: {
@@ -48,6 +49,12 @@ const txRequest = await k.client.POST('/algo/send', {
     receiver_address: fireblocksWallet,
   },
 });
+// const txRequest = await k.client.POST('/algo/stake', {
+//   body: {
+//     sender_address: fireblocksWallet,
+//     amount_micro_algo: '10000',
+//   },
+// });
 
 if (txRequest.error) {
   console.log('Failed to craft transaction:', txRequest);
@@ -80,7 +87,7 @@ console.log('Broadcasting transaction...');
 // @ts-expect-error
 const broadcastedRequest = await k.client.POST('/algo/broadcast', {
   body: {
-    tx_serialized: signRequest.signed_tx.data.signed_tx_serialized,
+    tx_serializeds: signRequest.signed_txs.data.signed_tx_serializeds,
   },
 });
 
