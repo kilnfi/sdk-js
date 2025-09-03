@@ -1278,20 +1278,18 @@ export class FireblocksService {
   async signAlgoTx(
     integration: FireblocksIntegration,
     // biome-ignore lint/suspicious/noExplicitAny: TODO specs
-    tx: any,
+    tx: { unsigned_tx_hashs: string[]; unsigned_tx_serializeds: string[] },
     note?: string,
   ): Promise<{
     // biome-ignore lint/suspicious/noExplicitAny: TODO specs
-    signed_tx: any;
+    signed_txs: any;
     fireblocks_tx: TransactionResponse;
   }> {
     const payload = {
       rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_hash,
-          },
-        ],
+        messages: tx.unsigned_tx_hashs.map((hash: string) => ({
+          content: hash,
+        })),
       },
     };
 
@@ -1299,16 +1297,17 @@ export class FireblocksService {
     const fbNote = note ? note : 'ALGO tx from @kilnfi/sdk';
     const fbTx = await fbSigner.sign(payload, 'ALGO', fbNote);
 
-    if (!fbTx.signedMessages?.[0]?.signature) {
+    if (!fbTx.signedMessages || fbTx.signedMessages.length !== payload.rawMessageData.messages.length) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
     }
-    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+
+    const signatures = fbTx.signedMessages.map((msg) => msg.signature?.fullSig);
 
     // @ts-expect-error
     const preparedTx = await this.client.POST('/algo/prepare', {
       body: {
-        unsigned_tx_serialized: tx.unsigned_tx_serialized,
-        signature: signature,
+        unsigned_tx_serializeds: tx.unsigned_tx_serializeds,
+        signatures: signatures,
       },
     });
 
@@ -1317,7 +1316,7 @@ export class FireblocksService {
     }
 
     return {
-      signed_tx: preparedTx.data,
+      signed_txs: preparedTx.data,
       fireblocks_tx: fbTx,
     };
   }
