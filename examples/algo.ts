@@ -53,6 +53,7 @@ const txRequest = await k.client.POST('/algo/stake', {
   body: {
     sender_address: fireblocksWallet,
     amount_micro_algo: '10000',
+    validator_id: '45',
   },
 });
 
