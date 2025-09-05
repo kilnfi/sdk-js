@@ -41,14 +41,6 @@ if (!fireblocksWallet) {
 console.log('Crafting transaction...');
 
 // @ts-expect-error
-// const txRequest = await k.client.POST('/algo/send', {
-//   body: {
-//     account_id: kilnAccountId,
-//     amount_micro_algo: '10000',
-//     sender_address: fireblocksWallet,
-//     receiver_address: fireblocksWallet,
-//   },
-// });
 const txRequest = await k.client.POST('/algo/stake', {
   body: {
     sender_address: fireblocksWallet,
