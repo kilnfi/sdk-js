@@ -7,6 +7,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@algorandfoundation/algokit-utils": "^9.1.2",
+    "algosdk": "^3.4.0",
     "dotenv": "^16.4.5"
   }
 }
