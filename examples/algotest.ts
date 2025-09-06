@@ -67,7 +67,7 @@ const poolAppId = 2725738169n;
  * STAKE TXs
  */
 
-const stakeTransferTx = algorandClient.createTransaction.payment({
+const stakeTransferTx = await algorandClient.createTransaction.payment({
   sender: sender_address,
   receiver: RETI_APP_ADDRESS,
   amount: microAlgo(Number(10000)),
