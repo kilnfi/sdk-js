@@ -1,6 +1,6 @@
 import { loadEnv } from './env.ts';
 import algosdk from 'algosdk';
-import { AlgorandClient, microAlgo } from '@algorandfoundation/algokit-utils';
+import { AlgorandClient, microAlgo, populateAppCallResources } from '@algorandfoundation/algokit-utils';
 import { Fireblocks } from '@fireblocks/ts-sdk';
 import { FireblocksSigner } from '../src/fireblocks_signer.ts';
 import nacl from 'tweetnacl';
@@ -43,37 +43,21 @@ const RETI_APP_ADDRESS = '5Y2WY2NT3XWORLDCN7XXS4IOKXWZHZ2EUWU7DUA65DYCRMLR5NK4KA
 const algorandClient = AlgorandClient.mainNet();
 const gasMethod = algosdk.ABIMethod.fromSignature('gas()void');
 const addStakeMethod = algosdk.ABIMethod.fromSignature('addStake(pay,uint64,uint64)(uint64,uint64,uint64)');
-const removeStakeMethod = algosdk.ABIMethod.fromSignature('removeStake(address,uint64)void');
 const validatorAppId = 2714516089n;
-const poolAppId = 2725738169n;
-
-/**
- * SEND TXs
- */
-// const composer = algorandClient
-//   .newGroup()
-//   .addPayment({
-//     sender: sender_address,
-//     receiver: sender_address,
-//     amount: microAlgo(Number(10000)),
-//   })
-//   .addPayment({
-//     sender: sender_address,
-//     receiver: sender_address,
-//     amount: microAlgo(Number(20000)),
-//   });
+const validatorId = 45n;
 
 /**
  * STAKE TXs
  */
 
-const stakeTransferTx = await algorandClient.createTransaction.payment({
+// Create individual payment transaction first with extended validity
+const paymentTxn = await algorandClient.createTransaction.payment({
   sender: sender_address,
   receiver: RETI_APP_ADDRESS,
   amount: microAlgo(Number(10000)),
 });
 
-const composer = algorandClient
+const simulateComposer = algorandClient
   .newGroup()
   .addAppCallMethodCall({
     sender: sender_address,
@@ -93,56 +77,91 @@ const composer = algorandClient
     sender: sender_address,
     appId: validatorAppId,
     method: addStakeMethod,
-    args: [stakeTransferTx, 45n, 0n],
-    extraFee: microAlgo(5000),
+    args: [paymentTxn, validatorId, 0n],
+    extraFee: microAlgo(240000),
   });
 
-/**
- * UNSTAKE TXs
- */
-// const STAKERS = new TextEncoder().encode('stakers');
+// First simulate to calculate the required fee based on app budget
+const simulateResult = await simulateComposer.simulate({
+  skipSignatures: true,
+  allowUnnamedResources: true,
+});
 
-// const boxReferences = [
-//   { appId: poolAppId, name: STAKERS },
-//   { appId: poolAppId, name: STAKERS },
-//   { appId: poolAppId, name: STAKERS },
-//   { appId: poolAppId, name: STAKERS },
-//   { appId: poolAppId, name: STAKERS },
-//   { appId: poolAppId, name: STAKERS },
-//   { appId: poolAppId, name: STAKERS },
-// ];
+console.log('Simulation completed. Calculating required fee based on app budget.');
 
-// const composer = algorandClient
-//   .newGroup()
-//   .addAppCallMethodCall({
-//     sender: sender_address,
-//     appId: 2725738169n,
-//     method: gasMethod,
-//     args: [],
-//     note: '1',
-//     boxReferences,
-//   })
-//   .addAppCallMethodCall({
-//     sender: sender_address,
-//     appId: 2725738169n,
-//     method: gasMethod,
-//     args: [],
-//     note: '2',
-//     boxReferences,
-//   })
-//   .addAppCallMethodCall({
-//     sender: sender_address,
-//     appId: 2725738169n,
-//     method: removeStakeMethod,
-//     args: [sender_address.toString(), 10000n],
-//     extraFee: microAlgo(5000),
-//     appReferences: [2714516089n],
-//   });
+const appBudgetAdded = simulateResult.simulateResponse.txnGroups[0].appBudgetAdded || 0;
+// Algorand fee calculation: 1000 microAlgo base fee + 1000 microAlgo per 700 opcode units
+// Math.ceil(appBudgetAdded / 700) calculates how many 700-opcode chunks are needed
+const calculatedFee = microAlgo(1000 * Math.ceil(appBudgetAdded / 700));
 
-// const txs = algosdk.assignGroupID((await composer.buildTransactions()).transactions);
-const txs = (await composer.simulate({ skipSignatures: true, allowUnnamedResources: true })).transactions;
+console.log(`App budget added: ${appBudgetAdded}, calculated fee: ${calculatedFee.microAlgos} microAlgos`);
 
-const tx_hashs = txs.map((tx) => Buffer.from(tx.bytesToSign()).toString('hex'));
+algorandClient.setDefaultValidityWindow(200);
+const suggestedParams = await algorandClient.client.algod.getTransactionParams().do();
+const signer = algosdk.makeEmptyTransactionSigner();
+
+const paymentTx = await algorandClient.createTransaction.payment({
+  sender: sender_address,
+  receiver: RETI_APP_ADDRESS,
+  amount: microAlgo(10000),
+});
+
+const atc = new algosdk.AtomicTransactionComposer();
+
+atc.addMethodCall({
+  appID: validatorAppId,
+  method: gasMethod,
+  methodArgs: [],
+  sender: sender_address,
+  signer,
+  suggestedParams,
+  note: new Uint8Array(Buffer.from('1')),
+});
+
+// Add gas method call 2
+atc.addMethodCall({
+  appID: validatorAppId,
+  method: gasMethod,
+  methodArgs: [],
+  sender: sender_address,
+  suggestedParams,
+  signer,
+  note: new Uint8Array(Buffer.from('2')),
+});
+
+// Add the addStake method call
+atc.addMethodCall({
+  appID: validatorAppId,
+  method: addStakeMethod,
+  methodArgs: [
+    {
+      txn: paymentTx,
+      signer,
+    },
+    validatorId,
+    0n,
+  ],
+  sender: sender_address,
+  suggestedParams: {
+    ...suggestedParams,
+    fee: calculatedFee.microAlgos,
+    flatFee: true,
+  },
+  signer,
+});
+
+console.log('Populating app call resources...');
+
+// Populate app call resources automatically
+const populatedAtc = await populateAppCallResources(atc, algorandClient.client.algod);
+
+// Get the transactions with populated resources
+const populatedTxs = populatedAtc
+  .clone()
+  .buildGroup()
+  .map((tx) => tx.txn);
+
+const tx_hashs = populatedTxs.map((tx) => Buffer.from(tx.bytesToSign()).toString('hex'));
 
 //
 // Sign the transaction
@@ -163,17 +182,31 @@ const fbTx = await fbSigner.sign(
   'ALGO tx from @kilnfi/sdk',
 );
 
-const signedTxs = txs.map((tx, index) => {
-  const sig = fbTx.signedMessages?.[index]?.signature?.fullSig;
-  if (!sig) {
-    throw new Error(`Missing signature for transaction at index ${index}`);
+const signedTxs = populatedTxs.map((tx, index) => {
+  console.log('tx id', tx.txID());
+  console.log('note', Buffer.from(tx.note).toString());
+  console.log('\n');
+
+  const txHash = Buffer.from(tx.bytesToSign()).toString('hex');
+
+  // Find the matching signature from Fireblocks response
+  const matchingSignedMessage = fbTx.signedMessages?.find((sm) => sm.content === txHash);
+
+  if (!matchingSignedMessage?.signature?.fullSig) {
+    throw new Error(`No matching signature found for transaction ${index} with hash ${txHash}`);
   }
 
+  const sig = matchingSignedMessage.signature.fullSig;
+
+  // Verify signature locally
   const msg = tx.bytesToSign();
   const s = Uint8Array.from(Buffer.from(sig, 'hex'));
   const pk = algosdk.decodeAddress(sender_address).publicKey;
+
   if (!nacl.sign.detached.verify(msg, s, pk)) {
-    console.log(`${index}: Local Ed25519 verify failed (key mismatch or bad decoding).`);
+    console.log(`Transaction ${index}: Local Ed25519 verify failed`);
+  } else {
+    console.log(`Transaction ${index}: Local Ed25519 verify SUCCESS!`);
   }
 
   return tx.attachSignature(tx.sender, Uint8Array.from(Buffer.from(sig, 'hex')));
@@ -182,11 +215,31 @@ const signedTxs = txs.map((tx, index) => {
 //
 // Broadcast the transaction
 //
-console.log('Broadcasting transaction...');
+// console.log('Broadcasting transaction...');
 
-const simulate = await algorandClient.client.algod.simulateRawTransactions(signedTxs).do();
-console.log('simulate', simulate);
+// const simulate = await algorandClient.client.algod.simulateRawTransactions(signedTxs).do();
+// console.log('simulate result:', simulate);
 
-// const result = await algorandClient.client.algod.sendRawTransaction(signedTxs).do();
+// console.log('Simulation successful! Transaction is properly signed and ready to submit.');
 
-// console.log('result', result);
+// Submit the properly signed transactions to the network
+console.log('Submitting transaction group to network...');
+try {
+  // Use the AlgorandClient's sendGroupOfTransactions which might support resource population better
+  const result = await algorandClient.client.algod.sendRawTransaction(signedTxs).do();
+  console.log('Transaction group submitted successfully:', result);
+} catch (error) {
+  console.error('Transaction submission failed:', error);
+
+  // Try alternative submission with simulation
+  console.log('Attempting alternative submission method...');
+  try {
+    // First simulate the signed transactions to populate resources
+    const simulateResult = await algorandClient.client.algod.simulateRawTransactions(signedTxs).do();
+
+    console.log('Simulation succeeded, but need different submission approach');
+    console.log('Simulate result:', simulateResult);
+  } catch (simError) {
+    console.error('Simulation also failed:', simError);
+  }
+}
