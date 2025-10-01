@@ -25,7 +25,7 @@ const vault: FireblocksIntegration = {
 const fireblocksPubkey = (
   await k.fireblocks.getSdk(vault).vaults.getPublicKeyInfo({
     algorithm: 'MPC_ECDSA_SECP256K1',
-    derivationPath: JSON.stringify([44, 118, Number(vault.vaultId), 0, 0]),
+    derivationPath: JSON.stringify([44, 60, Number(vault.vaultId), 0, 0]),
     compressed: true,
   })
 ).data.publicKey;
