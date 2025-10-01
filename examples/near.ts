@@ -1,7 +1,7 @@
 import { Kiln, KILN_VALIDATORS } from '../src/kiln.ts';
 import type { FireblocksIntegration } from '../src/fireblocks.ts';
 import { loadEnv } from './env.ts';
-import { parseUnits } from "viem";
+import { parseUnits } from 'viem';
 
 const { kilnApiKey, kilnAccountId, kilnApiUrl, fireblocksApiKey, fireblocksApiSecret, fireblocksVaultId } =
   await loadEnv();
@@ -21,14 +21,30 @@ const vault: FireblocksIntegration = {
 };
 
 //
+// Get the wallet address from Fireblocks
+//
+const fireblocksWallet = (
+  await k.fireblocks.getSdk(vault).vaults.getVaultAccountAssetAddressesPaginated({
+    vaultAccountId: vault.vaultId,
+    assetId: 'NEAR',
+    limit: 1,
+  })
+).data.addresses?.[0].address;
+
+if (!fireblocksWallet) {
+  console.log('Failed to get fireblocks wallet');
+  process.exit(0);
+}
+
+//
 // Craft the transaction
 //
 console.log('Crafting transaction...');
 const txRequest = await k.client.POST('/near/transaction/stake', {
   body: {
     account_id: kilnAccountId,
-    wallet: 'c36b1a5da2e60d1fd5d3a6b46f7399eb26571457f3272f3c978bc9527ad2335f',
-    pool_id: KILN_VALIDATORS.NEAR.testnet.KILN,
+    wallet: fireblocksWallet,
+    pool_id: KILN_VALIDATORS.NEAR.mainnet.KILN,
     amount_yocto: parseUnits('0.1', 24).toString(),
   },
 });
@@ -47,7 +63,7 @@ console.log('Signing transaction...');
 const signRequest = await (async () => {
   try {
     // @ts-ignore
-    return await k.fireblocks.signNearTx(vault, txRequest.data.data, "NEAR_TEST");
+    return await k.fireblocks.signNearTx(vault, txRequest.data.data, 'NEAR');
   } catch (err) {
     console.log('Failed to sign transaction:', err);
     process.exit(1);
