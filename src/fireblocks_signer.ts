@@ -49,7 +49,7 @@ export class FireblocksSigner {
    * Wait for given transaction to be completed
    * @param fbTx fireblocks transaction
    */
-  protected async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
+  public async waitForTxCompletion(fbTx: CreateTransactionResponse): Promise<TransactionResponse> {
     let tx = fbTx;
     while (tx.status !== 'COMPLETED') {
       // see https://developers.fireblocks.com/reference/transaction-substatuses#failed-substatuses
@@ -72,12 +72,16 @@ export class FireblocksSigner {
   }
 
   /**
-   * Sign a transaction with fireblocks using Fireblocks raw message signing feature
+   * Create a transaction in Fireblocks without waiting for completion
    * @param payloadToSign transaction data in hexadecimal
    * @param assetId fireblocks asset id
    * @param note optional fireblocks custom note
    */
-  public async sign(payloadToSign: object, assetId?: FireblocksAssetId, note = ''): Promise<TransactionResponse> {
+  public async createTransaction(
+    payloadToSign: object,
+    assetId?: FireblocksAssetId,
+    note = '',
+  ): Promise<CreateTransactionResponse> {
     const assetArgs = assetId
       ? ({
           assetId,
@@ -94,7 +98,17 @@ export class FireblocksSigner {
       note,
       extraParameters: payloadToSign,
     };
-    const fbTx = (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
+    return (await this.fireblocks.transactions.createTransaction({ transactionRequest: tx })).data;
+  }
+
+  /**
+   * Sign a transaction with fireblocks using Fireblocks raw message signing feature
+   * @param payloadToSign transaction data in hexadecimal
+   * @param assetId fireblocks asset id
+   * @param note optional fireblocks custom note
+   */
+  public async sign(payloadToSign: object, assetId?: FireblocksAssetId, note = ''): Promise<TransactionResponse> {
+    const fbTx = await this.createTransaction(payloadToSign, assetId, note);
     return await this.waitForTxCompletion(fbTx);
   }
 
