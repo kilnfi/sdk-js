@@ -184,9 +184,6 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a ATOM transaction on Fireblocks
-   */
-  /**
    * Create an ATOM transaction in Fireblocks without waiting for completion
    */
   async createAtomTx(
@@ -1449,17 +1446,14 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a Near transaction on Fireblocks
+   * Create a NEAR transaction in Fireblocks without waiting for completion
    */
-  async signNearTx(
+  async createNearTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['NEARTx'],
     assetId: 'NEAR_TEST' | 'NEAR',
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['NEARSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -1472,8 +1466,23 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'NEAR tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+    return await fbSigner.createTransaction(payload, assetId, fbNote);
+  }
+
+  /**
+   * Wait for a NEAR transaction to complete and prepare it for broadcast
+   */
+  async waitForNearTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['NEARTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['NEARSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
@@ -1494,6 +1503,22 @@ export class FireblocksService {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
     };
+  }
+
+  /**
+   * Sign a NEAR transaction on Fireblocks (combines createNearTx and waitForNearTxCompletion)
+   */
+  async signNearTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['NEARTx'],
+    assetId: 'NEAR_TEST' | 'NEAR',
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['NEARSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createNearTx(integration, tx, assetId, note);
+    return await this.waitForNearTxCompletion(integration, tx, fbTx);
   }
 
   /**
