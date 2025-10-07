@@ -1459,6 +1459,10 @@ export class FireblocksService {
         messages: [
           {
             content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: 'SHA256',
+            },
           },
         ],
       },
