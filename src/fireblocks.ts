@@ -127,24 +127,29 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a Cardano transaction on Fireblocks
+   * Create a Cardano transaction in Fireblocks without waiting for completion
    */
-  async signAdaTx(
+  async createAdaTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['ADAUnsignedTx'],
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['ADASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
           {
             content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_body_serialized,
+              hashAlgorithm: 'BLAKE2',
+            },
           },
           {
             content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_body_serialized,
+              hashAlgorithm: 'BLAKE2',
+            },
             bip44change: 2,
           },
         ],
@@ -156,12 +161,27 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'ADA tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'ADA', fbNote);
+    return await fbSigner.createTransaction(payload, 'ADA', fbNote);
+  }
 
-    const signedMessages = fbTx.signedMessages?.map((message) => ({
+  /**
+   * Wait for a Cardano transaction to complete and prepare it for broadcast
+   */
+  async waitForAdaTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['ADAUnsignedTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['ADASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+    const signedMessages = completedTx.signedMessages?.map((message) => ({
       pubkey: message.publicKey as string,
       signature: message.signature?.fullSig as string,
     }));
+
     if (!signedMessages) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
     }
@@ -179,8 +199,23 @@ export class FireblocksService {
 
     return {
       signed_tx: preparedTx.data,
-      fireblocks_tx: fbTx,
+      fireblocks_tx: completedTx,
     };
+  }
+
+  /**
+   * Sign a Cardano transaction on Fireblocks
+   */
+  async signAdaTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['ADAUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['ADASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createAdaTx(integration, tx, note);
+    return await this.waitForAdaTxCompletion(integration, tx, fbTx);
   }
 
   /**
