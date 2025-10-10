@@ -8394,6 +8394,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/sui/transaction/merge": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Merge Stakes Transaction
+         * @description Craft a merge stakes transaction.
+         */
+        post: operations["postSuiMergeStakesTx"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sui/transaction/decode": {
         parameters: {
             query?: never;
@@ -10939,6 +10959,58 @@ export interface components {
             /**
              * @description Amount of ETH to send in wei
              * @example 32000000000000000000
+             */
+            amount_wei: string;
+            /**
+             * @description Nonce of the transaction
+             * @example 1
+             */
+            nonce: number;
+            /**
+             * @description Gas limit of the transaction in gas units. We provide a default value of two times the estimated gas limit
+             * @example 140244
+             */
+            gas_limit: number;
+            /**
+             * @description Max priority fee per gas in wei. This is basically the miner fee. We provide a default value of 2 gwei so transactions are mined faster.
+             * @example 2000000000
+             */
+            max_priority_fee_per_gas_wei: string;
+            /**
+             * @description Max fee per gas in wei. This is the maxium amount of gas that you are willing to pay for the transaction.
+             * @example 383687469748
+             */
+            max_fee_per_gas_wei: string;
+            /**
+             * @description Chain ID of the network
+             * @example 1
+             */
+            chain_id: number;
+        };
+        ETHUnsignedTxWithoutValue: {
+            /**
+             * @description Hash of the unsigned transaction
+             * @example 0x43244f90814b31dec250de24df5bb023a338790c1d5a39244cf1064cf6d98c94
+             */
+            unsigned_tx_hash: string;
+            /**
+             * @description Unsigned serialized transaction
+             * @example 0x20a40259b763d549dfa1c082776a036dd8dabbe8b5e32ee721be017512dc
+             */
+            unsigned_tx_serialized: string;
+            /**
+             * @description Contract address of the transaction recipient
+             * @example 0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852
+             */
+            to: string;
+            /**
+             * @description Hex encoded contract data to be sent with the transaction
+             * @example 0xca0bfcce0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000002600000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000309696c02ec4dbb99f714e26ff1acdf6b258d36dcbad7b8b549553bc99b94ea639cd247f31683564995afd48568c1b6edd00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000020010000000000000000000000bc86717bad3f8ccf86d2882a6bc351c94580a994000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060a3869da2ed5cc558f016d59fc5ceb0cac28e58743836aa3cf146221f1ef0b959e3cc5c589e05e171f1473596aadf36411767ad92edaae421ba0291bd7568267b3faabc3ab6ed9ddfc048ea6640370977f16f4f626a0e567a11ba25acdc520bb000000000000000000000000000000000000000000000000000000000000000012dd65914dda46639df6344701de54ac3ebe34a4b230262d3017fcd6c29954452
+             */
+            contract_call_data: string;
+            /**
+             * @description Amount of ETH to send in wei
+             * @example 0
              */
             amount_wei: string;
             /**
@@ -19742,6 +19814,11 @@ export interface components {
              * @example 84a500818258203d244a2821a0cb32df614cf4380e6c6e0114bc7c734cfa2a3940498ad86865e100018182583900491a1d0747fa91f319625e39076232ad4cc274e3257f345ced82dbb2a8565045c49103b521a3827ff64b98889350a22fa9a0b5ccf72b279b1b0000000255928400021a000493e0031a01ad4330048282008200581ca8565045c49103b521a3827ff64b98889350a22fa9a0b5ccf72b279b83028200581ca8565045c49103b521a3827ff64b98889350a22fa9a0b5ccf72b279b581ce54d5f9340218a9816cafafc92dc3d5212b6d149ce75e9637cbcd7e0a0f5f6
              */
             unsigned_tx_serialized: string;
+            /**
+             * @description Unsigned serialized transaction body
+             * @example a500d90102818258201a757d037e0e3e98e50a1ddfea6f7b543955291e9d939b75d4cc50c683453aa6000181825839018709f0cc91386f337fbb9bdbe0f0e29d5488151e3e464114aca772622be7fc4db600dad154fb34c2893c75cb736715d646beff0eefc64c751a00c1c960021a000493e0031a0a094b0b04d901028282008200581c2be7fc4db600dad154fb34c2893c75cb736715d646beff0eefc64c75840a8200581c2be7fc4db600dad154fb34c2893c75cb736715d646beff0eefc64c75581c78da8fa2f5089964963a0ab7ad1402e8c656f203bef622cf9f5ee3c68102
+             */
+            unsigned_tx_body_serialized: string;
             /**
              * @description List of inputs to spend
              * @example [
@@ -40038,7 +40115,7 @@ export interface components {
              * @example active
              * @enum {string}
              */
-            state: "active" | "inactive";
+            state: "active" | "activating";
             /**
              * @description Total rewards accumulated by this stake since its first ever delegation
              * @example 9020446847418
@@ -40440,6 +40517,23 @@ export interface components {
              * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
              */
             account_id: string;
+            /**
+             * @description Sender address
+             * @example 0x2ade594485fb795616b74156c91097ec517a05ac488364dd3ad1ec5f536db3f4
+             */
+            sender: string;
+        };
+        SUIMergeStakesTxPayload: {
+            /**
+             * @description Destination Stake ID to merge into
+             * @example 0x73f9d77dd3e604a2ae6f9edc2e7c7df9ecda79202b038b315e79b74e93c09efd
+             */
+            destination_stake_id: string;
+            /**
+             * @description Source Stake ID to merge from
+             * @example 0x92c7bf9914897e8878e559c19a6cffd22e6a569a6dd4d26f8e82e0f2ad1873d6
+             */
+            source_stake_id: string;
             /**
              * @description Sender address
              * @example 0x2ade594485fb795616b74156c91097ec517a05ac488364dd3ad1ec5f536db3f4
@@ -43818,7 +43912,7 @@ export interface operations {
                 };
                 content: {
                     "application/json; charset=utf-8": {
-                        data: components["schemas"]["ETHUnsignedTx"];
+                        data: components["schemas"]["ETHUnsignedTxWithoutValue"];
                     };
                 };
             };
@@ -64258,6 +64352,54 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json; charset=utf-8": components["schemas"]["SUISplitStakeTxPayload"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["SUITx"];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSuiMergeStakesTx: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Generate a merge stakes transaction on SUI. */
+        requestBody: {
+            content: {
+                "application/json; charset=utf-8": components["schemas"]["SUIMergeStakesTxPayload"];
             };
         };
         responses: {
