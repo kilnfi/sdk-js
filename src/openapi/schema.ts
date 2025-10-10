@@ -10597,8 +10597,13 @@ export interface components {
              * @example 1
              */
             number: number;
-            /** @description Amount of ETH to deposit per key. */
+            /**
+             * @deprecated
+             * @description Amount of ETH to deposit per key.
+             */
             amount_per_key_in_eth?: number;
+            /** @description Amount of ETH in GWEI to deposit per key. */
+            amount_per_key_in_gwei?: number;
             /**
              * @description Enable compounding withdrawal
              * @example false
@@ -33751,7 +33756,7 @@ export interface components {
              */
             fee: Record<string, never>;
             /**
-             * @description List of messages included in the transaction.
+             * @description List of messages included in the transaction. The list contains one message for the staking delegation and one more message for rewards restaking in case specified as a parameter (`restake_rewards=true`).
              * @example [
              *       {
              *         "typeUrl": "/cosmos.staking.v1beta1.MsgDelegate",
@@ -33763,10 +33768,19 @@ export interface components {
              *             "amount": "1000000"
              *           }
              *         }
+             *       },
+             *       {
+             *         "typeUrl": "/cosmos.staking.v1beta1.StakeAuthorization",
+             *         "allowList": {
+             *           "address": [
+             *             "kavavaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3ep3yfhe"
+             *           ]
+             *         },
+             *         "AuthorizationType": 1
              *       }
              *     ]
              */
-            messages: components["schemas"]["KAVAStakeMessage"][];
+            messages: (components["schemas"]["KAVAStakeMessage"] | components["schemas"]["KAVAStakeMessageRestake"])[];
             /**
              * @description Chain ID
              * @example cosmoshub-4
@@ -34525,6 +34539,16 @@ export interface components {
              * @example 1000000000000000000000000
              */
             amount_ukava: string;
+            /**
+             * @description If enabled, the rewards will be automatically restaked
+             * @default false
+             */
+            restake_rewards: boolean;
+            /**
+             * @description Grantee address, this address is specific to each validator. Kiln grantee addresses are found here: https://github.com/eco-stake/validator-registry/blob/master/Kiln/chains.json https://github.com/eco-stake/validator-registry/blob/master/interop/chains.json
+             * @example cosmos1u4whe0pwlgt7q7ph37qxalq2wfq4pkcdze5fmd
+             */
+            grantee_address?: string;
         };
         KAVACraftRestakeRewardsTxPayload: {
             /**
