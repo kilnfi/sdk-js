@@ -1385,22 +1385,20 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a TON transaction on Fireblocks
+   * Create a TON transaction in Fireblocks without waiting for completion
    */
-  async signTonTx(
+  async createTonTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['TONTx'],
     assetId: 'TON_TEST' | 'TON',
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['TONPreparedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
           {
             content: tx.unsigned_tx_hash,
+            //TODO : ADD PREHASH LATER IF FB SUPPORT TON HASH ALGORITHM
           },
         ],
       },
@@ -1408,8 +1406,23 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'TON tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, assetId, fbNote);
-    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+    return await fbSigner.createTransaction(payload, assetId, fbNote);
+  }
+
+  /**
+   * Wait for a TON transaction to complete and prepare it for broadcast
+   */
+  async waitForTonTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TONTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TONPreparedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
@@ -1429,8 +1442,24 @@ export class FireblocksService {
 
     return {
       signed_tx: preparedTx.data,
-      fireblocks_tx: fbTx,
+      fireblocks_tx: completedTx,
     };
+  }
+
+  /**
+   * Sign a TON transaction on Fireblocks
+   */
+  async signTonTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TONTx'],
+    assetId: 'TON_TEST' | 'TON',
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TONPreparedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createTonTx(integration, tx, assetId, note);
+    return await this.waitForTonTxCompletion(integration, tx, fbTx);
   }
 
   /**
