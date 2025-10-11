@@ -1141,16 +1141,13 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a DOT transaction on Fireblocks
+   * Create a DOT transaction in Fireblocks without waiting for completion
    */
-  async signDotTx(
+  async createDotTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['DOTUnsignedTx'],
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['DOTSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -1163,13 +1160,28 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'DOT', fbNote);
+    return await fbSigner.createTransaction(payload, 'DOT', fbNote);
+  }
 
-    if (!fbTx.signedMessages?.[0]?.signature?.fullSig) {
+  /**
+   * Wait for a DOT transaction to complete and prepare it for broadcast
+   */
+  async waitForDotTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['DOTUnsignedTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['DOTSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+
+    if (!completedTx.signedMessages?.[0]?.signature?.fullSig) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
-    const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
+    const signature = `0x00${completedTx.signedMessages?.[0]?.signature.fullSig}`;
 
     const preparedTx = await this.client.POST('/dot/transaction/prepare', {
       body: {
@@ -1184,21 +1196,33 @@ export class FireblocksService {
 
     return {
       signed_tx: preparedTx.data,
-      fireblocks_tx: fbTx,
+      fireblocks_tx: completedTx,
     };
   }
 
   /**
-   * Sign a KSM transaction on Fireblocks
+   * Sign a DOT transaction on Fireblocks
    */
-  async signKsmTx(
+  async signDotTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['DOTUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['DOTSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createDotTx(integration, tx, note);
+    return await this.waitForDotTxCompletion(integration, tx, fbTx);
+  }
+
+  /**
+   * Create a KSM transaction in Fireblocks without waiting for completion
+   */
+  async createKsmTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['KSMUnsignedTx'],
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['KSMSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -1211,13 +1235,28 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'KSM tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'KSM', fbNote);
+    return await fbSigner.createTransaction(payload, 'KSM', fbNote);
+  }
 
-    if (!fbTx.signedMessages?.[0]?.signature?.fullSig) {
+  /**
+   * Wait for a KSM transaction to complete and prepare it for broadcast
+   */
+  async waitForKsmTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['KSMUnsignedTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['KSMSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+
+    if (!completedTx.signedMessages?.[0]?.signature?.fullSig) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
-    const signature = `0x00${fbTx.signedMessages?.[0]?.signature.fullSig}`;
+    const signature = `0x00${completedTx.signedMessages?.[0]?.signature.fullSig}`;
 
     const preparedTx = await this.client.POST('/ksm/transaction/prepare', {
       body: {
@@ -1232,8 +1271,23 @@ export class FireblocksService {
 
     return {
       signed_tx: preparedTx.data,
-      fireblocks_tx: fbTx,
+      fireblocks_tx: completedTx,
     };
+  }
+
+  /**
+   * Sign a KSM transaction on Fireblocks
+   */
+  async signKsmTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['KSMUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['KSMSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createKsmTx(integration, tx, note);
+    return await this.waitForKsmTxCompletion(integration, tx, fbTx);
   }
 
   /**
