@@ -1673,14 +1673,11 @@ export class FireblocksService {
   /**
    * Sign a Trx transaction on Fireblocks
    */
-  async signTrxTx(
+  async createTrxTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['TRXUnsignedTx'],
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['TRXPreparedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -1697,13 +1694,25 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'TRX tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'TRX', fbNote);
+    return await fbSigner.createTransaction(payload, 'TRX', fbNote);
+  }
 
-    if (!fbTx.signedMessages?.[0]?.signature) {
+  async waitForTrxTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TRXUnsignedTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TRXPreparedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+
+    if (!completedTx.signedMessages?.[0]?.signature) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
     }
 
-    const signature = `${fbTx.signedMessages[0].signature.fullSig}0${fbTx.signedMessages[0].signature.v}`;
+    const signature = `${completedTx.signedMessages[0].signature.fullSig}0${completedTx.signedMessages[0].signature.v}`;
 
     const preparedTx = await this.client.POST('/trx/transaction/prepare', {
       body: {
@@ -1718,8 +1727,20 @@ export class FireblocksService {
 
     return {
       signed_tx: preparedTx.data,
-      fireblocks_tx: fbTx,
+      fireblocks_tx: completedTx,
     };
+  }
+
+  async signTrxTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TRXUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TRXPreparedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createTrxTx(integration, tx, note);
+    return await this.waitForTrxTxCompletion(integration, tx, fbTx);
   }
 
   /**
