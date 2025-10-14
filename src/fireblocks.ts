@@ -1517,16 +1517,13 @@ export class FireblocksService {
   }
 
   /**
-   * Sign a XTZ transaction on Fireblocks
+   * Create a XTZ transaction in Fireblocks without waiting for completion
    */
-  async signXtzTx(
+  async createXtzTx(
     integration: FireblocksIntegration,
     tx: components['schemas']['XTZUnsignedTx'],
     note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['XTZSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
+  ): Promise<TransactionResponse> {
     const payload = {
       rawMessageData: {
         messages: [
@@ -1539,8 +1536,23 @@ export class FireblocksService {
 
     const fbSigner = this.getSigner(integration);
     const fbNote = note ? note : 'XTZ tx from @kilnfi/sdk';
-    const fbTx = await fbSigner.sign(payload, 'XTZ', fbNote);
-    const signature = fbTx.signedMessages?.[0]?.signature?.fullSig;
+    return await fbSigner.createTransaction(payload, 'XTZ', fbNote);
+  }
+
+  /**
+   * Wait for a XTZ transaction to complete and prepare it for broadcast
+   */
+  async waitForXtzTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['XTZUnsignedTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['XTZSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
 
     if (!signature) {
       throw new Error(ERRORS.MISSING_SIGNATURE);
@@ -1559,8 +1571,23 @@ export class FireblocksService {
 
     return {
       signed_tx: preparedTx.data,
-      fireblocks_tx: fbTx,
+      fireblocks_tx: completedTx,
     };
+  }
+
+  /**
+   * Sign a XTZ transaction on Fireblocks (combines createXtzTx and waitForXtzTxCompletion)
+   */
+  async signXtzTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['XTZUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['XTZSignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createXtzTx(integration, tx, note);
+    return await this.waitForXtzTxCompletion(integration, tx, fbTx);
   }
 
   /**
