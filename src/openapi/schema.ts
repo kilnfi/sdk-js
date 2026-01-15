@@ -2572,7 +2572,8 @@ export interface paths {
         put?: never;
         /**
          * Stake Transaction
-         * @description Generates a delegate transaction on Mantra
+         * @deprecated
+         * @description Generates a delegate transaction on Mantra. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmStakeTx"];
         delete?: never;
@@ -2592,7 +2593,8 @@ export interface paths {
         put?: never;
         /**
          * Withdraw Rewards Transaction
-         * @description Generates a withdraw rewards transaction on Mantra
+         * @deprecated
+         * @description Generates a withdraw rewards transaction on Mantra. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmWithdrawRewardsTx"];
         delete?: never;
@@ -2612,7 +2614,8 @@ export interface paths {
         put?: never;
         /**
          * Restake Rewards Transaction
-         * @description Generates a restake rewards transaction on Mantra
+         * @deprecated
+         * @description Generates a restake rewards transaction on Mantra. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmRestakeRewardsTx"];
         delete?: never;
@@ -2632,7 +2635,8 @@ export interface paths {
         put?: never;
         /**
          * Revoke Restake Rewards Transaction
-         * @description Generates a revoke restake rewards authorization transaction on Mantra
+         * @deprecated
+         * @description Generates a revoke restake rewards authorization transaction on Mantra. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmRevokeRestakeRewardsTx"];
         delete?: never;
@@ -2652,7 +2656,8 @@ export interface paths {
         put?: never;
         /**
          * Unstake Transaction
-         * @description Generates an undelegate transaction on Mantra
+         * @deprecated
+         * @description Generates an undelegate transaction on Mantra. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmUnstakeTx"];
         delete?: never;
@@ -2672,7 +2677,8 @@ export interface paths {
         put?: never;
         /**
          * Redelegate Transaction
-         * @description Generates a redelegate transaction on Mantra to move a stake from a validator to another without going through the 21 days unbonding period.
+         * @deprecated
+         * @description Generates a redelegate transaction on Mantra to move a stake from a validator to another without going through the 21 days unbonding period. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmRedelegateTx"];
         delete?: never;
@@ -2692,7 +2698,8 @@ export interface paths {
         put?: never;
         /**
          * Prepare Transaction
-         * @description Prepare an unsigned transaction for broadcast by adding signatures to it
+         * @deprecated
+         * @description Prepare an unsigned transaction for broadcast by adding signatures to it. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmPrepareTx"];
         delete?: never;
@@ -2712,7 +2719,8 @@ export interface paths {
         put?: never;
         /**
          * Broadcast Transaction
-         * @description Broadcast a signed transaction to the Mantra network
+         * @deprecated
+         * @description Broadcast a signed transaction to the Mantra network. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmBroadcastTx"];
         delete?: never;
@@ -2732,7 +2740,8 @@ export interface paths {
         put?: never;
         /**
          * Send Transaction
-         * @description Generates a send transaction on Mantra
+         * @deprecated
+         * @description Generates a send transaction on Mantra. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postOmSendTx"];
         delete?: never;
@@ -2750,7 +2759,8 @@ export interface paths {
         };
         /**
          * Transaction Status
-         * @description Get the status of a transaction
+         * @deprecated
+         * @description Get the status of a transaction. Deprecated endpoint, support will be removed by February 2026.
          */
         get: operations["getOmTxStatus"];
         put?: never;
@@ -2770,7 +2780,8 @@ export interface paths {
         };
         /**
          * Transaction Decoding
-         * @description Decode a transaction
+         * @deprecated
+         * @description Decode a transaction. Deprecated endpoint, support will be removed by February 2026.
          */
         get: operations["getOmTxDecoding"];
         put?: never;
@@ -6257,7 +6268,8 @@ export interface paths {
         put?: never;
         /**
          * Stake Transaction
-         * @description Generates a delegate transaction on ZetaChain
+         * @deprecated
+         * @description Generates a delegate transaction on ZetaChain. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaStakeTx"];
         delete?: never;
@@ -6277,7 +6289,8 @@ export interface paths {
         put?: never;
         /**
          * Send Transaction
-         * @description Generates a send transaction on ZetaChain
+         * @deprecated
+         * @description Generates a send transaction on ZetaChain. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaSendTx"];
         delete?: never;
@@ -6297,7 +6310,8 @@ export interface paths {
         put?: never;
         /**
          * Withdraw Rewards Transaction
-         * @description Generates a withdraw rewards transaction on ZetaChain
+         * @deprecated
+         * @description Generates a withdraw rewards transaction on ZetaChain. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaWithdrawRewardsTx"];
         delete?: never;
@@ -6317,7 +6331,8 @@ export interface paths {
         put?: never;
         /**
          * Unstake Transaction
-         * @description Generates an undelegate transaction on ZetaChain
+         * @deprecated
+         * @description Generates an undelegate transaction on ZetaChain. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaUnstakeTx"];
         delete?: never;
@@ -6337,7 +6352,8 @@ export interface paths {
         put?: never;
         /**
          * Redelegate Transaction
-         * @description Generates a redelegate transaction on ZetaChain to move a stake from a validator to another without going through the 21 days unbonding period.
+         * @deprecated
+         * @description Generates a redelegate transaction on ZetaChain to move a stake from a validator to another without going through the 21 days unbonding period. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaRedelegateTx"];
         delete?: never;
@@ -6357,7 +6373,8 @@ export interface paths {
         put?: never;
         /**
          * Prepare Transaction
-         * @description Prepare an unsigned transaction for broadcast by adding signatures to it
+         * @deprecated
+         * @description Prepare an unsigned transaction for broadcast by adding signatures to it. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaPrepareTx"];
         delete?: never;
@@ -6377,7 +6394,8 @@ export interface paths {
         put?: never;
         /**
          * Broadcast Transaction
-         * @description Broadcast a signed transaction to the ZetaChain network
+         * @deprecated
+         * @description Broadcast a signed transaction to the ZetaChain network. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postZetaBroadcastTx"];
         delete?: never;
@@ -6395,7 +6413,8 @@ export interface paths {
         };
         /**
          * Transaction Status
-         * @description Get the status of a transaction
+         * @deprecated
+         * @description Get the status of a transaction. Deprecated endpoint, support will be removed by February 2026.
          */
         get: operations["getZetaTxStatus"];
         put?: never;
@@ -6415,7 +6434,8 @@ export interface paths {
         };
         /**
          * Transaction Decoding
-         * @description Decode a transaction
+         * @deprecated
+         * @description Decode a transaction. Deprecated endpoint, support will be removed by February 2026.
          */
         get: operations["getZetaTxDecoding"];
         put?: never;
@@ -6562,7 +6582,8 @@ export interface paths {
         put?: never;
         /**
          * Stake Transaction
-         * @description Generates a delegate transaction on Kava
+         * @deprecated
+         * @description Generates a delegate transaction on Kava. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaStakeTx"];
         delete?: never;
@@ -6582,7 +6603,8 @@ export interface paths {
         put?: never;
         /**
          * Withdraw Rewards Transaction
-         * @description Generates a withdraw rewards transaction on Kava
+         * @deprecated
+         * @description Generates a withdraw rewards transaction on Kava. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaWithdrawRewardsTx"];
         delete?: never;
@@ -6602,7 +6624,8 @@ export interface paths {
         put?: never;
         /**
          * Unstake Transaction
-         * @description Generates an undelegate transaction on Kava
+         * @deprecated
+         * @description Generates an undelegate transaction on Kava. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaUnstakeTx"];
         delete?: never;
@@ -6622,7 +6645,8 @@ export interface paths {
         put?: never;
         /**
          * Restake Rewards Transaction
-         * @description Generates a restake rewards transaction on Kava
+         * @deprecated
+         * @description Generates a restake rewards transaction on Kava. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaRestakeRewardsTx"];
         delete?: never;
@@ -6642,7 +6666,8 @@ export interface paths {
         put?: never;
         /**
          * Revoke Restake Rewards Transaction
-         * @description Generates a revoke restake rewards authorization transaction on Kava
+         * @deprecated
+         * @description Generates a revoke restake rewards authorization transaction on Kava. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaRevokeRestakeRewardsTx"];
         delete?: never;
@@ -6662,7 +6687,8 @@ export interface paths {
         put?: never;
         /**
          * Redelegate Transaction
-         * @description Generates a redelegate transaction on Kava to move a stake from a validator to another without going through the 21 days unbonding period.
+         * @deprecated
+         * @description Generates a redelegate transaction on Kava to move a stake from a validator to another without going through the 21 days unbonding period. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaRedelegateTx"];
         delete?: never;
@@ -6682,7 +6708,8 @@ export interface paths {
         put?: never;
         /**
          * Prepare Transaction
-         * @description Prepare an unsigned transaction for broadcast by adding signatures to it
+         * @deprecated
+         * @description Prepare an unsigned transaction for broadcast by adding signatures to it. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaPrepareTx"];
         delete?: never;
@@ -6702,7 +6729,8 @@ export interface paths {
         put?: never;
         /**
          * Broadcast Transaction
-         * @description Broadcast a signed transaction to the Kava network
+         * @deprecated
+         * @description Broadcast a signed transaction to the Kava network. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaBroadcastTx"];
         delete?: never;
@@ -6722,7 +6750,8 @@ export interface paths {
         put?: never;
         /**
          * Send Transaction
-         * @description Generates a send transaction on Kava
+         * @deprecated
+         * @description Generates a send transaction on Kava. Deprecated endpoint, support will be removed by February 2026.
          */
         post: operations["postKavaSendTx"];
         delete?: never;
@@ -6740,7 +6769,8 @@ export interface paths {
         };
         /**
          * Transaction Status
-         * @description Get the status of a transaction
+         * @deprecated
+         * @description Get the status of a transaction. Deprecated endpoint, support will be removed by February 2026.
          */
         get: operations["getKavaTxStatus"];
         put?: never;
@@ -6760,7 +6790,8 @@ export interface paths {
         };
         /**
          * Transaction Decoding
-         * @description Decode a transaction
+         * @deprecated
+         * @description Decode a transaction. Deprecated endpoint, support will be removed by February 2026.
          */
         get: operations["getKavaTxDecoding"];
         put?: never;
@@ -8794,6 +8825,146 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/algo/network-stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Network Stats
+         * @description Get some network statistics on Algorand
+         */
+        get: operations["getAlgoNetworkStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/algo/stakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Stakes
+         * @description Get Algorand stakes
+         */
+        get: operations["getAlgoStakes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/algo/rewards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Rewards
+         * @description Get historical rewards of Algorand stakes
+         */
+        get: operations["getAlgoRewards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/algo/operations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Operations
+         * @description Get the operations of Algorand stakes
+         */
+        get: operations["getAlgoOperations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/algo/reports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Excel Reports
+         * @description Generates an Excel report sheet for your stakes and rewards
+         */
+        get: operations["getAlgoReports"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/omnivaults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Omnivaults
+         * @description Retrieve a list of Omnivaults associated with the current user's organization.
+         */
+        get: operations["getOmnivaults"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/omnivaults/positions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Omnivault Positions
+         * @description Retrieve a list of Omnivault positions for the current user's organization.
+         */
+        get: operations["getOmnivaultPositions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -10616,6 +10787,11 @@ export interface components {
              * @enum {string}
              */
             format: "cli_deposit" | "batch_deposit";
+            /**
+             * @description Sign each validator key with an internal GPG key to ensure the reply hasn't been tempered with
+             * @example true
+             */
+            kiln_signature?: boolean;
         };
         ETHPostKeysOnChainPayload: {
             /**
@@ -10713,6 +10889,11 @@ export interface components {
              * @example 2.2.0
              */
             deposit_cli_version: string;
+            /**
+             * @description Signature added by Kiln to allow user to verify the integrity of the API response
+             * @example c2ab04001608005d0582693709f30910152d44f9f9221995351400000000001c001073616c74406e6f746174696f6e732e6f70656e7067706a732e6f72672b048fb5ef7bc5d271d83e4012899c9d162104393daf15565f3d9289f73561152d44f9f92219950000651d00ff541b553a160cab7250df141af8224ca4eb0738668b03ed8ad4d2020154c820880100a6dbd4b5788051298cbd0516d7dccae21124595f76a3665a0508e1b6507af70d
+             */
+            kiln_signature?: string;
         }[];
         ETHPostKeysBatchResponse: {
             /**
@@ -10756,8 +10937,8 @@ export interface components {
             number_of_validators?: number;
             /**
              * @description Amount to stake in WEI.
-             *     - If `compounding_withdrawal` is **false**, must be a multiple of "32000000000000000000" (32 ETH).
-             *     - If `compounding_withdrawal` is **true**, can be any value from "32000000000000000000" (32 ETH) up to "2048000000000000000000" (2048 ETH) (must be a whole number, i.e., a multiple of 10^18).
+             *     - If `compounding_withdrawal` is **false**, must be a multiple of "32000000000000000000" WEI (32 ETH).
+             *     - If `compounding_withdrawal` is **true**, can be any value from "32000000000000000000" WEI (32 ETH) up to "2048000000000000000000" WEI (2048 ETH) and a multiple of "1000000000" WEI, i.e 1 GWEI.
              *
              * @example 32000000000000000000
              */
@@ -10796,7 +10977,7 @@ export interface components {
              */
             wallet: string;
             /**
-             * @description Amount to deposit in WEI (must be at least 1000000000000000000 WEI)
+             * @description Amount to deposit in WEI (must be at least "1000000000000000000" WEI and a multiple of "1000000000" WEI, i.e 1 GWEI)
              * @example 32000000000000000000
              */
             amount_wei: string;
@@ -40171,7 +40352,7 @@ export interface components {
              * @description Date at which the stake was activated
              * @example 2023-01-14T01:13:59Z
              */
-            activated_at: string;
+            activated_at?: string;
             /**
              * @description Epoch in which the stake was activated.
              * @example 803
@@ -40237,9 +40418,9 @@ export interface components {
              */
             net_apy: number;
             /** @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
-            rewards_usd: number;
+            rewards_usd?: number;
             /** @description Estimated value of the staked balance at the beginning of the day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko. */
-            active_balance_usd: number;
+            active_balance_usd?: number;
         };
         SUITx: {
             /**
@@ -40467,10 +40648,81 @@ export interface components {
              */
             status: "success" | "error";
             /**
-             * @description Error message
-             * @example Transaction failed
+             * @description Complete transaction block response from the SUI blockchain. Full object shape can be found in the [SUI TypeScript SDK documentation](https://sdk.mystenlabs.com/typescript)
+             * @example {
+             *       "digest": "HkhTyh2rkzAsU3ViMVzeAh7P36EsRPDgWV3CAEYkdXSW",
+             *       "effects": {
+             *         "messageVersion": "v1",
+             *         "status": {
+             *           "status": "success"
+             *         },
+             *         "executedEpoch": "873",
+             *         "gasUsed": {
+             *           "computationCost": "500000",
+             *           "storageCost": "873148800",
+             *           "storageRebate": "863138232",
+             *           "nonRefundableStorageFee": "8718568"
+             *         },
+             *         "modifiedAtVersions": [
+             *           {
+             *             "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
+             *             "sequenceNumber": "629995413"
+             *           }
+             *         ],
+             *         "sharedObjects": [
+             *           {
+             *             "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
+             *             "version": 629995413,
+             *             "digest": "4rA2EhbUcMDrBjwHphoXNGjRkooZ5gy9Et59r9Qt9qr8"
+             *           }
+             *         ],
+             *         "transactionDigest": "HkhTyh2rkzAsU3ViMVzeAh7P36EsRPDgWV3CAEYkdXSW",
+             *         "created": [
+             *           {
+             *             "owner": {
+             *               "AddressOwner": "0x244162d9acbbfdc193ccbe4447812ba6089a8a56ed2a4293c9e56bd85a63364a"
+             *             },
+             *             "reference": {
+             *               "objectId": "0xcb60d5c9278c270d9f2bed687968103e058c65048fcea7b7a1e56437ebf35c48",
+             *               "version": 629995414,
+             *               "digest": "GuDt64PKSgFUW88uf8gMBYm81QYokdF3fC7s3WZro1pF"
+             *             }
+             *           }
+             *         ],
+             *         "mutated": [
+             *           {
+             *             "owner": {
+             *               "Shared": {
+             *                 "initial_shared_version": 1
+             *               }
+             *             },
+             *             "reference": {
+             *               "objectId": "0x0000000000000000000000000000000000000000000000000000000000000005",
+             *               "version": 629995414,
+             *               "digest": "Dk7goLe4UL7pxwB6WbjQqA4j6JwsJBq1Lx9kwAbDVaBP"
+             *             }
+             *           }
+             *         ],
+             *         "gasObject": {
+             *           "owner": {
+             *             "AddressOwner": "0x244162d9acbbfdc193ccbe4447812ba6089a8a56ed2a4293c9e56bd85a63364a"
+             *           },
+             *           "reference": {
+             *             "objectId": "0x756392235f6b08d14f29f20aaeb9b029f0372b3e4e51f412d0662ccbf141772e",
+             *             "version": 629995414,
+             *             "digest": "CKun3GEdVNgnHzDL6SEzaukU4Lyytt7z6cxsUJzaJFBg"
+             *           }
+             *         },
+             *         "eventsDigest": "5uNXyKXBYQNdFwNAPFhh82vE1aAHesqcVhqnzxLLttzC",
+             *         "dependencies": [
+             *           "CSGBcQJSv5WfUXy6peNBmeftnc1iobZJ48xB86zTckB6"
+             *         ]
+             *       },
+             *       "timestampMs": "1756822784008",
+             *       "checkpoint": "185570706"
+             *     }
              */
-            error: string;
+            info: Record<string, never>;
         };
         SUIStakeTxPayload: {
             /**
@@ -42489,6 +42741,260 @@ export interface components {
              */
             denom: string;
         };
+        ALGOStake: {
+            /**
+             * @description Wallet address
+             * @example SK4UCVAGW2QXRJJ65DFCKEEW2XVLGNT6DW3XQIXPN4RWDH3EFJ2C7LEMLU
+             */
+            wallet: string;
+            /**
+             * @description Pool address
+             * @example U5P6Q4YYAEZPRUJZNKGOIICBO7CYZVD5EDRMGE35G2D35IULQYWGWN3GCU
+             */
+            pool: string;
+            /**
+             * @description Current ALGO balance in microalgos
+             * @example 10000000000
+             */
+            balance: string;
+            /**
+             * @description Total ALGO rewards accumulated by this stake in microalgos
+             * @example 1000000
+             */
+            rewards: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 4.5
+             */
+            net_apy: number;
+        };
+        ALGOReward: {
+            /**
+             * Format: date
+             * @description Day for this reward entry
+             * @example 2023-01-15
+             */
+            date: string;
+            /**
+             * @description Accumulated ALGO rewards in microalgos during the day
+             * @example 1000000
+             */
+            rewards: string;
+            /**
+             * @description Net annual percentage yield
+             * @example 4.5
+             */
+            net_apy: number;
+            /**
+             * @description Staked ALGO balance in microalgos
+             * @example 10000000000
+             */
+            effective_balance: string;
+            /**
+             * @description Gross ALGO rewards in microalgos
+             * @example 1100000
+             */
+            gross_rewards: string;
+            /**
+             * @description Estimated value of the effective balance in USD. The exchange rate is the rate at the end of the day provided by CoinGecko.
+             * @example 5000
+             */
+            effective_balance_usd?: number;
+            /**
+             * @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko.
+             * @example 0.5
+             */
+            rewards_usd?: number;
+        };
+        ALGOOperation: {
+            /**
+             * @description Transaction ID
+             * @example JIHGYNDXQZSSYJX4GSJI3CSL7Z3OQETZQUQZFSFC4Q5W3UNOSWRQ
+             */
+            tx_id: string;
+            /**
+             * @description Round number
+             * @example 12345678
+             */
+            round: number;
+            /**
+             * @description Operation type
+             * @example STAKE
+             */
+            type: string;
+            /**
+             * @description Sender address
+             * @example SK4UCVAGW2QXRJJ65DFCKEEW2XVLGNT6DW3XQIXPN4RWDH3EFJ2C7LEMLU
+             */
+            sender: string;
+            /**
+             * @description Receiver address
+             * @example U5P6Q4YYAEZPRUJZNKGOIICBO7CYZVD5EDRMGE35G2D35IULQYWGWN3GCU
+             */
+            receiver: string;
+            /**
+             * @description ALGO amount in microalgos
+             * @example 1000000
+             */
+            amount: string;
+        };
+        ALGONetworkStats: {
+            /**
+             * @description ALGO price in USD
+             * @example 0.35
+             */
+            algo_price_usd: number;
+            /**
+             * @description Number of active validators
+             * @example 120
+             */
+            nb_validators: number;
+            /**
+             * @description Gross annual percentage yield
+             * @example 5.2
+             */
+            network_gross_apy: number;
+            /**
+             * @description Supply percentage of Algorand currently staked
+             * @example 65.5
+             */
+            supply_staked_percent: number;
+            /**
+             * @description ALGO inflation rate
+             * @example 4.5
+             */
+            inflation_rate: number;
+            /**
+             * Format: date-time
+             * @description Last date this data was updated
+             * @example 2023-01-14T01:13:59Z
+             */
+            updated_at: string;
+        };
+        Omnivault: {
+            /** @description The unique identifier of the Omnivault. */
+            id: string;
+            /** @description The human-readable vault name */
+            name: string;
+            /** @description A brief description of the Omnivault. */
+            description: string;
+            /** @description URL to the icon representing the Omnivault. */
+            icon_url: string;
+            /** @description The contract address of the Omnivault. */
+            address: string;
+            /** @description The current status of the Omnivault (e.g., active, deposit_paused). */
+            status: string;
+            deposit_asset: components["schemas"]["OmnivaultAsset"];
+            receipt_asset: components["schemas"]["OmnivaultAsset"];
+            /** @description List of protocols associated with the Omnivault. */
+            protocols: components["schemas"]["Protocol"][];
+            /** @description Historical APY information for the Omnivault. */
+            apy: components["schemas"]["Apy"];
+            /** @description Fees associated with the Omnivault. */
+            fees: components["schemas"]["OmnivaultFees"];
+            /** @description Total vault TVL in ETH */
+            total_value_in_deposit_asset: string;
+            /** @description Total vault TVL in USD */
+            total_value_in_usd: string;
+            /**
+             * Format: date-time
+             * @description The timestamp of the last update to the Omnivault information.
+             */
+            updated_at: string;
+            /** @description The Chain id where the Omnivault is deployed (e.g., 1 for Ethereum Mainnet). */
+            chain_id: number;
+        };
+        OmnivaultAsset: {
+            /** @description The unique identifier of the asset. */
+            id: string;
+            /** @description The contract address of the asset. */
+            address: string;
+            /** @description URL to the icon representing the asset. */
+            icon_url: string;
+            /** @description The symbol of the asset (e.g., kUSDC, uUSDC). */
+            symbol: string;
+        };
+        Protocol: {
+            /** @description The human-readable name of the protocol. */
+            display_name: string;
+            /** @description The unique identifier of the protocol. */
+            name: string;
+            /** @description A brief description of the protocol. */
+            description: string;
+            /** @description URL to the icon representing the protocol. */
+            icon_url: string;
+        };
+        Apy: {
+            /** @description APY over the last 1 day */
+            last_1d: number;
+            /** @description APY over the last 7 days */
+            last_7d: number;
+            /** @description APY over the last 30 days */
+            last_30d: number;
+        };
+        OmnivaultFees: {
+            /** @description Deposit fee percentage */
+            deposit: number;
+            /** @description Withdraw fee percentage */
+            withdraw: number;
+            /** @description Rewards fee percentage */
+            rewards: number;
+        };
+        OmnivaultPosition: {
+            /** @description User wallet address */
+            wallet: string;
+            /** @description User’s balance of deposit asset min unit of the token (e.g. USDC) */
+            balance_in_asset: string;
+            /** @description User’s balance of deposit asset min unit converted to USD. */
+            balance_in_usd: string;
+            /** @description Receipt token balance in min unit of the token (e.g., kETH, stETH, omnivault shares) */
+            balance_in_shares: string;
+            /** @description Cumulative earned rewards in min unit of deposit asset. */
+            total_rewards: string;
+            /** @description Historical APY information for the Omnivault position. */
+            apy?: components["schemas"]["Apy"];
+            /** @description Chain ID and address of the Omnivault (e.g., "1_0x123abc...") */
+            omnivault_id: string;
+            /** @description The Chain id where the Omnivault is deployed (e.g., 1 for Ethereum Mainnet). */
+            omnivault_chain_id: string;
+            /** @description Omnivault contract address */
+            omnivault_address: string;
+            /** @description List of pending deposits */
+            pending_deposits: components["schemas"]["PendingDeposit"][];
+            /** @description List of pending redeems */
+            pending_redeem: components["schemas"]["PendingRedeem"][];
+            /**
+             * Format: date-time
+             * @description The timestamp of the last update to the Omnivault position information.
+             */
+            updated_at: string;
+        };
+        PendingDeposit: {
+            /** @description Unique identifier of the pending deposit */
+            id: string;
+            /** @description Amount of tokens in min-units */
+            amount: string;
+            /** @description Transaction hash of the deposit */
+            tx_hash: string;
+            /**
+             * Format: date-time
+             * @description Timestamp when the deposit was created
+             */
+            created_at: string;
+        };
+        PendingRedeem: {
+            /** @description Unique identifier of the pending redeem */
+            id: string;
+            /** @description Number of shares burned or pending redeem */
+            shares: string;
+            /** @description Transaction hash of the redeem */
+            tx_hash: string;
+            /**
+             * Format: date-time
+             * @description Timestamp when the redeem was created
+             */
+            created_at: string;
+        };
     };
     responses: never;
     parameters: {
@@ -42856,6 +43362,7 @@ export interface components {
         TONGetVestingContractOwnerParam: string;
         /** @description Single nominator contract address */
         TONGetSingleNominatorContractOwnerParam: string;
+        /** @description Comma separated list of TRX wallet addresses */
         TRXWalletsParam: string;
         /** @description The format of the response. Defaults to `daily` */
         SUIRewardsFormatParam: "daily" | "epoch";
@@ -42885,6 +43392,12 @@ export interface components {
         SEIWasmFlagParam: boolean;
         /** @description Precision to use when formatting amounts */
         SEIPrecisionParam: "chain" | "micro" | "atto";
+        /** @description Comma separated list of Algorand wallet addresses */
+        ALGOWalletsParam: string;
+        /** @description Comma separated list of Algorand pool addresses */
+        ALGOPoolsParam: string;
+        /** @description Comma-separated list of wallet addresses to filter Omnivault positions. */
+        OmnivaultWalletsParam: string;
     };
     requestBodies: never;
     headers: never;
@@ -44766,9 +45279,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {
-                     *       "message": "No rewards to claim."
-                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
@@ -44832,9 +45342,6 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    /** @example {
-                     *       "message": "No checkpoint proofs to process."
-                     *     } */
                     "application/json; charset=utf-8": unknown;
                 };
             };
@@ -63319,6 +63826,7 @@ export interface operations {
     getTrxReports: {
         parameters: {
             query?: {
+                /** @description Comma separated list of TRX wallet addresses */
                 wallets?: components["parameters"]["TRXWalletsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
@@ -63364,6 +63872,7 @@ export interface operations {
     getTrxStakes: {
         parameters: {
             query?: {
+                /** @description Comma separated list of TRX wallet addresses */
                 wallets?: components["parameters"]["TRXWalletsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
@@ -63411,6 +63920,7 @@ export interface operations {
     getTrxRewards: {
         parameters: {
             query?: {
+                /** @description Comma separated list of TRX wallet addresses */
                 wallets?: components["parameters"]["TRXWalletsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
@@ -63464,6 +63974,7 @@ export interface operations {
     getTrxOperations: {
         parameters: {
             query?: {
+                /** @description Comma separated list of TRX wallet addresses */
                 wallets?: components["parameters"]["TRXWalletsParam"];
                 /** @description Comma-separated list of Kiln accounts identifiers */
                 accounts?: components["parameters"]["AccountsParam"];
@@ -65407,6 +65918,323 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAlgoNetworkStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ALGONetworkStats"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAlgoStakes: {
+        parameters: {
+            query?: {
+                /** @description Comma separated list of Algorand wallet addresses */
+                wallets?: components["parameters"]["ALGOWalletsParam"];
+                /** @description Comma separated list of Algorand pool addresses */
+                pools?: components["parameters"]["ALGOPoolsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ALGOStake"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAlgoRewards: {
+        parameters: {
+            query?: {
+                /** @description Comma separated list of Algorand wallet addresses */
+                wallets?: components["parameters"]["ALGOWalletsParam"];
+                /** @description Comma separated list of Algorand pool addresses */
+                pools?: components["parameters"]["ALGOPoolsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+                /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+                include_usd?: components["parameters"]["IncludeUSDParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ALGOReward"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAlgoOperations: {
+        parameters: {
+            query?: {
+                /** @description Comma separated list of Algorand wallet addresses */
+                wallets?: components["parameters"]["ALGOWalletsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+                /** @description Get data from this date (YYYY-MM-DD) */
+                start_date?: components["parameters"]["StartDateParam"];
+                /** @description Get data to this date (YYYY-MM-DD) */
+                end_date?: components["parameters"]["EndDateParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["ALGOOperation"][];
+                    };
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAlgoReports: {
+        parameters: {
+            query?: {
+                /** @description Comma separated list of Algorand wallet addresses */
+                wallets?: components["parameters"]["ALGOWalletsParam"];
+                /** @description Comma separated list of Algorand pool addresses */
+                pools?: components["parameters"]["ALGOPoolsParam"];
+                /** @description Comma-separated list of Kiln accounts identifiers */
+                accounts?: components["parameters"]["AccountsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/octet-stream": string;
+                };
+            };
+            /** @description Invalid parameters */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getOmnivaults: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["Omnivault"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getOmnivaultPositions: {
+        parameters: {
+            query: {
+                /** @description Comma-separated list of wallet addresses to filter Omnivault positions. */
+                wallets: components["parameters"]["OmnivaultWalletsParam"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json; charset=utf-8": {
+                        data: components["schemas"]["OmnivaultPosition"][];
+                    };
+                };
             };
             /** @description Unauthorized */
             401: {
