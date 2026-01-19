@@ -1,6 +1,6 @@
 {
   "name": "@kilnfi/sdk",
-  "version": "4.2.28",
+  "version": "4.2.29",
   "autor": "Kiln <support@kiln.fi> (https://kiln.fi)",
   "license": "BUSL-1.1",
   "description": "JavaScript sdk for Kiln API",
@@ -29,6 +29,10 @@
   },
   "keywords": ["sdk", "js", "eth", "sol", "xtz", "validators", "staking"],
   "author": "Kiln",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kilnfi/sdk-js"
+  },
   "bugs": {
     "url": "https://github.com/kilnfi/sdk-js/issues"
   },
