@@ -116,7 +116,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -193,7 +193,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -273,7 +273,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -356,7 +356,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -441,7 +441,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -464,91 +464,6 @@ export class FireblocksService {
   }> {
     const fbTx = await this.createFetTx(integration, tx, note);
     return await this.waitForFetTxCompletion(integration, tx, fbTx);
-  }
-
-  /**
-   * Sign a OM transaction on Fireblocks
-   */
-  /**
-   * Create a OM transaction in Fireblocks without waiting for completion
-   */
-  async createOmTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['OMUnsignedTx'] | components['schemas']['OMStakeUnsignedTx'],
-    note?: string,
-  ): Promise<TransactionResponse> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_hash,
-            derivationPath: [44, 118, Number(integration.vaultId), 0, 0],
-            preHash: {
-              content: tx.unsigned_tx_serialized,
-              hashAlgorithm: 'SHA256',
-            },
-          },
-        ],
-        algorithm: SignedMessageAlgorithmEnum.EcdsaSecp256K1,
-      },
-    };
-
-    const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'OM tx from @kilnfi/sdk';
-    return await fbSigner.createTransaction(payload, undefined, fbNote);
-  }
-
-  /**
-   * Wait for a OM transaction to complete and prepare it for broadcast
-   */
-  async waitForOmTxCompletion(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['OMUnsignedTx'] | components['schemas']['OMStakeUnsignedTx'],
-    fbTx: TransactionResponse,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['OMSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbSigner = this.getSigner(integration);
-    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
-    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
-
-    if (!signature) {
-      throw new Error(ERRORS.MISSING_SIGNATURE);
-    }
-
-    const preparedTx = await this.client.POST('/om/transaction/prepare', {
-      body: {
-        pubkey: tx.pubkey,
-        tx_body: tx.tx_body,
-        tx_auth_info: tx.tx_auth_info,
-        signature: signature,
-      },
-    });
-
-    if (preparedTx.error) {
-      throw new Error(ERRORS.FAILED_TO_PREPARE);
-    }
-
-    return {
-      signed_tx: preparedTx.data,
-      fireblocks_tx: completedTx,
-    };
-  }
-
-  /**
-   * Sign a OM transaction on Fireblocks (combines createOmTx and waitForOmTxCompletion)
-   */
-  async signOmTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['OMUnsignedTx'] | components['schemas']['OMStakeUnsignedTx'],
-    note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['OMSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbTx = await this.createOmTx(integration, tx, note);
-    return await this.waitForOmTxCompletion(integration, tx, fbTx);
   }
 
   /**
@@ -609,7 +524,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -632,91 +547,6 @@ export class FireblocksService {
   }> {
     const fbTx = await this.createInjTx(integration, tx, note);
     return await this.waitForInjTxCompletion(integration, tx, fbTx);
-  }
-
-  /**
-   * Sign a KAVA transaction on Fireblocks
-   */
-  /**
-   * Create a KAVA transaction in Fireblocks without waiting for completion
-   */
-  async createKavaTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['KAVAUnsignedTx'] | components['schemas']['KAVAStakeUnsignedTx'],
-    note?: string,
-  ): Promise<TransactionResponse> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_hash,
-            derivationPath: [44, 459, Number(integration.vaultId), 0, 0],
-            preHash: {
-              content: tx.unsigned_tx_serialized,
-              hashAlgorithm: 'SHA256',
-            },
-          },
-        ],
-        algorithm: SignedMessageAlgorithmEnum.EcdsaSecp256K1,
-      },
-    };
-
-    const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'KAVA tx from @kilnfi/sdk';
-    return await fbSigner.createTransaction(payload, undefined, fbNote);
-  }
-
-  /**
-   * Wait for a KAVA transaction to complete and prepare it for broadcast
-   */
-  async waitForKavaTxCompletion(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['KAVAUnsignedTx'] | components['schemas']['KAVAStakeUnsignedTx'],
-    fbTx: TransactionResponse,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['KAVASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbSigner = this.getSigner(integration);
-    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
-    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
-
-    if (!signature) {
-      throw new Error(ERRORS.MISSING_SIGNATURE);
-    }
-
-    const preparedTx = await this.client.POST('/kava/transaction/prepare', {
-      body: {
-        pubkey: tx.pubkey,
-        tx_body: tx.tx_body,
-        tx_auth_info: tx.tx_auth_info,
-        signature: signature,
-      },
-    });
-
-    if (preparedTx.error) {
-      throw new Error(ERRORS.FAILED_TO_PREPARE);
-    }
-
-    return {
-      signed_tx: preparedTx.data,
-      fireblocks_tx: completedTx,
-    };
-  }
-
-  /**
-   * Sign a KAVA transaction on Fireblocks (combines createKavaTx and waitForKavaTxCompletion)
-   */
-  async signKavaTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['KAVAUnsignedTx'] | components['schemas']['KAVAStakeUnsignedTx'],
-    note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['KAVASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbTx = await this.createKavaTx(integration, tx, note);
-    return await this.waitForKavaTxCompletion(integration, tx, fbTx);
   }
 
   /**
@@ -779,7 +609,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -864,7 +694,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -947,7 +777,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -970,324 +800,6 @@ export class FireblocksService {
   }> {
     const fbTx = await this.createOsmoTx(integration, tx, note);
     return await this.waitForOsmoTxCompletion(integration, tx, fbTx);
-  }
-
-  /**
-   * Sign a TIA transaction on Fireblocks
-   */
-  /**
-   * Create a TIA transaction in Fireblocks without waiting for completion
-   */
-  async createTiaTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
-    note?: string,
-  ): Promise<TransactionResponse> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_hash,
-            preHash: {
-              content: tx.unsigned_tx_serialized,
-              hashAlgorithm: 'SHA256',
-            },
-          },
-        ],
-      },
-    };
-
-    const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'TIA tx from @kilnfi/sdk';
-    return await fbSigner.createTransaction(payload, 'CELESTIA', fbNote);
-  }
-
-  /**
-   * Wait for a TIA transaction to complete and prepare it for broadcast
-   */
-  async waitForTiaTxCompletion(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
-    fbTx: TransactionResponse,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['TIASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbSigner = this.getSigner(integration);
-    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
-    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
-
-    if (!signature) {
-      throw new Error(ERRORS.MISSING_SIGNATURE);
-    }
-
-    const preparedTx = await this.client.POST('/tia/transaction/prepare', {
-      body: {
-        pubkey: tx.pubkey,
-        tx_body: tx.tx_body,
-        tx_auth_info: tx.tx_auth_info,
-        signature: signature,
-      },
-    });
-
-    if (preparedTx.error) {
-      throw new Error(ERRORS.FAILED_TO_PREPARE);
-    }
-
-    return {
-      signed_tx: preparedTx.data,
-      fireblocks_tx: completedTx,
-    };
-  }
-
-  /**
-   * Sign a TIA transaction on Fireblocks (combines createTiaTx and waitForTiaTxCompletion)
-   */
-  async signTiaTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
-    note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['TIASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbTx = await this.createTiaTx(integration, tx, note);
-    return await this.waitForTiaTxCompletion(integration, tx, fbTx);
-  }
-
-  /**
-   * Sign a ZETA transaction on Fireblocks
-   */
-  /**
-   * Create a ZETA transaction in Fireblocks without waiting for completion
-   */
-  async createZetaTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['ZETAUnsignedTx'] | components['schemas']['ZETAStakeUnsignedTx'],
-    note?: string,
-  ): Promise<TransactionResponse> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_hash,
-            derivationPath: [44, 118, Number(integration.vaultId), 0, 0],
-            preHash: {
-              content: tx.unsigned_tx_serialized,
-              hashAlgorithm: 'SHA256',
-            },
-          },
-        ],
-        algorithm: SignedMessageAlgorithmEnum.EcdsaSecp256K1,
-      },
-    };
-
-    const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'ZETA tx from @kilnfi/sdk';
-    return await fbSigner.createTransaction(payload, undefined, fbNote);
-  }
-
-  /**
-   * Wait for a ZETA transaction to complete and prepare it for broadcast
-   */
-  async waitForZetaTxCompletion(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['ZETAUnsignedTx'] | components['schemas']['ZETAStakeUnsignedTx'],
-    fbTx: TransactionResponse,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['ZETASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbSigner = this.getSigner(integration);
-    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
-    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
-
-    if (!signature) {
-      throw new Error(ERRORS.MISSING_SIGNATURE);
-    }
-
-    const preparedTx = await this.client.POST('/zeta/transaction/prepare', {
-      body: {
-        pubkey: tx.pubkey,
-        tx_body: tx.tx_body,
-        tx_auth_info: tx.tx_auth_info,
-        signature: signature,
-      },
-    });
-
-    if (preparedTx.error) {
-      throw new Error(ERRORS.FAILED_TO_PREPARE);
-    }
-
-    return {
-      signed_tx: preparedTx.data,
-      fireblocks_tx: completedTx,
-    };
-  }
-
-  /**
-   * Sign a ZETA transaction on Fireblocks (combines createZetaTx and waitForZetaTxCompletion)
-   */
-  async signZetaTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['ZETAUnsignedTx'] | components['schemas']['ZETAStakeUnsignedTx'],
-    note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['ZETASignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbTx = await this.createZetaTx(integration, tx, note);
-    return await this.waitForZetaTxCompletion(integration, tx, fbTx);
-  }
-
-  /**
-   * Create a DOT transaction in Fireblocks without waiting for completion
-   */
-  async createDotTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['DOTUnsignedTx'],
-    note?: string,
-  ): Promise<TransactionResponse> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_payload.substring(2),
-          },
-        ],
-      },
-    };
-
-    const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'DOT tx from @kilnfi/sdk';
-    return await fbSigner.createTransaction(payload, 'DOT', fbNote);
-  }
-
-  /**
-   * Wait for a DOT transaction to complete and prepare it for broadcast
-   */
-  async waitForDotTxCompletion(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['DOTUnsignedTx'],
-    fbTx: TransactionResponse,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['DOTSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbSigner = this.getSigner(integration);
-    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
-
-    if (!completedTx.signedMessages?.[0]?.signature?.fullSig) {
-      throw new Error(ERRORS.MISSING_SIGNATURE);
-    }
-
-    const signature = `0x00${completedTx.signedMessages?.[0]?.signature.fullSig}`;
-
-    const preparedTx = await this.client.POST('/dot/transaction/prepare', {
-      body: {
-        unsigned_tx_serialized: tx.unsigned_tx_serialized,
-        signature: signature,
-      },
-    });
-
-    if (preparedTx.error) {
-      throw new Error(ERRORS.FAILED_TO_PREPARE);
-    }
-
-    return {
-      signed_tx: preparedTx.data,
-      fireblocks_tx: completedTx,
-    };
-  }
-
-  /**
-   * Sign a DOT transaction on Fireblocks
-   */
-  async signDotTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['DOTUnsignedTx'],
-    note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['DOTSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbTx = await this.createDotTx(integration, tx, note);
-    return await this.waitForDotTxCompletion(integration, tx, fbTx);
-  }
-
-  /**
-   * Create a KSM transaction in Fireblocks without waiting for completion
-   */
-  async createKsmTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['KSMUnsignedTx'],
-    note?: string,
-  ): Promise<TransactionResponse> {
-    const payload = {
-      rawMessageData: {
-        messages: [
-          {
-            content: tx.unsigned_tx_payload.substring(2),
-          },
-        ],
-      },
-    };
-
-    const fbSigner = this.getSigner(integration);
-    const fbNote = note ? note : 'KSM tx from @kilnfi/sdk';
-    return await fbSigner.createTransaction(payload, 'KSM', fbNote);
-  }
-
-  /**
-   * Wait for a KSM transaction to complete and prepare it for broadcast
-   */
-  async waitForKsmTxCompletion(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['KSMUnsignedTx'],
-    fbTx: TransactionResponse,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['KSMSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbSigner = this.getSigner(integration);
-    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
-
-    if (!completedTx.signedMessages?.[0]?.signature?.fullSig) {
-      throw new Error(ERRORS.MISSING_SIGNATURE);
-    }
-
-    const signature = `0x00${completedTx.signedMessages?.[0]?.signature.fullSig}`;
-
-    const preparedTx = await this.client.POST('/ksm/transaction/prepare', {
-      body: {
-        unsigned_tx_serialized: tx.unsigned_tx_serialized,
-        signature: signature,
-      },
-    });
-
-    if (preparedTx.error) {
-      throw new Error(ERRORS.FAILED_TO_PREPARE);
-    }
-
-    return {
-      signed_tx: preparedTx.data,
-      fireblocks_tx: completedTx,
-    };
-  }
-
-  /**
-   * Sign a KSM transaction on Fireblocks
-   */
-  async signKsmTx(
-    integration: FireblocksIntegration,
-    tx: components['schemas']['KSMUnsignedTx'],
-    note?: string,
-  ): Promise<{
-    signed_tx: { data: components['schemas']['KSMSignedTx'] };
-    fireblocks_tx: TransactionResponse;
-  }> {
-    const fbTx = await this.createKsmTx(integration, tx, note);
-    return await this.waitForKsmTxCompletion(integration, tx, fbTx);
   }
 
   /**
@@ -1335,7 +847,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1409,7 +921,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1490,7 +1002,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1565,7 +1077,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1644,7 +1156,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1721,7 +1233,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1803,7 +1315,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
@@ -1868,7 +1380,7 @@ export class FireblocksService {
       },
     });
 
-    if (preparedTx.error) {
+    if (preparedTx.error || !preparedTx.data) {
       throw new Error(ERRORS.FAILED_TO_PREPARE);
     }
 
