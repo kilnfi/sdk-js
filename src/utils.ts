@@ -65,32 +65,11 @@ export const tonToNanoton = (ton: string): bigint => {
 };
 
 /**
- * Convert KAVA to uKAVA
- */
-export const kavaToUkava = (kava: string): bigint => {
-  return parseUnits(kava, 6);
-};
-
-/**
- * Convert OM to uOM
- */
-export const omToUom = (om: string): bigint => {
-  return parseUnits(om, 6);
-};
-
-/**
  * Convert CRO to basecro
  */
 export const croToBasecro = (cro: string): bigint => {
   return parseUnits(cro, 8);
 };
-/**
- * Convert uZETA to ZETA
- */
-export const uzetaToZeta = (uzeta: bigint): string => {
-  return formatUnits(uzeta, 6);
-};
-
 /**
  * Convert uINJ to INJ
  */
@@ -124,34 +103,6 @@ export const mutezToXtz = (mutez: bigint): string => {
  */
 export const udydxToDydx = (udydx: bigint): string => {
   return formatUnits(udydx, 6);
-};
-
-/**
- * Convert planck to DOT
- */
-export const planckToDot = (planck: bigint): string => {
-  return formatUnits(planck, 10);
-};
-
-/**
- * Convert DOT to planck
- */
-export const dotToPlanck = (dot: string): bigint => {
-  return parseUnits(dot, 10);
-};
-
-/**
- * Convert planck to KSM
- */
-export const planckToKsm = (planck: bigint): string => {
-  return formatUnits(planck, 12);
-};
-
-/**
- * Convert KSM to planck
- */
-export const ksmToPlanck = (ksm: string): bigint => {
-  return parseUnits(ksm, 12);
 };
 
 /**
@@ -190,13 +141,6 @@ export const uosmoToOsmo = (uosmo: bigint): string => {
 };
 
 /**
- * Convert uTIA to TIA
- */
-export const utiaToTia = (utia: bigint): string => {
-  return formatUnits(utia, 6);
-};
-
-/**
  * Convert uusdc to USDC
  */
 export const uusdcToUsdc = (uusdc: bigint): string => {
@@ -208,20 +152,6 @@ export const uusdcToUsdc = (uusdc: bigint): string => {
  */
 export const usdcToUusdc = (usdc: string): bigint => {
   return parseUnits(usdc, 6);
-};
-
-/**
- * Convert uKAVA to KAVA
- */
-export const ukavaToKava = (ukava: bigint): string => {
-  return formatUnits(ukava, 6);
-};
-
-/**
- * Convert uOM to OM
- */
-export const uomToOm = (uom: bigint): string => {
-  return formatUnits(uom, 6);
 };
 
 /**
@@ -275,13 +205,6 @@ export const dydxToAdydx = (dydx: string): bigint => {
 };
 
 /**
- * Convert ZETA to azeta
- */
-export const zetaToAzeta = (zeta: string): bigint => {
-  return parseUnits(zeta, 18); // azeta uses 18 decimals
-};
-
-/**
  * Convert OSMO to uosmo
  */
 export const osmoToUosmo = (osmo: string): bigint => {
@@ -293,13 +216,6 @@ export const osmoToUosmo = (osmo: string): bigint => {
  */
 export const injToInj = (inj: string): bigint => {
   return parseUnits(inj, 18); // inj uses 18 decimals
-};
-
-/**
- * Convert TIA to utia
- */
-export const tiaToUtia = (tia: string): bigint => {
-  return parseUnits(tia, 6);
 };
 
 /**
