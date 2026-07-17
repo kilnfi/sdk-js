@@ -805,6 +805,89 @@ export class FireblocksService {
   }
 
   /**
+   * Sign a TIA transaction on Fireblocks
+   */
+  /**
+   * Create a TIA transaction in Fireblocks without waiting for completion
+   */
+  async createTiaTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
+    note?: string,
+  ): Promise<TransactionResponse> {
+    const payload = {
+      rawMessageData: {
+        messages: [
+          {
+            content: tx.unsigned_tx_hash,
+            preHash: {
+              content: tx.unsigned_tx_serialized,
+              hashAlgorithm: 'SHA256',
+            },
+          },
+        ],
+      },
+    };
+
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : 'TIA tx from @kilnfi/sdk';
+    return await fbSigner.createTransaction(payload, 'CELESTIA', fbNote);
+  }
+
+  /**
+   * Wait for a TIA transaction to complete and prepare it for broadcast
+   */
+  async waitForTiaTxCompletion(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
+    fbTx: TransactionResponse,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TIASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const completedTx = await fbSigner.waitForTxCompletion(fbTx);
+    const signature = completedTx.signedMessages?.[0]?.signature?.fullSig;
+
+    if (!signature) {
+      throw new Error(ERRORS.MISSING_SIGNATURE);
+    }
+
+    const preparedTx = await this.client.POST('/tia/transaction/prepare', {
+      body: {
+        pubkey: tx.pubkey,
+        tx_body: tx.tx_body,
+        tx_auth_info: tx.tx_auth_info,
+        signature: signature,
+      },
+    });
+
+    if (preparedTx.error || !preparedTx.data) {
+      throw new Error(ERRORS.FAILED_TO_PREPARE);
+    }
+
+    return {
+      signed_tx: preparedTx.data,
+      fireblocks_tx: completedTx,
+    };
+  }
+
+  /**
+   * Sign a TIA transaction on Fireblocks (combines createTiaTx and waitForTiaTxCompletion)
+   */
+  async signTiaTx(
+    integration: FireblocksIntegration,
+    tx: components['schemas']['TIAUnsignedTx'] | components['schemas']['TIAStakeUnsignedTx'],
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: components['schemas']['TIASignedTx'] };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbTx = await this.createTiaTx(integration, tx, note);
+    return await this.waitForTiaTxCompletion(integration, tx, fbTx);
+  }
+
+  /**
    * Sign an ETH transaction with given integration using Fireblocks raw signing
    */
   async signEthTx(

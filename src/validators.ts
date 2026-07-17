@@ -48,6 +48,11 @@ export const KILN_VALIDATORS = {
       KILN: 'fetchvaloper146mj09yzu3mvz7pmy4dvs4z9wr2mst7ryjvncp',
     },
   },
+  TIA: {
+    mainnet: {
+      KILN: 'celestiavaloper1djqecw6nn5tydxq0shan7srv8j65clsfmnxcfu',
+    },
+  },
   DYDX: {
     mainnet: {
       KILN: 'dydxvaloper1u9xeaqdjz3kky2ymdhdsn0ra5uy9tc3elj2jte',
