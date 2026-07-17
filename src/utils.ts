@@ -141,6 +141,13 @@ export const uosmoToOsmo = (uosmo: bigint): string => {
 };
 
 /**
+ * Convert uTIA to TIA
+ */
+export const utiaToTia = (utia: bigint): string => {
+  return formatUnits(utia, 6);
+};
+
+/**
  * Convert uusdc to USDC
  */
 export const uusdcToUsdc = (uusdc: bigint): string => {
@@ -216,6 +223,13 @@ export const osmoToUosmo = (osmo: string): bigint => {
  */
 export const injToInj = (inj: string): bigint => {
   return parseUnits(inj, 18); // inj uses 18 decimals
+};
+
+/**
+ * Convert TIA to utia
+ */
+export const tiaToUtia = (tia: string): bigint => {
+  return parseUnits(tia, 6);
 };
 
 /**
