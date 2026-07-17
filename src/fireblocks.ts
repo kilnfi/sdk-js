@@ -128,6 +128,11 @@ export class FireblocksService {
 
   /**
    * Create a Cardano transaction in Fireblocks without waiting for completion
+   *
+   * The payload must not contain an inputsSelection: it is only meaningful for
+   * Fireblocks-built transfers (not RAW signing, where the tx is already built)
+   * and the Fireblocks API rejects ADA RAW transactions carrying it with
+   * HTTP 500 {"message":"Unexpected error","code":1404}.
    */
   async createAdaTx(
     integration: FireblocksIntegration,
@@ -153,9 +158,6 @@ export class FireblocksService {
             bip44change: 2,
           },
         ],
-      },
-      inputsSelection: {
-        inputsToSpend: tx.inputs,
       },
     };
 
