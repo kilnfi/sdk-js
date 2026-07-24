@@ -189,12 +189,7 @@ export interface paths {
      */
     get: operations['getEthStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link ETH stakes to a Kiln account
-     */
-    post: operations['postEthStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -763,54 +758,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/eth/onchain/v1/keys': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Validation OnChain V1 Keys
-     * @description Create Ethereum validation keys for the Kiln OnChain V1
-     *     smart-contract suite. This route is for Ethereum operators
-     *     only of the Kiln OnChain V1 smart-contract. Use `/v1/eth/keys`
-     *     if you want to use classic native staking.
-     *
-     */
-    post: operations['postEthOnChainKeys'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/eth/onchain/v2/keys': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /**
-     * Validation Pooling (Onchain v2) Keys
-     * @description Create Ethereum validation keys for the Kiln Pooling (Onchain v2)
-     *     smart-contract suite. This route is for Ethereum operators
-     *     only of the Kiln Pooling (Onchain v2) smart-contract of type vNFT. Use `/v1/eth/keys` if
-     *     you want to use  Kiln Pooling (Onchain v2) of type vPool (ERC20) or classic native staking.
-     *
-     */
-    post: operations['postEthVSuiteKeys'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   '/eth/onchain/v2/stakes': {
     parameters: {
       query?: never;
@@ -1270,12 +1217,7 @@ export interface paths {
      */
     get: operations['getSolStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Create Solana stakes and linked them to a Kiln account
-     */
-    post: operations['postSolStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -1576,12 +1518,7 @@ export interface paths {
      */
     get: operations['getAtomStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link an ATOM stake to a Kiln account
-     */
-    post: operations['postAtomStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -1882,12 +1819,7 @@ export interface paths {
      */
     get: operations['getCroStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link an Cronos stake to a Kiln account
-     */
-    post: operations['postCroStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -2227,12 +2159,7 @@ export interface paths {
      */
     get: operations['getAdaStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link ADA stakes to a Kiln account
-     */
-    post: operations['postAdaStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -2715,12 +2642,7 @@ export interface paths {
      */
     get: operations['getMaticStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link MATIC stakes to a Kiln account
-     */
-    post: operations['postMaticStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -3039,12 +2961,7 @@ export interface paths {
      */
     get: operations['getPolStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link POL stakes to a Kiln account
-     */
-    post: operations['postPolStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -3347,12 +3264,7 @@ export interface paths {
      */
     get: operations['getNearStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Create NEAR stakes and linked them to a Kiln account
-     */
-    post: operations['postNEARStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -3612,12 +3524,7 @@ export interface paths {
      */
     get: operations['getOsmoStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link an OSMO stake to a Kiln account
-     */
-    post: operations['postOsmoStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -3937,12 +3844,7 @@ export interface paths {
      */
     get: operations['getDydxStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link a DYDX stake to a Kiln account
-     */
-    post: operations['postCelsdydxStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -4242,12 +4144,7 @@ export interface paths {
      */
     get: operations['getCelestiaStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link an CELESTIA stake to a Kiln account
-     */
-    post: operations['postCelstiaStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -4547,12 +4444,7 @@ export interface paths {
      */
     get: operations['getFetchStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link a FETCH stake to a Kiln account
-     */
-    post: operations['postFetStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -4892,12 +4784,7 @@ export interface paths {
      */
     get: operations['getInjStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link a Inj stake to a Kiln account
-     */
-    post: operations['postInjStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -5153,16 +5040,12 @@ export interface paths {
     };
     /**
      * Stakes
+     * @deprecated
      * @description Get the status of TON stakes
      */
     get: operations['getTonStakes'];
     put?: never;
-    /**
-     * Create stakes
-     * @deprecated
-     * @description Link an TON stake to a Kiln account
-     */
-    post: operations['postTonStakes'];
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -5178,6 +5061,7 @@ export interface paths {
     };
     /**
      * Rewards
+     * @deprecated
      * @description Get historical rewards by day of TON stakes. Units are in nanoton (10⁻⁹ TON).
      */
     get: operations['getTonRewards'];
@@ -5198,6 +5082,7 @@ export interface paths {
     };
     /**
      * Operations
+     * @deprecated
      * @description Get the operations of TON stakes
      */
     get: operations['getTonOperations'];
@@ -5218,6 +5103,7 @@ export interface paths {
     };
     /**
      * Network Stats
+     * @deprecated
      * @description Get some network statistics on The Open Network
      */
     get: operations['getTonNetworkStats'];
@@ -5238,6 +5124,7 @@ export interface paths {
     };
     /**
      * Reports
+     * @deprecated
      * @description Get reports on The Open Network
      */
     get: operations['getTonReports'];
@@ -5258,6 +5145,7 @@ export interface paths {
     };
     /**
      * Wallet info
+     * @deprecated
      * @description Get the status of a TON wallet
      */
     get: operations['getTonWalletInfo'];
@@ -5278,6 +5166,7 @@ export interface paths {
     };
     /**
      * Vesting contract owner
+     * @deprecated
      * @description Get the owner address of a TON vesting contract
      */
     get: operations['getTonVestingContractOwner'];
@@ -5298,6 +5187,7 @@ export interface paths {
     };
     /**
      * Single nominator contract owner
+     * @deprecated
      * @description Get the owner address of a TON single nominator contract
      */
     get: operations['getTonSingleNominatorContractOwner'];
@@ -5320,6 +5210,7 @@ export interface paths {
     put?: never;
     /**
      * Get balance
+     * @deprecated
      * @description Get balance of a TON account
      */
     post: operations['postTonGetBalance'];
@@ -5338,17 +5229,20 @@ export interface paths {
     };
     /**
      * Withdraw request
+     * @deprecated
      * @description Get withdraw request for a pool
      */
     get: operations['getTonWithdrawRequest'];
     put?: never;
     /**
      * Withdraw request
+     * @deprecated
      * @description Create withdraw request for a pool
      */
     post: operations['postTonWithdrawRequest'];
     /**
      * Withdraw request
+     * @deprecated
      * @description Delete withdraw request for a pool
      */
     delete: operations['deleteTonWithdrawRequest'];
@@ -5368,6 +5262,7 @@ export interface paths {
     put?: never;
     /**
      * Prepare Transaction
+     * @deprecated
      * @description Prepare an unsigned transaction for broadcast by adding signatures to it
      */
     post: operations['postTonPrepareTx'];
@@ -5388,6 +5283,7 @@ export interface paths {
     put?: never;
     /**
      * Broadcast Transaction
+     * @deprecated
      * @description Broadcast a serialized signed transaction to the blockchain
      */
     post: operations['postTonBroadcastTx'];
@@ -5406,6 +5302,7 @@ export interface paths {
     };
     /**
      * Transaction Status
+     * @deprecated
      * @description Get the status of a transaction by message hash
      */
     get: operations['getTonTxStatus'];
@@ -5426,6 +5323,7 @@ export interface paths {
     };
     /**
      * Transaction Decoding
+     * @deprecated
      * @description Decode a serialized transaction
      */
     get: operations['getTonTxDecoding'];
@@ -5448,6 +5346,7 @@ export interface paths {
     put?: never;
     /**
      * Stake single nomination pool transaction
+     * @deprecated
      * @description Craft a stake transaction to a single nomination pool.
      */
     post: operations['postTonStakeSingleNominationPoolTx'];
@@ -5468,6 +5367,7 @@ export interface paths {
     put?: never;
     /**
      * Stake TON whales pool transaction
+     * @deprecated
      * @description Craft a stake transaction to TON whales pool.
      */
     post: operations['postTonStakeWhalesPoolTx'];
@@ -5488,6 +5388,7 @@ export interface paths {
     put?: never;
     /**
      * Unstake single nomination pool transaction
+     * @deprecated
      * @description Craft an unstake transaction from a single nomination pool.
      */
     post: operations['postTonUnstakeSingleNominationPoolTx'];
@@ -5508,6 +5409,7 @@ export interface paths {
     put?: never;
     /**
      * Unstake TON whales pool transaction
+     * @deprecated
      * @description Craft an unstake transaction from a TON whales pool.
      */
     post: operations['postTonUnstakeWhalesPoolTx'];
@@ -5528,9 +5430,398 @@ export interface paths {
     put?: never;
     /**
      * Whitelist address on vesting contract transaction
+     * @deprecated
      * @description Craft whitelist address on vesting contract transaction.
      */
     post: operations['postTonWhitelistVestingContractTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/stakes': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Stakes
+     * @description Get the status of GRAM stakes
+     */
+    get: operations['getGramStakes'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/rewards': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Rewards
+     * @description Get historical rewards by day of GRAM stakes. Units are in nanogram (10⁻⁹ GRAM).
+     */
+    get: operations['getGramRewards'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/operations': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Operations
+     * @description Get the operations of GRAM stakes
+     */
+    get: operations['getGramOperations'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/network-stats': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Network Stats
+     * @description Get some network statistics on The Open Network
+     */
+    get: operations['getGramNetworkStats'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/reports': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Reports
+     * @description Get reports on The Open Network
+     */
+    get: operations['getGramReports'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/wallet-info': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Wallet info
+     * @description Get the status of a GRAM wallet
+     */
+    get: operations['getGramWalletInfo'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/vesting-contract-owner': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Vesting contract owner
+     * @description Get the owner address of a GRAM vesting contract
+     */
+    get: operations['getGramVestingContractOwner'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/single-nominator-contract-owner': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Single nominator contract owner
+     * @description Get the owner address of a GRAM single nominator contract
+     */
+    get: operations['getGramSingleNominatorContractOwner'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/balance': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Get balance
+     * @description Get balance of a GRAM account
+     */
+    post: operations['postGramGetBalance'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/withdraw-request': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Withdraw request
+     * @description Get withdraw request for a pool
+     */
+    get: operations['getGramWithdrawRequest'];
+    put?: never;
+    /**
+     * Withdraw request
+     * @description Create withdraw request for a pool
+     */
+    post: operations['postGramWithdrawRequest'];
+    /**
+     * Withdraw request
+     * @description Delete withdraw request for a pool
+     */
+    delete: operations['deleteGramWithdrawRequest'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/prepare': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Prepare Transaction
+     * @description Prepare an unsigned transaction for broadcast by adding signatures to it
+     */
+    post: operations['postGramPrepareTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/broadcast': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Broadcast Transaction
+     * @description Broadcast a serialized signed transaction to the blockchain
+     */
+    post: operations['postGramBroadcastTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/status': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Transaction Status
+     * @description Get the status of a transaction by message hash
+     */
+    get: operations['getGramTxStatus'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/decode': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Transaction Decoding
+     * @description Decode a serialized transaction
+     */
+    get: operations['getGramTxDecoding'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/stake-single-nomination-pool': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Stake single nomination pool transaction
+     * @description Craft a stake transaction to a single nomination pool.
+     */
+    post: operations['postGramStakeSingleNominationPoolTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/stake-pool': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Stake pool transaction
+     * @description Craft a stake transaction to a pool.
+     */
+    post: operations['postGramStakePoolTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/unstake-single-nomination-pool': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Unstake single nomination pool transaction
+     * @description Craft an unstake transaction from a single nomination pool.
+     */
+    post: operations['postGramUnstakeSingleNominationPoolTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/unstake-pool': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Unstake pool transaction
+     * @description Craft an unstake transaction from a pool.
+     */
+    post: operations['postGramUnstakePoolTx'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/gram/transaction/whitelist-vesting-contract': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Whitelist address on vesting contract transaction
+     * @description Craft whitelist address on vesting contract transaction.
+     */
+    post: operations['postGramWhitelistVestingContractTx'];
     delete?: never;
     options?: never;
     head?: never;
@@ -6657,46 +6948,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  '/omnivaults': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Omnivaults
-     * @description Retrieve a list of Omnivaults associated with the current user's organization.
-     */
-    get: operations['getOmnivaults'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/omnivaults/positions': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /**
-     * Omnivault Positions
-     * @description Retrieve a list of Omnivault positions for the current user's organization.
-     */
-    get: operations['getOmnivaultPositions'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -7624,7 +7875,7 @@ export interface components {
     ETHOperationProcessedWithdrawalRequest: {
       /**
        * @description type of the operation
-       * @example processed_withdrawal_request
+       * @example withdrawal_processed
        */
       type: string;
       /**
@@ -8122,50 +8373,6 @@ export interface components {
        * @example true
        */
       kiln_signature?: boolean;
-    };
-    ETHPostKeysOnChainPayload: {
-      /**
-       * Format: uuid
-       * @description Kiln Account ID to stake into.
-       * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
-       */
-      account_id: string;
-      /**
-       * @description Number of validator keys to generate. You can generate up to 150 keys at once.
-       * @example 1
-       */
-      number: number;
-      /**
-       * @description Kiln V1 Smart-contract that will handle the dispatch of fees.
-       *
-       * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
-       */
-      fee_recipient_contract_address: string;
-      /**
-       * @description Kiln V1 Smart-contract used to stake generated keys.
-       *
-       * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
-       */
-      staking_contract_address: string;
-    };
-    ETHPostKeysVSuitePayload: {
-      /**
-       * Format: uuid
-       * @description Kiln Account ID to stake into.
-       * @example b7177fd2-fbb3-479f-aa92-db9fb16e229f
-       */
-      account_id: string;
-      /**
-       * @description Number of validator keys to generate. You can generate up to 150 keys at once.
-       * @example 1
-       */
-      number: number;
-      /**
-       * @description Smart-Contract address on the Ethereum execution layer of the Kiln vSuite Factory.
-       *
-       * @example 0xe1f4acc0affB36a805474e3b6ab786738C6900A2
-       */
-      factory_contract_address?: string;
     };
     ETHPostKeysCliResponse: {
       /**
@@ -10940,6 +11147,11 @@ export interface components {
        */
       balance: string;
       /**
+       * @description Inactive (not delegated) balance in Lamport
+       * @example 1000000000
+       */
+      inactive_balance: string;
+      /**
        * @description Sum of rewards rewards in Lamport earned by this stake
        * @example 1000000000
        */
@@ -11468,25 +11680,6 @@ export interface components {
        */
       updated_at: string;
     };
-    SOLPostStakesPayload: {
-      stakes: {
-        /**
-         * @description Stake account to be delegated
-         * @example 3sfokk2DFsd88ujd8sfa9slsdf99kjnFJksdf
-         */
-        stakeAccount?: string | null;
-        /**
-         * @description Balance to delegate in SOL
-         * @example 1000000
-         */
-        balance?: number;
-      }[];
-      /**
-       * @description Kiln Account ID
-       * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-       */
-      account_id: string;
-    };
     SOLStakeTxPayload: {
       /**
        * @description Kiln Account ID
@@ -11499,7 +11692,7 @@ export interface components {
        */
       wallet: string;
       /**
-       * @description Amount in lamports (minimum value must be 10000001)
+       * @description Amount in lamports. Minimum is 1002282880 lamports (1.00228288 SOL): the 1 SOL minimum delegation introduced by SIMD-0490 plus the 0.00228288 SOL rent-exempt reserve of the stake account.
        * @example 1000000000000000
        */
       amount_lamports: string;
@@ -15519,20 +15712,6 @@ export interface components {
        */
       denom: string;
     };
-    ADAPostStakesPayload: {
-      stakes: {
-        /**
-         * @description Stake address
-         * @example stake1u84uqy85qpsln9a49dtv7mrzzp0246v7s2cj7ypjr555ldqenardf
-         */
-        stakeAddress?: string;
-      }[];
-      /**
-       * @description Kiln Account ID
-       * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-       */
-      account_id: string;
-    };
     ADACraftStakeTxPayload: {
       /**
        * Format: uuid
@@ -18880,20 +19059,6 @@ export interface components {
        */
       updated_at: string | null;
     };
-    MATICPostStakesPayload: {
-      stakes: {
-        /**
-         * @description Stake ID. Format is {validator_index}_{wallet_address}
-         * @example 1_0x9ce658155a6f05fe4aef83b7fa8f431d5e8ccb55
-         */
-        stakeId?: string;
-      }[];
-      /**
-       * @description Kiln Account ID
-       * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-       */
-      account_id: string;
-    };
     MATICCraftApproveTxPayload: {
       /**
        * @description Wallet address to approve
@@ -19879,20 +20044,6 @@ export interface components {
        * @example 2023-07-31T13:56:58Z
        */
       updated_at: string | null;
-    };
-    POLPostStakesPayload: {
-      stakes: {
-        /**
-         * @description Stake ID. Format is {validator_index}_{wallet_address}
-         * @example 1_0x9ce658155a6f05fe4aef83b7fa8f431d5e8ccb55
-         */
-        stakeId?: string;
-      }[];
-      /**
-       * @description Kiln Account ID
-       * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-       */
-      account_id: string;
     };
     POLCraftApproveTxPayload: {
       /**
@@ -30246,20 +30397,6 @@ export interface components {
        */
       status?: 'requested' | 'withdrawn';
     };
-    TONPostStakesPayload: {
-      stakes: {
-        /**
-         * @description Stake id to be linked in the format {pool_address}|{nominator_address}
-         * @example kf_bOKif9YRKIGTRZw_6ZTZsObUug4J3EZ68BQ7t7E7zAORr|EQBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYQlR
-         */
-        stakeId?: string;
-      }[];
-      /**
-       * @description Kiln Account ID
-       * @example 92f5bfd4-ea38-4824-84f7-686eddff5539
-       */
-      account_id: string;
-    };
     TONNetworkStats: {
       /**
        * @description Gross annual percentage yield
@@ -30707,6 +30844,748 @@ export interface components {
       address: string;
     };
     TONOperation: {
+      /**
+       * @description Operation type
+       * @example stake
+       */
+      type: string;
+      /**
+       * @description Operation data
+       * @example {
+       *       "Text": "d"
+       *     }
+       */
+      data?: Record<string, never>;
+      /**
+       * @description Operation value
+       * @example 1000000000000000
+       */
+      value: string;
+      /**
+       * @description Source address
+       * @example UQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4w0V9
+       */
+      source: string;
+      /**
+       * @description Destination address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      destination: string;
+      /**
+       * @description Pool address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      pool: string;
+      /**
+       * @description Operation direction
+       * @example out
+       */
+      direction: string;
+      /**
+       * @description Forward fees
+       * @example 1000000000000000
+       */
+      fwd_fees: string;
+      /**
+       * @description IHR fees
+       * @example 1000000000000000
+       */
+      ihr_fees: string;
+      /**
+       * @description Operation hash
+       * @example 1000000000000000
+       */
+      hash: string;
+      /**
+       * @description Transaction hash
+       * @example 1000000000000000
+       */
+      tx_hash: string;
+      /**
+       * @description Transaction status
+       * @example success
+       */
+      tx_status: string;
+      /**
+       * @description Transaction timestamp
+       * @example 2023-01-15T01:13:59Z
+       */
+      tx_timestamp: string;
+      /**
+       * @description Transaction block
+       * @example 1000000000000000
+       */
+      tx_block: string;
+      /**
+       * @description Transaction total fees
+       * @example 1000000000000000
+       */
+      tx_total_fees: string;
+      /**
+       * @description Transaction storage fees
+       * @example 100000000
+       */
+      tx_storage_fees: string;
+      /**
+       * @description Transaction gas fees
+       * @example 1000000000000000
+       */
+      tx_gas_fees: string;
+      /**
+       * @description Transaction forward fees
+       * @example 1000000000000000
+       */
+      tx_fwd_fees: string;
+    };
+    GRAMStake: {
+      /**
+       * @description Internal Kiln ID
+       * @example Ef-2Cee_wxtgo9OKdbjXjauQJ15yxuyMTNpQxJbJ2FTZ2RJY|Uf_Jm1_syLkND8FqagYAtYljbWzutxz2u9AxZS9x59OxHKkF
+       */
+      id: string;
+      /**
+       * @description Pool address where this stake is made
+       * @example Ef-2Cee_wxtgo9OKdbjXjauQJ15yxuyMTNpQxJbJ2FTZ2RJY
+       */
+      pool: string;
+      /**
+       * @description Nominator address
+       * @example Uf_Jm1_syLkND8FqagYAtYljbWzutxz2u9AxZS9x59OxHKkF
+       */
+      nominator: string;
+      /**
+       * @description The amount of GRAM currently present on the stake in nanogram
+       * @example 92908788559
+       */
+      balance: string;
+      /**
+       * @description The amount of GRAM currently present on the elector (only set for single pool nominator pools)
+       * @example 1221263396940000
+       */
+      elector_balance: string;
+      /**
+       * @description Sum of balance and elector_balance
+       * @example 1221356305728559
+       */
+      total_balance: string;
+      /**
+       * @description Whether the stake withdrawal has been requested. This flag is contract specific.
+       * @example false
+       */
+      withdraw_requested: boolean;
+      /**
+       * @description Amount not yet credited due to a validation round
+       * @example 0
+       */
+      pending_deposit_amount: string;
+      /**
+       * @description The type of the pool
+       * @example single_nominator_pool_v1
+       * @enum {string}
+       */
+      pool_type: 'single_nominator_pool_v1' | 'nominator_pool_v1' | 'ton_whales';
+      /**
+       * @description Total rewards accumulated by this stake since its first ever delegation
+       * @example 9020446847418
+       */
+      rewards: string;
+      /**
+       * @description Net annual percentage yield
+       * @example 6.02
+       */
+      net_apy: number;
+      /** @description Single_nominator_pool_v1 contract only. Kiln specific withdrawal information */
+      kiln_requested_withdraw: {
+        /**
+         * @description Amount to withdraw
+         * @example 1002001960122254
+         */
+        amount: string;
+        /**
+         * @description Flag to identify if the withdraw_request can be withdraw-able
+         * @example true
+         */
+        is_withdrawable: boolean;
+      } | null;
+      /**
+       * @description `ton_whales` contract only. Amount currently withdraw-able
+       * @example 100012345678
+       */
+      withdraw_balance: string | null;
+      /**
+       * @description `ton_whales` contract only. Amount requested for withdraw
+       * @example 100087654321
+       */
+      withdraw_pending_balance: string | null;
+    };
+    GRAMRewardByEpoch: {
+      /**
+       * @description Epoch ID
+       * @example 1715953195
+       */
+      epoch: string;
+      /**
+       * @description Epoch start date
+       * @example 2024-05-17T13:39:55Z
+       */
+      start_at: string;
+      /**
+       * @description Epoch end date
+       * @example 2024-05-17T16:34:55Z
+       */
+      end_at: string;
+      /**
+       * @description Staked balance in nanogram at the end of the epoch
+       * @example 10001198470000
+       */
+      effective_balance: string;
+      /**
+       * @description Rewards accumulated on the period
+       * @example 28936464584
+       */
+      rewards: string;
+      /**
+       * @description Net annual percentage yield
+       * @example 6.02
+       */
+      net_apy: number;
+    };
+    GRAMRewardByDay: {
+      /**
+       * @description Day for this reward entry
+       * @example 2024-05-17
+       */
+      date: string;
+      /**
+       * @description Staked balance in nanogram at the end of the day
+       * @example 10001198470000
+       */
+      effective_balance: string;
+      /**
+       * @description Accumulated rewards in nanogram during the day
+       * @example 28936464584
+       */
+      rewards: string;
+      /**
+       * @description Net annual percentage yield
+       * @example 6.02
+       */
+      net_apy: number;
+      /**
+       * @description Estimated value of rewards generated for that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko.
+       * @example 2344.36
+       */
+      rewards_usd?: number;
+      /**
+       * @description Estimated value of the effective balance of that day in USD. The exchange rate is the rate at the end of the day provided by CoinGecko.
+       * @example 4407596.22
+       */
+      effective_balance_usd?: number;
+    };
+    GRAMWithdrawRequest: {
+      /**
+       * @description Pool address where this withdraw request is for
+       * @example Ef_zhiLfydITUXevx3NOkBKyjczc565UvqwkWp07os7EwZMa
+       */
+      pool?: string;
+      /**
+       * @description The amount of GRAM to withdraw in nanogram
+       * @example 1002001960122254
+       */
+      amount?: string;
+      /**
+       * Format: date-time
+       * @description The date this withdraw request was created
+       * @example 2023-01-15T01:13:59Z
+       */
+      created_at?: string;
+      /**
+       * Format: date-time
+       * @description The date this withdraw request can be executed
+       * @example 2023-01-15T01:13:59Z
+       */
+      withdrawable_at?: string;
+      /**
+       * @description Hash of the transaction if the withdraw request has been withdrawn
+       * @example XGU4jMF6JGhcqvpdXJ+w7XhnFM6fhrRpidnLp7CuGV0=
+       */
+      tx_hash?: string;
+      /**
+       * @description Status of the withdraw request
+       * @example requested
+       * @enum {string}
+       */
+      status?: 'requested' | 'withdrawn';
+    };
+    GRAMNetworkStats: {
+      /**
+       * @description Gross annual percentage yield
+       * @example 4.5
+       */
+      network_gross_apy: number;
+      /**
+       * @description Supply of Gram currently staked
+       * @example 12.4
+       */
+      supply_staked_percent: number;
+      /**
+       * @description Number of active validators
+       * @example 402
+       */
+      nb_validators: number;
+      /**
+       * @description GRAM price in USD
+       * @example 3.5
+       */
+      gram_price_usd: number;
+      /**
+       * @description GRAM inflation rate
+       * @example 25.11560824007323
+       */
+      inflation_rate: number;
+      /**
+       * Format: date-time
+       * @description Last date this data was updated
+       * @example 2023-01-14T01:13:59Z
+       */
+      updated_at: string;
+    };
+    GRAMWalletInfo: {
+      /**
+       * @description Indicates if the address is a wallet
+       * @example true
+       */
+      wallet: boolean;
+      /**
+       * @description Balance of the wallet in nanogram
+       * @example 1000000
+       */
+      balance: string;
+      /**
+       * @description Current state of the wallet
+       * @example active
+       * @enum {string}
+       */
+      account_state: 'uninitialized' | 'active';
+      last_transaction_id: {
+        /** @example internal.transactionId */
+        '@type': string;
+        /** @example 54784142000001 */
+        lt: string;
+        /**
+         * @description Base64-encoded hash of the last transaction
+         * @example LO4ZcnQf4CGvlI9f9pqR9sAhf5fXGbJbTHXvpxBnArY=
+         */
+        hash: string;
+      };
+      /**
+       * @description Type of wallet (only present if wallet=true)
+       * @example wallet v4 r2
+       */
+      wallet_type?: string;
+      /**
+       * @description Sequence number of the wallet (only present if wallet=true)
+       * @example 82
+       */
+      seqno?: number;
+      /**
+       * @description Unique wallet ID (only present if wallet=true)
+       * @example 698983191
+       */
+      wallet_id?: number;
+    };
+    GRAMPrepareTxPayload: {
+      /**
+       * @description Hex encoded unsigned transaction
+       * @example b5ee9c72c1010201004a000011011c29a9a317667c507500000000000301006e627fbdbe5ba683f903a336f8b6ae670f51439b4507823c21a90c447e332094964ff8b838d7ea4c68000000000000000000000000000000586c223e
+       */
+      unsigned_tx_serialized: string;
+      /**
+       * @description Hex encoded signature
+       * @example 58375aa7640d8f1f9023e30c156d58b1e07e76832814549b6067c03139f057c4b31ee4356fd5785693bbd163004a92fccf53c80c4f720e1cfcce05ba64603709
+       */
+      signature: string;
+      /**
+       * @description Address of the signer
+       * @example UQBzQbAszir_fMErkktI7_8Xl2FkhlDUKE4iUGc9V66OMpp1
+       */
+      from: string;
+    };
+    GRAMPreparedTx: {
+      /**
+       * @description Hex encoded signed transaction
+       * @example te6cckEBAgEArQAB4YgA5oNgWZxV/vmCVySWkd/+Ly7CyQyhqFCcRKDOeq9dHGQCwbrVOyBsePyBHxhgq2rFjwPztBlAoqTbAz4Bic+CviWY9yGrfqvCtJ3eixgCVJfmep5AYnuQcOfmcC3TIwG4SU1NGLsz4oOoAAAAAAAcAQBuYn+9vlumg/kDozb4tq5nD1FDm0UHgjwhqQxEfjMglJZP+Lg41+pMaAAAAAAAAAAAAAAAAAAAAKKEVgs=
+       */
+      signed_tx_serialized: string;
+    };
+    GRAMBroadcastTxPayload: {
+      /**
+       * @description Hex encoded signed transaction
+       * @example te6cckEBAgEArQAB4YgA5oNgWZxV/vmCVySWkd/+Ly7CyQyhqFCcRKDOeq9dHGQCwbrVOyBsePyBHxhgq2rFjwPztBlAoqTbAz4Bic+CviWY9yGrfqvCtJ3eixgCVJfmep5AYnuQcOfmcC3TIwG4SU1NGLsz4oOoAAAAAAAcAQBuYn+9vlumg/kDozb4tq5nD1FDm0UHgjwhqQxEfjMglJZP+Lg41+pMaAAAAAAAAAAAAAAAAAAAAKKEVgs=
+       */
+      tx_serialized: string;
+    };
+    GRAMBroadcastTx: {
+      /**
+       * @description Hash of the transaction
+       * @example SQ5y4jeRZzU4h/lbyWiLhTrR9A3smK5Vmm/1p9ylDFo=
+       */
+      tx_hash: string;
+    };
+    /** @example {
+     *       "transactions": [
+     *         {
+     *           "account": "0:50251F4800B322F242D628AA28DB4035FA2F6D2C1D45D994C8232A691C63C561",
+     *           "hash": "B2FiWHWiKXq3wFeyrz3heGnk6paG37zc4eHymCzHVv0=",
+     *           "lt": "23434414000001",
+     *           "now": 1720454314,
+     *           "orig_status": "active",
+     *           "end_status": "active",
+     *           "total_fees": "5553039",
+     *           "prev_trans_hash": "0YwyJ6rnmD6GSHjCwbSqYRRRZR4Je3ajRSVOmQKTBDM=",
+     *           "prev_trans_lt": "22972195000001",
+     *           "description": {
+     *             "type": "ord",
+     *             "action": {
+     *               "valid": true,
+     *               "success": true,
+     *               "no_funds": false,
+     *               "result_code": 0,
+     *               "tot_actions": 1,
+     *               "msgs_created": 1,
+     *               "spec_actions": 0,
+     *               "tot_msg_size": {
+     *                 "bits": "705",
+     *                 "cells": "1"
+     *               },
+     *               "status_change": "unchanged",
+     *               "total_fwd_fees": "10000000",
+     *               "skipped_actions": 0,
+     *               "action_list_hash": "+TCFxMn1MktBa4iGZ8y01pEMygRnmYGEMofeFHiIuxY=",
+     *               "total_action_fees": "3333282"
+     *             },
+     *             "aborted": false,
+     *             "credit_ph": {
+     *               "credit": "140268068471039"
+     *             },
+     *             "destroyed": false,
+     *             "compute_ph": {
+     *               "mode": 0,
+     *               "type": "vm",
+     *               "success": true,
+     *               "gas_fees": "1323200",
+     *               "gas_used": "3308",
+     *               "vm_steps": 68,
+     *               "exit_code": 0,
+     *               "gas_limit": "0",
+     *               "gas_credit": "10000",
+     *               "msg_state_used": false,
+     *               "account_activated": false,
+     *               "vm_init_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+     *               "vm_final_state_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+     *             },
+     *             "storage_ph": {
+     *               "status_change": "unchanged",
+     *               "storage_fees_collected": "290157"
+     *             },
+     *             "credit_first": true
+     *           },
+     *           "block_ref": {
+     *             "workchain": 0,
+     *             "shard": "6000000000000000",
+     *             "seqno": 22378256
+     *           },
+     *           "in_msg": {
+     *             "hash": "kndVN02mdubtxmhkkjz60OwyD6g0aUwThWSjqeqxC3Y=",
+     *             "source": null,
+     *             "destination": "0:50251F4800B322F242D628AA28DB4035FA2F6D2C1D45D994C8232A691C63C561",
+     *             "value": null,
+     *             "fwd_fee": null,
+     *             "ihr_fee": null,
+     *             "created_lt": null,
+     *             "created_at": null,
+     *             "opcode": "0x4b958d56",
+     *             "ihr_disabled": null,
+     *             "bounce": null,
+     *             "bounced": null,
+     *             "import_fee": "0",
+     *             "message_content": {
+     *               "hash": "xvKE5GreYe2GUpcVdyGql8Zl04TGBSH1v5CmSJXneI4=",
+     *               "body": "te6cckEBAgEAhwABnEuVjVbI54rXHHGaszAM0rq344hhUNJLET1sYmiqiKqFtDbL1WzGLMTzRRha4nVO5alpP1cX3E5P4Dls3fIO8gMpqaMXZowasQAAAD0AAwEAaGJ/7ZxUT/rCJRAyaLOH/TKbNhzal0HBO4jPXgKHdvYneYAh3NZQAAAAAAAAAAAAAAAAAADeRiM9",
+     *               "decoded": null
+     *             },
+     *             "init_state": null
+     *           },
+     *           "out_msgs": [
+     *             {
+     *               "hash": "1U8v7l9QJDW/CMNa05LL6UzdBrSBRNLm7LmkvRnTyzQ=",
+     *               "source": "0:50251F4800B322F242D628AA28DB4035FA2F6D2C1D45D994C8232A691C63C561",
+     *               "destination": "-1:DB38A89FF5844A2064D1670FFA65366C39B52E838277119EBC050EEDEC4EF300",
+     *               "value": "1000000000",
+     *               "fwd_fee": "6666718",
+     *               "ihr_fee": "0",
+     *               "created_lt": "23434414000002",
+     *               "created_at": "1720454314",
+     *               "opcode": null,
+     *               "ihr_disabled": true,
+     *               "bounce": true,
+     *               "bounced": false,
+     *               "import_fee": null,
+     *               "message_content": {
+     *                 "hash": "lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=",
+     *                 "body": "te6cckEBAQEAAgAAAEysuc0=",
+     *                 "decoded": null
+     *               },
+     *               "init_state": null
+     *             }
+     *           ],
+     *           "account_state_before": {
+     *             "hash": "Kcz+vnm2nmbO4pb0wSyo264F8/3WnFdVYaWNhNR5Cus=",
+     *             "balance": "164023287343",
+     *             "account_status": "active",
+     *             "frozen_hash": null,
+     *             "code_hash": "/rX/aCDi/w2Ug+fg1iyBfYRniftK5YDIeIZtlZ2r1cA=",
+     *             "data_hash": "9R2bD8OcpgFI8z7PHJaN5vXUJr7HQ06nKX3pTN9Bg6o="
+     *           },
+     *           "account_state_after": {
+     *             "hash": "IsFANgt7iHcwOtk3TPC67SOV+MNCq0w4f6oLpuk9Im8=",
+     *             "balance": "163011067586",
+     *             "account_status": "active",
+     *             "frozen_hash": null,
+     *             "code_hash": "/rX/aCDi/w2Ug+fg1iyBfYRniftK5YDIeIZtlZ2r1cA=",
+     *             "data_hash": "LL9jzy6YehhW15AcV9JHjL4+VE0pnr/eN+WSqjoF4dA="
+     *           },
+     *           "mc_block_seqno": 20853046
+     *         }
+     *       ],
+     *       "address_book": {
+     *         "0:50251F4800B322F242D628AA28DB4035FA2F6D2C1D45D994C8232A691C63C561": {
+     *           "user_friendly": "0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e"
+     *         },
+     *         "-1:DB38A89FF5844A2064D1670FFA65366C39B52E838277119EBC050EEDEC4EF300": {
+     *           "user_friendly": "kf_bOKif9YRKIGTRZw_6ZTZsObUug4J3EZ68BQ7t7E7zAORr"
+     *         }
+     *       }
+     *     } */
+    GRAMTxStatus: Record<string, never>;
+    GRAMStakeTxPayload: {
+      /**
+       * @description Kiln Account ID
+       * @example d3f1b917-72b1-4982-a4dd-93fce579a708
+       */
+      account_id: string;
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Amount in nanogram. Minimum is 12000000000 nanogram (1.2 GRAM)
+       * @example 1000000000000000
+       */
+      amount_nanogram: string;
+      /**
+       * @description Pool address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      pool_address: string;
+      /**
+       * @description Vesting contract address (optional), to be used when staking from a vesting contract
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address?: string;
+    };
+    GRAMStakePoolTxPayload: {
+      /**
+       * @description Kiln Account ID
+       * @example d3f1b917-72b1-4982-a4dd-93fce579a708
+       */
+      account_id: string;
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Amount in nanogram. Minimum is 12000000000 nanogram (1.2 GRAM)
+       * @example 1000000000000000
+       */
+      amount_nanogram: string;
+      /**
+       * @description Pool destination address (optional). If not specified, the Kiln pool with the lowest balance will be used as destination.
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      pool_address?: string;
+      /**
+       * @description Vesting contract address (optional), to be used when staking from a vesting contract
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address?: string;
+    };
+    GRAMTx: {
+      /**
+       * @description Hex encoded transaction data that need to be covered by signature
+       * @example 5b451f530950de0cb371a91edf16f36a5180e31162faccc7f10db8ccf027023a
+       */
+      unsigned_tx_hash: string;
+      /**
+       * @description Hex encoded full transaction
+       * @example b5ee9c72c10102010046000011011c29a9a317668d4f0a0000003e0003010066627fed9c544ffac225103268b387fd329b361cda9741c13b88cf5e028776f6277980187a1200000000000000000000000000002537dddb
+       */
+      unsigned_tx_serialized: string;
+      /**
+       * @description Address of the signer
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      from: string;
+      /**
+       * @description Destination address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      to: string;
+      /**
+       * @description Amount in nanogram
+       * @example 1000000000000000
+       */
+      amount: string;
+      /**
+       * @description Payload in boc base64 format.
+       * @example te6ccsEBAQEADAAMABQAAAAASGVsbG8hCaTc/g==
+       */
+      payload: string;
+      /**
+       * @description Unix timestamp when the transaction will expire (we set it to 2 hours)
+       * @example 1738689966
+       */
+      valid_until: number;
+    };
+    GRAMUnstakeTxPayload: {
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Pool address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      pool_address: string;
+      /**
+       * @description Amount in nanogram (optional). If not provided, the full stake will be unstaked
+       * @example 1000000000000000
+       */
+      amount_nanogram?: string;
+      /**
+       * @description Vesting contract address (optional), to be used when unstaking from a vesting contract.
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address?: string;
+    };
+    GRAMUnstakePoolTxPayload: {
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Pool address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      pool_address: string;
+      /**
+       * @description Amount in nanogram (optional). If not provided, the full stake will be unstaked
+       * @example 1000000000000000
+       */
+      amount_nanogram?: string;
+      /**
+       * @description Vesting contract address (optional), to be used when unstaking from a vesting contract.
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address?: string;
+    };
+    GRAMWhitelistTxPayload: {
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Vesting contract address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address: string;
+      /** @description List of addresses to whitelist */
+      addresses: string[];
+    };
+    GRAMStakeVestingContractTxPayload: {
+      /**
+       * @description Kiln Account ID
+       * @example d3f1b917-72b1-4982-a4dd-93fce579a708
+       */
+      account_id: string;
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Amount in nanogram
+       * @example 1000000000000000
+       */
+      amount_nanogram: string;
+      /**
+       * @description Vesting contract address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address: string;
+      /**
+       * @description Destination address, usually a pool address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      destination_address: string;
+    };
+    GRAMUnstakeVestingContractTxPayload: {
+      /**
+       * @description Wallet address
+       * @example 0QBQJR9IALMi8kLWKKoo20A1-i9tLB1F2ZTIIyppHGPFYe8e
+       */
+      wallet: string;
+      /**
+       * @description Amount in nanogram
+       * @example 1000000000000000
+       */
+      amount_nanogram: string;
+      /**
+       * @description Vesting contract address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      vesting_contract_address: string;
+      /**
+       * @description Pool address
+       * @example Ef8xihYQ_8JBVBmystDCnNcAsy5yH_NzpFi2eYcXNaSzIdgw
+       */
+      pool_address: string;
+    };
+    GRAMWithdrawRequestPayload: {
+      /**
+       * @description Pool address where this withdraw request is for
+       * @example kf_bOKif9YRKIGTRZw_6ZTZsObUug4J3EZ68BQ7t7E7zAORr
+       */
+      pool: string;
+      /**
+       * @description The amount of GRAM to withdraw in nanogram
+       * @example 1000
+       */
+      amount_nanogram: string;
+    };
+    GRAMGetBalancePayload: {
+      /**
+       * @description Wallet address
+       * @example UQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4w0V9
+       */
+      address: string;
+    };
+    GRAMOperation: {
       /**
        * @description Operation type
        * @example stake
@@ -33844,130 +34723,6 @@ export interface components {
        */
       updated_at: string;
     };
-    Omnivault: {
-      /** @description The unique identifier of the Omnivault. */
-      id: string;
-      /** @description The human-readable vault name */
-      name: string;
-      /** @description A brief description of the Omnivault. */
-      description: string;
-      /** @description URL to the icon representing the Omnivault. */
-      icon_url: string;
-      /** @description The contract address of the Omnivault. */
-      address: string;
-      /** @description The current status of the Omnivault (e.g., active, deposit_paused). */
-      status: string;
-      deposit_asset: components['schemas']['OmnivaultAsset'];
-      receipt_asset: components['schemas']['OmnivaultAsset'];
-      /** @description List of protocols associated with the Omnivault. */
-      protocols: components['schemas']['Protocol'][];
-      /** @description Historical APY information for the Omnivault. */
-      apy: components['schemas']['Apy'];
-      /** @description Fees associated with the Omnivault. */
-      fees: components['schemas']['OmnivaultFees'];
-      /** @description Total vault TVL in ETH */
-      total_value_in_deposit_asset: string;
-      /** @description Total vault TVL in USD */
-      total_value_in_usd: string;
-      /**
-       * Format: date-time
-       * @description The timestamp of the last update to the Omnivault information.
-       */
-      updated_at: string;
-      /** @description The Chain id where the Omnivault is deployed (e.g., 1 for Ethereum Mainnet). */
-      chain_id: number;
-    };
-    OmnivaultAsset: {
-      /** @description The unique identifier of the asset. */
-      id: string;
-      /** @description The contract address of the asset. */
-      address: string;
-      /** @description URL to the icon representing the asset. */
-      icon_url: string;
-      /** @description The symbol of the asset (e.g., kUSDC, uUSDC). */
-      symbol: string;
-    };
-    Protocol: {
-      /** @description The human-readable name of the protocol. */
-      display_name: string;
-      /** @description The unique identifier of the protocol. */
-      name: string;
-      /** @description A brief description of the protocol. */
-      description: string;
-      /** @description URL to the icon representing the protocol. */
-      icon_url: string;
-    };
-    Apy: {
-      /** @description APY over the last 1 day */
-      last_1d: number;
-      /** @description APY over the last 7 days */
-      last_7d: number;
-      /** @description APY over the last 30 days */
-      last_30d: number;
-    };
-    OmnivaultFees: {
-      /** @description Deposit fee percentage */
-      deposit: number;
-      /** @description Withdraw fee percentage */
-      withdraw: number;
-      /** @description Rewards fee percentage */
-      rewards: number;
-    };
-    OmnivaultPosition: {
-      /** @description User wallet address */
-      wallet: string;
-      /** @description User’s balance of deposit asset min unit of the token (e.g. USDC) */
-      balance_in_asset: string;
-      /** @description User’s balance of deposit asset min unit converted to USD. */
-      balance_in_usd: string;
-      /** @description Receipt token balance in min unit of the token (e.g., kETH, stETH, omnivault shares) */
-      balance_in_shares: string;
-      /** @description Cumulative earned rewards in min unit of deposit asset. */
-      total_rewards: string;
-      /** @description Historical APY information for the Omnivault position. */
-      apy?: components['schemas']['Apy'];
-      /** @description Chain ID and address of the Omnivault (e.g., "1_0x123abc...") */
-      omnivault_id: string;
-      /** @description The Chain id where the Omnivault is deployed (e.g., 1 for Ethereum Mainnet). */
-      omnivault_chain_id: string;
-      /** @description Omnivault contract address */
-      omnivault_address: string;
-      /** @description List of pending deposits */
-      pending_deposits: components['schemas']['PendingDeposit'][];
-      /** @description List of pending redeems */
-      pending_redeem: components['schemas']['PendingRedeem'][];
-      /**
-       * Format: date-time
-       * @description The timestamp of the last update to the Omnivault position information.
-       */
-      updated_at: string;
-    };
-    PendingDeposit: {
-      /** @description Unique identifier of the pending deposit */
-      id: string;
-      /** @description Amount of tokens in min-units */
-      amount: string;
-      /** @description Transaction hash of the deposit */
-      tx_hash: string;
-      /**
-       * Format: date-time
-       * @description Timestamp when the deposit was created
-       */
-      created_at: string;
-    };
-    PendingRedeem: {
-      /** @description Unique identifier of the pending redeem */
-      id: string;
-      /** @description Number of shares burned or pending redeem */
-      shares: string;
-      /** @description Transaction hash of the redeem */
-      tx_hash: string;
-      /**
-       * Format: date-time
-       * @description Timestamp when the redeem was created
-       */
-      created_at: string;
-    };
   };
   responses: never;
   parameters: {
@@ -34254,6 +35009,22 @@ export interface components {
     TONGetVestingContractOwnerParam: string;
     /** @description Single nominator contract address */
     TONGetSingleNominatorContractOwnerParam: string;
+    /** @description The format of the response. Defaults to `daily` */
+    GRAMRewardsFormatParam: 'daily' | 'epoch';
+    /** @description Comma-separated list of nominator addresses */
+    GRAMNominatorsParam: string[];
+    /** @description Comma-separated list of pool addresses */
+    GRAMPoolsParam: string[];
+    /** @description Pool address */
+    GRAMPoolParam: string;
+    /** @description Transaction hash */
+    GRAMTxHashParam: string;
+    /** @description Wallet address */
+    GRAMGetWalletInfoParam: string;
+    /** @description Vesting contract address */
+    GRAMGetVestingContractOwnerParam: string;
+    /** @description Single nominator contract address */
+    GRAMGetSingleNominatorContractOwnerParam: string;
     /** @description Comma separated list of TRX wallet addresses */
     TRXWalletsParam: string;
     /** @description The format of the response. Defaults to `daily` */
@@ -34288,8 +35059,6 @@ export interface components {
     ALGOWalletsParam: string;
     /** @description Comma separated list of Algorand pool addresses */
     ALGOPoolsParam: string;
-    /** @description Comma-separated list of wallet addresses to filter Omnivault positions. */
-    OmnivaultWalletsParam: string;
   };
   requestBodies: never;
   headers: never;
@@ -34840,55 +35609,6 @@ export interface operations {
       };
     };
   };
-  postEthStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostETHStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['ETHStake'][];
-            pagination?: components['schemas']['Pagination'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getEthRewards: {
     parameters: {
       query?: {
@@ -34901,6 +35621,8 @@ export interface operations {
         /** @description Comma-separated list of proxy-contract addresses.
          *     The definition of a proxy is a smart contract that was involved in the deposit transaction and emitted a log. */
         proxies?: components['parameters']['ETHProxiesParam'];
+        /** @description Comma-separated list of withdrawal credentials. */
+        withdrawal_credentials?: components['parameters']['ETHWithdrawalCredentialsParam'];
         /** @description Comma-separated list of validators' consensus layer indexes */
         validator_indexes?: components['parameters']['ETHValidatorIndexesParam'];
         /** @description Comma-separated list of Kiln accounts identifiers */
@@ -34957,11 +35679,15 @@ export interface operations {
       query?: {
         /** @description Comma-separated list of validators addresses. Recommended limit is 200. */
         validators?: components['parameters']['ETHValidatorsParam'];
+        /** @description Scope of validators to fetch (all network, all kiln keys) */
+        scope?: components['parameters']['ETHScopeParam'];
         /** @description Comma-separated list of wallets addresses */
         wallets?: components['parameters']['ETHWalletsParam'];
         /** @description Comma-separated list of proxy-contract addresses.
          *     The definition of a proxy is a smart contract that was involved in the deposit transaction and emitted a log. */
         proxies?: components['parameters']['ETHProxiesParam'];
+        /** @description Comma-separated list of withdrawal credentials. */
+        withdrawal_credentials?: components['parameters']['ETHWithdrawalCredentialsParam'];
         /** @description Comma-separated list of validators' consensus layer indexes */
         validator_indexes?: components['parameters']['ETHValidatorIndexesParam'];
         /** @description Comma-separated list of Kiln accounts identifiers */
@@ -36421,102 +37147,6 @@ export interface operations {
       };
     };
   };
-  postEthOnChainKeys: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Ethereum keys to generate */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['ETHPostKeysOnChainPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['ETHPostKeysCliResponse'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postEthVSuiteKeys: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Ethereum keys to generate on withdrawal channel 0 (vNFT) of the vSuite contract */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['ETHPostKeysVSuitePayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['ETHPostKeysCliResponse'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getEthOnchainV2Stakes: {
     parameters: {
       query?: {
@@ -37635,54 +38265,6 @@ export interface operations {
       };
     };
   };
-  postSolStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['SOLPostStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['CoreStake'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getSolRewards: {
     parameters: {
       query?: {
@@ -38392,54 +38974,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['ATOMStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postAtomStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostATOMStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
           };
         };
       };
@@ -39208,54 +39742,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['CROStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postCroStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostCROStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['CoreStake'];
           };
         };
       };
@@ -40126,54 +40612,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['ADAStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postAdaStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['ADAPostStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['CoreStake'];
           };
         };
       };
@@ -41366,54 +41804,6 @@ export interface operations {
       };
     };
   };
-  postMaticStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['MATICPostStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getMaticRewards: {
     parameters: {
       query?: {
@@ -42115,54 +42505,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['POLStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postPolStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['POLPostStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['CoreStake'];
           };
         };
       };
@@ -42918,54 +43260,6 @@ export interface operations {
       };
     };
   };
-  postNEARStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostNEARStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getNearRewards: {
     parameters: {
       query?: {
@@ -43634,54 +43928,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['OSMOStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postOsmoStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostOSMOStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
           };
         };
       };
@@ -44519,54 +44765,6 @@ export interface operations {
       };
     };
   };
-  postCelsdydxStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostDYDXStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getDydxRewards: {
     parameters: {
       query?: {
@@ -45346,54 +45544,6 @@ export interface operations {
       };
     };
   };
-  postCelstiaStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostTIAStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getCelestiaRewards: {
     parameters: {
       query?: {
@@ -46138,54 +46288,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['FETStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postFetStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostFETStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
           };
         };
       };
@@ -47089,54 +47191,6 @@ export interface operations {
       };
     };
   };
-  postInjStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['PostINJStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data?: components['schemas']['CoreStake'];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
   getInjRewards: {
     parameters: {
       query?: {
@@ -47775,54 +47829,6 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['TONStake'][];
-          };
-        };
-      };
-      /** @description Invalid parameters */
-      400: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  postTonStakes: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description Stakes to create */
-    requestBody: {
-      content: {
-        'application/json; charset=utf-8': components['schemas']['TONPostStakesPayload'];
-      };
-    };
-    responses: {
-      /** @description Successful operation */
-      201: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['CoreStake'];
           };
         };
       };
@@ -48792,6 +48798,1025 @@ export interface operations {
         content: {
           'application/json; charset=utf-8': {
             data: components['schemas']['TONTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramStakes: {
+    parameters: {
+      query?: {
+        /** @description Comma-separated list of nominator addresses */
+        nominators?: components['parameters']['GRAMNominatorsParam'];
+        /** @description Comma-separated list of pool addresses */
+        pools?: components['parameters']['GRAMPoolsParam'];
+        /** @description Comma-separated list of Kiln accounts identifiers */
+        accounts?: components['parameters']['AccountsParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMStake'][];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramRewards: {
+    parameters: {
+      query?: {
+        /** @description Comma-separated list of nominator addresses */
+        nominators?: components['parameters']['GRAMNominatorsParam'];
+        /** @description Comma-separated list of pool addresses */
+        pools?: components['parameters']['GRAMPoolsParam'];
+        /** @description Comma-separated list of Kiln accounts identifiers */
+        accounts?: components['parameters']['AccountsParam'];
+        /** @description Get data from this date (YYYY-MM-DD) */
+        start_date?: components['parameters']['StartDateParam'];
+        /** @description The format of the response. Defaults to `daily` */
+        format?: components['parameters']['GRAMRewardsFormatParam'];
+        /** @description Get data to this date (YYYY-MM-DD) */
+        end_date?: components['parameters']['EndDateParam'];
+        /** @description Include rewards and balance in USD in response. <br/> If a `format` parameter exists it will only work with `format=daily` */
+        include_usd?: components['parameters']['IncludeUSDParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: (components['schemas']['GRAMRewardByDay'] | components['schemas']['GRAMRewardByEpoch'])[];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramOperations: {
+    parameters: {
+      query?: {
+        /** @description Comma-separated list of nominator addresses */
+        nominators?: components['parameters']['GRAMNominatorsParam'];
+        /** @description Comma-separated list of pool addresses */
+        pools?: components['parameters']['GRAMPoolsParam'];
+        /** @description Comma-separated list of Kiln accounts identifiers */
+        accounts?: components['parameters']['AccountsParam'];
+        /** @description Get data from this date (YYYY-MM-DD) */
+        start_date?: components['parameters']['StartDateParam'];
+        /** @description Get data to this date (YYYY-MM-DD) */
+        end_date?: components['parameters']['EndDateParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMOperation'][];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramNetworkStats: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMNetworkStats'];
+          };
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramReports: {
+    parameters: {
+      query?: {
+        /** @description Comma-separated list of nominator addresses */
+        nominators?: components['parameters']['GRAMNominatorsParam'];
+        /** @description Comma-separated list of pool addresses */
+        pools?: components['parameters']['GRAMPoolsParam'];
+        /** @description Comma-separated list of Kiln accounts identifiers */
+        accounts?: components['parameters']['AccountsParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/octet-stream': string;
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramWalletInfo: {
+    parameters: {
+      query: {
+        /** @description Wallet address */
+        wallet: components['parameters']['GRAMGetWalletInfoParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMWalletInfo'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramVestingContractOwner: {
+    parameters: {
+      query: {
+        /** @description Vesting contract address */
+        vesting_contract_address: components['parameters']['GRAMGetVestingContractOwnerParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: {
+              /**
+               * @description Owner address of the vesting contract
+               * @example EQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4wxi4
+               */
+              address: string;
+            };
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramSingleNominatorContractOwner: {
+    parameters: {
+      query: {
+        /** @description Single nominator contract address */
+        single_nominator_contract_address: components['parameters']['GRAMGetSingleNominatorContractOwnerParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: {
+              /**
+               * @description Owner address of the single nominator contract
+               * @example EQAfjn5-4M5H7q_2z4rCjAIGDslZoT0VsZNWaQ9BIaR4wxi4
+               */
+              address: string;
+            };
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramGetBalance: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Account to query */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMGetBalancePayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: {
+              /**
+               * @description The balance of the account
+               * @example 1000000
+               */
+              amount: string;
+              /**
+               * @description The denomination of the balance
+               * @example nanogram
+               */
+              denom: string;
+            };
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramWithdrawRequest: {
+    parameters: {
+      query: {
+        /** @description Pool address */
+        pool: components['parameters']['GRAMPoolParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data?: components['schemas']['GRAMWithdrawRequest'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramWithdrawRequest: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Withdraw request to create */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMWithdrawRequestPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data?: components['schemas']['GRAMWithdrawRequest'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteGramWithdrawRequest: {
+    parameters: {
+      query: {
+        /** @description Pool address */
+        pool: components['parameters']['GRAMPoolParam'];
+        /** @description Transaction hash */
+        tx_hash?: components['parameters']['GRAMTxHashParam'];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramPrepareTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Transaction to sign */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMPrepareTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMPreparedTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramBroadcastTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Signed transaction to broadcast */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMBroadcastTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMBroadcastTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramTxStatus: {
+    parameters: {
+      query: {
+        /** @description Hash of the message */
+        msg_hash: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMTxStatus'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getGramTxDecoding: {
+    parameters: {
+      query: {
+        /** @description Raw transaction to decode */
+        tx_serialized: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': Record<string, never>;
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramStakeSingleNominationPoolTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Stake transaction to create */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMStakeTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramStakePoolTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Stake transaction to create */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMStakePoolTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramUnstakeSingleNominationPoolTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Unstake transaction to create */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMUnstakeTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramUnstakePoolTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Unstake transaction to create */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMUnstakePoolTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMTx'];
+          };
+        };
+      };
+      /** @description Invalid parameters */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+      /** @description Internal server error */
+      500: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  postGramWhitelistVestingContractTx: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description Whitelist transaction to create */
+    requestBody: {
+      content: {
+        'application/json; charset=utf-8': components['schemas']['GRAMWhitelistTxPayload'];
+      };
+    };
+    responses: {
+      /** @description Successful operation */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          'application/json; charset=utf-8': {
+            data: components['schemas']['GRAMTx'];
           };
         };
       };
@@ -51540,81 +52565,6 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getOmnivaults: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['Omnivault'][];
-          };
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-      /** @description Internal server error */
-      500: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content?: never;
-      };
-    };
-  };
-  getOmnivaultPositions: {
-    parameters: {
-      query: {
-        /** @description Comma-separated list of wallet addresses to filter Omnivault positions. */
-        wallets: components['parameters']['OmnivaultWalletsParam'];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Successful operation */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json; charset=utf-8': {
-            data: components['schemas']['OmnivaultPosition'][];
-          };
-        };
       };
       /** @description Unauthorized */
       401: {
