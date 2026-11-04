@@ -280,3 +280,17 @@ export const suiToMist = (sui: string): bigint => {
 export const mistToSui = (mist: bigint): string => {
   return formatUnits(mist, 9);
 };
+
+/**
+ * Convert HYPE to wei (HyperCore uses 8 decimals)
+ */
+export const hypeToWei = (hype: string): bigint => {
+  return parseUnits(hype, 8);
+};
+
+/**
+ * Convert wei to HYPE
+ */
+export const weiToHype = (wei: bigint): string => {
+  return formatUnits(wei, 8);
+};

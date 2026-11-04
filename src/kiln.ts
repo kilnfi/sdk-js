@@ -5,6 +5,7 @@ import type { paths } from './openapi/schema.js';
 export * from './validators.js';
 export * from './openapi/schema.js';
 export * from './utils.js';
+export * from './hype.js';
 export type { FireblocksIntegration } from './fireblocks.js';
 export type { FireblocksAssetId } from './fireblocks_signer.js';
 

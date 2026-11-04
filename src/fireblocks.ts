@@ -8,7 +8,9 @@ import {
 } from '@fireblocks/ts-sdk';
 
 import type { Client } from 'openapi-fetch';
+import { formatEther } from 'viem';
 import { type FireblocksAssetId, FireblocksSigner } from './fireblocks_signer.js';
+import type { HypeBroadcastTxPayload, HypeEvmTx, HypeTx } from './hype.js';
 import type { components, paths } from './openapi/schema.js';
 
 export type FireblocksIntegration = (
@@ -1473,5 +1475,71 @@ export class FireblocksService {
       signed_tx: preparedTx.data,
       fireblocks_tx: fbTx,
     };
+  }
+
+  /**
+   * Sign a HYPE transaction with given integration using Fireblocks typed message signing (EIP-712).
+   * Every EVM asset of the vault signs for the same address, the HyperCore account; craft the tx with the
+   * `signature_chain_id` of the asset (0x3e7 for HYPE_ETH, 0x1 for ETH).
+   */
+  async signHypeTx(
+    integration: FireblocksIntegration,
+    tx: HypeTx,
+    assetId: 'HYPE_ETH' | 'ETH' | 'ETH_TEST5' | 'ETH_TEST_HOODI',
+    note?: string,
+  ): Promise<{
+    signed_tx: { data: HypeBroadcastTxPayload };
+    fireblocks_tx: TransactionResponse;
+  }> {
+    const fbSigner = this.getSigner(integration);
+    const fbNote = note ? note : `HYPE ${tx.action.type} tx from @kilnfi/sdk`;
+    const fbTx = await fbSigner.signTypedMessage(tx.typed_data, assetId, fbNote);
+    const signature = fbTx.signedMessages?.[0]?.signature;
+
+    if (!signature?.r || !signature.s || signature.v === undefined) {
+      throw new Error(ERRORS.MISSING_SIGNATURE);
+    }
+
+    return {
+      signed_tx: {
+        data: {
+          action: tx.action,
+          nonce: tx.nonce,
+          signature: {
+            r: `0x${signature.r}`,
+            s: `0x${signature.s}`,
+            v: signature.v < 27 ? signature.v + 27 : signature.v,
+          },
+        },
+      },
+      fireblocks_tx: fbTx,
+    };
+  }
+
+  /**
+   * Sign and broadcast a HyperEVM transaction (see `craftHypeTransferToCoreTx`) with given integration using a
+   * Fireblocks transfer
+   */
+  async signAndBroadcastHypeEvmTx(
+    integration: FireblocksIntegration,
+    tx: HypeEvmTx,
+    assetId: 'HYPE_ETH',
+    note?: string,
+  ): Promise<TransactionResponse> {
+    const fbSigner = this.getSigner(integration);
+    const fbTx = (
+      await this.getSdk(integration).transactions.createTransaction({
+        transactionRequest: {
+          assetId,
+          operation: 'TRANSFER',
+          source: { type: 'VAULT_ACCOUNT', id: integration.vaultId },
+          destination: { type: 'ONE_TIME_ADDRESS', oneTimeAddress: { address: tx.to } },
+          amount: formatEther(BigInt(tx.value)),
+          gasLimit: tx.gas_limit.toString(),
+          note: note ? note : 'HYPE HyperEVM -> HyperCore tx from @kilnfi/sdk',
+        },
+      })
+    ).data;
+    return await fbSigner.waitForTxCompletion(fbTx);
   }
 }
