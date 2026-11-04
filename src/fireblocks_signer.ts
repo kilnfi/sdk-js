@@ -34,7 +34,8 @@ export type FireblocksAssetId =
   | 'TRX'
   | 'BTC'
   | 'SEI'
-  | 'SUI';
+  | 'SUI'
+  | 'HYPE_ETH';
 
 export class FireblocksSigner {
   constructor(
@@ -117,7 +118,7 @@ export class FireblocksSigner {
    */
   public async signTypedMessage(
     eip712message: object,
-    assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST_HOODI',
+    assetId: 'ETH' | 'ETH_TEST5' | 'ETH_TEST_HOODI' | 'HYPE_ETH',
     note = '',
   ): Promise<TransactionResponse> {
     const tx: TransactionRequest = {
